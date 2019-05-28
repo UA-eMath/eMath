@@ -1,5 +1,7 @@
 from django.db import models
-
+'''
+dell1234
+'''
 # Create your models here.
 class Level(models.Model):
 
@@ -44,16 +46,17 @@ class Book(Level):
     '''
 
     html_title = models.CharField(max_length=100)
-    authors = models.ForeignKey(
-        'Authors',
-        on_delete= models.CASCADE
-    )
-    contributors = models.ForeignKey(
-        'Contributors',
-        on_delete = models.CASCADE
-    )
+    author = models.ManyToManyField('Person',related_name= "author")
+    contributor = models.ManyToManyField('Person',related_name= "contributors")
+
 
     date = models.DateField()
+
+class Person(models.Model):
+    first_name = models.CharField(max_length=20)
+    middle_name = models.CharField(max_length=20,null=True)
+    last_name = models.CharField(max_length=20)
+
 
 
 class Para(models.Model):
@@ -79,7 +82,7 @@ class Para(models.Model):
     upper_mini_compositor = models.ForeignKey('MiniCompositor', on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ("position")
+        ordering = ('position',)
 
 
 class MathDisplay(models.Model):
@@ -96,7 +99,7 @@ class MathDisplay(models.Model):
     content = models.TextField()
 
     class Meta:
-        ordering = ("position")
+        ordering = ('position',)
 
 
 
@@ -130,4 +133,4 @@ class MiniCompositor(models.Model):
 
 
     class Meta:
-        ordering = ("position")
+        ordering = ('position',)
