@@ -26,9 +26,9 @@ class Level(models.Model):
         null = True
     )
     isPage = models.BooleanField()
-    title = models.CharField(max_length = 100)
+    title = models.CharField(max_length = 100,null= True)
     header = models.CharField(max_length = 100,null = True)
-
+    name = models.CharField(max_length=30)
     class meta:
         abstract = True
         ordering = ('position')
@@ -47,10 +47,10 @@ class Book(Level):
 
     html_title = models.CharField(max_length=100)
     author = models.ManyToManyField('Person',related_name= "author")
-    contributor = models.ManyToManyField('Person',related_name= "contributors")
-
+    contributor = models.ManyToManyField('Person',related_name= "contributors",null=True)
 
     date = models.DateField()
+
 
 class Person(models.Model):
     first_name = models.CharField(max_length=20)
@@ -79,7 +79,7 @@ class Para(models.Model):
     caption = models.CharField(max_length = 100, null=True)
 
     upper_level = models.ForeignKey(Level, on_delete=models.CASCADE)
-    upper_mini_compositor = models.ForeignKey('MiniCompositor', on_delete=models.CASCADE)
+    upper_mini_compositor = models.ForeignKey('MiniCompositor', on_delete=models.CASCADE,null=True)
 
     class Meta:
         ordering = ('position',)

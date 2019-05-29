@@ -12,3 +12,5 @@ admin.site.register(MiniCompositor)
 admin.site.register(Link)
 admin.site.register(Book)
 
+
+
