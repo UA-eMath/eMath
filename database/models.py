@@ -79,7 +79,7 @@ class Para(models.Model):
     caption = models.CharField(max_length = 100, null=True)
 
     upper_level = models.ForeignKey(Level, on_delete=models.CASCADE)
-    upper_mini_compositor = models.ForeignKey('MiniCompositor', on_delete=models.CASCADE,null=True)
+    #upper_mini_compositor = models.ForeignKey('MiniCompositor', on_delete=models.CASCADE,null=True)
 
     class Meta:
         ordering = ('position',)
@@ -114,23 +114,22 @@ class Link(models.Model):
     '''
 
     url = models.URLField(max_length = 200, null = True)
-
     external_link = models.ManyToManyField('Link')
 
 
-class MiniCompositor(models.Model):
-
-    '''
-    This class represents a mini compositor structure.
-
-        category : category of mini compositor. e.g. example, proof, def, theorem
-        position : position of mini compositor in upper structure
-
-    '''
-
-    category = models.CharField(max_length=30)
-    position = models.IntegerField()
-
-
-    class Meta:
-        ordering = ('position',)
+# class MiniCompositor(models.Model):
+#
+#     '''
+#     This class represents a mini compositor structure.
+#
+#         category : category of mini compositor. e.g. example, proof, def, theorem
+#         position : position of mini compositor in upper structure
+#
+#     '''
+#
+#     category = models.CharField(max_length=30)
+#     position = models.IntegerField()
+#
+#
+#     class Meta:
+#         ordering = ('position',)

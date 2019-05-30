@@ -8,7 +8,6 @@ admin.site.register(Level)
 admin.site.register(Person)
 admin.site.register(Para)
 admin.site.register(MathDisplay)
-admin.site.register(MiniCompositor)
 admin.site.register(Link)
 admin.site.register(Book)
 
