@@ -20,7 +20,7 @@ from database.Views import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    url(r'^$',views.index)
+    url(r'^$',views.index),
+    path('<str:level_type>/<int:page_num>',views.page_content),
 ]
 

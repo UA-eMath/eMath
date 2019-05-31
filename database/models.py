@@ -30,12 +30,8 @@ class Level(models.Model):
     title = models.CharField(max_length = 100,null= True,blank=True)
     header = models.CharField(max_length = 100,null = True,blank=True)
     unit_type = models.CharField(max_length=30)
-    class meta:
-        abstract = True
-        ordering = ('position')
-
-
-
+    class Meta:
+        ordering = ('position',)
 
 class Book(Level):
 
@@ -53,6 +49,7 @@ class Book(Level):
     contributor = models.ManyToManyField('Person',related_name= "contributors",null=True,blank=True)
 
     date = models.DateField()
+
 
 
 

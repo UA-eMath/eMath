@@ -27,3 +27,7 @@ def index(request):
             serializer.save()
             return JsonResponse(serializer.data,status=201)
         return JsonResponse(serializer.errors,status=400)
+
+def page_content(request,level_type,page_num):
+    if request.method == "GET":
+        return HttpResponse("hello")
