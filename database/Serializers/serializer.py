@@ -4,7 +4,7 @@ from database.models import Level,Book
 
 class RootSerializer(serializers.ModelSerializer):
 
-    class meta:
+    class Meta:
         model = Level
         fields = ('title','level_number','unit_type','position','isPage','header')
 
