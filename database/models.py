@@ -14,7 +14,7 @@ class Level(models.Model):
         isPage : if all children under this node contains a page
         title : title of unit
         header : header of unit, could be null
-        name : name of unit; e.g. Chapter, Section
+        unit_type : name of unit; e.g. Chapter, Section
 
     '''
 
@@ -28,7 +28,7 @@ class Level(models.Model):
     isPage = models.BooleanField()
     title = models.CharField(max_length = 100,null= True)
     header = models.CharField(max_length = 100,null = True)
-    name = models.CharField(max_length=30)
+    unit_type = models.CharField(max_length=30)
     class meta:
         abstract = True
         ordering = ('position')
