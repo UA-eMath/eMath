@@ -23,15 +23,18 @@ class Level(models.Model):
     next_level = models.ForeignKey(
         'self',
         on_delete = models.CASCADE,
-        null = True
+        null = True,
+        blank=True
     )
     isPage = models.BooleanField()
-    title = models.CharField(max_length = 100,null= True)
-    header = models.CharField(max_length = 100,null = True)
+    title = models.CharField(max_length = 100,null= True,blank=True)
+    header = models.CharField(max_length = 100,null = True,blank=True)
     unit_type = models.CharField(max_length=30)
     class meta:
         abstract = True
         ordering = ('position')
+
+
 
 
 class Book(Level):
@@ -47,15 +50,19 @@ class Book(Level):
 
     html_title = models.CharField(max_length=100)
     author = models.ManyToManyField('Person',related_name= "author")
-    contributor = models.ManyToManyField('Person',related_name= "contributors",null=True)
+    contributor = models.ManyToManyField('Person',related_name= "contributors",null=True,blank=True)
 
     date = models.DateField()
 
 
+
+
 class Person(models.Model):
     first_name = models.CharField(max_length=20)
-    middle_name = models.CharField(max_length=20,null=True)
+    middle_name = models.CharField(max_length=20,null=True,blank=True)
     last_name = models.CharField(max_length=20)
+
+
 
 
 
@@ -76,13 +83,15 @@ class Para(models.Model):
     content = models.TextField()
     position = models.IntegerField()
     para_type = models.CharField(max_length= 15)
-    caption = models.CharField(max_length = 100, null=True)
+    caption = models.CharField(max_length = 100, null=True,blank=True)
 
     upper_level = models.ForeignKey(Level, on_delete=models.CASCADE)
     #upper_mini_compositor = models.ForeignKey('MiniCompositor', on_delete=models.CASCADE,null=True)
 
     class Meta:
         ordering = ('position',)
+
+
 
 
 class MathDisplay(models.Model):
@@ -113,8 +122,9 @@ class Link(models.Model):
 
     '''
 
-    url = models.URLField(max_length = 200, null = True)
+    url = models.URLField(max_length = 200, null = True,blank=True)
     external_link = models.ManyToManyField('Link')
+
 
 
 # class MiniCompositor(models.Model):

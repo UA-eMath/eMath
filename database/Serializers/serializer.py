@@ -6,7 +6,7 @@ class RootSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Level
-        fields = ('title','level_number','unit_type','position','isPage','header')
+        fields = ('title','level_number','unit_type','position','isPage','header','next_level')
 
 
 
