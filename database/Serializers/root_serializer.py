@@ -6,5 +6,5 @@ class NodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Level
-        fields = ('position','isPage','title','header','unit_type','html_title','author','contributor','date')
+        fields = ('tree_id','position','isPage','title','header','unit_type','html_title','author','contributor','date')
 

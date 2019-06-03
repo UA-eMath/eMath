@@ -13,12 +13,14 @@ def show_tree(request):
 def index(request):
     if request.method == "GET":
         try:
-            root_objects = Level.objects.get_queryset()[0].get_children()
+            root_objects = Level.objects.root_nodes()
+
         except Level.DoesNotExist:
             return HttpResponse(status=404)
 
 
         serializer = NodeSerializer(root_objects,many=True)
+
         return JsonResponse(serializer.data,safe=False)
 
 
@@ -32,6 +34,3 @@ def index(request):
 
 
 
-def page_content(request,level_type,page_num):
-    if request.method == "GET":
-        return HttpResponse("hello")
