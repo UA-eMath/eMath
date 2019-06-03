@@ -1,9 +1,11 @@
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 '''
+yaozhilu
 dell1234
 '''
 # Create your models here.
-class Level(models.Model):
+class Level(MPTTModel):
 
     '''
     This class represents a level structure.
@@ -18,49 +20,33 @@ class Level(models.Model):
 
     '''
 
-    level_number = models.IntegerField()
     position =  models.IntegerField()
-    next_level = models.ForeignKey(
+
+    parent = TreeForeignKey(
         'self',
         on_delete = models.CASCADE,
         null = True,
-        blank=True
+        blank=True,
+        related_name="children"
     )
+
     isPage = models.BooleanField()
     title = models.CharField(max_length = 100,null= True,blank=True)
     header = models.CharField(max_length = 100,null = True,blank=True)
     unit_type = models.CharField(max_length=30)
-    class Meta:
-        ordering = ('position',)
+    html_title = models.CharField(max_length=100,null = True,blank=True)
+    author = models.ManyToManyField('Person', related_name="author",null = True,blank=True)
+    contributor = models.ManyToManyField('Person', related_name="contributors", null=True, blank=True)
+    date = models.DateField(null = True,blank=True)
 
-class Book(Level):
-
-    '''
-    This class represents a book structure extend level class.
-
-        html_title : Version of title for the browser title bar
-        authors : List of all authors of the book
-        contributors : List of all contributors to the book; e.g. programmers, graphic designers, etc.
-        date : Date
-    '''
-
-    html_title = models.CharField(max_length=100)
-    author = models.ManyToManyField('Person',related_name= "author")
-    contributor = models.ManyToManyField('Person',related_name= "contributors",null=True,blank=True)
-
-    date = models.DateField()
-
-
-
+    class MPTTMeta:
+        order_insertion_by = ['position']
 
 
 class Person(models.Model):
     first_name = models.CharField(max_length=20)
     middle_name = models.CharField(max_length=20,null=True,blank=True)
     last_name = models.CharField(max_length=20)
-
-
-
 
 
 class Para(models.Model):
@@ -82,13 +68,10 @@ class Para(models.Model):
     para_type = models.CharField(max_length= 15)
     caption = models.CharField(max_length = 100, null=True,blank=True)
 
-    upper_level = models.ForeignKey(Level, on_delete=models.CASCADE)
-    #upper_mini_compositor = models.ForeignKey('MiniCompositor', on_delete=models.CASCADE,null=True)
+    para_upper = models.ForeignKey(Level, on_delete=models.CASCADE,related_name='para_next')
 
     class Meta:
         ordering = ('position',)
-
-
 
 
 class MathDisplay(models.Model):
@@ -103,40 +86,24 @@ class MathDisplay(models.Model):
 
     position = models.IntegerField()
     content = models.TextField()
+    math_display_upper = models.ForeignKey(Level, on_delete=models.CASCADE,related_name='math_display_next')
+
 
     class Meta:
         ordering = ('position',)
 
 
-
-class Link(models.Model):
-
-    '''
-
-    This class represents a Link structure
-
-        url : url
-
-    '''
-
-    url = models.URLField(max_length = 200, null = True,blank=True)
-    external_link = models.ManyToManyField('Link')
+# class Link(models.Model):
 
 
-
-# class MiniCompositor(models.Model):
-#
-#     '''
-#     This class represents a mini compositor structure.
-#
-#         category : category of mini compositor. e.g. example, proof, def, theorem
-#         position : position of mini compositor in upper structure
 #
 #     '''
 #
-#     category = models.CharField(max_length=30)
-#     position = models.IntegerField()
+#     This class represents a Link structure
 #
+#         url : url
 #
-#     class Meta:
-#         ordering = ('position',)
+#     '''
+#
+#     url = models.URLField(max_length = 200, null = True,blank=True)
+#     external_link = models.ManyToManyField('Link')

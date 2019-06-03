@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import include, url
-from database.Views import views
+from database.Views import index_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^$',views.index),
-    path('<str:level_type>/<int:page_num>',views.page_content),
+    url(r'^$',index_view.index),
+    path('<str:level_type>/<int:page_num>',index_view.page_content),
+    url(r'^treeview/$', index_view.show_tree ),
 ]
 
