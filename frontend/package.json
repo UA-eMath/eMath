@@ -10,6 +10,8 @@
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^16.8.6",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^4.4.0-beta.8",
     "react-scripts": "3.0.1",
     "treeview-react-bootstrap": "^0.4.6"
   },

@@ -104,12 +104,23 @@ export default class TopNav extends React.Component{
     };
 
     render() {
+
+        let compo;
+        if (RegExp('^/$').test(window.location.pathname)) {
+            compo = <Nav/>;
+        } else {
+            compo = <Nav  className="ml-auto" >
+                    {this.dropdownCompo()}
+
+                </Nav>
+        }
+
         return(
             <Navbar   bg="dark" variant="dark" >
-                <Navbar.Brand href="#home">eMath</Navbar.Brand>
-                <Nav  className="ml-auto" >
-                    {this.dropdownCompo()}
-                </Nav>
+                <div> {this.props.location} </div>
+                <Navbar.Brand href="/">eMath</Navbar.Brand>
+                {compo}
+
             </Navbar>
         );
     }
