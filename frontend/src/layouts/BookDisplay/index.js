@@ -9,6 +9,9 @@ import { Row, Col } from 'antd';
 
 export default class BookDisplay extends React.Component{
 
+
+
+
     bookCard = () =>{
         const { Meta } = Card;
         let cards = [];

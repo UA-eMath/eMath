@@ -21,9 +21,10 @@ export default class App extends React.Component{
 
     Item = () => {
         return(
+
             <div>
                 <TopNav/>
-                {/*<SplitView/>*/}
+                <SplitView/>
             </div>
         )
     };
