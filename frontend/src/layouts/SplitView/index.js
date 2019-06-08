@@ -1,13 +1,14 @@
 import React from 'react'
 import 'antd/dist/antd.css';
-
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 
 export default class SplitView extends React.Component{
-      static defaultProps = {
+   static defaultProps = {
     className: "layout",
     rowHeight: 30,
     onLayoutChange: function() {},
@@ -29,17 +30,8 @@ export default class SplitView extends React.Component{
   generateDOM() {
     return _.map(this.state.layouts.lg, function(l, i) {
       return (
-        <div key={i} className={l.static ? "static" : ""}>
-          {l.static ? (
-            <span
-              className="text"
-              title="This item is static and cannot be removed or resized."
-            >
-              Static - {i}
-            </span>
-          ) : (
-            <span className="text">{i}</span>
-          )}
+        <div key={i} style={ {background:'grey'}}>
+          <span className="text">{i}</span>
         </div>
       );
     });
@@ -50,6 +42,7 @@ export default class SplitView extends React.Component{
       currentBreakpoint: breakpoint
     });
   };
+
 
 
   onLayoutChange = (layout, layouts) => {
@@ -80,6 +73,7 @@ export default class SplitView extends React.Component{
       </div>
     );
   }
+
 }
 function generateLayout() {
   return _.map(_.range(0, 2), function(item, i) {
@@ -90,7 +84,6 @@ function generateLayout() {
       w: 2,
       h: y,
       i: i.toString(),
-      static: Math.random() < 0.05
     };
   });
 }
