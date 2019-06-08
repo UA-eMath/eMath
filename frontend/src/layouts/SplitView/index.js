@@ -4,6 +4,10 @@ import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import { Scrollbars } from 'react-custom-scrollbars';
+
+
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 
@@ -31,7 +35,9 @@ export default class SplitView extends React.Component{
     return _.map(this.state.layouts.lg, function(l, i) {
       return (
         <div key={i} style={ {background:'grey'}}>
-          <span className="text">{i}</span>
+            <Scrollbars>
+                <span className="text">{i}</span>
+            </Scrollbars>
         </div>
       );
     });
