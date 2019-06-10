@@ -29,7 +29,7 @@ export default class SplitView extends React.Component{
           x: i * 6,
           y: 0,
           w: 6,
-          h: 8,
+          h: 7,
           add: i === (list.length - 1).toString()
         };
       }),
