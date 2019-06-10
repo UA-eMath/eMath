@@ -98,10 +98,10 @@ export default class SplitView extends React.Component{
       // Add a new item. It must have a unique key!
       items: this.state.items.concat({
         i: "n" + this.state.newCounter,
-        x: (this.state.items.length * 2) % (this.state.cols || 12),
-        y: Infinity, // puts it at the bottom
-        w: 2,
-        h: 2
+        x: 6,
+        y: 0, // puts it at the bottom
+        w: 5.5,
+        h: 4
       }),
       // Increment the counter to ensure key is always unique.
       newCounter: this.state.newCounter + 1
