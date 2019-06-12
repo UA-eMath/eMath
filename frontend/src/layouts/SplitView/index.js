@@ -5,6 +5,7 @@ import 'react-resizable/css/styles.css'
 import _ from "lodash";
 import {Responsive, WidthProvider} from "react-grid-layout";
 import {Scrollbars} from 'react-custom-scrollbars';
+import Footer from '../Footer'
 
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -25,7 +26,7 @@ export default class SplitView extends React.Component {
 			items: [0].map(function (i, key, list) {
 				return {
 					i: i.toString(),
-					x: i * 6,
+					x: list.length * 6,
 					y: 0,
 					w: 6,
 					h: 7,
@@ -50,7 +51,15 @@ export default class SplitView extends React.Component {
 				>
 
 
-					{_.map(this.state.items, el => this.createElement(el))}
+					{_.map(this.state.items, el => {
+
+						if(el.i !=='0'){
+							return(this.createElement(el))
+						} else {
+							return(this.initElement(el))
+						}
+						})}
+
 					{/*{console.log(this.state.items)}*/}
 
 				</ResponsiveReactGridLayout>
@@ -58,6 +67,25 @@ export default class SplitView extends React.Component {
 		);
 	}
 
+	initElement(el){
+		return (
+			<div key={el.i} data-grid={el}
+			     style={{background: 'LightBlue'}}>
+
+					<Scrollbars>
+						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					</Scrollbars>
+					{<Footer/>}
+
+			</div>
+		)
+	}
 
 	createElement(el) {
 		const removeStyle = {
@@ -172,7 +200,11 @@ export default class SplitView extends React.Component {
 							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 					</Scrollbars>
 
+
+
 				)}
+
+
 				{this.removeButton(i,removeStyle)}
 
 			</div>
