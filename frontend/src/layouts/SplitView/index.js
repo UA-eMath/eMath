@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import 'antd/dist/antd.css';
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -6,6 +6,7 @@ import _ from "lodash";
 import {Responsive, WidthProvider} from "react-grid-layout";
 import {Scrollbars} from 'react-custom-scrollbars';
 import Footer from '../Footer'
+import {TitleBar} from 'react-desktop/windows';
 
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -16,7 +17,10 @@ export default class SplitView extends React.Component {
 		className: "layout",
 		cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
 		rowHeight: 100,
-		compactType: 'horizontal'
+		compactType: 'horizontal',
+
+		color: '#cc7f29',
+		theme: 'light',
 	};
 
 	constructor(props) {
@@ -34,6 +38,9 @@ export default class SplitView extends React.Component {
 				};
 			}),
 			newCounter: 0,
+
+			isMaximized: true,
+
 		};
 
 		this.onAddItem = this.onAddItem.bind(this);
@@ -53,12 +60,12 @@ export default class SplitView extends React.Component {
 
 					{_.map(this.state.items, el => {
 
-						if(el.i !=='0'){
-							return(this.createElement(el))
+						if (el.i !== '0') {
+							return (this.createElement(el))
 						} else {
-							return(this.initElement(el))
+							return (this.initElement(el))
 						}
-						})}
+					})}
 
 					{/*{console.log(this.state.items)}*/}
 
@@ -67,24 +74,38 @@ export default class SplitView extends React.Component {
 		);
 	}
 
-	initElement(el){
+	initElement(el) {
 		return (
-			<div key={el.i} data-grid={el}
-			     style={{background: 'LightBlue'}}>
 
-					<Scrollbars>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-					</Scrollbars>
-					{<Footer/>}
 
-			</div>
-		)
+		<div key={el.i} data-grid={el}
+		     style={{background: 'LightBlue'}}>
+
+			<TitleBar
+				title="My Windows Application"
+				controls = {false}
+				isMaximized={this.state.isMaximized}
+				theme='dark'
+				background={this.props.color}
+				onCloseClick={() => this.setState({items: _.reject(this.state.items, {i: el.i})})}
+				onMinimizeClick={this.minimize}
+				onMaximizeClick={this.toggleMaximize}
+				onRestoreDownClick={this.toggleMaximize}
+			/>
+
+			<Scrollbars>
+				<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+					invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+					et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+					Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+					diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+					voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+			</Scrollbars>
+			{<Footer/>}
+
+		</div>
+	)
 	}
 
 	createElement(el) {
@@ -100,134 +121,108 @@ export default class SplitView extends React.Component {
 		return (
 			<div key={i} data-grid={el}
 			     style={{background: 'LightBlue'}}>
-				{el.add ? (
+				<TitleBar
+					title="My Windows Application"
+					controls
+					isMaximized={this.state.isMaximized}
+					theme={this.props.theme}
+					background={this.props.color}
+					onCloseClick={() => this.setState({items: _.reject(this.state.items, {i: el.i})})}
+					onMinimizeClick={this.minimize}
+					onMaximizeClick={this.toggleMaximize}
+					onRestoreDownClick={this.toggleMaximize}
+				/>
 
-					<span
-						className="add text"
-						onClick={this.onAddItem}
-						title="You can add an item by clicking here, too."
-					>
-			            Add +
-					</span>
-
-				) : (
-
-					<Scrollbars
-					>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-					</Scrollbars>
-
-
-
-				)}
-
-
-				{this.removeButton(i,removeStyle)}
-
+				<Scrollbars>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+						Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+						diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+						voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+						gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+				</Scrollbars>
 			</div>
-		);
+		)
 	}
 
-	removeButton(i,removeStyle){
-			console.log(i);
-			let button;
-
-			if (i !== '0'){
-				button =
-				<span
-					className="remove"
-					style={removeStyle}
-					onClick={this.onRemoveItem.bind(this, i)}
-				>
-                    x
-                </span>
-			}
-
-			return button;
-	}
 
 	onAddItem() {
 		/*eslint no-console: 0*/
