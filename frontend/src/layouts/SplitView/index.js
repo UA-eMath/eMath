@@ -5,9 +5,10 @@ import 'react-resizable/css/styles.css'
 import _ from "lodash";
 import {Responsive, WidthProvider} from "react-grid-layout";
 import {Scrollbars} from 'react-custom-scrollbars';
-import Footer from '../Footer'
+import PageBar from '../PageBar'
 import {TitleBar} from 'react-desktop/windows';
 
+import { Row, Col } from 'antd';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -46,7 +47,6 @@ export default class SplitView extends React.Component {
 		this.onAddItem = this.onAddItem.bind(this);
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
 	}
-
 	render() {
 		return (
 			<div>
@@ -67,8 +67,6 @@ export default class SplitView extends React.Component {
 						}
 					})}
 
-					{/*{console.log(this.state.items)}*/}
-
 				</ResponsiveReactGridLayout>
 			</div>
 		);
@@ -78,34 +76,31 @@ export default class SplitView extends React.Component {
 		return (
 
 
-		<div key={el.i} data-grid={el}
-		     style={{background: 'LightBlue'}}>
+			<div key={el.i} data-grid={el}
+			     style={{background: 'LightBlue',flexDirection:'column'}}>
+						<TitleBar
+							title="My Windows Application"
+							controls={false}
+							isMaximized={this.state.isMaximized}
+							theme='dark'
+							background={this.props.color}
+							style={{position: 'fixed', top: 0}}
+						/>
 
-			<TitleBar
-				title="My Windows Application"
-				controls = {false}
-				isMaximized={this.state.isMaximized}
-				theme='dark'
-				background={this.props.color}
-				onCloseClick={() => this.setState({items: _.reject(this.state.items, {i: el.i})})}
-				onMinimizeClick={this.minimize}
-				onMaximizeClick={this.toggleMaximize}
-				onRestoreDownClick={this.toggleMaximize}
-			/>
+						<Scrollbars  style={{position: 'relative'}} >
 
-			<Scrollbars>
-				<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-					invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-					et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-					Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-					diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-					voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-					gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-			</Scrollbars>
-			{<Footer/>}
+						<p style={{marginTop: '5%'}}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+							diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+							voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+							gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+						</Scrollbars>
 
-		</div>
-	)
+						{<PageBar style={{ position: 'fixed',bottom: 0}} />}
+			</div>
+		)
 	}
 
 	createElement(el) {
@@ -133,7 +128,7 @@ export default class SplitView extends React.Component {
 					onRestoreDownClick={this.toggleMaximize}
 				/>
 
-				<Scrollbars>
+				<Scrollbars style={{height: '90%'}}>
 					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
 						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
 						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est

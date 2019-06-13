@@ -39,7 +39,7 @@ export default class Footer extends React.Component {
 					        left: 10,
 				        }}>
 					<Icon type="left"/>
-					Next
+					Pre
 				</Button>
 
 				<Button type="primary"
@@ -48,7 +48,7 @@ export default class Footer extends React.Component {
 					        right: 10,
 
 				        }}>
-					pre
+					Next
 					<Icon type="right"/>
 				</Button>
 			</StickyFooter>

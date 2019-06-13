@@ -3,7 +3,7 @@ import TopNav from './layouts/TopNav';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 import SplitView from './layouts/SplitView'
-import Footer from './layouts/Footer'
+import Footer from './layouts/PageBar'
 import BookDisplay from "./layouts/BookDisplay";
 
 
@@ -14,7 +14,7 @@ export default class App extends React.Component {
 			<div>
 				<TopNav/>
 				<BookDisplay/>
-				{/*<Footer/>*/}
+				{/*<PageBar/>*/}
 			</div>
 		)
 	};
@@ -25,7 +25,7 @@ export default class App extends React.Component {
 			<div>
 				<TopNav/>
 				<SplitView/>
-				{/*<Footer/>*/}
+				{/*<PageBar/>*/}
 			</div>
 		)
 	};
