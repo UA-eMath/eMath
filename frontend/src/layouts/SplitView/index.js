@@ -84,12 +84,12 @@ export default class SplitView extends React.Component {
 							isMaximized={this.state.isMaximized}
 							theme='dark'
 							background={this.props.color}
-							style={{position: 'fixed', top: 0}}
+							style={{position: 'fixed', top: 0,zIndex:'1'}}
 						/>
 
-						<Scrollbars  style={{position: 'relative'}} >
-
-						<p style={{marginTop: '5%'}}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+						<Scrollbars  style={{position: 'relative',zIndex:'0'}} >
+						<div style={{marginTop:'4%'}}></div>
+						<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
 							invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
 							et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
 							Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
@@ -126,9 +126,12 @@ export default class SplitView extends React.Component {
 					onMinimizeClick={this.minimize}
 					onMaximizeClick={this.toggleMaximize}
 					onRestoreDownClick={this.toggleMaximize}
+					style={{position: 'fixed', top: 0, zIndex:'1'}}
+
 				/>
 
-				<Scrollbars style={{height: '90%'}}>
+				<Scrollbars style={{position: 'relative',zIndex:'0'}}>
+					<div style={{marginTop:'4%'}}></div>
 					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
 						invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
 						et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
