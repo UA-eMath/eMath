@@ -3,7 +3,6 @@ import TopNav from './layouts/TopNav';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 import SplitView from './layouts/SplitView'
-import Footer from './layouts/PageBar'
 import BookDisplay from "./layouts/BookDisplay";
 
 
