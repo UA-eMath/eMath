@@ -24,8 +24,7 @@ export default class SplitView extends React.Component {
 		compactType: 'vertical',
 		verticalCompact: 'false',
 
-		color: '#42b0f4',
-		theme: 'light',
+		color: '#1d1d1d',
 	};
 
 	constructor(props) {
