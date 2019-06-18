@@ -2,10 +2,19 @@ import {Drawer, Tabs, Icon} from 'antd';
 import React from 'react'
 import {Tree} from 'antd';
 import treeData from './treeData'
-const {TreeNode} = Tree;
 
+const {TreeNode} = Tree;
 const {TabPane} = Tabs;
 
+const styles = {
+	Icon:{
+		fontSize: '25px',
+		color: 'lightGrey'
+	},
+	Tree:{
+		fontSize: '25px',
+	}
+};
 
 export default class Controls extends React.Component {
 
@@ -44,7 +53,7 @@ export default class Controls extends React.Component {
 			<div>
 
 				<Icon type='menu' onClick={this.showDrawer}
-				      style={{fontSize: '25px', height: '20px', width: '20px', color: 'lightGrey'}}/>
+				      style={styles.Icon}/>
 
 				<Drawer
 					title="Basic Drawer"
@@ -57,16 +66,14 @@ export default class Controls extends React.Component {
 					<Tabs defaultActiveKey="1">
 						<TabPane tab="Table of Contents" key="1">
 							<Tree
-
-							      defaultSelectedKeys={['0-0-0']}
-							      switcherIcon={<Icon type="down"/>}
-							      style={{fontSize: '25px'}}>
+							      switcherIcon={<Icon type="down" style={styles.Icon}/>}
+							      style={styles.Tree}>
 
 								{this.renderTreeNodes(this.state.treeData)}
-
 							</Tree>
-
 						</TabPane>
+
+
 						<TabPane tab="Glossary" key="2">
 							Content of Tab Pane 2
 						</TabPane>
