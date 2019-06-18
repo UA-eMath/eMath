@@ -38,7 +38,7 @@ export default class SplitView extends React.Component {
 					x: 0,
 					y: 0,
 					w: 6,
-					h: 7,
+					h: 9.5,
 					add: i === (list.length - 1).toString(),
 					static: true,
 				};
@@ -50,7 +50,7 @@ export default class SplitView extends React.Component {
 			open:true,
 
 		};
-		this.togglePanel = this.togglePanel.bind(this);
+
 		this.onRemoveItem= this.onRemoveItem.bind(this);
 		this.minimize = this.minimize.bind(this);
 		this.onAddItem = this.onAddItem.bind(this);
@@ -67,7 +67,6 @@ export default class SplitView extends React.Component {
 					onBreakpointChange={() => this.onBreakpointChange}
 					{...this.props}
 				>
-
 
 					{_.map(this.state.items, el => {
 
@@ -90,7 +89,7 @@ export default class SplitView extends React.Component {
 	initElement(el) {
 		return (
 			<div key={el.i} data-grid={el}
-			     style={{...styles.initWindow}}>
+			     style={{...styles.window}}>
 						<div style={{...styles.titleBar}}>
 
 							<Button>Pre</Button>
@@ -101,7 +100,7 @@ export default class SplitView extends React.Component {
 
 						</div>
 
-						<Scrollbars  style={{position: 'absolute'}} >
+						<Scrollbars>
 							{styles.para}
 						</Scrollbars>
 
@@ -110,18 +109,11 @@ export default class SplitView extends React.Component {
 	}
 
 	createElement(el) {
-		const removeStyle = {
-			position: "absolute",
-			right: "2px",
-			top: 0,
-			cursor: "pointer"
-		};
-
 		const i = el.add ? "+" : el.i;
 
 		return (
 			<div key={i} data-grid={el}
-			     style={{background: 'LightBlue'}}>
+			     style={{...styles.window}}>
 				<TitleBar
 					title={el.i}
 					controls
@@ -132,11 +124,10 @@ export default class SplitView extends React.Component {
 					onMinimizeClick={()=>{this.minimize(i)}}
 					onMaximizeClick={this.toggleMaximize}
 					onRestoreDownClick={this.toggleMaximize}
-					style={{position: 'fixed', top: 0, zIndex:'1'}}
+
 				/>
 
-				<Scrollbars style={{position: 'relative',zIndex:'0'}}>
-					<div style={{marginTop:'4%'}}></div>
+				<Scrollbars>
 						{styles.para}
 				</Scrollbars>
 			</div>

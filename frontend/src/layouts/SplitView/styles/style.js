@@ -24,7 +24,7 @@ export default {
 	    flex: 1,
 		display: 'inline-block',
 	},
-	initWindow:{
+	window:{
 		background: 'LightBlue',overflow: 'hidden', width: '100%'
 	},
 
