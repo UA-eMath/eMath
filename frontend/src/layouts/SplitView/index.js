@@ -23,8 +23,9 @@ export default class SplitView extends React.Component {
 		rowHeight: 100,
 		compactType: 'vertical',
 		verticalCompact: 'false',
+		draggableHandle:'.windowHeader',
 
-		color: '#1d1d1d',
+		color: '#42b0f4',
 	};
 
 	constructor(props) {
@@ -89,7 +90,7 @@ export default class SplitView extends React.Component {
 		return (
 			<div key={el.i} data-grid={el}
 			     style={{...styles.window}}>
-						<div style={{...styles.titleBar}}>
+						<div  style={{...styles.titleBar}}>
 
 							<Button>Pre</Button>
 							<span style={{...styles.title}}>
@@ -111,9 +112,10 @@ export default class SplitView extends React.Component {
 		const i = el.add ? "+" : el.i;
 
 		return (
-			<div key={i} data-grid={el}
+			<div  key={i} data-grid={el}
 			     style={{...styles.window}}>
 				<TitleBar
+					className='windowHeader'
 					title={el.i}
 					controls
 					isMaximized={this.state.isMaximized}

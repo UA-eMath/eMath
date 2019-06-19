@@ -25,7 +25,9 @@ export default {
 		display: 'inline-block',
 	},
 	window:{
-		background: 'LightBlue',overflow: 'hidden', width: '100%'
+		background: 'LightBlue',
+		overflow: 'hidden',
+		width: '100%'
 	},
 
 
