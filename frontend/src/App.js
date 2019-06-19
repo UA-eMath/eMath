@@ -13,7 +13,6 @@ export default class App extends React.Component {
 			<div>
 				<TopNav/>
 				<BookDisplay/>
-				{/*<PageBar/>*/}
 			</div>
 		)
 	};
@@ -24,7 +23,6 @@ export default class App extends React.Component {
 			<div>
 				<TopNav/>
 				<SplitView/>
-				{/*<PageBar/>*/}
 			</div>
 		)
 	};
