@@ -56,12 +56,12 @@ export default class Controls extends React.Component {
 				      style={styles.Icon}/>
 
 				<Drawer
-					title="Basic Drawer"
 					placement="right"
 					closable={false}
 					onClose={this.onClose}
 					visible={this.state.visible}
 					width={800}
+					style={{fontSize:'25px'}}
 				>
 					<Tabs defaultActiveKey="1">
 						<TabPane tab="Table of Contents" key="1">

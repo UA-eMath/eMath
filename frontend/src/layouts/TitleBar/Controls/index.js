@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Close from './Close';
 import Minimize from './Minimize';
-import Maximize from './Maximize';
 
-var styles = {
+const styles = {
   controls: {
     WebkitUserSelect: 'none',
     userSelect: 'none',
@@ -18,7 +17,6 @@ class Controls extends Component {
   static propTypes = {
     onCloseClick: PropTypes.func,
     onMinimizeClick: PropTypes.func,
-    onRestoreDownClick: PropTypes.func,
     onMaximizeClick: PropTypes.func
   };
 
@@ -26,11 +24,6 @@ class Controls extends Component {
     return (
       <div style={styles.controls}>
         <Minimize onClick={this.props.onMinimizeClick} ref="minimize" />
-        <Maximize
-          onMaximizeClick={this.props.onMaximizeClick}
-          onRestoreDownClick={this.props.onRestoreDownClick}
-          ref="maximize"
-        />
         <Close onClick={this.props.onCloseClick} ref="close" />
       </div>
     );

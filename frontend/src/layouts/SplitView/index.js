@@ -5,11 +5,8 @@ import 'react-resizable/css/styles.css'
 import _ from "lodash";
 import {Responsive, WidthProvider} from "react-grid-layout";
 import {Scrollbars} from 'react-custom-scrollbars';
-import {TitleBar} from 'react-desktop/windows';
-import {Navbar, Nav} from 'react-bootstrap'
+import TitleBar from '../TitleBar';
 import { Button } from 'react-desktop/windows';
-
-import { Row, Col } from 'antd';
 
 import styles from './styles/style'
 
@@ -21,8 +18,7 @@ export default class SplitView extends React.Component {
 		className: "layout",
 		cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
 		rowHeight: 100,
-		compactType: 'vertical',
-		verticalCompact: 'false',
+		compactType: 'horizontal',
 		draggableHandle:'.windowHeader',
 
 		color: '#42b0f4',
@@ -47,8 +43,6 @@ export default class SplitView extends React.Component {
 
 			isMaximized: true,
 
-			open:true,
-
 		};
 
 		this.onRemoveItem= this.onRemoveItem.bind(this);
@@ -58,7 +52,6 @@ export default class SplitView extends React.Component {
 
 	}
 	render() {
-
 		return (
 			<div>
 				<button onClick={this.onAddItem}>some link</button>
@@ -69,7 +62,6 @@ export default class SplitView extends React.Component {
 				>
 
 					{_.map(this.state.items, el => {
-
 						if (el.i !== '0') {
 							return (this.createElement(el))
 						} else {
@@ -80,10 +72,6 @@ export default class SplitView extends React.Component {
 				</ResponsiveReactGridLayout>
 			</div>
 		);
-	}
-
-	togglePanel(e){
-        this.setState({open: !this.state.open})
 	}
 
 	initElement(el) {
@@ -103,7 +91,6 @@ export default class SplitView extends React.Component {
 						<Scrollbars>
 							{styles.para}
 						</Scrollbars>
-
 			</div>
 		)
 	}
@@ -118,14 +105,9 @@ export default class SplitView extends React.Component {
 					className='windowHeader'
 					title={el.i}
 					controls
-					isMaximized={this.state.isMaximized}
-					theme={this.props.theme}
 					background={this.props.color}
 					onCloseClick={()=>{this.onRemoveItem(i)}}
 					onMinimizeClick={()=>{this.minimize(i)}}
-					onMaximizeClick={this.toggleMaximize}
-					onRestoreDownClick={this.toggleMaximize}
-
 				/>
 
 				<Scrollbars>

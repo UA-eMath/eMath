@@ -9,12 +9,9 @@ export default {
     alignItems: 'center',
     width: '100%',
     height: '31px',
-    backgroundColor: '#ffffff'
+    backgroundColor: '#42b0f4'
   },
 
-  titleBarDark: {
-    backgroundColor: '#171717'
-  },
 
   title: {
     WebkitUserSelect: 'none',
@@ -27,11 +24,4 @@ export default {
     flex: 1
   },
 
-  titleDark: {
-    color: '#ffffff'
-  },
-
-  unfocusedTitle: {
-    color: '#a9a9a9'
-  }
 };
