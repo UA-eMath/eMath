@@ -6,7 +6,7 @@ const styles = {
 	Icon: {
 		fontSize: '25px',
 		color: 'lightGrey',
-		marginLeft: '25px'
+
 	},
 	DivPos:{
 		float: 'left'
