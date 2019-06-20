@@ -45,6 +45,7 @@ class Close extends Component {
 				style={componentStyle}
 				{...props}
 			>
+
 				<svg x="0px" y="0px" viewBox="0 0 10.2 10.2" style={styles.icon}>
 					<polygon
 						fill={svgFill}

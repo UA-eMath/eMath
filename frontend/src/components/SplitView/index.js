@@ -108,6 +108,7 @@ export default class SplitView extends React.Component {
 					background={this.props.color}
 					onCloseClick={()=>{this.onRemoveItem(i)}}
 					onMinimizeClick={()=>{this.minimize(i)}}
+					onPinClick={()=>{this.onPin(i)}}
 				/>
 
 				<Scrollbars>
@@ -115,6 +116,14 @@ export default class SplitView extends React.Component {
 				</Scrollbars>
 			</div>
 		)
+	}
+
+	onPin(id){
+		console.log(this.state.items);
+		this.setState({
+			items: this.state.items.map(el => (el.i === id) ? { ...el, static:!el.static }: el)
+		});
+		console.log(this.state.items);
 	}
 
 	minimize(id){
@@ -139,8 +148,11 @@ export default class SplitView extends React.Component {
 				i: "n" + this.state.newCounter,
 				x: 6,
 				y: 0, // puts it at the bottom
-				w: 5.5,
-				h: 4
+				w: 6,
+				h: 4,
+				static: false,
+
+
 			}),
 			// Increment the counter to ensure key is always unique.
 			newCounter: this.state.newCounter + 1

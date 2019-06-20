@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import Radium from 'radium'
+import Radium from 'radium';
+
 
 let styles = {
 	button: {
@@ -38,7 +39,7 @@ let styles = {
 
 	icon: {
 		width: '10px',
-		height: '1px'
+		height: '10px'
 	}
 };
 
@@ -59,6 +60,7 @@ class Minimize extends Component {
 				style={componentStyle}
 				{...props}
 			>
+
 				<svg x="0px" y="0px" viewBox="0 0 10.2 1" style={styles.icon}>
 					<rect fill={svgFill} width="10.2" height="1"/>
 				</svg>
