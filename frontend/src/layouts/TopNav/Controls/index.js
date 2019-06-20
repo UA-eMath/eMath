@@ -6,16 +6,15 @@ import MenuDrawer from './MenuDrawer'
 import SubordinateDrawer from './SubordinateDrawer'
 
 const styles = {
-	Icon: {
-		fontSize: '25px',
-		color: 'lightGrey',
-		marginLeft: '25px'
-	},
-	Div:{
+	logoDiv: {
 		width: '100%',
-		height: '25px',
-		marginRight: '10px'
-	}
+		height: '100%'
+	},
+	logoText:{
+		fontSize: '25px',
+		color:'white',
+		textDecoration: 'none'
+	},
 };
 
 export default class Controls extends React.Component {
@@ -24,10 +23,10 @@ export default class Controls extends React.Component {
 		return (
 			<Navbar bg="dark" variant="dark">
 				<SubordinateDrawer className= 'mr-auto'/>
-				<Nav style={{width: '100%',height: '30px'}}>
+				<Nav style={styles.logoDiv}>
 					<div style={{margin: 'auto'}}>
-						<Navbar.Brand href="/">eMath : </Navbar.Brand>
-						<Navbar.Brand >Linear Algebra A Modern Introduction</Navbar.Brand>
+						<a style={styles.logoText} href="/">eMath : </a>
+						<span style={styles.logoText} >Linear Algebra A Modern Introduction</span>
 					</div>
 
 				</Nav>
