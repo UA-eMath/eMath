@@ -27,6 +27,7 @@ export default class SubordinateDrawer extends React.Component {
 				<Icon type="container" onClick={this.showSubordinateDrawer} style={styles.Icon} theme="filled"/>
 
 				<Drawer
+					title="Minimized Widgets"
 					placement="left"
 					closable={false}
 					onClose={this.onClose}
@@ -34,6 +35,7 @@ export default class SubordinateDrawer extends React.Component {
 					width={200}
 					style={{fontSize: '25px'}}
 				>
+
 
 				</Drawer>
 			</div>

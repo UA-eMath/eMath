@@ -19,6 +19,7 @@
     "react-scripts": "3.0.1",
     "react-split-pane": "^0.1.87",
     "react-sticky-footer": "^0.1.0-rc3",
+    "redux": "^4.0.1",
     "treeview-react-bootstrap": "^0.4.6"
   },
   "scripts": {

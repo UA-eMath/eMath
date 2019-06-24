@@ -28,7 +28,7 @@ export default class SplitView extends React.Component {
 		super(props);
 
 		this.state = {
-			layout: [0].map(function (i, key, list) {
+			items: [0].map(function (i, key, list) {
 				return {
 					i: i.toString(),
 					x: 0,
@@ -52,8 +52,7 @@ export default class SplitView extends React.Component {
 
 
 	render() {
-		const layouts = {'md': this.state.items};
-
+		//TODO
 
 		return (
 			<div>
@@ -61,7 +60,6 @@ export default class SplitView extends React.Component {
 				<ResponsiveReactGridLayout
 					onLayoutChange={() => this.onLayoutChange}
 					onBreakpointChange={() => this.onBreakpointChange}
-					layouts={layouts}
 
 					{...this.props}
 				>
@@ -146,21 +144,24 @@ export default class SplitView extends React.Component {
 
 	minimize(id) {
 
-		let key = id;
-		//newState = newState.items.map(el => (el.i === key) ? { ...el, h:2,w:2 }: el);
-		//const layout = JSON.parse(JSON.stringify(newState));
+		// let key = id;
+		// //newState = newState.items.map(el => (el.i === key) ? { ...el, h:2,w:2 }: el);
+		// //const layout = JSON.parse(JSON.stringify(newState));
+		//
+		// let newItems = this.state.items;
+		// newItems = newItems.map(el => (el.i === key) ? {...el, h: 2, w: 2} : el);
+		//
+		//
+		// this.setState({
+		// 	items: newItems,
+		// 	newCounter: this.state.newCounter + 1
+		// });
+		//
+		//
+		// console.log(this.state.items);
+		this.setState({items: _.reject(this.state.items, {i: id})});
 
-		let newItems = this.state.items;
-		newItems = newItems.map(el => (el.i === key) ? {...el, h: 2, w: 2} : el);
 
-
-		this.setState({
-			items: newItems,
-			newCounter: this.state.newCounter + 1
-		});
-
-
-		console.log(this.state.items);
 	}
 
 	onAddItem() {
