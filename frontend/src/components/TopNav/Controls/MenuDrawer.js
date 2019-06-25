@@ -12,10 +12,11 @@ const styles = {
 	Icon: {
 		fontSize: '25px',
 		color: 'lightGrey',
-		marginLeft: '25px'
+		marginLeft: '25px',
+		marginRight:'10px'
 	},
 	Tree: {
-		fontSize: '25px',
+		fontSize: '20px',
 	},
 	DivPos: {
 		float: 'left'
@@ -48,7 +49,7 @@ export default class subordinateDrawer extends React.Component {
 					<Tabs defaultActiveKey="1">
 						<TabPane tab="Table of Contents" key="1">
 							<Tree
-								switcherIcon={<Icon type="down" style={styles.Icon}/>}
+								switcherIcon={<Icon type="down" />}
 								style={styles.Tree}>
 
 								{this.renderTreeNodes(this.state.treeData)}

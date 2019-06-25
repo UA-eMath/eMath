@@ -7,13 +7,32 @@ import {Responsive, WidthProvider} from "react-grid-layout";
 import {Scrollbars} from 'react-custom-scrollbars';
 import TitleBar from '../TitleBar';
 import {Button} from 'react-desktop/windows';
-
+import {connect} from 'react-redux';
+import {
+	openNewWindow,
+	minimizeWindow,
+	closeWindow
+} from '../../actions'
 import styles from './styles/style'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
+const mapStateToProps = state => ({
+	items: state.items,
+	newCounter: state.newCounter
+});
 
-export default class SplitView extends React.Component {
+const mapDispatchToProps = dispatch => ({
+	onWindowOpen: () =>
+		dispatch(openNewWindow()),
+	onCloseWindow: (id) =>
+		dispatch(closeWindow(id)),
+	minimizeWindow: (id) =>
+		dispatch(minimizeWindow(id))
+});
+
+
+class SplitView extends React.Component {
 	static defaultProps = {
 		className: "layout",
 		cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
@@ -28,20 +47,16 @@ export default class SplitView extends React.Component {
 		super(props);
 
 		this.state = {
-			items: [0].map(function (i, key, list) {
-				return {
-					i: i.toString(),
-					x: 0,
-					y: 0,
-					w: 6,
-					h: 9.5,
-					add: i === (list.length - 1).toString(),
-					static: true,
-				};
-			}),
-			newCounter: 0,
-			isMaximized: true,
+			items: {},
+
 		};
+
+		store.subscribe(() => {
+			this.setState({
+				items: store.getState().items
+			});
+		});
+
 
 		this.onRemoveItem = this.onRemoveItem.bind(this);
 		this.minimize = this.minimize.bind(this);
@@ -56,7 +71,7 @@ export default class SplitView extends React.Component {
 
 		return (
 			<div>
-				<button onClick={this.onAddItem}>some link</button>
+				<button onClick={this.props.onWindowOpen}>some link</button>
 				<ResponsiveReactGridLayout
 					onLayoutChange={() => this.onLayoutChange}
 					onBreakpointChange={() => this.onBreakpointChange}
@@ -133,7 +148,7 @@ export default class SplitView extends React.Component {
 
 		let newItems = this.state.items;
 
-		newItems = newItems.map(el => (el.i === id) ? { ...el, static:!el.static }: el)
+		newItems = newItems.map(el => (el.i === id) ? {...el, static: !el.static} : el)
 
 		this.setState({
 			items: newItems
@@ -181,7 +196,7 @@ export default class SplitView extends React.Component {
 		});
 	}
 
-	// We're using the cols coming back from this to calculate where to add new items.
+// We're using the cols coming back from this to calculate where to add new items.
 	onBreakpointChange(breakpoint, cols) {
 		this.setState({
 			breakpoint: breakpoint,
@@ -200,3 +215,5 @@ export default class SplitView extends React.Component {
 
 
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(SplitView)

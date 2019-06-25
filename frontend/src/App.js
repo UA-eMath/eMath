@@ -28,10 +28,10 @@ export default class App extends React.Component {
 
 	render() {
 		return (
-			<Router>
-				<Route exact path="/" component={this.Home}/>
-				<Route path="/:title/:id" component={this.Item}/>
-			</Router>
+				<Router>
+					<Route exact path="/" component={this.Home}/>
+					<Route path="/:title/:id" component={this.Item}/>
+				</Router>
 		)
 	}
 }
