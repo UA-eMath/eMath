@@ -1,6 +1,22 @@
 import _ from "lodash";
 
-const windows = (state = {}, action) => {
+const initState = {
+	items: [0].map(function (i, key, list) {
+		return {
+			i: i.toString(),
+			x: 0,
+			y: 0,
+			w: 6,
+			h: 9.5,
+			add: i === (list.length - 1).toString(),
+			static: true,
+		};
+	}),
+	newCounter: 0,
+};
+
+
+const windows = (state = initState, action) => {
 	switch (action.type) {
 		case 'OPEN_NEW_WINDOW':
 			return {
