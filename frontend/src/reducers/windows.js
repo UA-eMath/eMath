@@ -19,28 +19,28 @@ const initState = {
 const windows = (state = initState, action) => {
 	switch (action.type) {
 		case 'OPEN_NEW_WINDOW':
-			return {
-				...state,
+			return Object.assign({},state,{
 				items: state.items.concat({
-					i: "n" + this.state.newCounter,
+					i: "n" + state.newCounter,
 					x: 6,
 					y: 0, // puts it at the bottom
 					w: 6,
 					h: 4,
 					static: false,
 				}),
-				// Increment the counter to ensure key is always unique.
-				newCounter: this.state.newCounter + 1
-			};
+				newCounter: state.newCounter+1
+			});
 
 
 		case 'CLOSE_WINDOW':
-			return [
+			return Object.assign({},state,{
 				...state,
-				{
-					items: _.reject(this.state.items, {i: action.id})
-				}
-			];
+				items: _.reject(state.items, {i: action.id})
+			});
+
+		case 'ON_LAYOUT_CHANGE':
+			return state;
+
 		default:
 			return state;
 	}

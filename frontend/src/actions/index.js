@@ -16,3 +16,7 @@ export const closeWindow = id => ({
 	type: types.CLOSE_WINDOW,
 	id
 });
+
+export const onLayoutChange =  ({
+	type: types.ON_LAYOUT_CHANGE,
+});
