@@ -109,9 +109,8 @@ class SplitView extends React.Component {
 					title={el.i}
 					controls
 					background={this.props.color}
-					onCloseClick={() => {
-						this.onRemoveItem(i)
-					}}
+					onCloseClick={()=>{this.props.onCloseWindow(el.i)}}
+					
 					onMinimizeClick={() => {
 						this.minimize(i)
 					}}
