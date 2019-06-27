@@ -1,7 +1,12 @@
 import React from 'react'
-import {Icon, Drawer} from 'antd';
+import {Icon, Drawer, Button} from 'antd';
 
-import {closeSubs} from "../../../actions";
+import {
+	closeSubs,
+	openNewWindow,
+	listAllSubs
+} from "../../../actions";
+
 import {connect} from 'react-redux';
 
 const styles = {
@@ -15,26 +20,28 @@ const styles = {
 	}
 
 };
+const ButtonGroup = Button.Group;
 
 const mapStateToProps = state => {
-	return {items: state.subordinates.items}
+	return {subs: state.subordinates.subs}
 };
 
 
 const mapDispatchToProps = dispatch => ({
-	// onWindowOpen: () =>
-	// 	dispatch(openNewWindow),
+	onWindowOpen: () =>
+		dispatch(openNewWindow),
 
-	onSubClose:(id)=>
-		dispatch(closeSubs(id))
+	onSubClose: (id) =>
+		dispatch(closeSubs(id)),
+
 });
-
 
 
 class SubordinateDrawer extends React.Component {
 	state = {
 		visible: false
 	};
+
 
 	render() {
 		return (
@@ -51,6 +58,22 @@ class SubordinateDrawer extends React.Component {
 					style={{fontSize: '25px'}}
 				>
 
+					{
+						this.props.subs.map((el) => {
+								return (
+									<ButtonGroup key={el.i}>
+										<Button type={'dashed'} onClick={this.props.onWindowOpen}>
+											{el.title}
+										</Button>
+
+										<Button type={'danger'} onClick={() => {
+											this.props.onSubClose(el.i)
+										}}/>
+									</ButtonGroup>
+								)
+							}
+						)
+					}
 
 				</Drawer>
 			</div>
