@@ -28,7 +28,7 @@ const windows = (state = initState_windows, action) => {
 					w: 6,
 					h: 4,
 					static: false,
-					title:'A chapter'
+					title:'A Chapter'
 				}),
 				newCounter: state.newCounter+1
 			});
@@ -43,7 +43,6 @@ const windows = (state = initState_windows, action) => {
 		case 'ON_LAYOUT_CHANGE':
 			return state;
 
-		case 'MINIMIZE_WINDOW':
 
 
 		default:

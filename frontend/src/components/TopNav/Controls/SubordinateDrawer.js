@@ -3,8 +3,7 @@ import {Icon, Drawer, Button} from 'antd';
 
 import {
 	closeSubs,
-	openNewWindow,
-	listAllSubs
+	openSubWindow,
 } from "../../../actions";
 
 import {connect} from 'react-redux';
@@ -28,8 +27,8 @@ const mapStateToProps = state => {
 
 
 const mapDispatchToProps = dispatch => ({
-	onWindowOpen: () =>
-		dispatch(openNewWindow),
+	onOpenSubWindow: (id) =>
+		dispatch(openSubWindow(id)),
 
 	onSubClose: (id) =>
 		dispatch(closeSubs(id)),
@@ -62,13 +61,15 @@ class SubordinateDrawer extends React.Component {
 						this.props.subs.map((el) => {
 								return (
 									<ButtonGroup key={el.i}>
-										<Button type={'dashed'} onClick={this.props.onWindowOpen}>
-											{el.title}
+										<Button type={'dashed'}  onClick={()=>{this.props.onOpenSubWindow(el.i)}}>
+											{el.i}
 										</Button>
 
 										<Button type={'danger'} onClick={() => {
 											this.props.onSubClose(el.i)
-										}}/>
+										}}>
+											Close
+										</Button>
 									</ButtonGroup>
 								)
 							}

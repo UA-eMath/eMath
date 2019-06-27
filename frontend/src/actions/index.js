@@ -29,6 +29,13 @@ export function minimizeWindow(id) {
 		}
 }
 
+export function openSubWindow(id) {
+		return function (dispatch) {
+			dispatch(openNewWindow);
+			dispatch(closeSubs(id))
+		}
+}
+
 export const addSubs = (title,id)=> ({
 	type: types.ADD_SUBS,
 	title,
