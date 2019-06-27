@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-const initState = {
+const initState_windows = {
 	items: [0].map(function (i, key, list) {
 		return {
 			i: i.toString(),
@@ -10,13 +10,14 @@ const initState = {
 			h: 9.5,
 			add: i === (list.length - 1).toString(),
 			static: true,
+			title:'A chapter'
 		};
 	}),
 	newCounter: 0,
 };
 
 
-const windows = (state = initState, action) => {
+const windows = (state = initState_windows, action) => {
 	switch (action.type) {
 		case 'OPEN_NEW_WINDOW':
 			return Object.assign({},state,{
@@ -27,6 +28,7 @@ const windows = (state = initState, action) => {
 					w: 6,
 					h: 4,
 					static: false,
+					title:'A chapter'
 				}),
 				newCounter: state.newCounter+1
 			});
@@ -41,9 +43,13 @@ const windows = (state = initState, action) => {
 		case 'ON_LAYOUT_CHANGE':
 			return state;
 
+		case 'MINIMIZE_WINDOW':
+
+
 		default:
 			return state;
 	}
 };
+
 
 export default windows;

@@ -7,10 +7,6 @@ export const openNewWindow =  ({
 	type: types.OPEN_NEW_WINDOW
 });
 
-export const minimizeWindow = id => ({
-	type: types.MINIMIZE_WINDOW,
-	id
-});
 
 export const closeWindow = id => ({
 	type: types.CLOSE_WINDOW,
@@ -19,4 +15,28 @@ export const closeWindow = id => ({
 
 export const onLayoutChange =  ({
 	type: types.ON_LAYOUT_CHANGE,
+});
+
+
+
+export function minimizeWindow(id) {
+		return function (dispatch,getState) {
+			const title = getState().windows.items.find(el=> el.i===id).title;
+
+			dispatch(closeWindow(id));
+			dispatch(addSubs(title,id));
+
+		}
+}
+
+
+export const addSubs = (title,id)=> ({
+	type: types.ADD_SUBS,
+	title,
+	id
+});
+
+export const closeSubs = id => ({
+	type: types.CLOSE_SUBS,
+	id
 });

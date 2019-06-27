@@ -1,6 +1,9 @@
 import React from 'react'
 import {Icon, Drawer} from 'antd';
 
+import {closeSubs} from "../../../actions";
+import {connect} from 'react-redux';
+
 const styles = {
 	Icon: {
 		fontSize: '25px',
@@ -13,11 +16,23 @@ const styles = {
 
 };
 
-export default class SubordinateDrawer extends React.Component {
+const mapStateToProps = state => {
+	return {items: state.subordinates.items}
+};
+
+
+const mapDispatchToProps = dispatch => ({
+	// onWindowOpen: () =>
+	// 	dispatch(openNewWindow),
+
+	onSubClose:(id)=>
+		dispatch(closeSubs(id))
+});
+
+
+
+class SubordinateDrawer extends React.Component {
 	state = {
-		Subordinates: '',
-
-
 		visible: false
 	};
 
@@ -56,3 +71,5 @@ export default class SubordinateDrawer extends React.Component {
 	};
 
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubordinateDrawer)
