@@ -12,7 +12,7 @@ import {
 	openNewWindow,
 	minimizeWindow,
 	closeWindow,
-	onLayoutChange
+	onLayoutChange,
 } from '../../actions'
 import styles from './styles/style'
 
@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
 	minimizeWindow: (id) =>
 		dispatch(minimizeWindow(id)),
 	onLayoutChange:() =>
-		dispatch(onLayoutChange)
+		dispatch(onLayoutChange),
 });
 
 
@@ -110,11 +110,7 @@ class SplitView extends React.Component {
 					controls
 					background={this.props.color}
 					onCloseClick={()=>{this.props.onCloseWindow(el.i)}}
-
 					onMinimizeClick={() => {this.props.minimizeWindow(el.i)}}
-					onPinClick={() => {
-						this.onPin(i)
-					}}
 				/>
 
 				<Scrollbars>
@@ -124,20 +120,6 @@ class SplitView extends React.Component {
 		)
 	}
 
-	onPin(id) {
-
-		let newItems = this.state.items;
-
-		newItems = newItems.map(el => (el.i === id) ? {...el, static: !el.static} : el)
-
-		this.setState({
-			items: newItems
-		});
-
-		console.log(this.state.items[1].static);
-	}
-
-
 // We're using the cols coming back from this to calculate where to add new items.
 	onBreakpointChange(breakpoint, cols) {
 		this.setState({
@@ -145,7 +127,6 @@ class SplitView extends React.Component {
 			cols: cols
 		});
 	}
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SplitView)

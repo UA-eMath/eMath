@@ -19,7 +19,6 @@ const styles = {
 	}
 
 };
-const ButtonGroup = Button.Group;
 
 const mapStateToProps = state => {
 	return {subs: state.subordinates.subs}

@@ -21,7 +21,6 @@ export default class TitleBar extends React.Component {
 			...props
 		} = this.props;
 
-		delete props.isMaximized;
 		delete props.onCloseClick;
 		delete props.onMinimizeClick;
 		delete props.onPinClick;
