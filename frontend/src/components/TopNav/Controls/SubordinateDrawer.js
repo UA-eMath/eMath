@@ -53,24 +53,44 @@ class SubordinateDrawer extends React.Component {
 					closable={false}
 					onClose={this.onClose}
 					visible={this.state.visible}
-					width={200}
+					width={300}
 					style={{fontSize: '25px'}}
 				>
 
 					{
 						this.props.subs.map((el) => {
 								return (
-									<ButtonGroup key={el.i}>
-										<Button type={'dashed'}  onClick={()=>{this.props.onOpenSubWindow(el.i)}}>
+
+
+									<div
+										key={el.i}
+										style={{marginBottom: '5px'}}
+									>
+										<Button
+											size={'large'}
+											style={{
+												display: 'inline-block',
+												width: '200px',
+												overflow: 'hidden'
+											}}
+											onClick={() => {
+												this.props.onOpenSubWindow(el.i)
+											}}
+										>
 											{el.i}
 										</Button>
 
-										<Button type={'danger'} onClick={() => {
-											this.props.onSubClose(el.i)
-										}}>
-											Close
+										<Button type={'danger'}
+										        className={'mr-auto'}
+										        size={'large'}
+										        style={{display: 'inline-block'}}
+										        onClick={() => {
+											        this.props.onSubClose(el.i)
+										        }}
+										>
+											X
 										</Button>
-									</ButtonGroup>
+									</div>
 								)
 							}
 						)

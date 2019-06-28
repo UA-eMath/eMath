@@ -28,7 +28,7 @@ const windows = (state = initState_windows, action) => {
 					w: 6,
 					h: 4,
 					static: false,
-					title:'A Chapter'
+					title:'Higher Dimensions and the Vector Space ℝn'
 				}),
 				newCounter: state.newCounter+1
 			});
