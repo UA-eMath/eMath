@@ -47,7 +47,7 @@ class SubordinateDrawer extends React.Component {
 				<Icon type="container" onClick={this.showSubordinateDrawer} style={styles.Icon} theme="filled"/>
 
 				<Drawer
-					title="Minimized Widgets"
+					title="Minimized Windows"
 					placement="left"
 					closable={false}
 					onClose={this.onClose}
