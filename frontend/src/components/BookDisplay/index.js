@@ -5,23 +5,51 @@ import "./index.css";
 import 'antd/dist/antd.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import {Row, Col} from 'antd';
-
+import GetRoots from '../../requests/GetRoots';
 
 export default class BookDisplay extends React.Component {
 
+	state = {
+        data: [],
+        value: [],
+        fetching: false,
+    };
+
+	componentDidMount() {
+        this.fetchRoots();
+    }
+
+    fetchRoots = () =>{
+		this.setState({ data: [], fetching: true });
+		GetRoots().then(
+			data =>{
+				if (!data || data.status !== 200) {
+                    console.error("FETCH_TAGS_FAILED", data);
+                }
+                else {
+                    this.setState({
+                        data: data.data
+                    });
+
+                }
+			}
+		)
+    };
 
 	bookCard = () => {
+		const { fetching, data, value } = this.state;
+
 		const {Meta} = Card;
 		let cards = [];
-		const datafromapi = [1, 2, 3, 4, 2, 2, 2, 2];
+		console.log(data);
 
-		for (let i = 0; i < datafromapi.length; i++) {
+		for (let i = 0; i < data.length; i++) {
 			let itemToPush;
 
 
 			const renderTooltip = props => (
 				<div
-					{...props}
+
 					style={{
 						backgroundColor: 'rgba(0, 0, 0, 0.85)',
 						padding: '2px 10px',
@@ -30,7 +58,7 @@ export default class BookDisplay extends React.Component {
 						...props.style,
 					}}
 				>
-					Linear Algebra A Modern Introduction
+					{data[i].title}
 				</div>
 			);
 
@@ -41,7 +69,7 @@ export default class BookDisplay extends React.Component {
 					cover={<img alt="example"
 					            src="https://images-na.ssl-images-amazon.com/images/I/419zQEc-u4L._SX384_BO1,204,203,200_.jpg"/>}
 				>
-					<Meta title="Linear Algebra A Modern Introduction" description="David Poole"/>
+					<Meta title={data[i].title} description="David Poole"/>
 				</Card>;
 
 			let oneCardWithTooltip =
@@ -58,7 +86,7 @@ export default class BookDisplay extends React.Component {
 				</OverlayTrigger>;
 
 			itemToPush =
-				<Row type="flex" justify="space-between">
+				<Row type="flex" justify="space-between" key={i}>
 					<Col span={4}>
 						{oneCardWithTooltip}
 					</Col>

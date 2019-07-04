@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'database.apps.DatabaseConfig',
     'rest_framework',
     'mptt',
+    'corsheaders'
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -129,5 +131,5 @@ STATIC_URL = '/static/'
 
 #Frontend hosting port
 CORS_ORIGIN_WHITELIST = (
-         'localhost:3000/'
+         'http://localhost:3000',
      )
