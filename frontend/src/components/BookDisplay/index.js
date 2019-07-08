@@ -23,6 +23,7 @@ export default class BookDisplay extends React.Component {
 		this.setState({data: [], fetching: true});
 		GetRoots().then(
 			data => {
+				console.log('sddsds',data);
 				if (!data || data.status !== 200) {
 					console.error("FETCH_TAGS_FAILED", data);
 				}
@@ -33,6 +34,7 @@ export default class BookDisplay extends React.Component {
 
 				}
 			}
+
 		)
 	};
 
@@ -41,7 +43,7 @@ export default class BookDisplay extends React.Component {
 
 		const {Meta} = Card;
 		let cards = [];
-		console.log(data);
+		console.log('sss',data);
 
 		for (let i = 0; i < data.length; i++) {
 			let itemToPush;

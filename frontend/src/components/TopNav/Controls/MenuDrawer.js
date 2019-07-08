@@ -1,5 +1,5 @@
 import React from 'react'
-import treeData from "./treeData";
+import fetchTocTree from "./treeData";
 import {Tree} from 'antd';
 import {Drawer, Tabs, Icon} from 'antd';
 import 'antd/dist/antd.css';
@@ -13,7 +13,7 @@ const styles = {
 		fontSize: '25px',
 		color: 'lightGrey',
 		marginLeft: '25px',
-		marginRight:'10px'
+		marginRight: '10px'
 	},
 	Tree: {
 		fontSize: '20px',
@@ -25,12 +25,20 @@ const styles = {
 
 export default class subordinateDrawer extends React.Component {
 
-
 	state = {
-		treeData: treeData.treeData,
+		treeData: [],
 		visible: false
 	};
 
+	componentDidMount() {
+		fetchTocTree((data) => {
+			this.setState(
+				{
+					treeData: data
+				}
+			);
+		});
+	}
 
 	render() {
 		return (
@@ -49,10 +57,12 @@ export default class subordinateDrawer extends React.Component {
 					<Tabs defaultActiveKey="1">
 						<TabPane tab="Table of Contents" key="1">
 							<Tree
-								switcherIcon={<Icon type="down" />}
-								style={styles.Tree}>
+								switcherIcon={<Icon type="down"/>}
+								style={styles.Tree}
+							>
 
-								{this.renderTreeNodes(this.state.treeData)}
+								{(this.state.treeData) && this.renderTreeNodes(this.state.treeData)}
+
 							</Tree>
 						</TabPane>
 
@@ -94,7 +104,7 @@ export default class subordinateDrawer extends React.Component {
 		data.map(item => {
 			if (item.children) {
 				return (
-					<TreeNode title={item.title} key={item.key} dataRef={item}>
+					<TreeNode title={item.title} key={item.id} dataRef={item}>
 						{this.renderTreeNodes(item.children)}
 					</TreeNode>
 				);

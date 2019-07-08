@@ -2,9 +2,10 @@ import axios from 'axios'
 import url from './Urls'
 
 
-export default function GetRoots(params = {}) {
+export default function GetToc(params = {}) {
+
 	return axios
-		.get(url.domain + ':' + url.port + '/root/',
+		.get(url.domain + ':' + url.port+ "/getToc/",
 			{
 				 headers: {
                     "Content-Type": "application/json"
