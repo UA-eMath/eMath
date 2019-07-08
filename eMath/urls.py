@@ -20,10 +20,11 @@ from database.Views import index_view,content_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-	path('',include('database.urls')),
+
 
 
     path('<str:title>/<int:id>',content_view.page_content),
     url(r'^treeview/$', index_view.show_tree ),
+	path('',include('database.urls')),
 ]
 

@@ -1,0 +1,17 @@
+from rest_framework import serializers
+from database.models import Level
+
+
+class RecursiveField(serializers.Serializer):
+	def to_representation(self, value):
+		print(self.parent.parent.__class__)
+
+		serializer = self.parent.parent.__class__(value, context=self.context)
+		return serializer.data
+
+
+class Toc_serializer(serializers.ModelSerializer):
+	children = RecursiveField(many=True)
+	class Meta:
+		model = Level
+		fields = ('title','id','children')

@@ -48,7 +48,7 @@ export default class BookDisplay extends React.Component {
 
 
 			function renderTooltip(props) {
-				const {outOfBoundaries,scheduleUpdate,show,arrowProps, ...rest} = props
+				const {outOfBoundaries,scheduleUpdate,show,arrowProps, ...rest} = props;
 				return (
 					<div
 						{...rest}

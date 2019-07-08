@@ -1,4 +1,8 @@
 import React from 'react'
+
+
+
+
 export default {
 	treeData : [
 			{
@@ -12,32 +16,32 @@ export default {
 				children:[
 					{
 						title:'Higher Dimensions and the Vector Space ℝn',
-						key:'1-0',
+						key:'2',
 						children:[
 							{
 								title:'Points and Coordinates',
-								key:'1-0-0',
+								key:'3',
 								children:[]
 							},
 							{
 								title:'Cartesian Products of Subsets of n-Space',
-								key:'1-0-1',
+								key:'4',
 								children:[]
 							},
 							{
 								title:'Equations in Several Variables',
-								key:'1-0-2',
+								key:'5',
 								children:[]
 							}
 						]
 					},
 					{
 						title:'The Dot Product',
-						key:'1-1',
+						key:'6',
 						children:[
 							{
 								title:'The Norm of a Vector',
-								key:'1-1-0',
+								key:'7',
 								children:[]
 							}
 						]
