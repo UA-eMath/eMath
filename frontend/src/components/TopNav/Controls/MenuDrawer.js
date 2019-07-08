@@ -59,6 +59,7 @@ export default class subordinateDrawer extends React.Component {
 							<Tree
 								switcherIcon={<Icon type="down"/>}
 								style={styles.Tree}
+								defaultExpandAll ={true}
 							>
 
 								{(this.state.treeData) && this.renderTreeNodes(this.state.treeData)}
