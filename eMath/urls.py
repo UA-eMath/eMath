@@ -16,15 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import include, url
-from database.Views import index_view,content_view
+from rest_framework import routers
+from database.Api import index_view,table_of_content
+
+
+router = routers.DefaultRouter()
+
+
+router.register(r'getToc',table_of_content.TOCViewSet,'TOC')
+router.register(r'root',index_view.RootViewSet,'Roots')
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-
-
-
-    path('<str:title>/<int:id>',content_view.page_content),
-    url(r'^treeview/$', index_view.show_tree ),
-	path('',include('database.urls')),
+	url('', include(router.urls)),
+	path('admin/', admin.site.urls),
 ]
 
