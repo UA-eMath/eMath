@@ -43,7 +43,6 @@ export default class BookDisplay extends React.Component {
 
 		const {Meta} = Card;
 		let cards = [];
-		console.log('sss',data);
 
 		for (let i = 0; i < data.length; i++) {
 			let itemToPush;
@@ -97,7 +96,7 @@ export default class BookDisplay extends React.Component {
 					overlay={renderTooltip}
 				>
 					<div onClick={() => {
-						window.location.href = '/math/123'
+						window.location.href = '/'+data[i].title +'/'+ data[i].id
 					}}>
 						{oneCard}
 					</div>

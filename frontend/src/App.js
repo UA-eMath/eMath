@@ -17,21 +17,18 @@ export default class App extends React.Component {
 		)
 	};
 
-	Item = () => {
-		return (
-			<div>
-				<TopNav/>
-				<SplitView/>
-			</div>
-		)
-	};
 
 	render() {
 		return (
-				<Router>
-					<Route exact path="/" component={this.Home}/>
-					<Route path="/:title/:id" component={this.Item}/>
-				</Router>
+			<Router>
+				<Route exact path="/" component={this.Home}/>
+				<Route path="/:title/:id" render={(props) => (
+					<div  >
+						<TopNav {...this.props} {...props}/>
+						<SplitView {...this.props} {...props} />
+					</div>
+				)}/>
+			</Router>
 		)
 	}
 }

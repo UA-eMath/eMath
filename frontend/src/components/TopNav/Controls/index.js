@@ -18,9 +18,9 @@ const styles = {
 };
 
 export default class Controls extends React.Component {
-
 	render() {
 		return (
+
 			<Navbar bg="dark" variant="dark">
 				<SubordinateDrawer className= 'mr-auto'/>
 				<Nav style={styles.logoDiv}>
@@ -30,7 +30,7 @@ export default class Controls extends React.Component {
 					</div>
 
 				</Nav>
-				<MenuDrawer className= 'ml-auto'/>
+				<MenuDrawer className= 'ml-auto' props={this.props}/>
 			</Navbar>
 		);
 	}

@@ -6,5 +6,5 @@ class NodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Level
-        fields = ('title','header','author')
+        fields = ('id','title','header','author')
         depth = 1

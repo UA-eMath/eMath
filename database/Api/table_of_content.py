@@ -1,6 +1,8 @@
 from database.models import Level
 from rest_framework import viewsets,permissions
 from database.Serializers.toc_serializer import Toc_serializer
+from rest_framework.response import Response
+from django.shortcuts import get_list_or_404
 
 class TOCViewSet(viewsets.ReadOnlyModelViewSet):
 	queryset = Level.objects.filter(level=0)
@@ -12,8 +14,8 @@ class TOCViewSet(viewsets.ReadOnlyModelViewSet):
 
 	serializer_class = Toc_serializer
 
-	# def list(self, request, *args, **kwargs):
-	# 	print("I am here")
-	# 	return
+	# def retrieve(self, request, *args, **kwargs):
+	# 	response = get_list_or_404()
+
 
 

@@ -7,7 +7,6 @@ import Control from './Controls'
 export default class TopNav extends React.Component {
 
 	render() {
-
 		if (RegExp('^/$').test(window.location.pathname)) {
 			return (
 				<Navbar bg="dark" variant="dark">
@@ -16,7 +15,7 @@ export default class TopNav extends React.Component {
 			)
 
 		} else {
-			return( <Control/>)
+			return( <Control props = {this.props}/>)
 		}
 
 	}
