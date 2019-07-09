@@ -32,7 +32,7 @@ export default class subordinateDrawer extends React.Component {
 	};
 
 	componentDidMount() {
-		let id = this.props.props.props.match.params.id;
+		let id = this.props.props.match.params.id;
 		fetchTocTree(id,(data) => {
 			this.setState(
 				{

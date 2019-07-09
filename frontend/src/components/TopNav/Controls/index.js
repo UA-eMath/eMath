@@ -30,7 +30,7 @@ export default class Controls extends React.Component {
 					</div>
 
 				</Nav>
-				<MenuDrawer className= 'ml-auto' props={this.props}/>
+				<MenuDrawer className= 'ml-auto' props={this.props.props}/>
 			</Navbar>
 		);
 	}
