@@ -39,7 +39,7 @@ export default class BookDisplay extends React.Component {
 	};
 
 	bookCard = () => {
-		const {fetching, data, value} = this.state;
+		const {data} = this.state;
 
 		const {Meta} = Card;
 		let cards = [];

@@ -1,4 +1,3 @@
-import React from 'react'
 import getToc from "../../../requests/getToc";
 
 export default function fetchTocTree(id,next) {

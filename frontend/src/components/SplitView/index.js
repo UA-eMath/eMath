@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import 'antd/dist/antd.css';
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'

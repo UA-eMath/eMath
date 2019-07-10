@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Radium, {getState} from 'radium';
+import Radium from 'radium';
 
 const styles = {
 	button: {

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navbar, Nav} from 'react-bootstrap'
+import {Navbar} from 'react-bootstrap'
 import "./index.css";
 import 'antd/dist/antd.css';
 import Control from './Controls'
@@ -15,7 +15,7 @@ export default class TopNav extends React.Component {
 			)
 
 		} else {
-			return( <Control props = {this.props}/>)
+			return( <Control props = {this.props.match}/>)
 		}
 
 	}

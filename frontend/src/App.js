@@ -1,6 +1,6 @@
 import React from 'react';
 import TopNav from './components/TopNav';
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 
 import SplitView from './components/SplitView'
 import BookDisplay from "./components/BookDisplay";

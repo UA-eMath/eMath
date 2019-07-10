@@ -4,8 +4,6 @@ import {Tree} from 'antd';
 import {Drawer, Tabs, Icon} from 'antd';
 import 'antd/dist/antd.css';
 
-import queryString from 'query-string';
-
 const {TreeNode} = Tree;
 const {TabPane} = Tabs;
 
@@ -32,7 +30,7 @@ export default class subordinateDrawer extends React.Component {
 	};
 
 	componentDidMount() {
-		let id = this.props.props.match.params.id;
+		let id = this.props.props.params.id;
 		fetchTocTree(id,(data) => {
 			this.setState(
 				{

@@ -26,7 +26,7 @@ export default class Controls extends React.Component {
 				<Nav style={styles.logoDiv}>
 					<div style={{margin: 'auto'}}>
 						<a style={styles.logoText} href="/">eMath : </a>
-						<span style={styles.logoText} >Linear Algebra A Modern Introduction</span>
+						<span style={styles.logoText} > {this.props.props.params.title}</span>
 					</div>
 
 				</Nav>
