@@ -69,6 +69,12 @@ class Para(models.Model):
 	para_type = models.CharField(max_length=15)
 	caption = models.CharField(max_length=100, null=True, blank=True)
 
+	para_parent = models.ForeignKey(
+		Level,
+		on_delete=models.CASCADE,
+		related_name='para_parent_id'
+	)
+
 	para_upper = models.ManyToManyField(
 		Level,
 		through='InternalLink',
