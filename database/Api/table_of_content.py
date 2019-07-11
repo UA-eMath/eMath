@@ -14,8 +14,7 @@ class TOCViewSet(viewsets.ReadOnlyModelViewSet):
 
 	serializer_class = Toc_serializer
 
-	# def retrieve(self, request, *args, **kwargs):
-	# 	response = get_list_or_404()
+
 
 
 
