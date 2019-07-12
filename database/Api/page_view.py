@@ -5,8 +5,9 @@ from rest_framework.response import Response
 
 
 class getPageViewSet(viewsets.ReadOnlyModelViewSet):
+	p = Level.objects.filter(isPage=True,id=4)[0]
 
-	queryset = Para.objects.all()
+	queryset = p.para_set.all()
 
 
 	serializer_class = ParaSerializers
