@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from database.models import Para, Level
+from database.models import Para
 
 
 class ParaSerializers(serializers.ModelSerializer):

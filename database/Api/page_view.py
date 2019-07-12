@@ -1,7 +1,6 @@
-from database.models import Level,Para
-from rest_framework import viewsets,permissions
+from database.models import Level
+from rest_framework import viewsets
 from database.Serializers.para_serializers import ParaSerializers
-from rest_framework.response import Response
 
 
 class getPageViewSet(viewsets.ReadOnlyModelViewSet):
