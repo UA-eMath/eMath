@@ -37,8 +37,8 @@ class Level(MPTTModel):
 	header = models.CharField(max_length=100, null=True, blank=True)
 	unit_type = models.CharField(max_length=30)
 	html_title = models.CharField(max_length=100, null=True, blank=True)
-	author = models.ManyToManyField('Person', related_name="author",  blank=True)
-	contributor = models.ManyToManyField('Person', related_name="contributors",  blank=True)
+	author = models.ManyToManyField('Person', related_name="author", blank=True)
+	contributor = models.ManyToManyField('Person', related_name="contributors", blank=True)
 	date = models.DateField(null=True, blank=True)
 
 	class MPTTMeta:
@@ -72,13 +72,7 @@ class Para(models.Model):
 	para_parent = models.ForeignKey(
 		Level,
 		on_delete=models.CASCADE,
-		related_name='para_parent_id'
 	)
-
-	para_upper = models.ManyToManyField(
-		Level,
-		through='InternalLink',
-		related_name='para_next')
 
 	class Meta:
 		ordering = ('position',)
@@ -112,9 +106,8 @@ class InternalLink(models.Model):
 
 	'''
 	parent_i_id = models.ForeignKey(Para, on_delete=models.CASCADE, related_name='internal_parent_id')
-	target = models.ForeignKey(Level,on_delete=models.CASCADE,related_name='link_to')
+	target = models.OneToOneField(Level, on_delete=models.CASCADE, related_name='link_to')
 	content = models.CharField(max_length=150)
-
 
 
 class ExternalLink(models.Model):
