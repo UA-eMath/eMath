@@ -15,6 +15,7 @@ import {
 	onLayoutChange,
 } from '../../actions'
 import styles from './styles/style'
+import fetchTocTree from "../TopNav/Controls/treeData";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -30,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
 		dispatch(closeWindow(id)),
 	minimizeWindow: (id) =>
 		dispatch(minimizeWindow(id)),
-	onLayoutChange:() =>
+	onLayoutChange: () =>
 		dispatch(onLayoutChange),
 });
 
@@ -41,6 +42,18 @@ class SplitView extends React.Component {
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
 	}
 
+	componentDidMount() {
+		// console.log(this.props);
+		// let id = this.props.params.id;
+		// let page = this.props.params.page;
+		fetchTocTree(id, page, (data) => {
+			this.setState(
+				{
+					paraText: data
+				}
+			);
+		});
+	}
 
 	render() {
 		//TODO
@@ -91,7 +104,7 @@ class SplitView extends React.Component {
 				</div>
 
 				<Scrollbars>
-					{styles.para}
+					{this.state.paraText}
 				</Scrollbars>
 			</div>
 		)
@@ -109,8 +122,12 @@ class SplitView extends React.Component {
 					title={el.i}
 					controls
 					background={this.props.color}
-					onCloseClick={()=>{this.props.onCloseWindow(el.i)}}
-					onMinimizeClick={() => {this.props.minimizeWindow(el.i)}}
+					onCloseClick={() => {
+						this.props.onCloseWindow(el.i)
+					}}
+					onMinimizeClick={() => {
+						this.props.minimizeWindow(el.i)
+					}}
 				/>
 
 				<Scrollbars>

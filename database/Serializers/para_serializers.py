@@ -5,5 +5,5 @@ from database.models import Para
 class ParaSerializers(serializers.ModelSerializer):
 	class Meta:
 		model = Para
-		fields = (
-			'__all__')
+		fields = ('__all__')
+		depth = 1

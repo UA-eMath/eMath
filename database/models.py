@@ -23,7 +23,7 @@ class Level(MPTTModel):
 	'''
 
 	position = models.IntegerField()
-
+	pageNum = models.IntegerField(blank=True,null=True)
 	parent = TreeForeignKey(
 		'self',
 		on_delete=models.CASCADE,

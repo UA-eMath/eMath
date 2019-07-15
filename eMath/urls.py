@@ -26,6 +26,7 @@ router = routers.DefaultRouter()
 router.register(r'getToc',table_of_content.TOCViewSet,'TOC')
 router.register(r'root',index_view.RootViewSet,'Roots')
 router.register(r'content',page_view.getPageViewSet,'Content')
+
 router.register(r'Link/Internal',internal_link_veiw.getInternalLinkViewSet,'Internal_Link')
 
 urlpatterns = [
