@@ -12,7 +12,7 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 
 		#TODO may contain bug
 		if page_num is not None:
-			pages = Level.objects.filter(isPage=True).order_by('pageNum')[int(page_num)-1]
+			pages = Level.objects.filter(isPage=True)[int(page_num)-1]
 		elif level_id is not None:
 
 			pages = Level.objects.filter(isPage=True,id=level_id).first()

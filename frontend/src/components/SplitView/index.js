@@ -15,7 +15,7 @@ import {
 	onLayoutChange,
 } from '../../actions'
 import styles from './styles/style'
-import fetchTocTree from "../TopNav/Controls/treeData";
+import fetchPage from './pageLoader/index'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -39,14 +39,18 @@ const mapDispatchToProps = dispatch => ({
 class SplitView extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			paraText: [],
+		};
+
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
 	}
 
 	componentDidMount() {
-		// console.log(this.props);
-		// let id = this.props.params.id;
-		// let page = this.props.params.page;
-		fetchTocTree(id, page, (data) => {
+		let id = 4;
+		let page = null;
+		fetchPage(id, page, (data) => {
 			this.setState(
 				{
 					paraText: data
@@ -96,15 +100,17 @@ class SplitView extends React.Component {
 				<div style={{...styles.titleBar}}>
 
 					<Button>Pre</Button>
+
 					<span style={{...styles.title}}>
 								Chapter one - Higher Dimensions and the Vector Space ℝn
 							</span>
+
 					<Button className='ml-auto'>Next</Button>
 
 				</div>
 
 				<Scrollbars>
-					{this.state.paraText}
+					{this.state.paraText.map(text => text.content)}
 				</Scrollbars>
 			</div>
 		)
@@ -131,7 +137,7 @@ class SplitView extends React.Component {
 				/>
 
 				<Scrollbars>
-					{styles.para}
+					{}
 				</Scrollbars>
 			</div>
 		)
