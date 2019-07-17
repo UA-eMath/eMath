@@ -42,6 +42,7 @@ class SplitView extends React.Component {
 
 		this.state = {
 			paraText: [],
+			pageTitle: null,
 		};
 
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -51,6 +52,7 @@ class SplitView extends React.Component {
 		let id = 4;
 		let page = null;
 		fetchPage(id, page, (data) => {
+
 			this.setState(
 				{
 					paraText: data
@@ -110,7 +112,9 @@ class SplitView extends React.Component {
 				</div>
 
 				<Scrollbars>
-					{this.state.paraText.map(text => text.content)}
+					{this.state.paraText.map((text) =>
+						text.content
+					)}
 				</Scrollbars>
 			</div>
 		)
