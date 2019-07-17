@@ -13,7 +13,7 @@ class getInternalLinkViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 		if id is not None:
-			parent_Para = Para.objects.filter(id=id)
+			parent_Para = Para.objects.get(id=id)
 			queryset = parent_Para.internal_parent_id.all()
 		else:
 			queryset = InternalLink.objects.all()
