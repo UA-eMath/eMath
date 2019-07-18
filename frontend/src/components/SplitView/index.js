@@ -52,7 +52,6 @@ class SplitView extends React.Component {
 		let id = 4;
 		let page = null;
 		fetchPage(id, page, (data) => {
-
 			this.setState(
 				{
 					paraText: data
@@ -112,8 +111,13 @@ class SplitView extends React.Component {
 				</div>
 
 				<Scrollbars>
-					{this.state.paraText.map((text) =>
-						text.content
+					{console.log(this.state.paraText)}
+					{_.map(this.state.paraText, text => {
+
+
+							console.log(text);
+							return text.content
+						}
 					)}
 				</Scrollbars>
 			</div>

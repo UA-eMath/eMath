@@ -16,8 +16,8 @@ class Level(MPTTModel):
 		position : position of this unit in corresponded level (units in each level should be ordered)
 		next_level : point to next level table
 		isPage : if all children under this node contains a page
-		title : title of unit
-		header : header of unit, could be null
+		title : full title of unit, may contain latex
+		tocTitle : Title shows in table of content
 		unit_type : name of unit; e.g. Chapter, Section
 
 	'''
@@ -34,7 +34,7 @@ class Level(MPTTModel):
 
 	isPage = models.BooleanField()
 	title = models.CharField(max_length=100, null=True, blank=True)
-	header = models.CharField(max_length=100, null=True, blank=True)
+	tocTitle = models.CharField(max_length=100, null=True, blank=True)
 	unit_type = models.CharField(max_length=30)
 	html_title = models.CharField(max_length=100, null=True, blank=True)
 	author = models.ManyToManyField('Person', related_name="author", blank=True)
@@ -106,7 +106,7 @@ class InternalLink(models.Model):
 
 	'''
 	parent_i_id = models.ForeignKey(Para, on_delete=models.CASCADE, related_name='internal_parent_id')
-	target = models.OneToOneField(Level, on_delete=models.CASCADE, related_name='link_to')
+	linkTo = models.OneToOneField(Level, on_delete=models.CASCADE, related_name='link_to')
 	content = models.CharField(max_length=150)
 
 

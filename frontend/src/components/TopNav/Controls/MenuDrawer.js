@@ -103,9 +103,10 @@ export default class subordinateDrawer extends React.Component {
 
 	renderTreeNodes = data =>
 		data.map(item => {
+			console.log("toc",item);
 			if (item.children) {
 				return (
-					<TreeNode title={item.title} key={item.id} dataRef={item}>
+					<TreeNode title={item.tocTitle} key={item.id} dataRef={item}>
 						{this.renderTreeNodes(item.children)}
 					</TreeNode>
 				);

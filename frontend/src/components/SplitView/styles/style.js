@@ -1,4 +1,3 @@
-import React from 'react'
 export default {
 	titleBar:{
 		WebkitUserSelect: 'none',
@@ -29,53 +28,4 @@ export default {
 		overflow: 'hidden',
 		width: '100%'
 	},
-
-
-	para :  <div>
-				<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-				invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-				et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-				Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-				diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-				voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-				gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-				invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-				et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-				Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-				diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-				voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-				gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-				invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-				et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-				Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-				diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-				voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-				gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-				invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-				et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-				Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-				diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-				voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-				gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-				invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-				et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-				Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-				diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-				voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-				gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-				invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-				et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-				Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-				diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-				voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-				gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p><p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-				invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-				et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-				Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-				diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-				voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-				gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-			</div>
-
-
 };
