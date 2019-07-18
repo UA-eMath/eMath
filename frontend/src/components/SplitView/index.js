@@ -4,9 +4,7 @@ import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import _ from "lodash";
 import {Responsive, WidthProvider} from "react-grid-layout";
-import {Scrollbars} from 'react-custom-scrollbars';
-import TitleBar from '../TitleBar';
-import {Button} from 'react-desktop/windows';
+
 import {connect} from 'react-redux';
 import {
 	openNewWindow,
@@ -14,8 +12,10 @@ import {
 	closeWindow,
 	onLayoutChange,
 } from '../../actions'
-import styles from './styles/style'
-import fetchPage from './pageLoader/index'
+
+import fetchPage from './pageReceiver/index'
+import initElement from './pageCreator/initEle'
+import createElement from  './pageCreator/createEle'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -46,6 +46,8 @@ class SplitView extends React.Component {
 		};
 
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
+		this.initElement = initElement.bind(this);
+		this.createElement = createElement.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,8 +63,6 @@ class SplitView extends React.Component {
 	}
 
 	render() {
-		//TODO
-
 		return (
 			<div>
 				<button onClick={this.props.onWindowOpen}>some link</button>
@@ -91,64 +91,6 @@ class SplitView extends React.Component {
 				</ResponsiveReactGridLayout>
 			</div>
 		);
-	}
-
-	initElement(el) {
-
-		return (
-			<div key={el.i} data-grid={el}
-			     style={{...styles.window}}>
-				<div style={{...styles.titleBar}}>
-
-					<Button>Pre</Button>
-
-					<span style={{...styles.title}}>
-								Chapter one - Higher Dimensions and the Vector Space ℝn
-							</span>
-
-					<Button className='ml-auto'>Next</Button>
-
-				</div>
-
-				<Scrollbars>
-					{console.log(this.state.paraText)}
-					{_.map(this.state.paraText, text => {
-
-
-							console.log(text);
-							return text.content
-						}
-					)}
-				</Scrollbars>
-			</div>
-		)
-	}
-
-	createElement(el) {
-		const i = el.add ? "+" : el.i;
-		console.log(el.h);
-
-		return (
-			<div key={i} data-grid={el}
-			     style={{...styles.window}}>
-				<TitleBar
-					className='windowHeader'
-					title={el.i}
-					controls
-					background={this.props.color}
-					onCloseClick={() => {
-						this.props.onCloseWindow(el.i)
-					}}
-					onMinimizeClick={() => {
-						this.props.minimizeWindow(el.i)
-					}}
-				/>
-
-				<Scrollbars>
-					{}
-				</Scrollbars>
-			</div>
-		)
 	}
 
 // We're using the cols coming back from this to calculate where to add new items.

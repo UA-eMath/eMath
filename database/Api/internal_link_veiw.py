@@ -3,8 +3,14 @@ from rest_framework import viewsets
 from database.Serializers.internalLink_serializers import InternalLinkSerializers
 
 class getInternalLinkViewSet(viewsets.ReadOnlyModelViewSet):
-	#TODO need para id
 
+	'''
+	Search all links belong to a Para object by para id
+	
+	:param Para id
+	:return all links contained in this Para object.
+	
+	'''
 
 	serializer_class = InternalLinkSerializers
 
