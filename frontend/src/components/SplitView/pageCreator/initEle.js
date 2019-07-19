@@ -7,6 +7,9 @@ import axios from 'axios'
 import url from '../../../requests/Urls'
 
 export default function initElement(el) {
+	let link = linksCollector(this.state.paraText);
+	console.log(link);
+
 	return (
 		<div key={el.i} data-grid={el}
 		     style={{...styles.window}}>
@@ -23,9 +26,26 @@ export default function initElement(el) {
 			</div>
 
 			<Scrollbars>
-				{console.log(this.state.paraText)}
-				{
-					console.log(linksCollector(this.state.paraText))
+				{_.map(this.state.paraText, (para, key) => {
+
+					if (link[key].length !== 0) {
+						let parts = para;
+						link[key].forEach(function (el) {
+							let linkPhrase = el.content;
+							let re = new RegExp(linkPhrase,'g');
+
+							parts = parts.split(re);
+							for (let i = 1; i < parts.length; i += 2) {
+								parts[i] = <a onClick={this.props.onWindowOpen}>{linkPhrase}</a>
+							}
+
+						});
+						return parts;
+					}
+					else {
+						return para.content
+					}
+				})
 				}
 
 			</Scrollbars>
@@ -33,17 +53,20 @@ export default function initElement(el) {
 	)
 }
 
-const linksCollector = (paras) => {
+async function linksCollector(paras) {
 	let promises = [];
-	paras.map((data) => {
+	let link = [];
+	await paras.map((data) => {
 		promises.push(fetchLinks(data.id))
 	});
 
-	Promise.all(promises).then((response)=> {
+	Promise.all(promises).then((response) => {
 		console.log(response);
-		return promises
-	})
-};
+		link.push(response);
+	});
+	return link
+}
+
 
 function fetchLinks(ids) {
 	let Url = url.domain + ':' + url.port + "/Link/Internal/?id=" + ids;
