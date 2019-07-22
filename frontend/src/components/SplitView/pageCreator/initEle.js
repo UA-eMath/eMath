@@ -26,47 +26,56 @@ export default function initElement(el) {
 			</div>
 
 			<Scrollbars>
-				{_.map(this.state.paraText, (para, key) => {
 
-					if (link[key].length !== 0) {
-						let parts = para;
-						link[key].forEach(function (el) {
-							let linkPhrase = el.content;
-							let re = new RegExp(linkPhrase,'g');
-
-							parts = parts.split(re);
-							for (let i = 1; i < parts.length; i += 2) {
-								parts[i] = <a onClick={this.props.onWindowOpen}>{linkPhrase}</a>
-							}
-
-						});
-						return parts;
-					}
-					else {
-						return para.content
-					}
-				})
-				}
+				{processContent(this.state.paraText,link)}
 
 			</Scrollbars>
 		</div>
 	)
 }
 
-async function linksCollector(paras) {
+function processContent(paraText,link) {
+	return (_.map(paraText, (para, key) => {
+
+		if (link[key].length !== 0) {
+			let parts = para;
+			link[key].forEach(function (el) {
+				let linkPhrase = el.content;
+				let re = new RegExp(linkPhrase, 'g');
+
+				parts = parts.split(re);
+				console.log(parts);
+				for (let i = 1; i < parts.length; i += 2) {
+					parts[i] = <a onClick={this.props.onWindowOpen}>{linkPhrase}</a>
+				}
+
+			});
+			return parts;
+		}
+		else {
+			return para.content
+		}
+	}))
+
+}
+
+function linksCollector(paras) {
 	let promises = [];
 	let link = [];
-	await paras.map((data) => {
+	console.log('kk');
+	paras.forEach((data) => {
+		console.log('ll');
 		promises.push(fetchLinks(data.id))
 	});
 
 	Promise.all(promises).then((response) => {
 		console.log(response);
-		link.push(response);
+		response.forEach(item => {
+			link.push(item)
+		})
 	});
 	return link
 }
-
 
 function fetchLinks(ids) {
 	let Url = url.domain + ':' + url.port + "/Link/Internal/?id=" + ids;
