@@ -13,9 +13,11 @@ import {
 	onLayoutChange,
 } from '../../actions'
 
-import fetchPage from './pageReceiver/index'
-import initElement from './pageCreator/initEle'
-import createElement from  './pageCreator/createEle'
+import createElement from './pageCreator/createEle'
+import getPage from "../../requests/getPage";
+import getLinks from "../../requests/getLinks"
+import initElement from "./pageCreator/initEle"
+
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -43,6 +45,7 @@ class SplitView extends React.Component {
 		this.state = {
 			paraText: [],
 			pageTitle: null,
+			links: []
 		};
 
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -50,16 +53,27 @@ class SplitView extends React.Component {
 		this.createElement = createElement.bind(this);
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		let id = 4;
 		let page = null;
-		fetchPage(id, page, (data) => {
-			this.setState(
-				{
-					paraText: data
-				}
-			);
+
+		const pageContent = await getPage({id: id, page: page});
+
+		let promises = [];
+		pageContent.data.forEach((data) => {
+			promises.push(getLinks(data.id))
 		});
+
+		await Promise.all(promises).then((response) => {
+			this.setState({
+				links: response
+			});
+		});
+
+		this.setState({
+			paraText: pageContent.data,
+		});
+
 	}
 
 	render() {
@@ -86,7 +100,6 @@ class SplitView extends React.Component {
 							return (this.createElement(el))
 						}
 					})}
-
 
 				</ResponsiveReactGridLayout>
 			</div>

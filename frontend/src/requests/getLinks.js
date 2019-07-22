@@ -1,22 +1,17 @@
 import axios from 'axios'
 import url from './Urls'
 
-export default function getLinks(params = {}) {
-	let Url = url.domain + ':' + url.port + '/Link/Internal/';
+export default function getLinks(ids) {
+	let Url = url.domain + ':' + url.port + "/Link/Internal/?id=" + ids;
 
-	if (params.id !== null) {
-		Url += '?id=' + params.id;
-	}
-
-	return axios
-		.get(Url,
-			{
+		return new Promise(resolve => {
+			axios.get(Url, {
 				headers: {
-					'Content-type': "application/json"
+					"Content-Type": "application/json"
 				},
 			})
-		.then(response => {
-			return response;
-		})
-		.catch(error => console.log(error))
+				.then(function (response) {
+					resolve(response.data);
+				}).catch((error) => console.error(error));
+		});
 }
