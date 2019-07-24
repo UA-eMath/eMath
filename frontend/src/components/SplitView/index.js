@@ -58,7 +58,9 @@ class SplitView extends React.Component {
 		let page = null;
 
 		const pageContent = await getPage({id: id, page: page});
-
+		this.setState({
+			pageTitle: pageContent.data[0].para_parent.title
+		});
 		let promises = [];
 		pageContent.data.forEach((data) => {
 			promises.push(getLinks(data.id))

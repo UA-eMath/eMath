@@ -13,7 +13,7 @@ export default function initElement(el) {
 					<Button>Pre</Button>
 
 					<span style={{...styles.title}}>
-								Chapter one - Higher Dimensions and the Vector Space ℝn
+								{this.state.pageTitle}
 							</span>
 
 					<Button className='ml-auto'>Next</Button>
