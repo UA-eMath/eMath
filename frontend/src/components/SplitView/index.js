@@ -45,7 +45,8 @@ class SplitView extends React.Component {
 		this.state = {
 			paraText: [],
 			pageTitle: null,
-			links: []
+			links: [],
+			para_parent:null,
 		};
 
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -59,7 +60,8 @@ class SplitView extends React.Component {
 
 		const pageContent = await getPage({id: id, page: page});
 		this.setState({
-			pageTitle: pageContent.data[0].para_parent.title
+			pageTitle: pageContent.data[0].para_parent.title,
+			para_parent:pageContent.data[0].para_parent
 		});
 		let promises = [];
 		pageContent.data.forEach((data) => {
