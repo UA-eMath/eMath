@@ -50,16 +50,14 @@ export default function initElement(el) {
 								});
 
 								Promise.all(promises).then((response) => {
+
 									this.setState({
-										links: response
-									});
-								}).then(
-									this.setState({
+										links: response,
 										pageTitle: nextPageData[0].para_parent.title,
 										para_parent: nextPageData[0].para_parent,
 										paraText: nextPageData,
-									})
-								)
+									});
+								})
 							}
 						)
 					}
@@ -78,6 +76,9 @@ async function getNextPage(pageNum, setData) {
 		if (!nextPage || nextPage.status !== 200) {
 			console.error("FETCH_TAGS_FAILED", nextPage);
 		}
+		else if(nextPage.data.length === 0){
+			return null
+		}
 		else {
 			setData(nextPage.data)
 		}
@@ -88,6 +89,9 @@ async function getPrePage(pageNum, setData) {
 	await getPage({page: pageNum - 1}).then(prePage => {
 		if (!prePage || prePage.status !== 200) {
 			console.error("FETCH_TAGS_FAILED", prePage);
+		}
+		else if(prePage.data.length === 0){
+			return null
 		}
 		else {
 			setData(prePage.data)
