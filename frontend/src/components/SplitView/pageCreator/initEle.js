@@ -99,7 +99,7 @@ async function getPrePage(pageNum, setData) {
 	})
 }
 
-function processContent(paraText, links, props,pending) {
+function processContent(paraText, links, props) {
 	if(links.length !== paraText.length){
 		return null
 	}
