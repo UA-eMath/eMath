@@ -45,7 +45,6 @@ class SplitView extends React.Component {
 		this.state = {
 			paraText: [],
 			pageTitle: null,
-			links: [],
 			para_parent:null,
 		};
 
@@ -61,21 +60,9 @@ class SplitView extends React.Component {
 		const pageContent = await getPage({id: id, page: page});
 		this.setState({
 			pageTitle: pageContent.data[0].para_parent.title,
-			para_parent:pageContent.data[0].para_parent
-		});
-		let promises = [];
-		pageContent.data.forEach((data) => {
-			promises.push(getLinks(data.id))
-		});
-
-		await Promise.all(promises).then((response) => {
-			this.setState({
-				links: response
-			});
-		});
-
-		this.setState({
+			para_parent:pageContent.data[0].para_parent,
 			paraText: pageContent.data,
+
 		});
 
 	}
