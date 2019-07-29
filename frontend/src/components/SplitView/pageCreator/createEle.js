@@ -5,7 +5,6 @@ import TitleBar from '../../TitleBar';
 
 export default function createElement(el) {
 	const i = el.add ? "+" : el.i;
-	console.log(el.h);
 
 	return (
 		<div key={i} data-grid={el}

@@ -15,7 +15,6 @@ import {
 
 import createElement from './pageCreator/createEle'
 import getPage from "../../requests/getPage";
-import getLinks from "../../requests/getLinks"
 import initElement from "./pageCreator/initEle"
 
 

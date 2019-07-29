@@ -3,7 +3,6 @@ import styles from "../styles/style";
 import {Scrollbars} from 'react-custom-scrollbars';
 import {Button} from 'react-desktop/windows';
 import getPage from "../../../requests/getPage";
-import getLinks from "../../../requests/getLinks";
 import contentProcessor from './pageRenderer/index'
 
 export default function initElement(el) {
