@@ -13,7 +13,7 @@ import {
 	onLayoutChange,
 } from '../../actions'
 
-import createElement from './pageCreator/createEle'
+import CreateElement from './pageCreator/createEle'
 import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle"
 
@@ -49,7 +49,6 @@ class SplitView extends React.Component {
 
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
 		this.initElement = initElement.bind(this);
-		this.createElement = createElement.bind(this);
 	}
 
 	async componentDidMount() {
@@ -87,7 +86,9 @@ class SplitView extends React.Component {
 							return (this.initElement(el))
 						}
 						else {
-							return (this.createElement(el))
+							const i = el.add ? "+" : el.i;
+
+							return (<CreateElement key={i} data-grid={el} />)
 						}
 					})}
 

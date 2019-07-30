@@ -10,7 +10,6 @@ const initState_windows = {
 			h: 9.5,
 			add: i === (list.length - 1).toString(),
 			static: true,
-			title:'A chapter'
 		};
 	}),
 	newCounter: 0,
@@ -28,7 +27,6 @@ const windows = (state = initState_windows, action) => {
 					w: 6,
 					h: 4,
 					static: false,
-					title:'Higher Dimensions and the Vector Space ℝn'
 				}),
 				newCounter: state.newCounter+1
 			});
