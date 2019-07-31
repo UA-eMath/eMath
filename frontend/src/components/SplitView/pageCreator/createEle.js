@@ -34,15 +34,15 @@ class CreateElement extends React.Component {
 
 	}
 
-	async componentDidMount(){
+	async componentDidMount() {
 		//this.props['data-grid'] stores this window's information
 		let pageId = this.props['data-grid'].pageId;
 
-		const pageContent = await getPage({id:pageId,page:null});
+		const pageContent = await getPage({id: pageId, page: null});
 
 		this.setState({
 			pageTitle: pageContent.data[0].para_parent.title,
-			para_parent:pageContent.data[0].para_parent,
+			para_parent: pageContent.data[0].para_parent,
 			paraText: pageContent.data,
 
 		});
@@ -76,7 +76,9 @@ class CreateElement extends React.Component {
 
 					<Scrollbars>
 						{contentProcessor(this.state.paraText, this.props)}
+
 					</Scrollbars>
+
 				</div>
 			</div>
 		)

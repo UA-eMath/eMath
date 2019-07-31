@@ -3,7 +3,6 @@ import React from 'react'
 
 export default function contentProcessor(paraText, props) {
 	return linkMarker(paraText, props);
-
 }
 
 function linkMarker(paraText, props) {
