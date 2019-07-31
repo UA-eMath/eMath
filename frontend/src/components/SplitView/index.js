@@ -26,8 +26,8 @@ const mapStateToProps = state => {
 
 
 const mapDispatchToProps = dispatch => ({
-	onWindowOpen: () =>
-		dispatch(openNewWindow),
+	onWindowOpen: (pageId) =>
+		dispatch(openNewWindow(pageId)),
 	onCloseWindow: (id) =>
 		dispatch(closeWindow(id)),
 	minimizeWindow: (id) =>
@@ -68,7 +68,7 @@ class SplitView extends React.Component {
 	render() {
 		return (
 			<div>
-				<button onClick={this.props.onWindowOpen}>some link</button>
+				{/*<button onClick={this.props.onWindowOpen()}>some link</button>*/}
 				<ResponsiveReactGridLayout
 					className="layout"
 					cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}

@@ -27,6 +27,7 @@ const windows = (state = initState_windows, action) => {
 					w: 6,
 					h: 4,
 					static: false,
+					pageId : action.pageId
 				}),
 				newCounter: state.newCounter+1
 			});

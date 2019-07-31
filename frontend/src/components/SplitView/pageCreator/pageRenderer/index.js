@@ -2,7 +2,6 @@ import _ from "lodash";
 import React from 'react'
 
 export default function contentProcessor(paraText, props) {
-
 	return linkMarker(paraText, props);
 
 }
@@ -25,9 +24,7 @@ function linkMarker(paraText, props) {
 			let id = parts_with_id[j].split(idExtractor)[1];
 
 			id = Number(id);
-			console.log(id);
-
-			parts[i] = <a onClick={props.onWindowOpen} style={{color: 'red'}}>{parts[i]}</a>
+			parts[i] = <a onClick={()=> props.onWindowOpen(id)} style={{color: 'red'}}>{parts[i]}</a>;
 
 			j++;
 		}

@@ -4,6 +4,8 @@ import {Scrollbars} from 'react-custom-scrollbars';
 import TitleBar from '../../TitleBar';
 import {connect} from "react-redux";
 import {closeWindow, minimizeWindow, onLayoutChange, openNewWindow} from "../../../actions";
+import getPage from "../../../requests/getPage";
+import contentProcessor from "./pageRenderer";
 
 
 const mapStateToProps = state => {
@@ -11,8 +13,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	onWindowOpen: () =>
-		dispatch(openNewWindow),
+	onWindowOpen: (pageId) =>
+		dispatch(openNewWindow(pageId)),
 	onCloseWindow: (id) =>
 		dispatch(closeWindow(id)),
 	minimizeWindow: (id) =>
@@ -32,8 +34,22 @@ class CreateElement extends React.Component {
 
 	}
 
+	async componentDidMount(){
+		//this.props['data-grid'] stores this window's information
+		let pageId = this.props['data-grid'].pageId;
+
+		const pageContent = await getPage({id:pageId,page:null});
+
+		this.setState({
+			pageTitle: pageContent.data[0].para_parent.title,
+			para_parent:pageContent.data[0].para_parent,
+			paraText: pageContent.data,
+
+		});
+	}
+
 	render() {
-		console.log(this.props);
+
 		let i = this.props['data-grid'].i;
 		return (
 
@@ -41,11 +57,13 @@ class CreateElement extends React.Component {
 			     className={`wrapper ${this.props.className}`}
 			     style={{...styles.window, ...this.props.style}}
 			>
+				{console.log(this.props)}
 				<div>
 					{this.props.children}
+
 					<TitleBar
 						className='windowHeader'
-						title={'ss'}
+						title={this.state.pageTitle}
 						controls
 						background={this.props.color}
 						onCloseClick={() => {
@@ -57,13 +75,12 @@ class CreateElement extends React.Component {
 					/>
 
 					<Scrollbars>
-						{console.log(this.state)}
+						{contentProcessor(this.state.paraText, this.props)}
 					</Scrollbars>
 				</div>
 			</div>
 		)
 	}
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateElement)

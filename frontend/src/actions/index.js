@@ -3,8 +3,9 @@ import * as types from '../constants/ActionTypes'
 
 
 
-export const openNewWindow =  ({
-	type: types.OPEN_NEW_WINDOW
+export const openNewWindow = pageId => ({
+	type: types.OPEN_NEW_WINDOW,
+	pageId
 });
 
 
