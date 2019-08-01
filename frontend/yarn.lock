@@ -2656,6 +2656,11 @@ clone-deep@^2.0.1:
     kind-of "^6.0.0"
     shallow-clone "^1.0.0"
 
+cnbuilder@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/cnbuilder/-/cnbuilder-1.1.7.tgz#04ef08d278efd69bc65a95b087328455a85a2eef"
+  integrity sha512-8D9dpabOVOh7GX/qPZ60sJpqxHaiLqSDsuZOYH1TvoNkgMrO7BJHCbNepHHoglSdU//M2sjLHaL9Vu0qibSV2A==
+
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -8921,7 +8926,7 @@ react-dom@^16.8.6:
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
-react-draggable@3.x, react-draggable@^3.0.3:
+react-draggable@3.x, react-draggable@^3.0.3, react-draggable@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-3.3.0.tgz#2ed7ea3f92e7d742d747f9e6324860606cd4d997"
   integrity sha512-U7/jD0tAW4T0S7DCPK0kkKLyL0z61sC/eqU+NUfDjnq+JtBKaYKDHpsK2wazctiA4alEzCXUnzkREoxppOySVw==
@@ -9115,6 +9120,15 @@ react-scripts@3.0.1:
     workbox-webpack-plugin "4.2.0"
   optionalDependencies:
     fsevents "2.0.6"
+
+react-scrollbars-custom@^4.0.16:
+  version "4.0.16"
+  resolved "https://registry.yarnpkg.com/react-scrollbars-custom/-/react-scrollbars-custom-4.0.16.tgz#6f00be36591d64c07ae5be365efe8188406dd894"
+  integrity sha512-QNNYuRqGo6voqtxxmTq5qnPz0GrmtparGuo/UfmRVnkDbEPL3ExO9Y5w0TTOA1AgKZdc6keYhKfkN6daDX9J3Q==
+  dependencies:
+    cnbuilder "^1.1.7"
+    react-draggable "^3.3.0"
+    zoom-level "^1.2.4"
 
 react-slick@~0.24.0:
   version "0.24.0"
@@ -11435,3 +11449,8 @@ yargs@^12.0.2:
     which-module "^2.0.0"
     y18n "^3.2.1 || ^4.0.0"
     yargs-parser "^11.1.1"
+
+zoom-level@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/zoom-level/-/zoom-level-1.2.4.tgz#52bc5ae3af945cac82f9f685e8707fa2c9b962e2"
+  integrity sha512-nGFUhyU3Y4jWh6l+hYCVVUxu3vrD0i/RkumJRzYGU0COMWMs2Szs84mltacd64R9zJcxwKckWQN/KKbfB1btVA==

@@ -1,6 +1,8 @@
 import React from 'react'
 import styles from "../styles/style";
-import {Scrollbars} from 'react-custom-scrollbars';
+import Scrollbars from 'react-custom-scrollbars';
+import Scrollbar from "react-scrollbars-custom";
+
 import TitleBar from '../../TitleBar';
 import {connect} from "react-redux";
 import {closeWindow, minimizeWindow, onLayoutChange, openNewWindow} from "../../../actions";
@@ -30,8 +32,7 @@ class CreateElement extends React.Component {
 			paraText: [],
 			pageTitle: null,
 			para_parent: null,
-		}
-
+		};
 	}
 
 	async componentDidMount() {
@@ -58,7 +59,7 @@ class CreateElement extends React.Component {
 			     style={{...styles.window, ...this.props.style}}
 			>
 				{console.log(this.props)}
-				<div>
+				<Scrollbars>
 					{this.props.children}
 
 					<TitleBar
@@ -74,12 +75,10 @@ class CreateElement extends React.Component {
 						}}
 					/>
 
-					<Scrollbars>
-						{contentProcessor(this.state.paraText, this.props)}
+					{/*content will not show if put scrollbars inside a div*/}
+					{contentProcessor(this.state.paraText, this.props)}
 
-					</Scrollbars>
-
-				</div>
+				</Scrollbars>
 			</div>
 		)
 	}
