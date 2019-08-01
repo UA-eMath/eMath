@@ -7,8 +7,6 @@ from .models import *
 admin.site.register(Level)
 admin.site.register(Person)
 admin.site.register(Para)
-admin.site.register(MathDisplay)
-admin.site.register(InternalLink)
 admin.site.register(ExternalLink)
 
 

@@ -78,36 +78,36 @@ class Para(models.Model):
 		ordering = ('position',)
 
 
-class MathDisplay(models.Model):
-	'''
-
-	This class represents a math.display structure(latex)
-		position :  position of math display in upper structure
-		content : latex in string
-
-	'''
-
-	position = models.IntegerField()
-	content = models.TextField()
-	math_display_upper = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='math_display_next')
-
-	class Meta:
-		ordering = ('position',)
-
-
-class InternalLink(models.Model):
-	'''
-
-	This class represents a internal Link structure
-
-		parent_i_id: links from para
-		target: links to Level
-		content: chars contain a hyperlink
-
-	'''
-	parent_i_id = models.ForeignKey(Para, on_delete=models.CASCADE, related_name='internal_parent_id')
-	linkTo = models.OneToOneField(Level, on_delete=models.CASCADE, related_name='link_to')
-	content = models.CharField(max_length=150)
+# class MathDisplay(models.Model):
+# 	'''
+#
+# 	This class represents a math.display structure(latex)
+# 		position :  position of math display in upper structure
+# 		content : latex in string
+#
+# 	'''
+#
+# 	position = models.IntegerField()
+# 	content = models.TextField()
+# 	math_display_upper = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='math_display_next')
+#
+# 	class Meta:
+# 		ordering = ('position',)
+#
+#
+# class InternalLink(models.Model):
+# 	'''
+#
+# 	This class represents a internal Link structure
+#
+# 		parent_i_id: links from para
+# 		target: links to Level
+# 		content: chars contain a hyperlink
+#
+# 	'''
+# 	parent_i_id = models.ForeignKey(Para, on_delete=models.CASCADE, related_name='internal_parent_id')
+# 	linkTo = models.OneToOneField(Level, on_delete=models.CASCADE, related_name='link_to')
+# 	content = models.CharField(max_length=150)
 
 
 class ExternalLink(models.Model):

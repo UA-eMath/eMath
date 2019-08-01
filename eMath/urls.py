@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import include, url
 from rest_framework import routers
-from database.Api import index_view,table_of_content,page_view,internal_link_veiw
+from database.Api import index_view,table_of_content,page_view
+	# internal_link_veiw
 
 
 router = routers.DefaultRouter()
@@ -27,7 +28,7 @@ router.register(r'getToc',table_of_content.TOCViewSet,'TOC')
 router.register(r'root',index_view.RootViewSet,'Roots')
 router.register(r'content',page_view.getPageViewSet,'Content')
 
-router.register(r'Link/Internal',internal_link_veiw.getInternalLinkViewSet,'Internal_Link')
+# router.register(r'Link/Internal',internal_link_veiw.getInternalLinkViewSet,'Internal_Link')
 
 urlpatterns = [
 	url('', include(router.urls)),
