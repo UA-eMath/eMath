@@ -4,6 +4,7 @@ import {Scrollbars} from 'react-custom-scrollbars';
 import {Button} from 'react-desktop/windows';
 import getPage from "../../../requests/getPage";
 import contentProcessor from './pageRenderer/index'
+import MathJax from '../../../components/MathDisplay'
 
 export default function initElement(el) {
 	return (
@@ -45,7 +46,17 @@ export default function initElement(el) {
 			</div>
 
 			<Scrollbars>
-				{contentProcessor(this.state.paraText, this.props)}
+				<MathJax.Provider>
+					<div>
+						This is an inline math formula: <MathJax.Node inline formula={'a = b'}/>
+						And a block one:
+
+						<MathJax.Node formula={`f(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi)\\,e^{2 \\pi i \\xi x} \\,d\\xi`}/>
+					</div>
+				</MathJax.Provider>
+
+
+				{/*{contentProcessor(this.state.paraText, this.props)}*/}
 			</Scrollbars>
 		</div>
 	)
