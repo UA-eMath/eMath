@@ -5,8 +5,13 @@ import {Button} from 'react-desktop/windows';
 import getPage from "../../../requests/getPage";
 import contentProcessor from './pageRenderer/index'
 import MathJax from '../../../components/MathDisplay'
+import ScriptTag from 'react-script-tag';
 
 export default function initElement(el) {
+	const latex = '\\xymatrix@C=2pc@R=2pc{\n' +
+		'M & c\\ar[dr]\\ar[drr] & L\\\\\n' +
+		'E\\ar[u] & M\\ar[l] & A & N}';
+
 	return (
 		<div key={el.i} data-grid={el}
 		     style={{...styles.window}}>
@@ -48,10 +53,11 @@ export default function initElement(el) {
 			<Scrollbars>
 				<MathJax.Provider>
 					<div>
-						This is an inline math formula: <MathJax.Node inline formula={'a = b'}/>
-						And a block one:
+						This is an inline math formula: <MathJax.Node inline formula={'a = b'}/> And a block one:
 
-						<MathJax.Node formula={`f(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi)\\,e^{2 \\pi i \\xi x} \\,d\\xi`}/>
+						<MathJax.Node formula={latex}/>
+
+
 					</div>
 				</MathJax.Provider>
 

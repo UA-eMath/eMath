@@ -25,8 +25,7 @@ class MathJaxProvider extends React.Component<*, *> {
             showMathMenuMSIE: true,
             TeX: {
 				extensions: [
-				    'AMSmath.js', 'AMSsymbols.js', 'action.js', 'color.js',
-				    "./extensions/TeX/xypic.js",
+				    "http://sonoisa.github.io/xyjax_ext/xypic.js"
 				]
 			},
         }
