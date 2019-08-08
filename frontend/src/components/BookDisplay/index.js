@@ -15,6 +15,7 @@ export default class BookDisplay extends React.Component {
 		fetching: false,
 	};
 
+	//TODO Roots should not include individual Levels
 	componentDidMount() {
 		this.fetchRoots();
 	}

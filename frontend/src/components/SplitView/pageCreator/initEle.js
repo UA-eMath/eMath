@@ -8,9 +8,10 @@ import MathJax from '../../../components/MathDisplay'
 import ScriptTag from 'react-script-tag';
 
 export default function initElement(el) {
-	const latex = '\\xymatrix@C=2pc@R=2pc{\n' +
-		'M & c\\ar[dr]\\ar[drr] & L\\\\\n' +
-		'E\\ar[u] & M\\ar[l] & A & N}';
+	const latex = 'A\\xymatrix{\n' +
+		'(f_1)_*x_1 \\ar[r]_a \\ar[d]_{(f_1)_*b_1} & (f_2)_*x_2 \\ar[d]^{(f_2)_*b_2} \\\\\n' +
+		'(f_1)_*x\'_1 \\ar[r]^{a\'} & (f_2)_*x\'_2.\n' +
+		'}B';
 
 	return (
 		<div key={el.i} data-grid={el}
@@ -55,7 +56,10 @@ export default function initElement(el) {
 					<div>
 						This is an inline math formula: <MathJax.Node inline formula={'a = b'}/> And a block one:
 
-						<MathJax.Node formula={latex}/>
+						<MathJax.Node formula={'A\\xymatrix{\n' +
+		'(f_1)_*x_1 \\ar[r]_a \\ar[d]_{(f_1)_*b_1} & (f_2)_*x_2 \\ar[d]^{(f_2)_*b_2} \\\\\n' +
+		'(f_1)_*x\'_1 \\ar[r]^{a\'} & (f_2)_*x\'_2.\n' +
+		'}B'}/>
 
 
 					</div>

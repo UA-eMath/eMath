@@ -29,7 +29,7 @@ class NodeWithMathJax extends React.Component<*, *> {
      * Update the jax, force update if the display mode changed.
      */
     componentDidUpdate(prevProps: *) {
-        const forceUpdate = prevProps.inline != this.props.inline;
+        const forceUpdate = prevProps.inline !== this.props.inline;
         this.typeset(forceUpdate);
     }
 
