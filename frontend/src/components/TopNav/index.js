@@ -9,7 +9,7 @@ export default class TopNav extends React.Component {
 	render() {
 		if (RegExp('^/$').test(window.location.pathname)) {
 			return (
-				<Navbar bg="dark" variant="dark">
+				<Navbar bg="dark" variant="dark" >
 					<Navbar.Brand href="/">eMath</Navbar.Brand>
 				</Navbar>
 			)

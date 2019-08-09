@@ -2,105 +2,103 @@
 /* global MathJax */
 import * as React from 'react';
 import loadScript from 'load-script';
-import MathJaxContext, { type MathJaxContextValue } from './context';
+import MathJaxContext, {type MathJaxContextValue} from './context';
 
 class MathJaxProvider extends React.Component<*, *> {
-    props: {
-        script?: string | boolean,
-        options?: Object,
-        children: React.Node
-    };
+	props: {
+		script?: string | boolean,
+		options?: Object,
+		children: React.Node
+	};
 
-    state: MathJaxContextValue;
+	state: MathJaxContextValue;
 
-    static defaultProps = {
-        script:
-            'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML',
-        options: {
-            tex2jax: {
-                inlineMath: [['$','$'], ['\\(','\\)']],
-			    displayMath:[["$$","$$"],["\\[","\\]"]]
-            },
-            showMathMenu: true,
-            showMathMenuMSIE: true,
-            TeX: {
-				extensions: [
-				    'AMSmath.js', 'AMSsymbols.js', 'action.js', 'color.js',
-				    "http://sonoisa.github.io/xyjax_ext/xypic.js"
-				]
+	static defaultProps = {
+		script:
+			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML',
+		options: {
+			extensions: ["tex2jax.js"],
+			jax: ["input/TeX", "output/HTML-CSS"],
+			"HTML-CSS": {
+				styles: {".MathJax_Preview": {visibility: "hidden"}}
 			},
-        }
-    };
+			"SVG": {
+				styles: {".MathJax_Preview": {visibility: "hidden"}}
+			},
+			tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
+			TeX: {extensions: ["http://sonoisa.github.io/xyjax_ext/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
+		}
+	};
 
-    constructor(props: *) {
-        super(props);
+	constructor(props: *) {
+		super(props);
 
-        this.state = {
-            MathJax: null,
-            registerNode: this.registerNode
-        };
-    }
+		this.state = {
+			MathJax: null,
+			registerNode: this.registerNode
+		};
+	}
 
-    componentDidMount() {
-        this.load();
-    }
+	componentDidMount() {
+		this.load();
+	}
 
-    componentDidUpdate() {
-        this.load();
-    }
+	componentDidUpdate() {
+		this.load();
+	}
 
-    // Is there any math nodes to typeset ?
-    hasNodes: boolean = false;
+	// Is there any math nodes to typeset ?
+	hasNodes: boolean = false;
 
-    // Have we already loaded MathJax ?
-    loaded: boolean = false;
+	// Have we already loaded MathJax ?
+	loaded: boolean = false;
 
-    /*
-     * Signal that there is at least one node to typeset.
-     * It will trigger the mathjax loading.
-     */
-    registerNode = () => {
-        this.hasNodes = true;
-    };
+	/*
+	 * Signal that there is at least one node to typeset.
+	 * It will trigger the mathjax loading.
+	 */
+	registerNode = () => {
+		this.hasNodes = true;
+	};
 
-    /*
-     * Load the MathJax library
-     */
-    load = () => {
-        const { script } = this.props;
+	/*
+	 * Load the MathJax library
+	 */
+	load = () => {
+		const {script} = this.props;
 
-        if (this.loaded || !this.hasNodes) {
-            return;
-        }
+		if (this.loaded || !this.hasNodes) {
+			return;
+		}
 
-        this.loaded = true;
+		this.loaded = true;
 
-        if (!script) {
-            this.onLoad(null);
-            return;
-        }
+		if (!script) {
+			this.onLoad(null);
+			return;
+		}
 
-        loadScript(script, this.onLoad);
-    };
+		loadScript(script, this.onLoad);
+	};
 
-    onLoad = (err: ?Error) => {
-        const { options } = this.props;
-        MathJax.Hub.Config(options);
+	onLoad = (err: ?Error) => {
+		const {options} = this.props;
+		MathJax.Hub.Config(options);
 
-        this.setState({
-            MathJax
-        });
-    };
+		this.setState({
+			MathJax
+		});
+	};
 
-    render() {
-        const { children } = this.props;
+	render() {
+		const {children} = this.props;
 
-        return (
-            <MathJaxContext.Provider value={this.state}>
-                {children}
-            </MathJaxContext.Provider>
-        );
-    }
+		return (
+			<MathJaxContext.Provider value={this.state}>
+				{children}
+			</MathJaxContext.Provider>
+		);
+	}
 }
 
 export default MathJaxProvider;

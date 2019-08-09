@@ -4,7 +4,9 @@ import {Scrollbars} from 'react-custom-scrollbars';
 import {Button} from 'react-desktop/windows';
 import getPage from "../../../requests/getPage";
 import contentProcessor from './pageRenderer/index'
-import MathJax from '../../../components/MathDisplay'
+// import MathJax from '../../../components/MathDisplay'
+import MathJax from 'react-mathjax'
+
 import ScriptTag from 'react-script-tag';
 
 export default function initElement(el) {
@@ -12,6 +14,23 @@ export default function initElement(el) {
 		'(f_1)_*x_1 \\ar[r]_a \\ar[d]_{(f_1)_*b_1} & (f_2)_*x_2 \\ar[d]^{(f_2)_*b_2} \\\\\n' +
 		'(f_1)_*x\'_1 \\ar[r]^{a\'} & (f_2)_*x\'_2.\n' +
 		'}B';
+	const props = {
+		script:
+			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML',
+		options: {
+			extensions: ["tex2jax.js"],
+			jax: ["input/TeX", "output/HTML-CSS"],
+			"HTML-CSS": {
+				styles: {".MathJax_Preview": {visibility: "hidden"}}
+			},
+			"SVG": {
+				styles: {".MathJax_Preview": {visibility: "hidden"}}
+			},
+			tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
+			TeX: {extensions: ["http://sonoisa.github.io/xyjax_ext/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
+		}
+	};
+
 
 	return (
 		<div key={el.i} data-grid={el}
@@ -52,19 +71,14 @@ export default function initElement(el) {
 			</div>
 
 			<Scrollbars>
-				<MathJax.Provider>
+				<MathJax.Provider {...props}>
 					<div>
-						This is an inline math formula: <MathJax.Node inline formula={'a = b'}/> And a block one:
+						This is an inline math formula: <MathJax.Node inline formula={'a = b'}/>
+						And a block one:
 
-						<MathJax.Node formula={'A\\xymatrix{\n' +
-		'(f_1)_*x_1 \\ar[r]_a \\ar[d]_{(f_1)_*b_1} & (f_2)_*x_2 \\ar[d]^{(f_2)_*b_2} \\\\\n' +
-		'(f_1)_*x\'_1 \\ar[r]^{a\'} & (f_2)_*x\'_2.\n' +
-		'}B'}/>
-
-
+						<MathJax.Node formula={latex}/>
 					</div>
 				</MathJax.Provider>
-
 
 				{/*{contentProcessor(this.state.paraText, this.props)}*/}
 			</Scrollbars>

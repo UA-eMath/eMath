@@ -4,7 +4,6 @@ import {Navbar,Nav} from 'react-bootstrap'
 
 import MenuDrawer from './MenuDrawer'
 import SubordinateDrawer from './SubordinateDrawer'
-
 const styles = {
 	logoDiv: {
 		width: '100%',
