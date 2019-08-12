@@ -4,32 +4,25 @@ import {Scrollbars} from 'react-custom-scrollbars';
 import {Button} from 'react-desktop/windows';
 import getPage from "../../../requests/getPage";
 import contentProcessor from './pageRenderer/index'
-// import MathJax from '../../../components/MathDisplay'
-import MathJax from 'react-mathjax'
 
 import ScriptTag from 'react-script-tag';
 
 export default function initElement(el) {
-	const latex = 'A\\xymatrix{\n' +
-		'(f_1)_*x_1 \\ar[r]_a \\ar[d]_{(f_1)_*b_1} & (f_2)_*x_2 \\ar[d]^{(f_2)_*b_2} \\\\\n' +
-		'(f_1)_*x\'_1 \\ar[r]^{a\'} & (f_2)_*x\'_2.\n' +
-		'}B';
-	const props = {
-		script:
-			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML',
-		options: {
-			extensions: ["tex2jax.js"],
-			jax: ["input/TeX", "output/HTML-CSS"],
-			"HTML-CSS": {
-				styles: {".MathJax_Preview": {visibility: "hidden"}}
-			},
-			"SVG": {
-				styles: {".MathJax_Preview": {visibility: "hidden"}}
-			},
-			tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
-			TeX: {extensions: ["http://sonoisa.github.io/xyjax_ext/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
-		}
-	};
+	// const latex = '\\xymatrix@!{\n' +
+	// 	'              && a \\ar[r] \\ar[d]   & b \\ar[r] \\ar[d]   & c \\ar[d]\n' +
+	// 	'                    \\ar`r[d]`[l]`^d[lll]|!{[];[d]}\\hole|!{[l];[dl]}\\hole|!{[ll];[dll]}\\hole\n' +
+	// 	'                    `[dddll]|!{[ddllll];[ddll]}\\hole [dddll]\n' +
+	// 	'                                                                       &   \\\\\n' +
+	// 	'              && A  \\ar[r]^{f} \\ar[d]      & B \\ar[d]  \\ar[r]^{g}      & C \\ar[r]  \\ar[d]  & 0 \\\\\n' +
+	// 	'    0 \\ar[rr] && X \\ar[d] \\ar[r]_{u}   & Y \\ar[d] \\ar[r]_{v}   & Z \\ar[d]        &   \\\\\n' +
+	// 	'              && x \\ar[r] & y \\ar[r] & z &   \\\\\n' +
+	// 	'    % vertical arrows\n' +
+	// 	'    \\ar"1,3";"2,3"   \\ar"1,4";"2,4"   \\ar"1,5";"2,5"\n' +
+	// 	'    \\ar"2,3";"3,3"^a \\ar"2,4";"3,4"^b \\ar"2,5";"3,5"^c\n' +
+	// 	'    \\ar"3,3";"4,3"   \\ar"3,4";"4,4"   \\ar"3,5";"4,5"\n' +
+	// 	'  }';
+
+
 
 
 	return (
@@ -71,16 +64,7 @@ export default function initElement(el) {
 			</div>
 
 			<Scrollbars>
-				<MathJax.Provider {...props}>
-					<div>
-						This is an inline math formula: <MathJax.Node inline formula={'a = b'}/>
-						And a block one:
-
-						<MathJax.Node formula={latex}/>
-					</div>
-				</MathJax.Provider>
-
-				{/*{contentProcessor(this.state.paraText, this.props)}*/}
+				{contentProcessor(this.state.paraText, this.props)}
 			</Scrollbars>
 		</div>
 	)
