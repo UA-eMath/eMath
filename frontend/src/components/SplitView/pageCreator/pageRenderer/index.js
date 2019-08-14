@@ -5,21 +5,37 @@ import MathJax from 'react-mathjax'
 export default function contentProcessor(paraText, props) {
 
 	return (_.map(paraText, (para) => {
+
 		para = linkMarker(para, props);
 		para = mathDisplay(para);
 
+		para = addCaption(para);
 		return para.content
 	}));
 
 
 }
 
+// give para caption here; style para here;
+function addCaption(para) {
+
+	if(para.caption !== "null" && para.caption !== ''){
+		para.content = <p><span style={{fontWeight: "bold"}}>{para.caption}</span>  <span>{para.content}</span> </p>
+	}else {
+		para.content = <p> <span>{para.content}</span> </p>
+	}
+
+	return para
+}
+
+//process latex
 function mathDisplay(para) {
 	//TODO: inline math or block math
 	const props = {
 		script:
 			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML',
 		options: {
+
 			extensions: ["tex2jax.js"],
 			jax: ["input/TeX", "output/HTML-CSS"],
 			"HTML-CSS": {
@@ -43,7 +59,6 @@ function mathDisplay(para) {
 	for (let i = 1; i < mathPart.length; i += 2) {
 
 		let isInline = mathPartWithinline[j].split(inline);
-		console.log(isInline);
 
 		if(isInline.length <= 1){
 			mathPart[i] = <MathJax.Provider {...props}>
@@ -63,6 +78,7 @@ function mathDisplay(para) {
 }
 
 
+// add link
 function linkMarker(para, props) {
 
 	let linkExtractor = new RegExp("<iLink.*?>(.*?)</iLink>", "g");
