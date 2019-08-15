@@ -11,7 +11,7 @@ export default function contentProcessor(paraText, props) {
 		// processingPara = linkMarker(processingPara, props);
 		// processingPara = mathDisplay(processingPara);
 		//
-		//processingPara = addCaption(processingPara);
+		processingPara = addCaption(processingPara);
 
 		return processingPara
 	}));
@@ -94,11 +94,8 @@ function mathDisplay(text, regex) {
 		}
 	};
 
-	let mathPart = text.split(regex.latex.phrase).filter(w=>w!=='');
+	let mathPart = text.split(regex.latex.phrase);
 
-	if (mathPart.length === 1) {
-		return text
-	}
 	console.log(mathPart);
 
 	return mathPart.map((mathText, j) => {
@@ -106,13 +103,15 @@ function mathDisplay(text, regex) {
 			return mathText
 		}
 		console.log(mathText);
-		let inline = (j % 2 !== 0) ? (mathText.split(regex.latex.inline)[j]) : null;
+		let inline = mathText.match(regex.latex.inline);
+		console.log(inline);
 		if (inline !== null) {
 			return (
 				<MathJax.Provider {...MathJaxConfig}>
 					<MathJax.Node inline formula={mathText.split(regex.latex.content)[1]}/>
 				</MathJax.Provider>)
 		} else {
+			//["inline = 'true'"]
 			return (
 				<MathJax.Provider {...MathJaxConfig}>
 					<div>
