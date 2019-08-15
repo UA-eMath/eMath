@@ -11,20 +11,22 @@ export default function contentProcessor(paraText, props) {
 		// processingPara = linkMarker(processingPara, props);
 		// processingPara = mathDisplay(processingPara);
 		//
-		processingPara = addCaption(processingPara);
 
-		return processingPara
+
+		processingPara = addCaption(processingPara, para.caption);
+
+		return (
+			<div>{processingPara}</div>
+		)
 	}));
 
 }
 
 // give para caption here; style para here;
-function addCaption(para) {
+function addCaption(para, caption) {
 
-	if (para.caption !== "null" && para.caption !== '') {
-		para.content = <p><span style={{fontWeight: "bold"}}>{para.caption}</span> <span>{para.content}</span></p>
-	} else {
-		para.content = <p><span>{para.content}</span></p>
+	if (caption !== "null" && caption !== '') {
+		para.unshift(<span style={{fontWeight: "bold"}}>{caption+ '  '}</span>);
 	}
 
 	return para
@@ -96,15 +98,13 @@ function mathDisplay(text, regex) {
 
 	let mathPart = text.split(regex.latex.phrase);
 
-	console.log(mathPart);
 
 	return mathPart.map((mathText, j) => {
-		if(j % 2 !== 1){
+		if (j % 2 !== 1) {
 			return mathText
 		}
-		console.log(mathText);
 		let inline = mathText.match(regex.latex.inline);
-		console.log(inline);
+
 		if (inline !== null) {
 			return (
 				<MathJax.Provider {...MathJaxConfig}>
