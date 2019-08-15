@@ -3,35 +3,80 @@ import React from 'react'
 import MathJax from 'react-mathjax'
 
 export default function contentProcessor(paraText, props) {
-
 	return (_.map(paraText, (para) => {
 
-		para = linkMarker(para, props);
-		para = mathDisplay(para);
+		let processingPara = para.content;
 
-		para = addCaption(para);
-		return para.content
+		processingPara = tagParser(processingPara, props);
+		// processingPara = linkMarker(processingPara, props);
+		// processingPara = mathDisplay(processingPara);
+		//
+		//processingPara = addCaption(processingPara);
+
+		return processingPara
 	}));
-
 
 }
 
 // give para caption here; style para here;
 function addCaption(para) {
 
-	if(para.caption !== "null" && para.caption !== ''){
-		para.content = <p><span style={{fontWeight: "bold"}}>{para.caption}</span>  <span>{para.content}</span> </p>
-	}else {
-		para.content = <p> <span>{para.content}</span> </p>
+	if (para.caption !== "null" && para.caption !== '') {
+		para.content = <p><span style={{fontWeight: "bold"}}>{para.caption}</span> <span>{para.content}</span></p>
+	} else {
+		para.content = <p><span>{para.content}</span></p>
 	}
 
 	return para
 }
 
+//tag processor
+function tagParser(para, props) {
+
+	// regexs to match tags in string
+	let regex = {
+		link: {
+			phrase: new RegExp("(<iLink.*?>.*?</iLink>)", "g"),
+			id: new RegExp("id = '(.*?)'", "g"),
+			content: new RegExp("<iLink.*?>(.*?)</iLink>", "g")
+		},
+		latex: {
+			phrase: new RegExp("(<MathDisplay.*?>.*?</MathDisplay>)", "g"),
+			inline: new RegExp("inline = '(.*?)'", 'g'),
+			content: new RegExp("<MathDisplay.*?>(.*?)</MathDisplay>", "g"),
+		}
+	};
+
+	let paragraphs = para.split(regex.link.phrase) || [];
+
+
+	paragraphs = paragraphs.map((text, i) => {
+		let id = (i % 2 !== 0) ? (text.split(regex.link.id)[i]) : null;
+
+		if (id !== null) {
+
+			text = text.split(regex.link.content)[1];
+
+			return (
+				<a onClick={() => props.onWindowOpen(id)} style={{color: 'red'}} key={i}>
+					{
+						mathDisplay(text, regex)
+					}
+				</a>
+			)
+		} else {
+			return mathDisplay(text, regex)
+		}
+	});
+
+	return paragraphs
+}
+
 //process latex
-function mathDisplay(para) {
+function mathDisplay(text, regex) {
 	//TODO: inline math or block math
-	const props = {
+
+	const MathJaxConfig = {
 		script:
 			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML',
 		options: {
@@ -49,59 +94,32 @@ function mathDisplay(para) {
 		}
 	};
 
-	let mathExtractor = new RegExp("<MathDisplay.*?>(.*?)</MathDisplay>", "g");
-	let inline = new RegExp("inline = '(.*?)'",'g');
+	let mathPart = text.split(regex.latex.phrase).filter(w=>w!=='');
 
-	let mathPartWithinline = para.content.match(mathExtractor);
-	let mathPart = para.content.split(mathExtractor);
+	if (mathPart.length === 1) {
+		return text
+	}
+	console.log(mathPart);
 
-	let j = 0;
-	for (let i = 1; i < mathPart.length; i += 2) {
-
-		let isInline = mathPartWithinline[j].split(inline);
-
-		if(isInline.length <= 1){
-			mathPart[i] = <MathJax.Provider {...props}>
+	return mathPart.map((mathText, j) => {
+		if(j % 2 !== 1){
+			return mathText
+		}
+		console.log(mathText);
+		let inline = (j % 2 !== 0) ? (mathText.split(regex.latex.inline)[j]) : null;
+		if (inline !== null) {
+			return (
+				<MathJax.Provider {...MathJaxConfig}>
+					<MathJax.Node inline formula={mathText.split(regex.latex.content)[1]}/>
+				</MathJax.Provider>)
+		} else {
+			return (
+				<MathJax.Provider {...MathJaxConfig}>
 					<div>
-						<MathJax.Node formula={mathPart[i]}/>
+						<MathJax.Node formula={mathText.split(regex.latex.content)[1]}/>
 					</div>
 				</MathJax.Provider>
-		}else {
-			mathPart[i] = <MathJax.Provider {...props}>
-						<MathJax.Node inline formula={mathPart[i]}/>
-				</MathJax.Provider>
+			)
 		}
-		j++;
-	}
-	para.content = mathPart;
-	return para
-}
-
-
-// add link
-function linkMarker(para, props) {
-
-	let linkExtractor = new RegExp("<iLink.*?>(.*?)</iLink>", "g");
-	let idExtractor = new RegExp("id = '(.*?)'", "g");
-
-	//mark link
-	let parts_with_id = para.content.match(linkExtractor);
-	let parts = para.content.split(linkExtractor);
-
-	//index to loop id array
-	let j = 0;
-
-	for (let i = 1; i < parts.length; i += 2) {
-		//get Link_to id
-		let id = parts_with_id[j].split(idExtractor)[1];
-
-		id = Number(id);
-		parts[i] = <a onClick={() => props.onWindowOpen(id)} style={{color: 'red'}}>{parts[i]}</a>;
-
-		j++;
-	}
-	para.content = parts[0];
-
-
-	return para
+	})
 }
