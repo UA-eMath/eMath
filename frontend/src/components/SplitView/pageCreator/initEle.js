@@ -53,6 +53,9 @@ export default function initElement(el) {
 }
 
 async function getNextPage(pageNum, setData) {
+	if (pageNum === null) {
+		return null
+	}
 	await getPage({page: pageNum + 1}).then(nextPage => {
 		if (!nextPage || nextPage.status !== 200) {
 			console.error("FETCH_TAGS_FAILED", nextPage);
@@ -67,6 +70,9 @@ async function getNextPage(pageNum, setData) {
 }
 
 async function getPrePage(pageNum, setData) {
+	if (pageNum === null) {
+		return null
+	}
 	await getPage({page: pageNum - 1}).then(prePage => {
 		if (!prePage || prePage.status !== 200) {
 			console.error("FETCH_TAGS_FAILED", prePage);
