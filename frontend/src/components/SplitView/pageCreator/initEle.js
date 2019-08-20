@@ -16,11 +16,13 @@ export default function initElement(el) {
 					() => {
 						getPrePage(this.state.para_parent.pageNum,
 							(prePageData) => {
-								this.setState({
-									pageTitle: prePageData[0].para_parent.title,
-									para_parent: prePageData[0].para_parent,
-									paraText: prePageData,
-								})
+								if (prePageData) {
+									this.setState({
+										pageTitle: prePageData[0].para_parent.title,
+										para_parent: prePageData[0].para_parent,
+										paraText: prePageData,
+									})
+								}
 							}
 						)
 					}
@@ -32,13 +34,17 @@ export default function initElement(el) {
 
 				<Button className='ml-auto' onClick={
 					() => {
+						console.log(this.state);
 						getNextPage(this.state.para_parent.pageNum,
 							(nextPageData) => {
-								this.setState({
-									pageTitle: nextPageData[0].para_parent.title,
-									para_parent: nextPageData[0].para_parent,
-									paraText: nextPageData,
-								});
+
+								if (nextPageData) {
+									this.setState({
+										pageTitle: nextPageData[0].para_parent.title,
+										para_parent: nextPageData[0].para_parent,
+										paraText: nextPageData,
+									});
+								}
 							}
 						)
 					}

@@ -45,6 +45,7 @@ class SplitView extends React.Component {
 			paraText: [],
 			pageTitle: null,
 			para_parent:null,
+			pageNum:0
 		};
 
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);

@@ -30,7 +30,6 @@ export function tagParser(para, props) {
 
 	let paragraphs = para.split(regex.link.phrase) || [];
 
-
 	paragraphs = paragraphs.map((text, i) => {
 		let id = (i % 2 !== 0) ? (text.split(regex.link.id)[i]) : null;
 
@@ -56,7 +55,6 @@ export function tagParser(para, props) {
 //process latex
 function mathDisplay(text, regex) {
 	//TODO: inline math or block math
-
 	const MathJaxConfig = {
 		script:
 			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML',
@@ -71,7 +69,7 @@ function mathDisplay(text, regex) {
 				styles: {".MathJax_Preview": {visibility: "hidden"}}
 			},
 			tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
-			TeX: {extensions: ["http://sonoisa.github.io/xyjax_ext/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
+			TeX: {extensions: ["[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
 		}
 	};
 
@@ -86,7 +84,7 @@ function mathDisplay(text, regex) {
 
 		if (inline !== null) {
 			return (
-				<MathJax.Provider {...MathJaxConfig}>
+				<MathJax.Provider {...MathJaxConfig} >
 					<MathJax.Node inline formula={mathText.split(regex.latex.content)[1]}/>
 				</MathJax.Provider>)
 		} else {
