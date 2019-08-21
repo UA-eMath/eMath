@@ -14,13 +14,15 @@ export default function initElement(el) {
 
 				<Button onClick={
 					() => {
-						getPrePage(this.state.para_parent.pageNum,
+						getPrePage(this.state.pageNum,
 							(prePageData) => {
 								if (prePageData) {
+									let num = this.state.pageNum - 1;
 									this.setState({
 										pageTitle: prePageData[0].para_parent.title,
 										para_parent: prePageData[0].para_parent,
 										paraText: prePageData,
+										pageNum: num
 									})
 								}
 							}
@@ -34,15 +36,15 @@ export default function initElement(el) {
 
 				<Button className='ml-auto' onClick={
 					() => {
-						console.log(this.state);
-						getNextPage(this.state.para_parent.pageNum,
+						getNextPage(this.state.pageNum,
 							(nextPageData) => {
-
+							let num = this.state.pageNum + 1;
 								if (nextPageData) {
 									this.setState({
 										pageTitle: nextPageData[0].para_parent.title,
 										para_parent: nextPageData[0].para_parent,
 										paraText: nextPageData,
+										pageNum: num
 									});
 								}
 							}
@@ -59,14 +61,12 @@ export default function initElement(el) {
 }
 
 async function getNextPage(pageNum, setData) {
-	if (pageNum === null) {
-		return null
-	}
 	await getPage({page: pageNum + 1}).then(nextPage => {
 		if (!nextPage || nextPage.status !== 200) {
 			console.error("FETCH_TAGS_FAILED", nextPage);
 		}
 		else if (nextPage.data.length === 0) {
+
 			return null
 		}
 		else {
@@ -76,7 +76,7 @@ async function getNextPage(pageNum, setData) {
 }
 
 async function getPrePage(pageNum, setData) {
-	if (pageNum === null) {
+	if (pageNum-1 < 0) {
 		return null
 	}
 	await getPage({page: pageNum - 1}).then(prePage => {
