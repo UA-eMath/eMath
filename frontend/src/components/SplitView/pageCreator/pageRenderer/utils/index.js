@@ -54,7 +54,6 @@ export function tagParser(para, props) {
 
 //process latex
 function mathDisplay(text, regex) {
-	//TODO: inline math or block math
 	const MathJaxConfig = {
 		script:
 			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML',
@@ -69,7 +68,7 @@ function mathDisplay(text, regex) {
 				styles: {".MathJax_Preview": {visibility: "hidden"}}
 			},
 			tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
-			TeX: {extensions: ["[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
+			TeX: {extensions: ["[Extra]/annotation.js","[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
 		}
 	};
 
