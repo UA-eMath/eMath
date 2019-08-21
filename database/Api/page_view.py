@@ -19,7 +19,6 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 			#return first page
 			pages = Level.objects.filter(isPage=True)[0]
 
-		print(pages)
 		return self.getParas(pages)
 
 	def getParas(self,root):
@@ -28,7 +27,6 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 
 		while root.get_children() or root.para_set.all():
 			mergedList = self.mergeAndSort(root.get_children(),root.para_set.all())
-			print(mergedList)
 			for obj in mergedList:
 				if obj.__class__.__name__ == 'Para':
 					paras.append(obj)

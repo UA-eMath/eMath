@@ -31,12 +31,14 @@ export default class subordinateDrawer extends React.Component {
 
 	componentDidMount() {
 		let id = this.props.props.params.id;
-		fetchTocTree(id,(data) => {
+		fetchTocTree(id, (data) => {
 			this.setState(
 				{
 					treeData: data
 				}
 			);
+			console.log(this.state.treeData);
+
 		});
 	}
 
@@ -59,11 +61,9 @@ export default class subordinateDrawer extends React.Component {
 							<Tree
 								switcherIcon={<Icon type="down"/>}
 								style={styles.Tree}
-								defaultExpandAll ={true}
+								defaultExpandAll={true}
 							>
-
 								{this.renderTreeNodes(this.state.treeData)}
-
 							</Tree>
 						</TabPane>
 
@@ -102,15 +102,17 @@ export default class subordinateDrawer extends React.Component {
 	};
 
 	renderTreeNodes = data =>
-		data.map(item => {
-			if (item.children) {
-				return (
-					<TreeNode title={item.tocTitle} key={item.id} dataRef={item}>
-						{this.renderTreeNodes(item.children)}
-					</TreeNode>
-				);
-			}
-			return <TreeNode {...item} />;
+		data.filter((item)=>{
+			return item.tocTitle !== null
+		}).map(item => {
+				if (item.children) {
+					return (
+						<TreeNode title={item.tocTitle} key={item.id} dataRef={item}>
+							{this.renderTreeNodes(item.children)}
+						</TreeNode>
+					);
+				}
+				return <TreeNode {...item} />;
 		});
 
 }

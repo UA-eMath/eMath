@@ -5,8 +5,9 @@ from rest_framework.response import Response
 from django.shortcuts import get_list_or_404
 
 class TOCViewSet(viewsets.ReadOnlyModelViewSet):
-	queryset = Level.objects.filter(level=0)
+	queryset = Level.objects.filter(level=0,isPage=False)
 
+	print(queryset)
 	permission_classes = [
 		permissions.AllowAny
 	]

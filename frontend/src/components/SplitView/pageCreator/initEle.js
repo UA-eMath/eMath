@@ -38,7 +38,7 @@ export default function initElement(el) {
 					() => {
 						getNextPage(this.state.pageNum,
 							(nextPageData) => {
-							let num = this.state.pageNum + 1;
+								let num = this.state.pageNum + 1;
 								if (nextPageData) {
 									this.setState({
 										pageTitle: nextPageData[0].para_parent.title,
@@ -76,7 +76,7 @@ async function getNextPage(pageNum, setData) {
 }
 
 async function getPrePage(pageNum, setData) {
-	if (pageNum-1 < 0) {
+	if (pageNum - 1 < 0) {
 		return null
 	}
 	await getPage({page: pageNum - 1}).then(prePage => {
