@@ -6,7 +6,7 @@
  *
  *  ---------------------------------------------------------------------
  *
- *  Copyright (c) 2013 Yuri Sulyma <yuri@sulyma.ca>.
+ *  Copyright (c) 2013 Yuri Sulyma <yuri@lmqm.xyz>.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 
 (() => {
 
-MathJax.Extension.annotations = {version: '1.7'};
+MathJax.Extension.annotations = {version: "2.0"};
 
 const beginGroupReady = new Promise((resolve, reject) => {
   MathJax.Hub.Register.StartupHook("TeX begingroup Ready", resolve);
@@ -47,8 +47,9 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", async () => {
   // register the \Annotate command
   TEXDEF.Add({
     macros: {
-      Annotate: 'Annotate',
-      annotate: 'annotate'
+      Annotate: "Annotate",
+      annotate: "annotate",
+      data: "data"
     }
   }, null, true);
 
@@ -73,7 +74,7 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", async () => {
 
     // provide the \Annotate command
     Annotate(name) {
-      const type = this.GetBrackets(name, ''),
+      const type = this.GetBrackets(name, ""),
             cmd = this.GetArgument(name).match(/^\\(.+)$/)[1],
             annotation = this.GetArgument(name);
 
@@ -83,11 +84,11 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", async () => {
       // modify the macro
       if (!macro.annotated) {
         // redefine the command to include the annotations
-        const args = ['\\' + cmd].concat(macro.slice(1));
+        const args = ["\\" + cmd].concat(macro.slice(1));
 
         this.setDef(cmd, function(name) {
           // get the original definition
-          const [str, params] = TEX.Parse('', {}).ExpandMacro.apply(this, args);
+          const [str, params] = TEX.Parse("", {}).ExpandMacro.apply(this, args);
 
           // stick that into a <semantics> element
           const math = TEX.Parse(str, this.stack.env).mml(),
@@ -101,7 +102,7 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", async () => {
           // now, add the annotations...
           for (const type in annotations) {
             // expand
-            const annotation = this.SubstituteArgs(params, annotations[type]).replace(/\\#/g, '#');
+            const annotation = this.SubstituteArgs(params, annotations[type]).replace(/\\#/g, "#");
 
             mml.Append(MML.annotation(annotation).With({name: type, isToken: true}));
           }
@@ -134,12 +135,12 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", async () => {
     // provide the \annotate command
     annotate(name) {
       // parse the args
-      const types = this.GetBrackets(name, '').split(','),
+      const types = this.GetBrackets(name, "").split(","),
             expr = this.GetArgument(name),
             annotations = {};
 
       for (const type of types)
-        annotations[type] = this.GetArgument(name).replace(/\\#/g, '#');
+        annotations[type] = this.GetArgument(name).replace(/\\#/g, "#");
 
       // render the math
       const math = TEX.Parse(expr, this.stack.env).mml(),
@@ -149,6 +150,21 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", async () => {
         const annotation = annotations[type];
         mml.Append(MML.annotation(annotation).With({name: type, isToken: true}));
       }
+
+      this.Push(mml);
+    },
+
+    // provide the \data command
+    data(name) {
+      // parse the args
+      const dataset = this.GetArgument(name),
+            expr = this.GetArgument(name);
+
+      // render the math
+      const math = TEX.Parse(expr, this.stack.env).mml(),
+            mml = MML.semantics(math);
+
+      mml.Append(MML.annotation().With({dataset: JSON.parse(`{${dataset}}`), isToken: true}));
 
       this.Push(mml);
     }
@@ -167,9 +183,15 @@ MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready", () => {
       // add the annotations
       for (let i = 1; i < this.data.length; ++i) {
         const d = this.data[i];
-        if (d !== null && d.type === 'annotation') {
-          const attr = 'data-annotation' + (d.name ? `_${d.name}` : '');
-          span.setAttribute(attr, d.data[0]);
+        if (d !== null && d.type === "annotation") {
+          if (d.hasOwnProperty("name")) {
+            const attr = "data-annotation" + (d.name ? `_${d.name}` : "");
+            span.setAttribute(attr, d.data[0]);
+          } else if (d.hasOwnProperty("dataset")) {
+            span.classList.add("dataset");
+            span.classList.remove("semantics");
+            Object.assign(span.dataset, d.dataset);
+          }
         }
       }
 
@@ -185,24 +207,29 @@ MathJax.Hub.Register.StartupHook("SVG Jax Ready", () => {
 
   MML.semantics.Augment({
     toSVG() {
-      this.class = 'semantics';
       const svg = MML_semantics_toSVG.call(this);
 
       // add the annotations
       for (let i = 1; i < this.data.length; ++i) {
         const d = this.data[i];
-        if (d !== null && d.type === 'annotation') {
-          const attr = 'data-annotation' + (d.name ? `_${d.name}` : '');
-          svg.element.setAttribute(attr, d.data[0]);
+        if (d !== null && d.type === "annotation") {
+          if (d.hasOwnProperty("name")) {
+            this.class = "semantics";
+            const attr = "data-annotation" + (d.name ? `_${d.name}` : "");
+            svg.element.setAttribute(attr, d.data[0]);
+          } else if (d.hasOwnProperty("dataset")) {
+            this.class = "dataset";
+            Object.assign(svg.element.dataset, d.dataset);
+          }
         }
       }
 
       // rectangular click region
-      SVG.addElement('rect', {
-        fill: 'none',
+      SVG.addElement(svg.element, "rect", {
+        fill: "none",
         height: svg.h + svg.d,
-        'pointer-events': 'all',
-        stroke: 'none',
+        "pointer-events": "all",
+        stroke: "none",
         width: svg.w,
         y: -svg.d
       });
@@ -228,6 +255,6 @@ function csFindAnnotations(name, eqnStack, rootStack) {
   return {};
 }
 
-MathJax.Ajax.loadComplete("[Extra]/annotation.js");
+MathJax.Ajax.loadComplete("[Extra]/annotations.js");
 
 })();

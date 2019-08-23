@@ -56,9 +56,8 @@ export function tagParser(para, props) {
 function mathDisplay(text, regex) {
 	const MathJaxConfig = {
 		script:
-			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML',
+			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML',
 		options: {
-
 			extensions: ["tex2jax.js"],
 			jax: ["input/TeX", "output/HTML-CSS"],
 			"HTML-CSS": {
@@ -68,7 +67,7 @@ function mathDisplay(text, regex) {
 				styles: {".MathJax_Preview": {visibility: "hidden"}}
 			},
 			tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
-			TeX: {extensions: ["[Extra]/annotation.js","[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
+			TeX: {extensions: ["[Extra]/annotations.js","[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
 		}
 	};
 
