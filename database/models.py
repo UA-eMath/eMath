@@ -1,5 +1,6 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from django.contrib.postgres.fields import JSONField
 
 '''
 yaozhilu
@@ -55,18 +56,19 @@ class Para(models.Model):
 	'''
 	This class represents a paragraph structure.
 
-			content : text of paragraph
-			external_link : an external url
+			content :
+			An Json object. It must contains tree children: "text", "Table", "list". They indicates object types.
+				"text" is one plain paragraph
+				"table" is nested JSON structure of a table
+				"list"  is a nested array
+
 			position : position of this paragraph in upper structure
-			para_type : format of paragraph; e.g. Text, Table(in Json), List(in Json)
 			caption : caption of this paragraph
-			internal_link : #
 
 	'''
 
-	content = models.TextField()
+	content = JSONField()
 	position = models.IntegerField()
-	para_type = models.CharField(max_length=15)
 	caption = models.CharField(max_length=100, null=True, blank=True)
 
 	para_parent = models.ForeignKey(
