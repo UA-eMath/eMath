@@ -1,7 +1,7 @@
 import MathJax from 'react-mathjax'
 import React from 'react'
 import style from "../../../styles/style";
-
+import './index.css'
 /*
 
 A Para JSON structure is following:
@@ -131,7 +131,17 @@ export function mathDisplay(text, regex) {
 /*
 
 List processor
-
+	A list object should be look like:
+	"list":{"tag":"ol/ul",
+			"content":[
+			"1.",
+			"2.",
+			{"tag":"ol/li",
+			"content":[
+				"1.1",
+				"1.2"]}
+			}
+			]
  */
 
 export function listProcessor(listContent) {
@@ -147,16 +157,15 @@ export function listProcessor(listContent) {
 
 	return (
 		<List>
-			{/*{listDataProcessor(listContent.content)}*/}
 			{listContent.content.map(data => {
-				// if(typeof(data)==='object'){
-				//
-				// 	return(
-				// 		<List>
-				// 			{listDataProcessor(data)}
-				// 		</List>
-				// 	)
-				// }
+				if (typeof(data) === 'object') {
+
+					return (
+						<List>
+							{listProcessor(data)}
+						</List>
+					)
+				}
 				return (
 					<li>
 						{tagParser(data)}
@@ -168,7 +177,3 @@ export function listProcessor(listContent) {
 
 }
 
-function listDataProcessor(dataArray, List) {
-
-
-}
