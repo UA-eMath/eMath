@@ -37,7 +37,6 @@ export default class subordinateDrawer extends React.Component {
 					treeData: data
 				}
 			);
-			console.log(this.state.treeData);
 
 		});
 	}

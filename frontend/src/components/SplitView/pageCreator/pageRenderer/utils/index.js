@@ -1,11 +1,41 @@
 import MathJax from 'react-mathjax'
 import React from 'react'
+import style from "../../../styles/style";
+
+/*
+
+A Para JSON structure is following:
+	{
+	"text":"",
+	"table":"",
+	"list":""
+	}
+
+NOTE:
+	1. a list can contain a table:
+	{
+	...
+	"list":{"table":""},
+	...
+	}
+
+ */
+//////////////////////////////////////////////////////////////////
+
+/*
+
+Text processor:
+	1. add a caption in front of a para
+	2. add link
+	3. add math display
+
+ */
 
 // give para caption here; style para here;
 export function addCaption(para, caption) {
 
 	if (caption !== "null" && caption !== '') {
-		para.unshift(<span style={{fontWeight: "bold",paddingRight:"1.00em"}}>{caption}</span>);
+		para.unshift(<span style={{fontWeight: "bold", paddingRight: "1.00em"}}>{caption}</span>);
 	}
 
 	return para
@@ -27,8 +57,7 @@ export function tagParser(para, props) {
 			content: new RegExp("<MathDisplay.*?>(.*?)</MathDisplay>", "g"),
 		}
 	};
-
-	let paragraphs = para.split(regex.link.phrase) || [];
+	let paragraphs = para.split(regex.link.phrase);
 
 	paragraphs = paragraphs.map((text, i) => {
 		let id = (i % 2 !== 0) ? (text.split(regex.link.id)[i]) : null;
@@ -53,7 +82,7 @@ export function tagParser(para, props) {
 }
 
 //process latex
-function mathDisplay(text, regex) {
+export function mathDisplay(text, regex) {
 	const MathJaxConfig = {
 		script:
 			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML',
@@ -67,7 +96,7 @@ function mathDisplay(text, regex) {
 				styles: {".MathJax_Preview": {visibility: "hidden"}}
 			},
 			tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
-			TeX: {extensions: ["[Extra]/annotations.js","[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
+			TeX: {extensions: ["[Extra]/annotations.js", "[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
 		}
 	};
 
@@ -99,3 +128,47 @@ function mathDisplay(text, regex) {
 }
 
 
+/*
+
+List processor
+
+ */
+
+export function listProcessor(listContent) {
+
+	const List = listContent["tag"];
+
+	// style={
+	//
+	// 	OL { counter-reset: item }
+	// 	LI { display: block }
+	// 	LI:before { content: counters(item, ".") " "; counter-increment: item }
+	// }
+
+	return (
+		<List>
+			{/*{listDataProcessor(listContent.content)}*/}
+			{listContent.content.map(data => {
+				// if(typeof(data)==='object'){
+				//
+				// 	return(
+				// 		<List>
+				// 			{listDataProcessor(data)}
+				// 		</List>
+				// 	)
+				// }
+				return (
+					<li>
+						{tagParser(data)}
+					</li>
+				)
+			})}
+		</List>
+	)
+
+}
+
+function listDataProcessor(dataArray, List) {
+
+
+}

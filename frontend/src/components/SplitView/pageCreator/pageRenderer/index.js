@@ -4,17 +4,31 @@ import * as utils from './utils'
 
 export default function contentProcessor(paraText, props) {
 	return (_.map(paraText, (para) => {
-		console.log(para);
 		let processingPara = para.content;
+		let text, list, table;
+		if (processingPara["text"]) {
+			processingPara = utils.tagParser(processingPara["text"], props);
+			text = utils.addCaption(processingPara, para.caption);
+		}
 
-		processingPara = utils.tagParser(processingPara, props);
-		processingPara = utils.addCaption(processingPara, para.caption);
+		if (processingPara["table"]) {
 
+		}
+
+		if (processingPara["list"]) {
+			list = utils.listProcessor(processingPara.list);
+			console.log(list)
+		}
 
 		return (
 			<div>
-				{processingPara}
+				<p>
+					{text}
+					{table}
+				</p>
+				{list}
 			</div>
+
 		)
 	}));
 
