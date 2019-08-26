@@ -57,12 +57,15 @@ class SplitView extends React.Component {
 		let page = null;
 
 		const pageContent = await getPage({id: id, page: page});
-		this.setState({
-			pageTitle: pageContent.data[0].para_parent.title,
-			para_parent:pageContent.data[0].para_parent,
-			paraText: pageContent.data,
+		console.log(pageContent);
+		if (pageContent.data.length >0) {
+			this.setState({
+				pageTitle: pageContent.data[0].para_parent.title,
+				para_parent: pageContent.data[0].para_parent,
+				paraText: pageContent.data,
 
-		});
+			});
+		}
 
 	}
 
