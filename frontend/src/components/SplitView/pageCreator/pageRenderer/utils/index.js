@@ -196,20 +196,33 @@ direction: v => table head on top row
  */
 
 export function tableProcessor(tableContent) {
+	console.log(tableContent);
+
 	const direction = tableContent["direction"];
 	let tableData = tableContent["data"];
 	return (
 		<table>
 			{tableData.map((tableRow, i) => {
+				if (typeof(tableRow) === 'object' && tableRow["table"]) {
+					return (
+						tableProcessor(tableRow["table"])
+					)
+				} else if (typeof(tableRow) === "object" && tableRow["list"]) {
+					const List = tableRow["list"]["tag"];
+					return (
+						<tr>
+							<td>
+								<List>
+									{listProcessor(tableRow["list"])}
+								</List>
+							</td>
+						</tr>
+					)
+				}
 				return (
 					<tr>
 						{
 							tableRow.map((tableData, j) => {
-								if (typeof(tableData) === 'object') {
-									return (
-										tableProcessor(tableData)
-									)
-								}
 								if (direction === 'v' && (i === 0)) {
 									return (
 										<th>
