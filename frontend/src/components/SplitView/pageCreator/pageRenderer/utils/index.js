@@ -148,22 +148,25 @@ export function listProcessor(listContent) {
 
 	const List = listContent["tag"];
 
-	// style={
-	//
-	// 	OL { counter-reset: item }
-	// 	LI { display: block }
-	// 	LI:before { content: counters(item, ".") " "; counter-increment: item }
-	// }
-
 	return (
 		<List>
 			{listContent.content.map(data => {
-				if (typeof(data) === 'object') {
 
+				if (typeof(data) === "object" && data["tag"]) {
 					return (
 						<List>
 							{listProcessor(data)}
 						</List>
+					)
+
+				} else if (typeof (data) === "object" && data["table"]) {
+
+					return (
+						<div>
+							{console.log(tableProcessor(data["table"]))}
+							{tableProcessor(data["table"])}
+
+						</div>
 					)
 				}
 				return (
@@ -174,6 +177,66 @@ export function listProcessor(listContent) {
 			})}
 		</List>
 	)
+}
+
+/*
+
+table processor
+	A table object should be look like:
+	"table":{"direction":"v/h",
+			"data":[
+					   ["this ,"are "],
+					   ["table","data"],
+					   ["arrays are", "table rows"]
+					]
+			}
+direction: v => table head on top row
+		   h => table head on left column
+
+ */
+
+export function tableProcessor(tableContent) {
+	const direction = tableContent["direction"];
+	let tableData = tableContent["data"];
+	return (
+		<table>
+			{tableData.map((tableRow, i) => {
+				return (
+					<tr>
+						{
+							tableRow.map((tableData, j) => {
+								if (typeof(tableData) === 'object') {
+									return (
+										tableProcessor(tableData)
+									)
+								}
+								if (direction === 'v' && (i === 0)) {
+									return (
+										<th>
+											{tagParser(tableData)}
+										</th>
+									)
+								} else if (direction === 'h' && j === 0) {
+									return (
+										<th>
+											{tagParser(tableData)}
+										</th>
+									)
+								}
+
+								return (
+									<td>
+										{tagParser(tableData)}
+									</td>
+								)
+							})
+						}
+					</tr>
+				)
+			})}
+		</table>
+	);
 
 }
+
 
