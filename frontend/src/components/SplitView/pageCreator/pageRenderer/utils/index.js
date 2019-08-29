@@ -1,7 +1,7 @@
 import MathJax from 'react-mathjax'
 import React from 'react'
-import style from "../../../styles/style";
 import './index.css'
+import _ from "lodash"
 /*
 
 A Para JSON structure is following:
@@ -149,12 +149,12 @@ export function listProcessor(listContent) {
 	const List = listContent["tag"];
 
 	return (
-		<List>
+		<List key={_.uniqueId("List_")}>
 			{listContent.content.map(data => {
 
 				if (typeof(data) === "object" && data["tag"]) {
 					return (
-						<List>
+						<List key={_.uniqueId("List_")}>
 							{listProcessor(data)}
 						</List>
 					)
@@ -162,30 +162,30 @@ export function listProcessor(listContent) {
 				} else if (typeof (data) === "object" && data["table"]) {
 
 					return (
-						<li>
+						<li key={_.uniqueId("Table_")}>
 							{tableProcessor(data["table"])}
 						</li>
 					)
 				} else if (Array.isArray(data)) {
 					return (
-						<li>
+						<li key={_.uniqueId("Array_")}>
 							{
 								data.map(mixData => {
 									if (typeof (mixData) === "string") {
 										return (
-											<p>
+											<p key={_.uniqueId("Array_p_")}>
 												{tagParser(mixData)}
 											</p>
 										)
 									} else if (typeof(mixData) === "object" && mixData["tag"]) {
 										return (
-											<List>
+											<List key={_.uniqueId("Array_List_")}>
 												{listProcessor(mixData)}
 											</List>
 										)
 									} else if (typeof (mixData) === "object" && mixData["table"]) {
 										return (
-											<div>
+											<div key={_.uniqueId("Array_Table_")}>
 												{tableProcessor(mixData["table"])}
 											</div>
 										)
@@ -197,7 +197,7 @@ export function listProcessor(listContent) {
 					)
 				}
 				return (
-					<li>
+					<li key={_.uniqueId("Li_")}>
 						{tagParser(data)}
 					</li>
 				)
@@ -223,13 +223,14 @@ direction: v => table head on top row
  */
 
 export function tableProcessor(tableContent) {
-	console.log(tableContent);
 
 	const direction = tableContent["direction"];
 	let tableData = tableContent["data"];
 	return (
 		<table>
+			<tbody>
 			{tableData.map((tableRow, i) => {
+				let rid = "row" + i.toString();
 				if (typeof(tableRow) === 'object' && tableRow["table"]) {
 					return (
 						tableProcessor(tableRow["table"])
@@ -237,7 +238,7 @@ export function tableProcessor(tableContent) {
 				} else if (typeof(tableRow) === "object" && tableRow["list"]) {
 					const List = tableRow["list"]["tag"];
 					return (
-						<tr>
+						<tr key={rid}>
 							<td>
 								<List>
 									{listProcessor(tableRow["list"])}
@@ -247,25 +248,26 @@ export function tableProcessor(tableContent) {
 					)
 				}
 				return (
-					<tr>
+					<tr key={rid}>
 						{
 							tableRow.map((tableData, j) => {
+								let id = i.toString() + j.toString();
 								if (direction === 'v' && (i === 0)) {
 									return (
-										<th>
+										<th key={id}>
 											{tagParser(tableData)}
 										</th>
 									)
 								} else if (direction === 'h' && j === 0) {
 									return (
-										<th>
+										<th key={id}>
 											{tagParser(tableData)}
 										</th>
 									)
 								}
 
 								return (
-									<td>
+									<td key={id}>
 										{tagParser(tableData)}
 									</td>
 								)
@@ -274,6 +276,7 @@ export function tableProcessor(tableContent) {
 					</tr>
 				)
 			})}
+			</tbody>
 		</table>
 	);
 

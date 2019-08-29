@@ -1,3 +1,9 @@
+/*
+
+LIST CSS
+
+*/
+
 /* Numbered lists like 1, 1.1, 2.2.1... */
 ol li {
 	display: block;
@@ -31,6 +37,11 @@ ul > ul {
 	padding-left: 20px;
 }
 
+/*
+
+TABLE CSS
+
+*/
 table, th, td {
 	border: 1px solid black;
 	border-collapse: collapse;
