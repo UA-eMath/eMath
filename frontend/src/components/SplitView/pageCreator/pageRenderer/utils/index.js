@@ -162,11 +162,38 @@ export function listProcessor(listContent) {
 				} else if (typeof (data) === "object" && data["table"]) {
 
 					return (
-						<div>
-							{console.log(tableProcessor(data["table"]))}
+						<li>
 							{tableProcessor(data["table"])}
+						</li>
+					)
+				} else if (Array.isArray(data)) {
+					return (
+						<li>
+							{
+								data.map(mixData => {
+									if (typeof (mixData) === "string") {
+										return (
+											<p>
+												{tagParser(mixData)}
+											</p>
+										)
+									} else if (typeof(mixData) === "object" && mixData["tag"]) {
+										return (
+											<List>
+												{listProcessor(mixData)}
+											</List>
+										)
+									} else if (typeof (mixData) === "object" && mixData["table"]) {
+										return (
+											<div>
+												{tableProcessor(mixData["table"])}
+											</div>
+										)
+									}
+								})
+							}
 
-						</div>
+						</li>
 					)
 				}
 				return (
