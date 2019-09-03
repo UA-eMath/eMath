@@ -67,7 +67,7 @@ class Para(models.Model):
 
 	'''
 
-	content = JSONField()
+	content = JSONField(default= dict({"text":"","table":"","list":""}))
 	position = models.IntegerField()
 	caption = models.CharField(max_length=100, null=True, blank=True)
 

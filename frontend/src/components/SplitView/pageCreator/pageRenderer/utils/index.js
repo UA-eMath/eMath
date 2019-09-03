@@ -43,7 +43,7 @@ export function addCaption(para, caption) {
 
 //tag processor
 export function tagParser(para, props) {
-
+	// props = store.getProps();
 	// regexs to match tags in string
 	let regex = {
 		link: {
@@ -144,7 +144,7 @@ List processor
 			]
  */
 
-export function listProcessor(listContent) {
+export function listProcessor(listContent,props) {
 
 	const List = listContent["tag"];
 
@@ -155,7 +155,7 @@ export function listProcessor(listContent) {
 				if (typeof(data) === "object" && data["tag"]) {
 					return (
 						<List key={_.uniqueId("List_")}>
-							{listProcessor(data)}
+							{listProcessor(data,props)}
 						</List>
 					)
 
@@ -163,7 +163,7 @@ export function listProcessor(listContent) {
 
 					return (
 						<li key={_.uniqueId("Table_")}>
-							{tableProcessor(data["table"])}
+							{tableProcessor(data["table"],props)}
 						</li>
 					)
 				} else if (Array.isArray(data)) {
@@ -174,19 +174,19 @@ export function listProcessor(listContent) {
 									if (typeof (mixData) === "string") {
 										return (
 											<p key={_.uniqueId("Array_p_")}>
-												{tagParser(mixData)}
+												{tagParser(mixData,props)}
 											</p>
 										)
 									} else if (typeof(mixData) === "object" && mixData["tag"]) {
 										return (
 											<List key={_.uniqueId("Array_List_")}>
-												{listProcessor(mixData)}
+												{listProcessor(mixData,props)}
 											</List>
 										)
 									} else if (typeof (mixData) === "object" && mixData["table"]) {
 										return (
 											<div key={_.uniqueId("Array_Table_")}>
-												{tableProcessor(mixData["table"])}
+												{tableProcessor(mixData["table"],props)}
 											</div>
 										)
 									}
@@ -198,7 +198,7 @@ export function listProcessor(listContent) {
 				}
 				return (
 					<li key={_.uniqueId("Li_")}>
-						{tagParser(data)}
+						{tagParser(data,props)}
 					</li>
 				)
 			})}
@@ -222,7 +222,7 @@ direction: v => table head on top row
 
  */
 
-export function tableProcessor(tableContent) {
+export function tableProcessor(tableContent,props) {
 
 	const direction = tableContent["direction"];
 	let tableData = tableContent["data"];
@@ -233,7 +233,7 @@ export function tableProcessor(tableContent) {
 				let rid = "row" + i.toString();
 				if (typeof(tableRow) === 'object' && tableRow["table"]) {
 					return (
-						tableProcessor(tableRow["table"])
+						tableProcessor(tableRow["table"],props)
 					)
 				} else if (typeof(tableRow) === "object" && tableRow["list"]) {
 					const List = tableRow["list"]["tag"];
@@ -241,7 +241,7 @@ export function tableProcessor(tableContent) {
 						<tr key={rid}>
 							<td>
 								<List>
-									{listProcessor(tableRow["list"])}
+									{listProcessor(tableRow["list"],props)}
 								</List>
 							</td>
 						</tr>
@@ -255,20 +255,20 @@ export function tableProcessor(tableContent) {
 								if (direction === 'v' && (i === 0)) {
 									return (
 										<th key={id}>
-											{tagParser(tableData)}
+											{tagParser(tableData,props)}
 										</th>
 									)
 								} else if (direction === 'h' && j === 0) {
 									return (
 										<th key={id}>
-											{tagParser(tableData)}
+											{tagParser(tableData,props)}
 										</th>
 									)
 								}
 
 								return (
 									<td key={id}>
-										{tagParser(tableData)}
+										{tagParser(tableData,props)}
 									</td>
 								)
 							})

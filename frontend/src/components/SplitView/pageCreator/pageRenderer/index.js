@@ -13,11 +13,11 @@ export default function contentProcessor(paraText, props) {
 		}
 
 		if (processingPara["table"]) {
-			table = utils.tableProcessor(processingPara["table"])
+			table = utils.tableProcessor(processingPara["table"],props)
 		}
 
 		if (processingPara["list"]) {
-			list = utils.listProcessor(processingPara["list"]);
+			list = utils.listProcessor(processingPara["list"],props);
 
 		}
 

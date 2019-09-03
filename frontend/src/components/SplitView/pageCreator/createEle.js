@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from "../styles/style";
 import Scrollbars from 'react-custom-scrollbars';
-import Scrollbar from "react-scrollbars-custom";
 
 import TitleBar from '../../TitleBar';
 import {connect} from "react-redux";
@@ -41,12 +40,15 @@ class CreateElement extends React.Component {
 
 		const pageContent = await getPage({id: pageId, page: null});
 
-		this.setState({
-			pageTitle: pageContent.data[0].para_parent.title,
-			para_parent: pageContent.data[0].para_parent,
-			paraText: pageContent.data,
+		if (pageContent.data.length !== 0) {
+			this.setState({
+				pageTitle: pageContent.data[0].para_parent.title,
+				para_parent: pageContent.data[0].para_parent,
+				paraText: pageContent.data,
 
-		});
+			});
+		}
+
 	}
 
 	render() {
@@ -58,7 +60,6 @@ class CreateElement extends React.Component {
 			     className={`wrapper ${this.props.className}`}
 			     style={{...styles.window, ...this.props.style}}
 			>
-				{console.log(this.props)}
 				<Scrollbars>
 					{this.props.children}
 
