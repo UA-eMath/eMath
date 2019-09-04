@@ -1,7 +1,6 @@
 import _ from "lodash";
 import React from 'react'
 import * as utils from './utils'
-import MathJax from 'react-mathjax'
 
 export default function contentProcessor(paraText, props) {
 
