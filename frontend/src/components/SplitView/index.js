@@ -17,6 +17,8 @@ import CreateElement from './pageCreator/createEle'
 import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle"
 
+import MathJaxConfig from '../../constants/MathJax_config'
+import MathJax from 'react-mathjax'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -70,7 +72,7 @@ class SplitView extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<MathJax.Provider {...MathJaxConfig} >
 				<ResponsiveReactGridLayout
 					className="layout"
 					cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
@@ -96,7 +98,7 @@ class SplitView extends React.Component {
 					})}
 
 				</ResponsiveReactGridLayout>
-			</div>
+			</MathJax.Provider>
 		);
 	}
 

@@ -35,7 +35,8 @@ Text processor:
 export function addCaption(para, caption) {
 
 	if (caption !== "null" && caption !== '') {
-		para.unshift(<span key={_.uniqueId("caption_")} style={{fontWeight: "bold", paddingRight: "1.00em"}}>{caption}</span>);
+		para.unshift(<span key={_.uniqueId("caption_")}
+		                   style={{fontWeight: "bold", paddingRight: "1.00em"}}>{caption}</span>);
 	}
 
 	return para
@@ -83,25 +84,24 @@ export function tagParser(para, props) {
 
 //process latex
 export function mathDisplay(text, regex) {
-	const MathJaxConfig = {
-		script:
-			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML',
-		options: {
-			extensions: ["tex2jax.js"],
-			jax: ["input/TeX", "output/HTML-CSS"],
-			"HTML-CSS": {
-				styles: {".MathJax_Preview": {visibility: "hidden"}}
-			},
-			"SVG": {
-				styles: {".MathJax_Preview": {visibility: "hidden"}}
-			},
-			tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
-			TeX: {extensions: ["[Extra]/annotations.js", "[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
-		}
-	};
+	// const MathJaxConfig = {
+	// 	script:
+	// 		'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML',
+	// 	options: {
+	// 		extensions: ["tex2jax.js"],
+	// 		jax: ["input/TeX", "output/HTML-CSS"],
+	// 		"HTML-CSS": {
+	// 			styles: {".MathJax_Preview": {visibility: "hidden"}}
+	// 		},
+	// 		"SVG": {
+	// 			styles: {".MathJax_Preview": {visibility: "hidden"}}
+	// 		},
+	// 		tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
+	// 		TeX: {extensions: ["[Extra]/annotations.js", "[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
+	// 	}
+	// };
 
 	let mathPart = text.split(regex.latex.phrase);
-
 
 	return mathPart.map((mathText, j) => {
 		if (j % 2 !== 1) {
@@ -111,17 +111,15 @@ export function mathDisplay(text, regex) {
 
 		if (inline !== null) {
 			return (
-				<MathJax.Provider {...MathJaxConfig} >
-					<MathJax.Node inline formula={mathText.split(regex.latex.content)[1]}/>
-				</MathJax.Provider>)
+				<MathJax.Node key={_.uniqueId('MJN_')} inline formula={mathText.split(regex.latex.content)[1]}/>
+			)
+
 		} else {
 			//["inline = 'true'"]
 			return (
-				<MathJax.Provider {...MathJaxConfig}>
-					<div>
-						<MathJax.Node formula={mathText.split(regex.latex.content)[1]}/>
-					</div>
-				</MathJax.Provider>
+				<div key={_.uniqueId('MJN_')}>
+					<MathJax.Node formula={mathText.split(regex.latex.content)[1]} />
+				</div>
 			)
 		}
 	})
@@ -144,7 +142,7 @@ List processor
 			]
  */
 
-export function listProcessor(listContent,props) {
+export function listProcessor(listContent, props) {
 
 	const List = listContent["tag"];
 
@@ -155,7 +153,7 @@ export function listProcessor(listContent,props) {
 				if (typeof(data) === "object" && data["tag"]) {
 					return (
 						<List key={_.uniqueId("List_")}>
-							{listProcessor(data,props)}
+							{listProcessor(data, props)}
 						</List>
 					)
 
@@ -163,7 +161,7 @@ export function listProcessor(listContent,props) {
 
 					return (
 						<li key={_.uniqueId("Table_")}>
-							{tableProcessor(data["table"],props)}
+							{tableProcessor(data["table"], props)}
 						</li>
 					)
 				} else if (Array.isArray(data)) {
@@ -174,19 +172,19 @@ export function listProcessor(listContent,props) {
 									if (typeof (mixData) === "string") {
 										return (
 											<p key={_.uniqueId("Array_p_")}>
-												{tagParser(mixData,props)}
+												{tagParser(mixData, props)}
 											</p>
 										)
 									} else if (typeof(mixData) === "object" && mixData["tag"]) {
 										return (
 											<List key={_.uniqueId("Array_List_")}>
-												{listProcessor(mixData,props)}
+												{listProcessor(mixData, props)}
 											</List>
 										)
 									} else if (typeof (mixData) === "object" && mixData["table"]) {
 										return (
 											<div key={_.uniqueId("Array_Table_")}>
-												{tableProcessor(mixData["table"],props)}
+												{tableProcessor(mixData["table"], props)}
 											</div>
 										)
 									}
@@ -199,7 +197,7 @@ export function listProcessor(listContent,props) {
 				}
 				return (
 					<li key={_.uniqueId("Li_")}>
-						{tagParser(data,props)}
+						{tagParser(data, props)}
 					</li>
 				)
 			})}
@@ -223,7 +221,7 @@ direction: v => table head on top row
 
  */
 
-export function tableProcessor(tableContent,props) {
+export function tableProcessor(tableContent, props) {
 
 	const direction = tableContent["direction"];
 	let tableData = tableContent["data"];
@@ -234,7 +232,7 @@ export function tableProcessor(tableContent,props) {
 				let rid = "row" + i.toString();
 				if (typeof(tableRow) === 'object' && tableRow["table"]) {
 					return (
-						tableProcessor(tableRow["table"],props)
+						tableProcessor(tableRow["table"], props)
 					)
 				} else if (typeof(tableRow) === "object" && tableRow["list"]) {
 					const List = tableRow["list"]["tag"];
@@ -242,7 +240,7 @@ export function tableProcessor(tableContent,props) {
 						<tr key={rid}>
 							<td>
 								<List>
-									{listProcessor(tableRow["list"],props)}
+									{listProcessor(tableRow["list"], props)}
 								</List>
 							</td>
 						</tr>
@@ -256,20 +254,20 @@ export function tableProcessor(tableContent,props) {
 								if (direction === 'v' && (i === 0)) {
 									return (
 										<th key={id}>
-											{tagParser(tableData,props)}
+											{tagParser(tableData, props)}
 										</th>
 									)
 								} else if (direction === 'h' && j === 0) {
 									return (
 										<th key={id}>
-											{tagParser(tableData,props)}
+											{tagParser(tableData, props)}
 										</th>
 									)
 								}
 
 								return (
 									<td key={id}>
-										{tagParser(tableData,props)}
+										{tagParser(tableData, props)}
 									</td>
 								)
 							})
