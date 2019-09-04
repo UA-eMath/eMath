@@ -23,10 +23,10 @@ export default function contentProcessor(paraText, props) {
 
 		return (
 			<div key={_.uniqueId("div_")}>
-				<p>
+				<div>
 					{text}
 					{table}
-				</p>
+				</div>
 				{list}
 			</div>
 

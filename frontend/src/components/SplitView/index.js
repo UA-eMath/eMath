@@ -44,8 +44,7 @@ class SplitView extends React.Component {
 		this.state = {
 			paraText: [],
 			pageTitle: null,
-			para_parent:null,
-			pageNum : 1
+			para_parent: null,
 		};
 
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -57,7 +56,7 @@ class SplitView extends React.Component {
 		let page = null;
 
 		const pageContent = await getPage({id: id, page: page});
-		if (pageContent.data.length >0) {
+		if (pageContent.data.length > 0) {
 			this.setState({
 				pageTitle: pageContent.data[0].para_parent.title,
 				para_parent: pageContent.data[0].para_parent,
@@ -67,6 +66,7 @@ class SplitView extends React.Component {
 		}
 
 	}
+
 
 	render() {
 		return (
@@ -91,7 +91,7 @@ class SplitView extends React.Component {
 						else {
 							const i = el.add ? "+" : el.i;
 
-							return (<CreateElement key={i} data-grid={el} />)
+							return (<CreateElement key={i} data-grid={el}/>)
 						}
 					})}
 

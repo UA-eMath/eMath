@@ -32,7 +32,7 @@ export function minimizeWindow(id) {
 
 export function openSubWindow(id) {
 		return function (dispatch) {
-			dispatch(openNewWindow);
+			dispatch(openNewWindow(id));
 			dispatch(closeSubs(id))
 		}
 }

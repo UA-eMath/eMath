@@ -5,6 +5,7 @@ import loadScript from 'load-script';
 import MathJaxContext, {type MathJaxContextValue} from './context';
 
 class MathJaxProvider extends React.Component<*, *> {
+	_isMounted = false;
 	props: {
 		script?: string | boolean,
 		options?: Object,
@@ -15,18 +16,13 @@ class MathJaxProvider extends React.Component<*, *> {
 
 	static defaultProps = {
 		script:
-			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML',
+			'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
 		options: {
-			extensions: ["tex2jax.js"],
-			jax: ["input/TeX", "output/HTML-CSS"],
-			"HTML-CSS": {
-				styles: {".MathJax_Preview": {visibility: "hidden"}}
+			tex2jax: {
+				inlineMath: []
 			},
-			"SVG": {
-				styles: {".MathJax_Preview": {visibility: "hidden"}}
-			},
-			tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
-			TeX: {extensions: ["http://sonoisa.github.io/xyjax_ext/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
+			showMathMenu: false,
+			showMathMenuMSIE: false
 		}
 	};
 
@@ -40,13 +36,24 @@ class MathJaxProvider extends React.Component<*, *> {
 	}
 
 	componentDidMount() {
-		this.load();
+		this._isMounted = true;
+		if (this._isMounted) {
+			this.load();
+		}
 	}
 
 	componentDidUpdate() {
-		this.load();
+		this._isMounted = true;
+		if (this._isMounted) {
+			this.load();
+		}
 	}
 
+	componentWillUnmount() {
+		this._isMounted = false;
+		console.log(this._isMounted);
+
+	}
 	// Is there any math nodes to typeset ?
 	hasNodes: boolean = false;
 

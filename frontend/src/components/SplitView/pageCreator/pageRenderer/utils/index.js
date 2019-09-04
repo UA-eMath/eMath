@@ -35,7 +35,7 @@ Text processor:
 export function addCaption(para, caption) {
 
 	if (caption !== "null" && caption !== '') {
-		para.unshift(<span style={{fontWeight: "bold", paddingRight: "1.00em"}}>{caption}</span>);
+		para.unshift(<span key={_.uniqueId("caption_")} style={{fontWeight: "bold", paddingRight: "1.00em"}}>{caption}</span>);
 	}
 
 	return para
@@ -53,7 +53,7 @@ export function tagParser(para, props) {
 		},
 		latex: {
 			phrase: new RegExp("(<MathDisplay.*?>.*?</MathDisplay>)", "g"),
-			inline: new RegExp("inline = '(.*?)'", 'g'),
+			inline: new RegExp("inline", 'g'),
 			content: new RegExp("<MathDisplay.*?>(.*?)</MathDisplay>", "g"),
 		}
 	};
@@ -190,6 +190,7 @@ export function listProcessor(listContent,props) {
 											</div>
 										)
 									}
+									return null
 								})
 							}
 
