@@ -11,7 +11,8 @@ const subordinates = (state = initState_subs, action)=>{
 			return Object.assign({},state,{
 				subs: state.subs.concat({
 					i: action.id,
-					title:action.title
+					title:action.title,
+					pageId:action.pageId
 				})
 			});
 

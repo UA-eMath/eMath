@@ -18,8 +18,8 @@ const mapDispatchToProps = dispatch => ({
 		dispatch(openNewWindow(pageId)),
 	onCloseWindow: (id) =>
 		dispatch(closeWindow(id)),
-	minimizeWindow: (id,title) =>
-		dispatch(minimizeWindow(id,title)),
+	minimizeWindow: (id,title,pageId) =>
+		dispatch(minimizeWindow(id,title,pageId)),
 	onLayoutChange: () =>
 		dispatch(onLayoutChange),
 });
@@ -86,8 +86,7 @@ class CreateElement extends React.Component {
 							this.props.onCloseWindow(i)
 						}}
 						onMinimizeClick={() => {
-							console.log(this.state.pageTitle);
-							this.props.minimizeWindow(i,this.state.pageTitle)
+							this.props.minimizeWindow(i,this.state.pageTitle,this.props['data-grid'].pageId)
 						}}
 					/>
 					{/*content will not show if put scrollbars inside a div*/}

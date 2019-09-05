@@ -20,25 +20,25 @@ export const onLayoutChange =  ({
 
 
 
-export function minimizeWindow(id,title) {
-		console.log(title);
+export function minimizeWindow(id,title,pageId) {
 		return function (dispatch) {
 			dispatch(closeWindow(id));
-			dispatch(addSubs(id,title));
+			dispatch(addSubs(id,title,pageId));
 		}
 }
 
-export function openSubWindow(id) {
+export function openSubWindow(id,pageId) {
 		return function (dispatch) {
-			dispatch(openNewWindow(id));
+			dispatch(openNewWindow(pageId));
 			dispatch(closeSubs(id))
 		}
 }
 
-export const addSubs = (id,title)=> ({
+export const addSubs = (id,title,pageId)=> ({
 	type: types.ADD_SUBS,
 	title,
-	id
+	id,
+	pageId
 });
 
 export const closeSubs = id => ({

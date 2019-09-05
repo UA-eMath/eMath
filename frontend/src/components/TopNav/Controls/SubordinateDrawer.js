@@ -26,8 +26,8 @@ const mapStateToProps = state => {
 
 
 const mapDispatchToProps = dispatch => ({
-	openSubWindow: (id) =>
-		dispatch(openSubWindow(id)),
+	openSubWindow: (id,pageId) =>
+		dispatch(openSubWindow(id,pageId)),
 
 	closeSubs: (id) =>
 		dispatch(closeSubs(id)),
@@ -58,10 +58,7 @@ class SubordinateDrawer extends React.Component {
 
 					{
 						this.props.subs.map((el) => {
-								console.log(el);
-
 								return (
-
 									<div
 										key={el.i}
 										style={{marginBottom: '5px'}}
@@ -74,7 +71,7 @@ class SubordinateDrawer extends React.Component {
 												overflow: 'hidden'
 											}}
 											onClick={() => {
-												this.props.openSubWindow(el.i)
+												this.props.openSubWindow(el.i,el.pageId)
 											}}
 										>
 											{el.title}
