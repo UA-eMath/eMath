@@ -33,7 +33,9 @@ const windows = (state = initState_windows, action) => {
 					newCounter: state.newCounter + 1
 				});
 			}
-			break;
+			else {
+				return state;
+			}
 
 
 		case 'CLOSE_WINDOW':
