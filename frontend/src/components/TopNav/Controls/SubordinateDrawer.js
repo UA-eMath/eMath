@@ -58,7 +58,7 @@ class SubordinateDrawer extends React.Component {
 
 					{
 						this.props.subs.map((el) => {
-								console.log(this.props);
+								console.log(el);
 
 								return (
 
@@ -77,7 +77,7 @@ class SubordinateDrawer extends React.Component {
 												this.props.openSubWindow(el.i)
 											}}
 										>
-											{el.i}
+											{el.title}
 										</Button>
 
 										<Button type={'danger'}

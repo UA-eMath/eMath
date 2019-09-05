@@ -18,8 +18,8 @@ const mapDispatchToProps = dispatch => ({
 		dispatch(openNewWindow(pageId)),
 	onCloseWindow: (id) =>
 		dispatch(closeWindow(id)),
-	minimizeWindow: (id) =>
-		dispatch(minimizeWindow(id)),
+	minimizeWindow: (id,title) =>
+		dispatch(minimizeWindow(id,title)),
 	onLayoutChange: () =>
 		dispatch(onLayoutChange),
 });
@@ -86,10 +86,10 @@ class CreateElement extends React.Component {
 							this.props.onCloseWindow(i)
 						}}
 						onMinimizeClick={() => {
-							this.props.minimizeWindow(i)
+							console.log(this.state.pageTitle);
+							this.props.minimizeWindow(i,this.state.pageTitle)
 						}}
 					/>
-
 					{/*content will not show if put scrollbars inside a div*/}
 					{contentProcessor(this.state.paraText, this.props)}
 

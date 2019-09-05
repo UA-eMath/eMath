@@ -22,13 +22,13 @@ const windows = (state = initState_windows, action) => {
 			if (typeof action.pageId !== "undefined") {
 				return Object.assign({}, state, {
 					items: state.items.concat({
-						i: action.pageId,
+						i: "n" + state.newCounter,
 						x: 6,
 						y: 0, // puts it at the bottom
 						w: 6,
 						h: 4,
 						static: false,
-						pageId: action.pageId
+						pageId : action.pageId
 					}),
 					newCounter: state.newCounter + 1
 				});

@@ -3,7 +3,7 @@ import * as types from '../constants/ActionTypes'
 
 
 
-export const openNewWindow = pageId => ({
+export const openNewWindow = (pageId) => ({
 	type: types.OPEN_NEW_WINDOW,
 	pageId
 });
@@ -20,13 +20,11 @@ export const onLayoutChange =  ({
 
 
 
-export function minimizeWindow(id) {
-		return function (dispatch,getState) {
-			const title = getState().windows.items.find(el=> el.i===id).title;
-
+export function minimizeWindow(id,title) {
+		console.log(title);
+		return function (dispatch) {
 			dispatch(closeWindow(id));
-			dispatch(addSubs(title,id));
-
+			dispatch(addSubs(id,title));
 		}
 }
 
@@ -37,7 +35,7 @@ export function openSubWindow(id) {
 		}
 }
 
-export const addSubs = (title,id)=> ({
+export const addSubs = (id,title)=> ({
 	type: types.ADD_SUBS,
 	title,
 	id
