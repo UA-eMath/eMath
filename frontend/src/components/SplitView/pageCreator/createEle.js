@@ -64,6 +64,7 @@ class CreateElement extends React.Component {
 	}
 
 	componentWillUnmount() {
+		this._isMounted = false;
 	}
 
 	render() {

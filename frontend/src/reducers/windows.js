@@ -45,6 +45,7 @@ const windows = (state = initState_windows, action) => {
 			});
 
 		case 'ON_LAYOUT_CHANGE':
+			// MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 			return state;
 
 
