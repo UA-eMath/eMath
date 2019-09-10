@@ -75,7 +75,7 @@ class MenuDrawer extends React.Component {
 								style={styles.Tree}
 								defaultExpandAll={true}
 							>
-								{this.renderTreeNodes(this.state.treeData, this.props)}
+								{this.renderTreeNodes(this.state.treeData.slice(0,-1))}
 							</Tree>
 						</TabPane>
 
@@ -85,7 +85,7 @@ class MenuDrawer extends React.Component {
 								style={styles.Tree}
 								defaultExpandAll={true}
 							>
-								{this.renderTreeNodes(this.state.treeData, this.props)}
+								{this.renderTreeNodes(this.state.treeData.slice(-1))}
 							</Tree>
 
 						</TabPane>
@@ -128,7 +128,6 @@ class MenuDrawer extends React.Component {
 		data.filter((item) => {
 			return item.tocTitle !== null
 		}).map(item => {
-
 			if (item.children) {
 				if (item.isPage) {
 					return (
@@ -156,7 +155,6 @@ class MenuDrawer extends React.Component {
 
 			return (<TreeNode key={item.id} {...item} selectable={false}/>);
 		});
-
 }
 
 export default connect(null, mapDispatchToProps)(MenuDrawer)
