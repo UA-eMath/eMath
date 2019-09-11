@@ -18,8 +18,8 @@ import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle"
 
 import MathJaxConfig from '../../constants/MathJax_config'
-import MathJax from 'react-mathjax'
-
+// import MathJax from 'react-mathjax'
+import MathJax from './../MathDisplay'
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const mapStateToProps = state => {

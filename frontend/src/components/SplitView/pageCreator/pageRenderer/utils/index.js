@@ -1,4 +1,5 @@
-import MathJax from 'react-mathjax'
+// import MathJax from 'react-mathjax'
+import MathJax from '../../../../MathDisplay'
 import React from 'react'
 import './index.css'
 import _ from "lodash"
@@ -147,9 +148,8 @@ export function listProcessor(listContent, props) {
 	const List = listContent["tag"];
 
 	return (
-		<List key={_.uniqueId("List_")}>
+		<List>
 			{listContent.content.map(data => {
-
 				if (typeof(data) === "object" && data["tag"]) {
 					return (
 						<List key={_.uniqueId("List_")}>
