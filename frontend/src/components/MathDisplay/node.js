@@ -63,7 +63,6 @@ class NodeWithMathJax extends React.Component<*, *> {
      */
     typeset(forceUpdate) {
         const { MathJax, formula, onRender } = this.props;
-
         if (!MathJax) {
             return;
         }
@@ -83,6 +82,8 @@ class NodeWithMathJax extends React.Component<*, *> {
                 }
             });
         } else {
+        	console.log(this.script);
+
             const script = this.setScriptText(formula);
             process(MathJax, script, onRender);
         }

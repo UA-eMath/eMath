@@ -53,7 +53,7 @@ class Person(models.Model):
 
 
 def default_para_dict():
-	return {"text": "", "table": "", "list": ""}
+	return {"text" : "", "table": "", "list": ""}
 
 class Para(models.Model):
 	'''

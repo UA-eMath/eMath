@@ -15,7 +15,7 @@ function process(
     pendingCallbacks.push(callback);
     if (!needsProcess) {
         needsProcess = true;
-        setTimeout(() => doProcess(MathJax), 0);
+        setTimeout(() => doProcess(MathJax), 1000);
     }
 }
 
@@ -23,7 +23,6 @@ function doProcess(MathJax: Object) {
     MathJax.Hub.Queue(() => {
         const oldElementScripts = MathJax.Hub.elementScripts;
         MathJax.Hub.elementScripts = element => pendingScripts;
-
         try {
             return MathJax.Hub.Process(null, () => {
                 // Trigger all of the pending callbacks before clearing them
