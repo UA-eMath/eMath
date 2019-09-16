@@ -4,7 +4,6 @@ import * as utils from './utils'
 
 export default function contentProcessor(paraText, props) {
 
-
 	return (_.map(paraText, para => {
 		let processingPara = para.content;
 		let text, list, table;

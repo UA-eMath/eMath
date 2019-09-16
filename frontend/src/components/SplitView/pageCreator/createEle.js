@@ -25,7 +25,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class CreateElement extends React.Component {
-	_isMounted = false;
 
 	constructor(props) {
 		super(props);
@@ -39,32 +38,27 @@ class CreateElement extends React.Component {
 	async componentDidMount() {
 		//this.props['data-grid'] stores this window's information
 		let pageId = this.props['data-grid'].pageId;
-		this._isMounted = true;
+		const pageContent = await getPage({id: pageId, page: null});
 
-		if (this._isMounted) {
-			const pageContent = await getPage({id: pageId, page: null});
+		if (pageContent.data.length !== 0) {
+			this.setState({
+				pageTitle: pageContent.data[0].para_parent.title,
+				para_parent: pageContent.data[0].para_parent,
+				paraText: pageContent.data,
 
-			if (pageContent.data.length !== 0) {
-				this.setState({
-					pageTitle: pageContent.data[0].para_parent.title,
-					para_parent: pageContent.data[0].para_parent,
-					paraText: pageContent.data,
+			});
+		} else {
+			this.setState({
+				pageTitle: [],
+				para_parent: null,
+				paraText: null,
 
-				});
-			} else {
-				this.setState({
-					pageTitle: [],
-					para_parent: null,
-					paraText: null,
-
-				});
-			}
+			});
 		}
 
 	}
 
 	componentWillUnmount() {
-		this._isMounted = false;
 	}
 
 	render() {

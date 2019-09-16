@@ -37,6 +37,7 @@ class NodeWithMathJax extends React.Component<*, *> {
      * Clear the math when unmounting the node
      */
     componentWillUnmount() {
+        this.clear();
     }
 
     container = React.createRef();

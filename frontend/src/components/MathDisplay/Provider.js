@@ -51,9 +51,8 @@ class MathJaxProvider extends React.Component<*, *> {
 
 	componentWillUnmount() {
 		this._isMounted = false;
-		console.log(this._isMounted);
-
 	}
+
 	// Is there any math nodes to typeset ?
 	hasNodes: boolean = false;
 
@@ -73,7 +72,6 @@ class MathJaxProvider extends React.Component<*, *> {
 	 */
 	load = () => {
 		const {script} = this.props;
-
 		if (this.loaded || !this.hasNodes) {
 			return;
 		}
@@ -92,9 +90,18 @@ class MathJaxProvider extends React.Component<*, *> {
 		const {options} = this.props;
 		MathJax.Hub.Config(options);
 
-		this.setState({
-			MathJax
+		MathJax.Hub.Register.StartupHook('End', () => {
+			this.setState({
+				MathJax
+			});
 		});
+
+		MathJax.Hub.Register.MessageHook("Math PreProcessing Error", (message) => {
+			if (this.props.onError) {
+				this.props.onError(MathJax, message);
+			}
+		})
+
 	};
 
 	render() {
