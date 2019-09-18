@@ -54,7 +54,14 @@ export default function initElement(el) {
 			</div>
 
 			<Scrollbars>
-				{contentProcessor(this.state.paraText, this.props)}
+				<div style={{background: '#EAE7DC',
+                    borderRadius: '2px',
+				    boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
+				    margin: '1em .9em',
+				    padding: '.25em 1.25em .1em'
+			}}>
+					{contentProcessor(this.state.paraText, this.props)}
+				</div>
 			</Scrollbars>
 		</div>
 	)

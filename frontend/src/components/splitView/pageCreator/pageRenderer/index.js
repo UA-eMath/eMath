@@ -1,10 +1,15 @@
 import _ from "lodash";
 import React from 'react'
 import * as utils from './utils'
+import { Card } from 'antd';
 
 export default function contentProcessor(paraText, props) {
 
 	return (_.map(paraText, para => {
+		if(Array.isArray(para)){
+			return blockOfPara(para);
+		}
+
 		let processingPara = para.content;
 		let text, list, table;
 
@@ -33,4 +38,19 @@ export default function contentProcessor(paraText, props) {
 		)
 	}));
 
+}
+
+
+function blockOfPara(dataArray) {
+	return(
+		<div
+			style={{background: '#EEE2DC',
+                    borderRadius: '2px',
+				    boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
+				    margin: '1em .9em',
+				    padding: '.25em 1.25em .1em'
+			}}>
+			{contentProcessor(dataArray)}
+		</div>
+	)
 }
