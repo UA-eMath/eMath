@@ -1,10 +1,26 @@
 from presentation.models import Level,Para
 from rest_framework import viewsets
 from presentation.Serializers.para_serializers import ParaSerializers
+from rest_framework.response import Response
 
 
 class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 	serializer_class = ParaSerializers
+
+	def  list(self, request, *args, **kwargs):
+		queryset = self.get_queryset()
+
+		return  Response(self.serilalizeNestList(queryset))
+
+	def serilalizeNestList(self,array):
+		result = []
+		for item in array:
+			if isinstance(item,list):
+				result.append(self.serilalizeNestList(item))
+			else:
+				data = self.get_serializer(item).data
+				result.append(data)
+		return result
 
 	def get_queryset(self):
 		page_num = self.request.query_params.get('page',None)
@@ -26,13 +42,17 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 		paras = []
 
 		while root.get_children() or root.para_set.all():
+			#insert Level object inside para list
 			mergedList = self.mergeAndSort(root.get_children(),root.para_set.all())
+
+			#recursive insertion
 			for obj in mergedList:
 				if obj.__class__.__name__ == 'Para':
 					paras.append(obj)
 				else:
-					for i in self.getParas(obj) or []:
-						paras.append(i)
+					blockParas = self.getParas(obj)
+					if blockParas != []:
+						paras.append(blockParas)
 
 			return paras
 
