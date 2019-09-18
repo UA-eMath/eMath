@@ -1,9 +1,9 @@
 import React from 'react';
-import TopNav from './components/TopNav';
+import TopNav from './components/topNav';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 
-import SplitView from './components/SplitView'
-import BookDisplay from "./components/BookDisplay";
+import SplitView from './components/splitView'
+import BookDisplay from "./components/bookDisplay";
 
 export default class App extends React.Component {
 

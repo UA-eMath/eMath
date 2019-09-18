@@ -15,7 +15,7 @@ function process(
     pendingCallbacks.push(callback);
     if (!needsProcess) {
         needsProcess = true;
-        setTimeout(() => doProcess(MathJax), 1000);
+        setTimeout(() => doProcess(MathJax), 800);
     }
 }
 

@@ -1,5 +1,5 @@
 // import MathJax from 'react-mathjax'
-import MathJax from '../../../../MathDisplay'
+import MathJax from '../../../../mathDisplay'
 
 import React from 'react'
 import './index.css'

@@ -2,7 +2,7 @@ import React from 'react'
 import styles from "../styles/style";
 import Scrollbars from 'react-custom-scrollbars';
 
-import TitleBar from '../../TitleBar';
+import TitleBar from '../../titleBar';
 import {connect} from "react-redux";
 import {closeWindow, minimizeWindow, onLayoutChange, openNewWindow} from "../../../actions";
 import getPage from "../../../requests/getPage";

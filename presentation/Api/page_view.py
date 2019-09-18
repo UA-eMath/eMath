@@ -37,22 +37,22 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 			return paras
 
 
-	def mergeAndSort(self,a1,a2):
+	def mergeAndSort(self,block,paras):
 		res = []
 		i = 0
 		j = 0
-		while i < len(a1) and j < len(a2):
-			if a1[i].position < a2[j].position:
-				res.append(a1[i])
+		while i < len(block) and j < len(paras):
+			if block[i].position < paras[j].position:
+				res.append(block[i])
 				i += 1
 			else:
-				res.append(a2[j])
+				res.append(paras[j])
 				j += 1
 
-		for item in a1[i:]:
+		for item in block[i:]:
 			res.append(item)
 
-		for item in a2[j:]:
+		for item in paras[j:]:
 			res.append(item)
 		return res
 

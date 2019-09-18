@@ -19,7 +19,7 @@ import initElement from "./pageCreator/initEle"
 
 import MathJaxConfig from '../../constants/MathJax_config'
 // import MathJax from 'react-mathjax'
-import MathJax from '../MathDisplay'
+import MathJax from '../mathDisplay'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
