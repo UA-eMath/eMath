@@ -1,7 +1,9 @@
 import React from 'react'
 import styles from "../styles/style";
 import {Scrollbars} from 'react-custom-scrollbars';
-import {Button} from 'react-desktop/windows';
+import {NextButton } from '../styles/nextButton';
+import {PreButton} from '../styles/preButton';
+
 import getPage from "../../../requests/getPage";
 import contentProcessor from './pageRenderer/index'
 
@@ -12,7 +14,7 @@ export default function initElement(el) {
 		     style={{...styles.window}}>
 			<div style={{...styles.titleBar}}>
 
-				<Button onClick={
+				<PreButton onClick={
 					() => {
 						getPrePage(this.state.pageNum,
 							(prePageData) => {
@@ -27,14 +29,14 @@ export default function initElement(el) {
 								}
 							}
 						)
-					}
-				}>Pre</Button>
+					}}/>
+
 
 				<span style={{...styles.title}}>
 								{this.state.pageTitle}
 							</span>
 
-				<Button className='ml-auto' onClick={
+				<NextButton className='ml-auto' onClick={
 					() => {
 						getNextPage(this.state.pageNum,
 							(nextPageData) => {
@@ -50,11 +52,12 @@ export default function initElement(el) {
 							}
 						)
 					}
-				}>Next</Button>
+				}/>
+
 			</div>
 
 			<Scrollbars>
-				<div style={{background: '#EAE7DC',
+				<div style={{background: '#F7F7EE',
                     borderRadius: '2px',
 				    boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
 				    margin: '1em .9em',

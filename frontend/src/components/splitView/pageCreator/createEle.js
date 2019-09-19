@@ -85,7 +85,7 @@ class CreateElement extends React.Component {
 						}}
 					/>
 					{/*content will not show if put scrollbars inside a div*/}
-					<div style={{background: '#EAE7DC',
+					<div style={{background: '#F7F7EE',
                     borderRadius: '2px',
 				    boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
 				    margin: '1em .9em',
