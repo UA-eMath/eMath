@@ -9,7 +9,7 @@ export default {
     alignItems: 'center',
     width: '100%',
     height: '31px',
-    backgroundColor: '#42b0f4'
+    backgroundColor: '#8E8D8A'
   },
 
 
@@ -18,8 +18,8 @@ export default {
     userSelect: 'none',
     cursor: 'default',
     paddingLeft: '12px',
-    fontFamily: '"Segoe UI", "Arial"',
-    fontSize: '12px',
+    fontFamily: 'ComicSansMS',
+    fontSize: '15px',
     color: '#000000',
     flex: 1
   },
