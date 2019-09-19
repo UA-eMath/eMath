@@ -1,4 +1,5 @@
 import React from "react";
+import './index.css'
 
 export const NextButton = props => (
 	<svg
@@ -7,8 +8,7 @@ export const NextButton = props => (
 		xmlnsXlink="http://www.w3.org/1999/xlink"
 		{...props}
 	>
-		<g fill="none" fillRule="evenodd">
-			<use fill="#EAE8DC" xlinkHref="#a"/>
+		<g class = 'button' fill="#EAE8DC" fillRule="evenodd">
 			<path stroke="#000" d="M.5.5h115v41H.5z"/>
 			<text
 				fontFamily="ComicSansMS, Comic Sans MS"

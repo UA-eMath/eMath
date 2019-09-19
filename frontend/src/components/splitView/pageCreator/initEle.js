@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "../styles/style";
 import {Scrollbars} from 'react-custom-scrollbars';
-import {NextButton } from '../styles/nextButton';
+import {NextButton} from '../styles/nextButton';
 import {PreButton} from '../styles/preButton';
 
 import getPage from "../../../requests/getPage";
@@ -14,8 +14,8 @@ export default function initElement(el) {
 		     style={{...styles.window}}>
 			<div style={{...styles.titleBar}}>
 
-				<PreButton onClick={
-					() => {
+				<PreButton
+					onClick={() => {
 						getPrePage(this.state.pageNum,
 							(prePageData) => {
 								if (prePageData) {
@@ -29,7 +29,8 @@ export default function initElement(el) {
 								}
 							}
 						)
-					}}/>
+					}}
+					style={{hover:"fill: red"}}/>
 
 
 				<span style={{...styles.title}}>
@@ -57,12 +58,13 @@ export default function initElement(el) {
 			</div>
 
 			<Scrollbars>
-				<div style={{background: '#F7F7EE',
-                    borderRadius: '2px',
-				    boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
-				    margin: '1em .9em',
-				    padding: '.25em 1.25em .1em'
-			}}>
+				<div style={{
+					background: '#F7F7EE',
+					borderRadius: '2px',
+					boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
+					margin: '1em .9em',
+					padding: '.25em 1.25em .1em'
+				}}>
 					{contentProcessor(this.state.paraText, this.props)}
 				</div>
 			</Scrollbars>
