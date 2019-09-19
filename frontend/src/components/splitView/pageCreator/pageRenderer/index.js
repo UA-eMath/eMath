@@ -43,7 +43,7 @@ export default function contentProcessor(paraText, props) {
 function blockOfPara(dataArray) {
 	return(
 		<div
-			style={{background: '#EEE2DC',
+			style={{background: '#fdf5e8',
                     borderRadius: '2px',
 				    boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.35)',
 				    margin: '1em .9em',
