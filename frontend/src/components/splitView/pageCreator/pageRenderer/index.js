@@ -1,6 +1,9 @@
 import _ from "lodash";
 import React from 'react'
 import * as utils from './utils'
+import {addCaption} from "./utils/caption";
+import {listProcessor} from "./utils/list";
+import {tableProcessor} from "./utils/table";
 
 export default function contentProcessor(paraText, props) {
 
@@ -14,15 +17,15 @@ export default function contentProcessor(paraText, props) {
 
 		if (processingPara["text"]) {
 			processingPara = utils.tagParser(processingPara["text"], props);
-			text = utils.addCaption(processingPara, para.caption);
+			text = addCaption(processingPara, para.caption);
 		}
 
 		if (processingPara["table"]) {
-			table = utils.tableProcessor(processingPara["table"],props)
+			table = tableProcessor(processingPara["table"],props)
 		}
 
 		if (processingPara["list"]) {
-			list = utils.listProcessor(processingPara["list"],props);
+			list = listProcessor(processingPara["list"],props);
 
 		}
 
@@ -39,6 +42,8 @@ export default function contentProcessor(paraText, props) {
 
 }
 
+//  A block of paras which are inside of a sub-level will be represented as an inner array.
+// For a para array, inner para will be like: [xxx,[xxx,xxx],xxx]
 
 function blockOfPara(dataArray) {
 	return(
