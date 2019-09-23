@@ -28,7 +28,7 @@ const windows = (state = initState_windows, action) => {
 						w: 6,
 						h: 4,
 						static: false,
-						pageId : action.pageId
+						pageId: action.pageId
 					}),
 					newCounter: state.newCounter + 1
 				});
@@ -45,8 +45,10 @@ const windows = (state = initState_windows, action) => {
 			});
 
 		case 'ON_LAYOUT_CHANGE':
-			// MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-			return state;
+			return {
+				...state,
+				layout: action.layout,
+			};
 
 
 		default:

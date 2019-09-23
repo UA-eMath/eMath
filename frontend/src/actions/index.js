@@ -14,11 +14,12 @@ export const closeWindow = id => ({
 	id
 });
 
-export const onLayoutChange =  ({
-	type: types.ON_LAYOUT_CHANGE,
-});
-
-
+export function onLayoutChange(layout) {
+  return {
+    type: types.ON_LAYOUT_CHANGE,
+	layout: layout,
+  };
+}
 
 export function minimizeWindow(id,title,pageId) {
 		return function (dispatch) {

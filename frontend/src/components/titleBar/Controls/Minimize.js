@@ -51,7 +51,7 @@ class Minimize extends Component {
 
 		let svgFill = '#000000';
 
-		let componentStyle = {...styles.button, ...style};
+		let componentStyle = {...styles.button,...styles.buttonColorBackground,...style};
 
 
 		return (

@@ -70,11 +70,11 @@ class NodeWithMathJax extends React.Component<*, *> {
 		if (forceUpdate) {
 			this.clear();
 		}
-		// if (forceUpdate || !this.script) {
-		// 	this.setScriptText(formula)
-		// }
-		//
-		//
+		if (forceUpdate || !this.script) {
+			this.setScriptText(formula)
+		}
+
+
 		// MathJax.Hub.Queue(
 		// 	MathJax.Hub.Reprocess(this.script, onRender)
 		// );

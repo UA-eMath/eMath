@@ -18,10 +18,10 @@ const mapDispatchToProps = dispatch => ({
 		dispatch(openNewWindow(pageId)),
 	onCloseWindow: (id) =>
 		dispatch(closeWindow(id)),
-	minimizeWindow: (id,title,pageId) =>
-		dispatch(minimizeWindow(id,title,pageId)),
-	onLayoutChange: () =>
-		dispatch(onLayoutChange),
+	minimizeWindow: (id, title, pageId) =>
+		dispatch(minimizeWindow(id, title, pageId)),
+	onLayoutChange: (layout) =>
+		dispatch(onLayoutChange(layout)),
 });
 
 class CreateElement extends React.Component {
@@ -69,28 +69,28 @@ class CreateElement extends React.Component {
 			     className={`wrapper ${this.props.className}`}
 			     style={{...styles.window, ...this.props.style}}
 			>
+				<TitleBar
+					className='windowHeader'
+					title={this.state.pageTitle}
+					controls
+					background={this.props.color}
+					onCloseClick={() => {
+						this.props.onCloseWindow(i)
+					}}
+					onMinimizeClick={() => {
+						this.props.minimizeWindow(i, this.state.pageTitle, this.props['data-grid'].pageId)
+					}}
+				/>
 				<Scrollbars>
 					{this.props.children}
-
-					<TitleBar
-						className='windowHeader'
-						title={this.state.pageTitle}
-						controls
-						background={this.props.color}
-						onCloseClick={() => {
-							this.props.onCloseWindow(i)
-						}}
-						onMinimizeClick={() => {
-							this.props.minimizeWindow(i,this.state.pageTitle,this.props['data-grid'].pageId)
-						}}
-					/>
 					{/*content will not show if put scrollbars inside a div*/}
-					<div style={{background: '#F7F7EE',
-                    borderRadius: '2px',
-				    boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
-				    margin: '1em .9em',
-				    padding: '.25em 1.25em .1em'
-			}}>
+					<div style={{
+						background: '#F7F7EE',
+						borderRadius: '2px',
+						boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
+						margin: '1em .9em',
+						padding: '.25em 1.25em .1em'
+					}}>
 						{contentProcessor(this.state.paraText, this.props)}
 					</div>
 

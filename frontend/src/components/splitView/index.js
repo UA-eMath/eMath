@@ -35,8 +35,8 @@ const mapDispatchToProps = dispatch => ({
 		dispatch(closeWindow(id)),
 	minimizeWindow: (id) =>
 		dispatch(minimizeWindow(id)),
-	onLayoutChange: () =>
-		dispatch(onLayoutChange),
+	onLayoutChange: (layout) =>
+		dispatch(onLayoutChange(layout)),
 });
 
 
@@ -83,7 +83,6 @@ class SplitView extends React.Component {
 					);
 				}}
 			>
-
 				<ResponsiveReactGridLayout
 					className="layout"
 					cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
@@ -91,19 +90,17 @@ class SplitView extends React.Component {
 					compactType='horizontal'
 					draggableHandle='.windowHeader'
 					color='#42b0f4'
-
-					onLayoutChange={this.props.onLayoutChange}
+					onLayoutChange={()=>{this.props.onLayoutChange(this.props.items)}}
 					onBreakpointChange={() => this.onBreakpointChange}
 					key={_.uniqueId()}
 				>
-
 					{_.map(this.props.items, el => {
+
 						if (el.i === '0') {
 							return (this.initElement(el))
 						}
 						else {
 							const i = el.add ? "+" : el.i;
-
 							return (<CreateElement key={i} data-grid={el}/>)
 						}
 					})}
