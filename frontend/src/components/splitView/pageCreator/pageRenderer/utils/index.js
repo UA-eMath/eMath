@@ -70,7 +70,7 @@ export function tagParser(para, props) {
 			text = text.split(regex.link.content)[1];
 
 			return (
-				<a onClick={() => props.onWindowOpen(id)} style={{color: '#297DB5'}} key={i}>
+				<a className='textLink' onClick={() => props.onWindowOpen(id)} style={{color: '#297DB5'}} key={i}>
 					{
 						mathDisplay(text, regex)
 					}

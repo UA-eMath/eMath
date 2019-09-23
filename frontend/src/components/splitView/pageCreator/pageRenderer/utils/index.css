@@ -62,7 +62,7 @@ Link CSS
 
 */
 
-a:hover {
+.textLink:hover {
     background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#e52e71));
     background: linear-gradient(to right,#ff8a00,#e52e71);
     -webkit-background-clip: text;

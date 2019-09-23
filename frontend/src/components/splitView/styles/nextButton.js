@@ -8,7 +8,7 @@ export const NextButton = props => (
 		xmlnsXlink="http://www.w3.org/1999/xlink"
 		{...props}
 	>
-		<g className = "button" fill="#EAE8DC" fillRule="evenodd">
+		<g className = "pageButton" fill="#EAE8DC" fillRule="evenodd">
 			<path stroke="#000" d="M.5.5h115v41H.5z"/>
 			<text
 				fontFamily="ComicSansMS, Comic Sans MS"

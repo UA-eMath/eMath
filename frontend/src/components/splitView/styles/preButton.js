@@ -11,7 +11,7 @@ export const PreButton = props => (
 		<defs>
 			<path id="a" d="M0 0h116v42H0z"/>
 		</defs>
-		<g className = "button" fill="none" fillRule="evenodd">
+		<g className = "pageButton" fill="none" fillRule="evenodd">
 			<use fill="#EAE8DC" xlinkHref="#a"/>
 			<path stroke="#000" d="M.5.5h115v41H.5z"/>
 			<text

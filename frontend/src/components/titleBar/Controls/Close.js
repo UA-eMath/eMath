@@ -6,7 +6,7 @@ const styles = {
 		WebkitUserSelect: 'none',
 		userSelect: 'none',
 		WebkitAppRegion: 'no-drag',
-		cursor: 'default',
+		cursor: 'pointer',
 		width: '46px',
 		height: '100%',
 		lineHeight: 0,

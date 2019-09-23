@@ -14,46 +14,48 @@ export default function initElement(el) {
 		     style={{...styles.window}}>
 			<div style={{...styles.titleBar}}>
 
-				<PreButton
-					onClick={() => {
-						getPrePage(this.state.pageNum,
-							(prePageData) => {
-								if (prePageData) {
-									let num = this.state.pageNum - 1;
-									this.setState({
-										pageTitle: prePageData[0].para_parent.title,
-										para_parent: prePageData[0].para_parent,
-										paraText: prePageData,
-										pageNum: num
-									})
+					<PreButton
+						onClick={() => {
+							getPrePage(this.state.pageNum,
+								(prePageData) => {
+									if (prePageData) {
+										let num = this.state.pageNum - 1;
+										this.setState({
+											pageTitle: prePageData[0].para_parent.title,
+											para_parent: prePageData[0].para_parent,
+											paraText: prePageData,
+											pageNum: num
+										})
+									}
 								}
-							}
-						)
-					}}
-					style={{hover:"fill: red"}}/>
+							)
+						}}
+					/>
 
 
 				<span style={{...styles.title}}>
 								{this.state.pageTitle}
 							</span>
 
-				<NextButton className='ml-auto' onClick={
-					() => {
-						getNextPage(this.state.pageNum,
-							(nextPageData) => {
-								let num = this.state.pageNum + 1;
-								if (nextPageData) {
-									this.setState({
-										pageTitle: nextPageData[0].para_parent.title,
-										para_parent: nextPageData[0].para_parent,
-										paraText: nextPageData,
-										pageNum: num
-									});
+				<NextButton
+					className='ml-auto'
+					onClick={
+						() => {
+							getNextPage(this.state.pageNum,
+								(nextPageData) => {
+									let num = this.state.pageNum + 1;
+									if (nextPageData) {
+										this.setState({
+											pageTitle: nextPageData[0].para_parent.title,
+											para_parent: nextPageData[0].para_parent,
+											paraText: nextPageData,
+											pageNum: num
+										});
+									}
 								}
-							}
-						)
-					}
-				}/>
+							)
+						}
+					}/>
 
 			</div>
 
