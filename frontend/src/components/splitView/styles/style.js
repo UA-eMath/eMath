@@ -11,7 +11,7 @@ export default {
 		height: '31px',
 		backgroundColor: '#EAE8DC',
 		textAlign: 'center',
-		margin: '10px 0px 10px'
+		margin: '10px 0px 10px',
 	},
 	title: {
 		WebkitUserSelect: 'none',
@@ -31,7 +31,4 @@ export default {
 		width: '100%',
 		boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.35)',
 	},
-
-
-
 }

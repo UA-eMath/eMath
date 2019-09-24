@@ -7,7 +7,7 @@ const initState_windows = {
 			x: 0,
 			y: 0,
 			w: 6,
-			h: 9.5,
+			h: 9,
 			add: i === (list.length - 1).toString(),
 			static: true,
 		};
@@ -47,7 +47,7 @@ const windows = (state = initState_windows, action) => {
 		case 'ON_LAYOUT_CHANGE':
 			return {
 				...state,
-				layout: action.layout,
+				items: action.layout,
 			};
 
 

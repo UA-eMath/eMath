@@ -18,7 +18,6 @@ import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle"
 
 import MathJaxConfig from '../../constants/MathJax_config'
-// import MathJax from 'react-mathjax'
 import MathJax from '../mathDisplay'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -49,7 +48,6 @@ class SplitView extends React.Component {
 			pageTitle: null,
 			para_parent: null,
 		};
-
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
 		this.initElement = initElement.bind(this);
 	}
@@ -67,9 +65,7 @@ class SplitView extends React.Component {
 
 			});
 		}
-
 	}
-
 
 	render() {
 		return (
@@ -85,6 +81,7 @@ class SplitView extends React.Component {
 			>
 				<ResponsiveReactGridLayout
 					className="layout"
+					breakpoints={{lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0}}
 					cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
 					rowHeight={100}
 					compactType='horizontal'
@@ -95,7 +92,6 @@ class SplitView extends React.Component {
 					key={_.uniqueId()}
 				>
 					{_.map(this.props.items, el => {
-
 						if (el.i === '0') {
 							return (this.initElement(el))
 						}

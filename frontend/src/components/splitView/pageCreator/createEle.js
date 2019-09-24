@@ -55,10 +55,6 @@ class CreateElement extends React.Component {
 
 			});
 		}
-
-	}
-
-	componentWillUnmount() {
 	}
 
 	render() {

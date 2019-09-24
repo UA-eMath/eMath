@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styles from "../styles/style";
 import {Scrollbars} from 'react-custom-scrollbars';
 import {NextButton} from '../styles/nextButton';
@@ -11,27 +11,26 @@ export default function initElement(el) {
 
 	return (
 		<div key={el.i} data-grid={el}
-		     style={{...styles.window}}>
+		     style={{...styles.window}}
+		>
 			<div style={{...styles.titleBar}}>
-
-					<PreButton
-						onClick={() => {
-							getPrePage(this.state.pageNum,
-								(prePageData) => {
-									if (prePageData) {
-										let num = this.state.pageNum - 1;
-										this.setState({
-											pageTitle: prePageData[0].para_parent.title,
-											para_parent: prePageData[0].para_parent,
-											paraText: prePageData,
-											pageNum: num
-										})
-									}
+				<PreButton
+					onClick={() => {
+						getPrePage(this.state.pageNum,
+							(prePageData) => {
+								if (prePageData) {
+									let num = this.state.pageNum - 1;
+									this.setState({
+										pageTitle: prePageData[0].para_parent.title,
+										para_parent: prePageData[0].para_parent,
+										paraText: prePageData,
+										pageNum: num
+									})
 								}
-							)
-						}}
-					/>
-
+							}
+						)
+					}}
+				/>
 
 				<span style={{...styles.title}}>
 								{this.state.pageTitle}
@@ -60,13 +59,15 @@ export default function initElement(el) {
 			</div>
 
 			<Scrollbars>
-				<div style={{
-					background: '#F7F7EE',
-					borderRadius: '2px',
-					boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
-					margin: '1em .9em',
-					padding: '.25em 1.25em .1em'
-				}}>
+				<div
+					style={{
+						background: '#F7F7EE',
+						borderRadius: '2px',
+						boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
+						margin: '1em .9em',
+						padding: '.25em 1.25em .1em',
+						height: '150vh'
+					}}>
 					{contentProcessor(this.state.paraText, this.props)}
 				</div>
 			</Scrollbars>
