@@ -1,6 +1,8 @@
 import React from 'react'
 import './index.css'
 import {mathDisplay} from "./mathDisplay";
+import parse from "html-react-parser";
+import _ from "lodash";
 
 /*
 
@@ -69,7 +71,18 @@ export function tagParser(para, props) {
 		}
 	});
 
-	return paragraphs
+	console.log(_.flatten(paragraphs).join());
+
+	return _.flatten(paragraphs).map(t => {
+		// console.log("t",t,typeof t);
+		if (_.isString(t)) {
+
+			return parse(t)
+		} else {
+			return t
+		}
+	});
+
 }
 
 

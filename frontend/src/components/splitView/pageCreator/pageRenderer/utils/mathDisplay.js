@@ -30,14 +30,13 @@ export function mathDisplay(text, regex) {
 			return mathText
 		}
 		let inline = mathText.match(regex.latex.inline);
-
 		if (inline !== null) {
 			return (
 				<MathJax.Node key={_.uniqueId('MJN_')} inline formula={mathText.split(regex.latex.content)[1]}/>
 			)
 
 		} else {
-			//["inline = 'true'"]
+			//["inline"]
 			return (
 				<div key={_.uniqueId('MJN_')}>
 					<MathJax.Node formula={mathText.split(regex.latex.content)[1]}/>
