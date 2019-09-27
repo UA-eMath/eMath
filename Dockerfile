@@ -5,7 +5,7 @@ FROM python:3.7
 WORKDIR /eMath
 
 # Install Python dependencies
-COPY requirements.txt /eMath/eMath
+COPY requirements.txt /eMath
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Add the rest of the code
