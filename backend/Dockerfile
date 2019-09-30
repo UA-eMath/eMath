@@ -2,14 +2,13 @@
 FROM python:3.7
 
 # Adding backend directory to make absolute filepaths consistent across services
-WORKDIR /eMath
-
+WORKDIR /eMath/backend
 # Install Python dependencies
-COPY requirements.txt /eMath
+COPY ./requirements.txt /eMath/backend
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Add the rest of the code
-COPY . /eMath
+COPY . /eMath/backend
 
 # Make port 8000 available for the app
 EXPOSE 8000

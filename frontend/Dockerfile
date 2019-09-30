@@ -1,11 +1,13 @@
 FROM node
 
-WORKDIR ./eMath/frontend
+WORKDIR /eMath/frontend
 
 # Install dependencies
-COPY package.json /eMath/frontend
+COPY package.json ./
+COPY yarn.lock ./
 
-RUN npm install
+COPY . /eMath/frontend
+
 
 EXPOSE 3000
 
