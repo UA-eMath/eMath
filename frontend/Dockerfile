@@ -6,6 +6,8 @@ WORKDIR /eMath/frontend
 COPY package.json ./
 COPY yarn.lock ./
 
+RUN yarn upgrade
+
 COPY . /eMath/frontend
 
 
