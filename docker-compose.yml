@@ -3,6 +3,8 @@ version: '3'
 services:
   db:
     image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_DB=emathdb
       - POSTGRES_USER=yaozhilu
@@ -28,3 +30,6 @@ services:
       - "3000:3000"
     depends_on:
       - django
+
+volumes:
+  postgres_data:
