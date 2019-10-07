@@ -84,8 +84,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "emathdb",
-        "USER": "emath",
-        "PASSWORD": "1234",
+        "USER": "yaozhilu",
+        "PASSWORD": "dell1234",
         "HOST": "db",
         "PORT": "5432",
     }

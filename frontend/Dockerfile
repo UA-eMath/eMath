@@ -1,4 +1,4 @@
-FROM node
+FROM node as build-stage
 
 WORKDIR /eMath/frontend
 
@@ -6,11 +6,14 @@ WORKDIR /eMath/frontend
 COPY package.json ./
 COPY yarn.lock ./
 
-RUN yarn upgrade
+RUN yarn install
 
 COPY . /eMath/frontend
 
+RUN npm run build
 
-EXPOSE 3000
+FROM nginx:1.15
+COPY --from=build-stage /eMath/frontend /usr/share/nginx/html
 
-CMD ["yarn", "start"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
