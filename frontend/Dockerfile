@@ -15,5 +15,5 @@ RUN npm run build
 FROM nginx:1.15
 COPY --from=build-stage /eMath/frontend /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
