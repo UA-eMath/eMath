@@ -23,8 +23,7 @@ services:
     volumes:
       - .:/emath/frontend
       - /emath/frontend/node_modules
-    depends_on:
-      - django
+      
     command: node ./emath/frontend/app.js
 
 volumes:
