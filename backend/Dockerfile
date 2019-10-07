@@ -11,8 +11,8 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 COPY . /eMath/backend
 
 # Make port 8000 available for the app
-EXPOSE 80
+EXPOSE 8000
 
 # Be sure to use 0.0.0.0 for the host within the Docker container,
 # otherwise the browser won't be able to find it
-CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
