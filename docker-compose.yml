@@ -10,7 +10,7 @@ services:
 
   django:
     build: ./backend
-    command: ["python", "./backend/manage.py", "runserver", "0.0.0.0:80"]
+    command: ["python", "./backend/manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - .:/eMath/backend
     ports:

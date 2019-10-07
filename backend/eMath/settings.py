@@ -86,7 +86,7 @@ DATABASES = {
         "NAME": "emathdb",
         "USER": "yaozhilu",
         "PASSWORD": "dell1234",
-        "HOST": "db",
+        "HOST": "localhost",
         "PORT": "5432",
     }
 }
