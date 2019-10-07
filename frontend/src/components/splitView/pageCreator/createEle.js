@@ -87,6 +87,7 @@ class CreateElement extends React.Component {
 						margin: '1em .9em',
 						padding: '.25em 1.25em .1em'
 					}}>
+						/*change here*/
 						{contentProcessor(this.state.paraText, this.props)}
 					</div>
 

@@ -76,7 +76,6 @@ export function tagParser(para, props) {
 	return _.flatten(paragraphs).map(t => {
 		// console.log("t",t,typeof t);
 		if (_.isString(t)) {
-
 			return parse(t)
 		} else {
 			return t

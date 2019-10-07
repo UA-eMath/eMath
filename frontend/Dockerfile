@@ -1,4 +1,4 @@
-FROM node as build-stage
+FROM node:latest
 
 WORKDIR /eMath/frontend
 
@@ -10,9 +10,8 @@ RUN yarn install
 
 COPY . /eMath/frontend
 
-EXPOSE 3000
+CMD yarn build
 
-CMD yarn start
 
 #RUN npm run build
 #

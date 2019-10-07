@@ -1,33 +1,31 @@
 version: '3'
 
 services:
-  db:
-    image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    ports:
-      - "5432:5432"
+#  db:
+#    image: postgres
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data/
+#    ports:
+#      - "5432:5432"
 
-  django:
-    build: ./backend
-    command: ["python", "./backend/manage.py", "runserver", "0.0.0.0:8000"]
-    volumes:
-      - .:/eMath/backend
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
+#  django:
+#    build: ./backend
+#    command: python ./backend/manage.py runserver 0.0.0.0:8000
+#    volumes:
+#      - ./backend:/backend
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - db
 
   frontend:
     build: ./frontend
     volumes:
       - .:/emath/frontend
       - /emath/frontend/node_modules
-    ports:
-      - "3000:3000"
     depends_on:
       - django
-    command: yarn start
+    command: node ./emath/frontend/app.js
 
 volumes:
   postgres_data:
