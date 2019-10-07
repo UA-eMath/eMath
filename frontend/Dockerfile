@@ -10,10 +10,14 @@ RUN yarn install
 
 COPY . /eMath/frontend
 
-RUN npm run build
+EXPOSE 3000
 
-FROM nginx:1.15
-COPY --from=build-stage /eMath/frontend /usr/share/nginx/html
+CMD yarn start
 
-EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+#RUN npm run build
+#
+#FROM nginx:1.15
+#COPY --from=build-stage /eMath/frontend /usr/share/nginx/html
+#
+#EXPOSE 80
+#CMD ["nginx", "-g", "daemon off;"]

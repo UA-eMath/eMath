@@ -14,7 +14,7 @@ services:
     volumes:
       - .:/eMath/backend
     ports:
-      - "80:80"
+      - "8000:8000"
     depends_on:
       - db
 
@@ -23,8 +23,11 @@ services:
     volumes:
       - .:/emath/frontend
       - /emath/frontend/node_modules
+    ports:
+      - "3000:3000"
     depends_on:
       - django
+    command: yarn start
 
 volumes:
   postgres_data:
