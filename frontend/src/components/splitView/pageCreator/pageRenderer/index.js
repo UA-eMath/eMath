@@ -13,10 +13,11 @@ export default function contentProcessor(paraText, props) {
 		}
 
 		let processingPara = para.content;
-		let text, list, table;
+		let text, list, table, textAlign;
 
 		if (processingPara["text"]) {
-			processingPara = utils.tagParser(processingPara["text"], props);
+			textAlign = processingPara["text"]["textAlign"];
+			processingPara = utils.tagParser(processingPara["text"]["data"], props);
 			text = addCaption(processingPara, para.caption);
 		}
 
@@ -26,15 +27,15 @@ export default function contentProcessor(paraText, props) {
 
 		if (processingPara["list"]) {
 			list = listProcessor(processingPara["list"],props);
-
 		}
 
 		return (
 			<div key={_.uniqueId("div_")}>
-				<div>
+				<div style={{"textAlign":textAlign}}>
 					{text}
-					{table}
 				</div>
+
+				{table}
 				{list}
 			</div>
 		)

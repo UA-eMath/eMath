@@ -10,14 +10,14 @@ List processor
 	A list object should be look like:
 	"list":{"tag":"ol/ul",
 			"content":[
-			"1.",
-			"2.",
-			{"tag":"ol/li",
-			"content":[
-				"1.1",
-				"1.2"]}
+				"1.",
+				"2.",
+				{"tag":"ol/li",
+				 "content":[
+					"1.1",
+					"1.2"]}
+				 ]
 			}
-			]
  */
 
 export function listProcessor(listContent, props) {
@@ -48,9 +48,9 @@ export function listProcessor(listContent, props) {
 								data.map(mixData => {
 									if (typeof (mixData) === "string") {
 										return (
-											<p key={_.uniqueId("Array_p_")}>
+											<div key={_.uniqueId("Array_p_")}>
 												{tagParser(mixData, props)}
-											</p>
+											</div>
 										)
 									} else if (typeof(mixData) === "object" && mixData["tag"]) {
 										return (

@@ -8,9 +8,28 @@ import _ from "lodash";
 
 A Para JSON structure is following:
 	{
-	"text":"",
-	"table":"",
-	"list":""
+	"text":{
+		"textAlign":"",
+		"data":""
+			},
+
+	"table":{"direction":"v/h",
+			"data":[
+					   ["this ,"are "],
+					   ["table","data"],
+					   ["arrays are", "table rows"]
+					]
+			},
+	"list":{"tag":"ol/ul",
+			"content":[
+				"1.",
+				"2.",
+				{"tag":"ol/li",
+				 "content":[
+					"1.1",
+					"1.2"]}
+				 ]
+			}
 	}
 
 NOTE:
@@ -71,12 +90,14 @@ export function tagParser(para, props) {
 		}
 	});
 
-	console.log(_.flatten(paragraphs).join());
+	// console.log(_.flatten(paragraphs).join());
 
 	return _.flatten(paragraphs).map(t => {
 		// console.log("t",t,typeof t);
 		if (_.isString(t)) {
+			console.log("t",t);
 			return parse(t)
+
 		} else {
 			return t
 		}

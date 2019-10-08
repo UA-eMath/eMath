@@ -23,7 +23,8 @@ services:
     volumes:
       - .:/emath/frontend
       - /emath/frontend/node_modules
-      
+    ports:
+      - "80:80"
     command: node ./emath/frontend/app.js
 
 volumes:
