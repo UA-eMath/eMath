@@ -35,7 +35,7 @@ export default function contentProcessor(paraText, props) {
 
 		return (
 			<div key={_.uniqueId("div_")}>
-				<div style={{"textAlign":textAlign}}>
+				<div style={{"textAlign":textAlign,"marginBottom":"10px"}}>
 					{text}
 				</div>
 
