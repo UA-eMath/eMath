@@ -90,14 +90,9 @@ export function tagParser(para, props) {
 		}
 	});
 
-	// console.log(_.flatten(paragraphs).join());
-
 	return _.flatten(paragraphs).map(t => {
-		// console.log("t",t,typeof t);
 		if (_.isString(t)) {
-			console.log("t",t);
 			return parse(t)
-
 		} else {
 			return t
 		}

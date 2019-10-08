@@ -26,19 +26,19 @@ export function listProcessor(listContent, props) {
 
 	return (
 		<List>
-			{listContent.content.map(data => {
-				if (typeof(data) === "object" && data["tag"]) {
+			{listContent["content"].map(data => {
+				if (typeof(data) === "object" && data["type"]==="list") {
 					return (
 						<List key={_.uniqueId("List_")}>
 							{listProcessor(data, props)}
 						</List>
 					)
 
-				} else if (typeof (data) === "object" && data["table"]) {
+				} else if (typeof (data) === "object" && data["type"]==="table") {
 
 					return (
 						<li key={_.uniqueId("Table_")}>
-							{tableProcessor(data["table"], props)}
+							{tableProcessor(data["data"], props)}
 						</li>
 					)
 				} else if (Array.isArray(data)) {
@@ -52,16 +52,16 @@ export function listProcessor(listContent, props) {
 												{tagParser(mixData, props)}
 											</div>
 										)
-									} else if (typeof(mixData) === "object" && mixData["tag"]) {
+									} else if (typeof(mixData) === "object" && mixData["type"]==="list") {
 										return (
 											<List key={_.uniqueId("Array_List_")}>
-												{listProcessor(mixData, props)}
+												{listProcessor(mixData["data"], props)}
 											</List>
 										)
-									} else if (typeof (mixData) === "object" && mixData["table"]) {
+									} else if (typeof (mixData) === "object" && mixData["type"]==="table") {
 										return (
 											<div key={_.uniqueId("Array_Table_")}>
-												{tableProcessor(mixData["table"], props)}
+												{tableProcessor(mixData["data"], props)}
 											</div>
 										)
 									}

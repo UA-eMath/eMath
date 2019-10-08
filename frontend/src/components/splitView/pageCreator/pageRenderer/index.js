@@ -15,18 +15,22 @@ export default function contentProcessor(paraText, props) {
 		let processingPara = para.content;
 		let text, list, table, textAlign;
 
-		if (processingPara["text"]) {
-			textAlign = processingPara["text"]["textAlign"];
-			processingPara = utils.tagParser(processingPara["text"]["data"], props);
+		let type = processingPara["type"];
+		let data = processingPara["data"];
+
+		console.log(data);
+		if (type === "text") {
+			textAlign = data["textAlign"];
+			processingPara = utils.tagParser(data["content"], props);
 			text = addCaption(processingPara, para.caption);
 		}
 
-		if (processingPara["table"]) {
-			table = tableProcessor(processingPara["table"],props)
+		else if (type === "table") {
+			table = tableProcessor(data,props)
 		}
 
-		if (processingPara["list"]) {
-			list = listProcessor(processingPara["list"],props);
+		else if (type === "list") {
+			list = listProcessor(data,props);
 		}
 
 		return (
@@ -49,6 +53,7 @@ export default function contentProcessor(paraText, props) {
 function blockOfPara(dataArray) {
 	return(
 		<div
+			key={_.uniqueId("blockOfPara_")}
 			style={{background: '#fdf5e8',
                     borderRadius: '2px',
 				    boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.35)',

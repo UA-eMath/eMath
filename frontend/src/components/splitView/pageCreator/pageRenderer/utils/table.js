@@ -21,23 +21,23 @@ direction: v => table head on top row
 export function tableProcessor(tableContent, props) {
 
 	const direction = tableContent["direction"];
-	let tableData = tableContent["data"];
+	let tableData = tableContent["content"];
 	return (
 		<table>
 			<tbody>
 			{tableData.map((tableRow, i) => {
 				let rid = "row" + i.toString();
-				if (typeof(tableRow) === 'object' && tableRow["table"]) {
+				if (typeof(tableRow) === 'object' && tableRow["type"]==="table") {
 					return (
-						tableProcessor(tableRow["table"], props)
+						tableProcessor(tableRow["data"], props)
 					)
-				} else if (typeof(tableRow) === "object" && tableRow["list"]) {
-					const List = tableRow["list"]["tag"];
+				} else if (typeof(tableRow) === "object" && tableRow["type"]==="list") {
+					const List = tableRow["data"]["tag"];
 					return (
 						<tr key={rid}>
 							<td>
 								<List>
-									{listProcessor(tableRow["list"], props)}
+									{listProcessor(tableRow["data"], props)}
 								</List>
 							</td>
 						</tr>
