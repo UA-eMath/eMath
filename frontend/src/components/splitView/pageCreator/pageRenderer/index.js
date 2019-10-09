@@ -18,7 +18,6 @@ export default function contentProcessor(paraText, props) {
 		let type = processingPara["type"];
 		let data = processingPara["data"];
 
-		console.log(data);
 		if (type === "text") {
 			textAlign = data["textAlign"];
 			processingPara = utils.tagParser(data["content"], props);
@@ -51,6 +50,7 @@ export default function contentProcessor(paraText, props) {
 // For a para array, inner para will be like: [xxx,[xxx,xxx],xxx]
 
 function blockOfPara(dataArray) {
+
 	return(
 		<div
 			key={_.uniqueId("blockOfPara_")}
