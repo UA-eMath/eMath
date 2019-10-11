@@ -13,10 +13,11 @@ class ParaViewSet(viewsets.ModelViewSet):
 	serializer_class = ParaSerializers
 	queryset = Para.objects.all()
 
+	# GET http://localhost:8000/para/
 	def list(self, request, *args, **kwargs):
 		return Response(ParaReadSerializers(self.queryset,many=True).data)
 
-
+	# GET http://localhost:8000/para/**/
 	def retrieve(self, request, pk=None):
 
 		para = get_object_or_404(self.queryset, pk= pk)
@@ -24,6 +25,8 @@ class ParaViewSet(viewsets.ModelViewSet):
 		return Response(ParaReadSerializers(para).data)
 
 
+	#POST http://localhost:8000/para/
+	#with body
 	def create(self, request):
 		try:
 			id =  request.data['para_parent']
@@ -44,13 +47,13 @@ class ParaViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data, 200)
 
 
+	#DELETE http://localhost:8000/para/**/
 	def destroy(self, request,pk=None):
 		try:
 			para = Para.objects.get(pk=pk)
-			para.delete()
-			return Response("Para is successfully deleted.", 204)
 
 		except ObjectDoesNotExist:
 			return Response("Para id(" + pk +") is not found", 404)
 
-
+		para.delete()
+		return Response("Para is successfully deleted.", 204)
