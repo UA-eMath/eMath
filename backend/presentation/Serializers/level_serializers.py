@@ -7,4 +7,3 @@ class LevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Level
         fields = (['id'])
-        depth = 1

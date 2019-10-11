@@ -32,10 +32,16 @@ class ParaViewSet(viewsets.ModelViewSet):
 
 		try:
 			Level.objects.get(id =id)
-			return Response(request.data, 200)
-
+			# self.serializer_class(data=request.data).is_valid(raise_exception=True)
+			# self.perform_create(self.serializer_class(data=request.data))
 		except ObjectDoesNotExist:
 			return Response("Level id(" + id +") is not found", 404)
+
+		serializer = self.serializer_class(data=request.data)
+		serializer.is_valid(raise_exception=True)
+
+		serializer.save()
+		return Response(serializer.data, 200)
 
 
 	def destroy(self, request,pk=None):

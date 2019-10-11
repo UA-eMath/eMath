@@ -17,11 +17,9 @@ class ParaSerializers(serializers.ModelSerializer):
 		fields = ('id','content','position','caption','para_parent')
 
 	def create(self, validated_data):
-
 		para_parent_data = validated_data.pop('para_parent')
 		newPara = Para.objects.create(para_parent=para_parent_data,**validated_data)
 		return newPara
-
 
 
 	#
