@@ -20,13 +20,3 @@ class ParaSerializers(serializers.ModelSerializer):
 		para_parent_data = validated_data.pop('para_parent')
 		newPara = Para.objects.create(para_parent=para_parent_data,**validated_data)
 		return newPara
-
-
-	#
-	# def update(self, instance, validated_data):
-	# 	instance.content = validated_data.get('content', instance.content)
-	# 	instance.position = validated_data.get('position', instance.position)
-	# 	instance.caption = validated_data.get('caption', instance.caption)
-	# 	instance.para_parent = validated_data.get('para_parent',instance.para_parent)
-	# 	instance.save()
-	# 	return instance

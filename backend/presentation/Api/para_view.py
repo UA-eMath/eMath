@@ -57,3 +57,11 @@ class ParaViewSet(viewsets.ModelViewSet):
 
 		para.delete()
 		return Response("Para is successfully deleted.", 204)
+
+	#PUT http://localhost:8000/para/**/
+	#PATCH http://localhost:8000/para/**/
+	def update(self, request,*args, **kwargs):
+		response = super().update(request,*args, **kwargs)
+		response.data = {'status': 'successfully update'}
+		return response
+
