@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from presentation.models import Para,Level
-from presentation.Serializers.level_serializers import LevelSerializer
+from presentation.Serializers.level_serializers import LevelReferSerializer
 
 class ParaReadSerializers(serializers.ModelSerializer):
-	para_parent = LevelSerializer
+	para_parent = LevelReferSerializer
 	class Meta:
 		model = Para
 		fields = ('id','content','position','caption','para_parent')
@@ -11,7 +11,7 @@ class ParaReadSerializers(serializers.ModelSerializer):
 
 
 class ParaSerializers(serializers.ModelSerializer):
-	para_parent = LevelSerializer
+	para_parent = LevelReferSerializer
 	class Meta:
 		model = Para
 		fields = ('id','content','position','caption','para_parent')

@@ -21,7 +21,6 @@ class ParaViewSet(viewsets.ModelViewSet):
 	def retrieve(self, request, pk=None):
 
 		para = get_object_or_404(self.queryset, pk= pk)
-
 		return Response(ParaReadSerializers(para).data)
 
 

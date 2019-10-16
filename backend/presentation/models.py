@@ -38,8 +38,8 @@ class Level(MPTTModel):
 	tocTitle = models.CharField(max_length=100, null=True, blank=True)
 	unit_type = models.CharField(max_length=30)
 	html_title = models.CharField(max_length=100, null=True, blank=True)
-	author = models.ManyToManyField('Person', related_name="author", blank=True)
-	contributor = models.ManyToManyField('Person', related_name="contributors", blank=True)
+	author = models.ForeignKey('Person', related_name="author",null=True, blank=True,on_delete=models.CASCADE)
+	contributor = models.ForeignKey('Person', related_name="contributors", null=True,blank=True,on_delete=models.CASCADE)
 	date = models.DateField(null=True, blank=True)
 
 	class MPTTMeta:

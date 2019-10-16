@@ -45,7 +45,6 @@ class MenuDrawer extends React.Component {
 					treeData: data
 				}
 			);
-
 		});
 	}
 
@@ -75,7 +74,7 @@ class MenuDrawer extends React.Component {
 								style={styles.Tree}
 								defaultExpandAll={true}
 							>
-								{this.renderTreeNodes(this.state.treeData.slice(0,-1))}
+								{this.renderTreeNodes(this.state.treeData.slice(1,))}
 							</Tree>
 						</TabPane>
 
@@ -85,7 +84,7 @@ class MenuDrawer extends React.Component {
 								style={styles.Tree}
 								defaultExpandAll={true}
 							>
-								{this.renderTreeNodes(this.state.treeData.slice(-1))}
+								{this.renderTreeNodes(this.state.treeData.slice(0,1))}
 							</Tree>
 
 						</TabPane>
