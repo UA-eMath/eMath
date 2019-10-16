@@ -24,14 +24,25 @@ class LevelViewset(viewsets.ModelViewSet):
 
 		request_data = request.data.copy()
 		# automated add position and pageNum, default increase one level under parent node
-		if not request_data['pageNum'] and request_data['isPage'] and request_data['parent']['position'] != -1:
+		parent_position = Level.objects.get(pk=request_data['parent']).position
+		if not request_data['pageNum'] and request_data['isPage'] and parent_position != -1:
 			# get new pageNum
-			new_page_num = Level.objects.filter(isPage=True).order_by('-pageNum')[0].pageNum + 1
+			new_page_num = Level.objects.filter(isPage=True).order_by('-pageNum').first()
+			if new_page_num == None:
+				new_page_num = 1
+			else:
+				new_page_num = new_page_num.pageNum + 1
+
 			request_data['pageNum'] = new_page_num
 
 		if not request_data['position']:
 			# get new position
-			new_position = Level.objects.get(id=request_data['parent']).get_children().order_by('-position')[0].position + 1
+			new_position = Level.objects.get(id=request_data['parent']).get_children().order_by('-position').first()
+			if new_position == None:
+				new_position = 0
+			else:
+				new_position = new_position.position + 1
+
 			request_data['position'] = new_position
 
 
