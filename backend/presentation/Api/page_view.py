@@ -26,7 +26,7 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 		page_num = self.request.query_params.get('page',None)
 		level_id = self.request.query_params.get('id',None)
 
-		if page_num is not None:
+		if page_num is not None and page_num != 0:
 			pages = Level.objects.filter(isPage=True,pageNum=page_num).first()
 		elif level_id is not None:
 			pages = Level.objects.filter(isPage=True,id=level_id).first()
