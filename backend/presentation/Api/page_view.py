@@ -31,8 +31,7 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 		elif level_id is not None:
 			pages = Level.objects.filter(isPage=True,id=level_id).first()
 		else:
-			#return first page
-			pages = Level.objects.filter(isPage=True)[0]
+			return Response('Page number/level id is not provided',500)
 
 		return self.getParas(pages)
 
