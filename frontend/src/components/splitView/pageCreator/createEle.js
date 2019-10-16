@@ -40,7 +40,8 @@ class CreateElement extends React.Component {
 		let pageId = this.props['data-grid'].pageId;
 		const pageContent = await getPage({id: pageId, page: null});
 
-		if (pageContent.data.length !== 0) {
+		console.log(pageContent);
+		if (typeof (pageContent) !== 'undefined' && pageContent.data.length !== 0) {
 			this.setState({
 				pageTitle: pageContent.data[0].para_parent.title,
 				para_parent: pageContent.data[0].para_parent,
@@ -49,7 +50,7 @@ class CreateElement extends React.Component {
 			});
 		} else {
 			this.setState({
-				pageTitle: [],
+				pageTitle: ['This page is under construction.'],
 				para_parent: null,
 				paraText: null,
 
