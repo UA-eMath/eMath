@@ -62,7 +62,7 @@ class SplitView extends React.Component {
 				pageTitle: pageContent.data[0].para_parent.title,
 				para_parent: pageContent.data[0].para_parent,
 				paraText: pageContent.data,
-
+				pageNum: 1
 			});
 		}
 	}

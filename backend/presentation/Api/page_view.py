@@ -1,11 +1,11 @@
 from presentation.models import Level,Para
 from rest_framework import viewsets
-from presentation.Serializers.para_serializers import ParaSerializers
+from presentation.Serializers.para_serializers import ParaReadSerializers
 from rest_framework.response import Response
 
 
 class getPageViewSet(viewsets.ReadOnlyModelViewSet):
-	serializer_class = ParaSerializers
+	serializer_class = ParaReadSerializers
 
 	def  list(self, request, *args, **kwargs):
 		queryset = self.get_queryset()
@@ -26,9 +26,8 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 		page_num = self.request.query_params.get('page',None)
 		level_id = self.request.query_params.get('id',None)
 
-
 		if page_num is not None:
-			pages = Level.objects.filter(isPage=True)[int(page_num)-1]
+			pages = Level.objects.filter(isPage=True,pageNum=page_num).first()
 		elif level_id is not None:
 			pages = Level.objects.filter(isPage=True,id=level_id).first()
 		else:
