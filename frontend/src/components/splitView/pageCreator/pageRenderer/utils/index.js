@@ -63,9 +63,9 @@ export function tagParser(para, props) {
 			content: new RegExp("<iLink.*?>(.*?)</iLink>", "g")
 		},
 		latex: {
-			phrase: new RegExp("(<MathDisplay.*?>.*?</MathDisplay>)", "g"),
+			phrase: new RegExp("(<Math.*?>.*?</Math>)", "g"),
 			inline: new RegExp("inline", 'g'),
-			content: new RegExp("<MathDisplay.*?>(.*?)</MathDisplay>", "g"),
+			content: new RegExp("<Math.*?>(.*?)</Math>", "g"),
 		}
 	};
 
