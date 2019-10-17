@@ -5,46 +5,17 @@ import parse from "html-react-parser";
 import _ from "lodash";
 
 /*
-
-A Para JSON structure is following:
-	{
-	"text":{
-		"textAlign":"",
-		"data":""
+A Text:
+		{   ...
+		"content":{
+			"data": {
+				"content":"some text",
+				"textAlign":"center/left/right"
 			},
-
-	"table":{"direction":"v/h",
-			"data":[
-					   ["this ,"are "],
-					   ["table","data"],
-					   ["arrays are", "table rows"]
-					]
-			},
-	"list":{"tag":"ol/ul",
-			"content":[
-				"1.",
-				"2.",
-				{"tag":"ol/li",
-				 "content":[
-					"1.1",
-					"1.2"]}
-				 ]
-			}
+			"type":"text"
+		},
+		...
 	}
-
-NOTE:
-	1. a list can contain a table:
-	{
-	...
-	"list":{"table":""},
-	...
-	}
-
- */
-//////////////////////////////////////////////////////////////////
-
-/*
-
 Text processor:
 	1. add a caption in front of a para
 	2. add link

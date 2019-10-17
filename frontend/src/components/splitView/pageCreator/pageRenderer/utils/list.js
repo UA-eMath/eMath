@@ -5,19 +5,19 @@ import _ from "lodash"
 import {tableProcessor} from "./table";
 
 /*
-
+NOTE: A list can contain a table and nested list.
 List processor
 	A list object should be look like:
-	"list":{"tag":"ol/ul",
-			"content":[
-				"1.",
-				"2.",
-				{"tag":"ol/li",
-				 "content":[
-					"1.1",
-					"1.2"]}
-				 ]
-			}
+		{   ...
+			"content":{
+				"data": {
+					"tag":"ol/ul",
+					"content":[]
+				},
+				"type":"list"
+			},
+			...
+	}
  */
 
 export function listProcessor(listContent, props) {

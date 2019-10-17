@@ -3,19 +3,21 @@ import {tagParser} from "./index";
 import React from 'react'
 
 /*
-
+NOTE: A table can contain a list and a nest table
 table processor
 	A table object should be look like:
-	"table":{"direction":"v/h",
-			"data":[
-					   ["this ,"are "],
-					   ["table","data"],
-					   ["arrays are", "table rows"]
-					]
-			}
+		{   ...
+			"content":{
+				"data": {
+					"direction":"v/h",
+					"content":[[],[],[]]
+				},
+				"type":"table"
+			},
+			...
+		}
 direction: v => table head on top row
 		   h => table head on left column
-
  */
 
 export function tableProcessor(tableContent, props) {

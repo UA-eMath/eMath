@@ -5,6 +5,17 @@ import {addCaption} from "./utils/caption";
 import {listProcessor} from "./utils/list";
 import {tableProcessor} from "./utils/table";
 
+/*
+A Para JSON structure is following:
+	{   ...
+		"content":{
+			"data": {
+			},
+			"type":""
+		},
+		...
+	}
+*/
 export default function contentProcessor(paraText, props) {
 
 	return (_.map(paraText, para => {
