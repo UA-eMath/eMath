@@ -10,6 +10,9 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 	def  list(self, request, *args, **kwargs):
 		queryset = self.get_queryset()
 
+		if not queryset:
+			return Response('Page number/level id is not provided',500)
+
 		return  Response(self.serilalizeNestList(queryset))
 
 	def serilalizeNestList(self,array):
@@ -31,7 +34,7 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 		elif level_id is not None:
 			pages = Level.objects.filter(isPage=True,id=level_id).first()
 		else:
-			return Response('Page number/level id is not provided',500)
+			return None
 
 		return self.getParas(pages)
 
