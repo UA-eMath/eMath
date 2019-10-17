@@ -66,7 +66,7 @@ export default function initElement(el) {
 						boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)',
 						margin: '1em .9em',
 						padding: '.25em 1.25em .1em',
-						height: '150vh'
+						height: '300vh'
 					}}>
 					{contentProcessor(this.state.paraText, this.props)}
 				</div>

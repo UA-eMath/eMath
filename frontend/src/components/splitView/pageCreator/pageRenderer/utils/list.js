@@ -30,7 +30,7 @@ export function listProcessor(listContent, props) {
 				if (typeof(data) === "object" && data["type"]==="list") {
 					return (
 						<List key={_.uniqueId("List_")}>
-							{listProcessor(data, props)}
+							{listProcessor(data["data"], props)}
 						</List>
 					)
 
