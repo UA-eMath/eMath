@@ -71,15 +71,26 @@ class LevelViewset(viewsets.ModelViewSet):
 		_recursivelyUpdatePageNum(root, page_number)
 		return
 
+	def _updatePosition(self,parent):
+		position = 0
+		for child in parent.get_children().order_by("position"):
+			if child.position != position:
+				child.position = position
+				child.save()
+			position += 1
 
 	def destroy(self, request,pk=None):
 		try:
 			level = Level.objects.get(pk=pk)
-
+			root = level.get_root()
+			parent_level = level.parent
 		except ObjectDoesNotExist:
 			return Response("level id(" + pk +") is not found", 404)
 
 		level.delete()
+		self._updatePageNumber(root)
+		self._updatePosition(parent_level)
+
 		return Response("Level is successfully deleted.", 204)
 
 
