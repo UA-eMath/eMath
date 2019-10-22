@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from itertools import chain
+from presentation.Api.utils import *
 
 class LevelViewset(viewsets.ModelViewSet):
 	serializer_class = LevelSerializer
@@ -15,9 +16,9 @@ class LevelViewset(viewsets.ModelViewSet):
 		return Response(LevelSerializer(self.queryset,many=True).data)
 
 	# GET http://localhost:8000/Level/**/
-	def retrieve(self, request, pk=None):
+	def retrieve(self, request,  *args, **kwargs):
 
-		level = get_object_or_404(self.queryset, pk= pk)
+		level = get_object_or_404(self.queryset, pk= self.kwargs["pk"])
 		return Response(LevelSerializer(level).data)
 
 
@@ -60,16 +61,16 @@ class LevelViewset(viewsets.ModelViewSet):
 		return Response(serializer.data, 200)
 
 
-	def destroy(self, request,pk=None):
+	def destroy(self, request, *args, **kwargs):
 		try:
-			level = Level.objects.get(pk=pk)
+			level = Level.objects.get(pk=self.kwargs["pk"])
 			root = level.get_root()
 			parent_level = level.parent
 		except ObjectDoesNotExist:
-			return Response("level id(" + pk +") is not found", 404)
+			return Response("level id(" + self.kwargs["pk"] +") is not found", 404)
 
 		level.delete()
-		self._updatePosition(parent_level)
+		updatePosition(parent_level)
 		self._updatePageNumber(root)
 
 		return Response("Level is successfully deleted.", 204)
@@ -80,7 +81,7 @@ class LevelViewset(viewsets.ModelViewSet):
 		response = super().update(request,*args, **kwargs)
 
 		if request.get("position") is not None:
-			self._updatePosition(Level.objects.get(pk=self.kwargs["pk"]).parent)
+			updatePosition(Level.objects.get(pk=self.kwargs["pk"]).parent,request.get("position"))
 		if request.get("pageNum") is not None:
 			self._updatePageNumber(Level.objects.get(pk=self.kwargs["pk"]).get_root())
 		response.data = {'status': 'successfully update'}
@@ -101,20 +102,4 @@ class LevelViewset(viewsets.ModelViewSet):
 
 			return page_number
 		_recursivelyUpdatePageNum(root, page_number)
-		return
-
-	def _updatePosition(self,parent):
-		children_list = parent.get_children().order_by('position')
-		children_para_list = parent.para_set.all().order_by('position')
-
-		#merge two list
-		cached_list = list(chain(children_list, children_para_list))
-		cached_list = sorted(cached_list, key=lambda instance: instance.position)
-
-		position = 0
-		for child in cached_list:
-			if child.position != position:
-				child.position = position
-				child.save()
-			position += 1
 		return

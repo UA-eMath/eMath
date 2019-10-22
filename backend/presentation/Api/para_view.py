@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from itertools import chain
+from presentation.Api.utils import *
 
 
 class ParaViewSet(viewsets.ModelViewSet):
@@ -91,25 +92,3 @@ class ParaViewSet(viewsets.ModelViewSet):
 		response.data = {'status': 'successfully update'}
 		return response
 
-	def _updatePosition(self,parent,position=None):
-		children_list = parent.get_children().order_by('position')
-		children_para_list = parent.para_set.all().order_by('position')
-
-		#merge two list
-		cached_list = list(chain(children_list, children_para_list))
-		cached_list = sorted(cached_list, key=lambda instance: instance.position)
-
-		index = 0
-		if position == None:
-			for child in cached_list:
-				if child.position != index:
-					child.position = index
-					child.save()
-			index += 1
-			return
-
-		for child in cached_list:
-			if child.position >= position:
-				child.position += 1
-				child.save()
-		return
