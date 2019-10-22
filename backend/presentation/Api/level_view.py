@@ -38,7 +38,7 @@ class LevelViewset(viewsets.ModelViewSet):
 			#empty node (max(none,none)), add one level child with position of -1 + 1 = 0
 			last_position =  -1
 
-		if not request_data['position']:
+		if request_data.get('position') is None:
 			request_data['position'] = last_position + 1
 
 		#insert
@@ -79,10 +79,10 @@ class LevelViewset(viewsets.ModelViewSet):
 	def update(self, request,*args, **kwargs):
 		response = super().update(request,*args, **kwargs)
 
-		if request.position:
-			self._updatePosition(Level.objects.get(pk=request.id).parent)
-		if request.pageNum:
-			self._updatePageNumber(Level.objects.get(pk=request.id).get_root())
+		if request.get("position") is not None:
+			self._updatePosition(Level.objects.get(pk=self.kwargs["pk"]).parent)
+		if request.get("pageNum") is not None:
+			self._updatePageNumber(Level.objects.get(pk=self.kwargs["pk"]).get_root())
 		response.data = {'status': 'successfully update'}
 		return response
 

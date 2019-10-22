@@ -71,7 +71,7 @@ class Para(models.Model):
 	'''
 
 	content = JSONField(default=default_para_dict)
-	position = models.IntegerField()
+	position = models.IntegerField(null=True, blank=True)
 	caption = models.CharField(max_length=100, null=True, blank=True)
 
 	para_parent = models.ForeignKey(
