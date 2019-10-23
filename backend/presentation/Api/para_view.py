@@ -8,7 +8,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from itertools import chain
 from presentation.Api.utils import *
 
-
 class ParaViewSet(viewsets.ModelViewSet):
 	serializer_class = ParaSerializers
 	queryset = Para.objects.all()
@@ -51,7 +50,7 @@ class ParaViewSet(viewsets.ModelViewSet):
 			# empty node (max(none,none)), add one level child with position of -1 + 1 = 0
 			last_position = -1
 
-		if request_data.get('position') is None:
+		if request_data.get('position') is None or  request_data.get('position') == '':
 			request_data['position'] = last_position + 1
 
 		# insert
@@ -78,7 +77,7 @@ class ParaViewSet(viewsets.ModelViewSet):
 			return Response("Para id(" + self.kwargs["pk"] + ") is not found", 404)
 
 		para.delete()
-		self._updatePosition(para.para_parent)
+		updatePosition(para.para_parent)
 
 		return Response("Para is successfully deleted.", 204)
 
@@ -87,7 +86,7 @@ class ParaViewSet(viewsets.ModelViewSet):
 	def update(self, request, *args, **kwargs):
 		response = super().update(request, *args, **kwargs)
 		if request.data.get("position") is not None:
-			self._updatePosition(Para.objects.get(pk=self.kwargs["pk"]).para_parent,int(request.data["position"]))
+			updatePosition(Para.objects.get(pk=self.kwargs["pk"]).para_parent,int(request.data["position"]))
 
 		response.data = {'status': 'successfully update'}
 		return response

@@ -39,7 +39,7 @@ class LevelViewset(viewsets.ModelViewSet):
 			#empty node (max(none,none)), add one level child with position of -1 + 1 = 0
 			last_position =  -1
 
-		if request_data.get('position') is None:
+		if request_data.get('position') is None or request_data.get('position') == '':
 			request_data['position'] = last_position + 1
 
 		#insert

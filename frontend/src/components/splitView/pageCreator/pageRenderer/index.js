@@ -5,8 +5,8 @@ import {addCaption} from "./utils/caption";
 import {listProcessor} from "./utils/list";
 import {tableProcessor} from "./utils/table";
 import {tagParser} from "./utils";
-import {PageHeader} from 'antd';
-
+import {linkGroup} from "./utils/linkGroup";
+import {blockOfPara} from "./utils/paraBlock";
 /*
 A Para JSON structure is following:
 	{   ...
@@ -25,11 +25,11 @@ export default function contentProcessor(paraText, props) {
 			let left_title = para[0].para_parent.tocTitle;
 			let right_title = utils.tagParser(para[0].para_parent.title, props);
 
-			return blockOfPara(para, left_title, right_title);
+			return blockOfPara(para, left_title, right_title, props);
 		}
 
 		let processingPara = para.content;
-		let text, list, table, textAlign;
+		let text, list, table, textAlign, links;
 
 		let type = processingPara["type"];
 		let data = processingPara["data"];
@@ -37,7 +37,10 @@ export default function contentProcessor(paraText, props) {
 		if (type === "text") {
 			textAlign = data["textAlign"];
 			processingPara = utils.tagParser(data["content"], props);
-			text = addCaption(processingPara, para.caption);
+			text =
+				<div style={{"textAlign": textAlign, "marginBottom": "10px"}}>
+					{addCaption(processingPara, para.caption)}
+				</div>
 		}
 
 		else if (type === "table") {
@@ -48,62 +51,25 @@ export default function contentProcessor(paraText, props) {
 			list = listProcessor(data, props);
 		}
 
+		else if (type === 'linkGroup') {
+			links = <div
+					style={{
+						padding: "3px",
+						borderRadius: '2px 2px 0 0',
+						overflow:"auto"
+					}}>
+					{linkGroup(data, props)}
+				</div>
+		}
+
 		return (
 			<div key={_.uniqueId("div_")}>
-				<div style={{"textAlign": textAlign, "marginBottom": "10px"}}>
-					{text}
-				</div>
-
+				{text}
 				{table}
 				{list}
+				{links}
 			</div>
 		)
 	}));
 
-}
-
-//  A block of paras which are inside of a sub-level will be represented as an inner array.
-// For a para array, inner para will be like: [xxx,[xxx,xxx],xxx]
-
-function blockOfPara(dataArray, left_title, right_title) {
-	console.log(dataArray);
-	let boxHeader;
-
-	if (left_title || right_title) {
-		boxHeader =
-			<div
-				style={{
-					background: 'linear-gradient(#fdf5e8,#EAE7DC)',
-					borderRadius: '2px 2px 0 0',
-					padding: "2px 4px 2px 4px"
-				}}>
-				<span>
-					<b>{left_title}</b>
-				</span>
-				<span
-					style={{float: "right"}}>
-					<b>{right_title}</b>
-				</span>
-			</div>
-	}
-
-	return (
-		<div
-			key={_.uniqueId("blockOfPara_")}
-			style={{
-				background: '#fdf5e8',
-				borderRadius: '2px',
-				boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.35)',
-			}}>
-			{boxHeader}
-			<div
-				style={{
-					padding: "2px 4px 2px 4px"
-				}}>
-				{contentProcessor(dataArray)}
-			</div>
-
-		</div>
-
-	)
 }
