@@ -1,6 +1,7 @@
 import React from 'react'
 import 'antd/dist/antd.css';
 import TopNav from './../../components/topNav';
+import LevelEditor from './../../components/levelEditor'
 import SplitPane from "react-split-pane"
 import './index.css'
 
@@ -15,10 +16,9 @@ export default class AuthoringLayout extends React.Component {
 				>
 					<div
 						style={{
-							background: '#00aa00',
 							minHeight: "90vh",
 						}}>
-						Level Tree
+						<LevelEditor/>
 					</div>
 
 					<div
