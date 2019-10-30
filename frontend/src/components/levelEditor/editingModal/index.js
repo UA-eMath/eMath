@@ -9,7 +9,7 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 		};
 
 		render() {
-			const {visible, onCancel, onCreate, form, parent,modifyState} = this.props;
+			const {visible, onCancel, onCreate, form, parent, modifyState} = this.props;
 			const {getFieldDecorator} = form;
 			return (
 				<Modal
@@ -31,19 +31,19 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 						<Form.Item label="Title">
 							{getFieldDecorator('title', {
 								rules: [{required: true, message: 'Please input the title of collection!'}],
-								initialValue: modifyState==="New" ? '' : parent.title,
+								initialValue: modifyState === "New" ? '' : parent.title,
 							})(<Input/>)}
 						</Form.Item>
 
 						<Form.Item label="Table of content Title" extra="Leave it empty if same as title">
 							{getFieldDecorator('tocTitle', {
-								initialValue: modifyState==="New" ? '' : parent.tocTitle,
+								initialValue: modifyState === "New" ? '' : parent.tocTitle,
 							})(<Input/>)}
 						</Form.Item>
 
 						<Form.Item>
 							{getFieldDecorator('isPage', {
-								initialValue: modifyState==="New" ? '' : parent.isPage,
+								initialValue: modifyState === "New" ? '' : parent.isPage,
 							})(<Checkbox>It will be a page</Checkbox>)}
 						</Form.Item>
 					</Form>
@@ -73,7 +73,9 @@ export default class EditingModal extends React.Component {
 	handleCancel = () => {
 		this.setState({visible: false});
 	};
-
+	saveFormRef = formRef => {
+		this.formRef = formRef;
+	};
 	handleCreate = () => {
 		const {form} = this.formRef.props;
 		form.validateFields((err, values) => {
@@ -82,10 +84,9 @@ export default class EditingModal extends React.Component {
 			}
 
 			console.log('Received values of form: ', JSON.stringify(values));
-			if(this.state.modifyState==='New'){
+			if (this.state.modifyState === 'New') {
 				// postLevel()
 			}
-
 
 
 			form.resetFields();
@@ -122,6 +123,7 @@ export default class EditingModal extends React.Component {
 					<span style={{userSelect: 'none'}}>{this.props.title}</span>
 				</Dropdown>
 				<LevelForm
+					wrappedComponentRef={this.saveFormRef}
 					visible={this.state.visible}
 					onCancel={this.handleCancel}
 					onCreate={this.handleCreate}
