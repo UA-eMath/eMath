@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import {Tree, Input} from 'antd';
 import getToc from "../../requests/getToc";
 import {Menu, Dropdown} from 'antd';
-
+import EditingModal from './editingModal';
 const {TreeNode} = Tree;
 const {Search} = Input;
 
@@ -108,18 +108,6 @@ export default class LevelEditor extends React.Component {
 			data.filter(item => {
 				return item.tocTitle !== null
 			}).map(item => {
-				const menu = item.isPage ? (
-					<Menu>
-						<Menu.Item key="2">Edit</Menu.Item>
-						<Menu.Item key="3">Remove</Menu.Item>
-					</Menu>
-				) : (
-					<Menu>
-						<Menu.Item key="1">New...</Menu.Item>
-						<Menu.Item key="2">Edit</Menu.Item>
-						<Menu.Item key="3">Remove</Menu.Item>
-					</Menu>
-				);
 
 				const index = item.tocTitle.indexOf(this.state.searchValue);
 				const beforeStr = item.tocTitle.substr(0, index);
@@ -137,9 +125,7 @@ export default class LevelEditor extends React.Component {
 				if (item.children) {
 					return (
 						<TreeNode key={item.id} title={
-							<Dropdown overlay={menu} trigger={['contextMenu']}>
-								<span style={{userSelect: 'none'}}>{title}</span>
-							</Dropdown>
+							<EditingModal parent = {item} title={title}/>
 						}>
 							{this.renderTreeNodes(item.children)}
 						</TreeNode>
