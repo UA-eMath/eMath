@@ -33,11 +33,22 @@ class LevelViewset(viewsets.ModelViewSet):
 
 		try:
 			#get last position.
-			last_position = max(
-				i for i in [children_list.last().position, children_para_list.last().position] if i is not None)
+			last_position = None
+			if children_list.last():
+				last_position = children_list.last().position
+			if children_para_list.last():
+				if last_position == None:
+					last_position = children_para_list.last().position
+				else:
+					if children_para_list.last().position > last_position:
+						last_position = children_para_list.last().position
+
+			last_position = last_position or -1
+
 		except:
 			#empty node (max(none,none)), add one level child with position of -1 + 1 = 0
 			last_position =  -1
+
 
 		if request_data.get('position') is None or request_data.get('position') == '':
 			request_data['position'] = last_position + 1
@@ -80,9 +91,9 @@ class LevelViewset(viewsets.ModelViewSet):
 	def update(self, request,*args, **kwargs):
 		response = super().update(request,*args, **kwargs)
 
-		if request.get("position") is not None:
-			updatePosition(Level.objects.get(pk=self.kwargs["pk"]).parent,request.get("position"))
-		if request.get("pageNum") is not None:
+		if request.data.get("position") is not None:
+			updatePosition(Level.objects.get(pk=self.kwargs["pk"]).parent,request.data.get("position"))
+		if request.data.get("pageNum") is not None:
 			self._updatePageNumber(Level.objects.get(pk=self.kwargs["pk"]).get_root())
 		response.data = {'status': 'successfully update'}
 		return response

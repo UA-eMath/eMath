@@ -1,57 +1,8 @@
 import React from 'react'
-import {Menu, Dropdown, Button, Modal, Form, Input, Checkbox} from 'antd';
+import {Menu, Dropdown } from 'antd';
 import postLevel from '../../../requests/postLevel';
-
-const LevelForm = Form.create({name: 'form_in_modal'})(
-	class extends React.Component {
-		constructor(props) {
-			super(props);
-		};
-
-		render() {
-			const {visible, onCancel, onCreate, form, parent, modifyState,loading} = this.props;
-			const {getFieldDecorator} = form;
-			return (
-				<Modal
-					visible={visible}
-					title="Create a new collection"
-					okText="Create"
-					onCancel={onCancel}
-					onOk={onCreate}
-					footer={[
-						<Button key="back" onClick={onCancel}>
-							Return
-						</Button>,
-						<Button key="submit" type="primary" onClick={onCreate} loading={loading}>
-							Submit
-						</Button>,
-					]}
-				>
-					<Form layout="vertical">
-						<Form.Item label="Title">
-							{getFieldDecorator('title', {
-								rules: [{required: true, message: 'Please input the title of collection!'}],
-								initialValue: modifyState === "New" ? '' : parent.title,
-							})(<Input/>)}
-						</Form.Item>
-
-						<Form.Item label="Table of content Title" extra="Leave it empty if same as title">
-							{getFieldDecorator('tocTitle', {
-								initialValue: modifyState === "New" ? '' : parent.tocTitle,
-							})(<Input/>)}
-						</Form.Item>
-
-						<Form.Item>
-							{getFieldDecorator('isPage', {
-								initialValue: modifyState === "New" ? '' : parent.isPage,
-							})(<Checkbox>It will be a page</Checkbox>)}
-						</Form.Item>
-					</Form>
-				</Modal>
-			);
-		}
-	},
-);
+import updateLevel from '../../../requests/updateLevel';
+import LevelForm from './levelForm';
 
 export default class EditingModal extends React.Component {
 
@@ -93,14 +44,29 @@ export default class EditingModal extends React.Component {
 				values.tocTitle = values.title;
 			}
 
-			let request_body = JSON.stringify({...values, parent: this.props.parent.id});
+			let request_body;
 
 			if (this.state.modifyState === 'New') {
+				//create new level under selected parent level
+				request_body = JSON.stringify({...values, parent: this.props.parent.id});
 				postLevel(request_body).then(data => {
 					if (!data || data.status !== 200) {
 						console.error("Submit failed", data);
 					}
 					else {
+						this.props.updateTree();
+					}
+				})
+			} else {
+				//modify selected parent Level
+				request_body = JSON.stringify({...values});
+				updateLevel(request_body,this.props.parent.id).then(data =>{
+					if(!data || data.status !== 200){
+						console.error("Update error",data);
+					}
+					else {
+						console.log(request_body);
+						console.log(data);
 						this.props.updateTree();
 					}
 				})
