@@ -36,7 +36,7 @@ class Level(MPTTModel):
 	isPage = models.BooleanField()
 	title = models.CharField(max_length=100, null=True, blank=True)
 	tocTitle = models.CharField(max_length=100, null=True, blank=True)
-	unit_type = models.CharField(max_length=30)
+	unit_type = models.CharField(max_length=30,null=True, blank=True)
 	html_title = models.CharField(max_length=100, null=True, blank=True)
 	author = models.ForeignKey('Person', related_name="author",null=True, blank=True,on_delete=models.CASCADE)
 	contributor = models.ForeignKey('Person', related_name="contributors", null=True,blank=True,on_delete=models.CASCADE)

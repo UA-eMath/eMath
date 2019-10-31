@@ -9,7 +9,7 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 		};
 
 		render() {
-			const {visible, onCancel, onCreate, form, parent, modifyState} = this.props;
+			const {visible, onCancel, onCreate, form, parent, modifyState,loading} = this.props;
 			const {getFieldDecorator} = form;
 			return (
 				<Modal
@@ -22,7 +22,7 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 						<Button key="back" onClick={onCancel}>
 							Return
 						</Button>,
-						<Button key="submit" type="primary" onClick={onCreate}>
+						<Button key="submit" type="primary" onClick={onCreate} loading={loading}>
 							Submit
 						</Button>,
 					]}
@@ -60,6 +60,7 @@ export default class EditingModal extends React.Component {
 		this.state = {
 			visible: false,
 			modifyState: '',
+			loading: false,
 		};
 	}
 
@@ -73,26 +74,43 @@ export default class EditingModal extends React.Component {
 	handleCancel = () => {
 		this.setState({visible: false});
 	};
+
 	saveFormRef = formRef => {
 		this.formRef = formRef;
 	};
+
 	handleCreate = () => {
 		const {form} = this.formRef.props;
+
+		this.setState({loading: true});
+
 		form.validateFields((err, values) => {
 			if (err) {
 				return;
 			}
 
-			console.log('Received values of form: ', JSON.stringify(values));
-			if (this.state.modifyState === 'New') {
-				// postLevel()
+			if(values.tocTitle === '' && values.title !== ''){
+				values.tocTitle = values.title;
 			}
 
+			let request_body = JSON.stringify({...values, parent: this.props.parent.id});
+
+			if (this.state.modifyState === 'New') {
+				postLevel(request_body).then(data => {
+					if (!data || data.status !== 200) {
+						console.error("Submit failed", data);
+					}
+					else {
+						this.props.updateTree();
+					}
+				})
+			}
 
 			form.resetFields();
 			this.setState({
 				visible: false,
 				modifyState: '',
+				loading:false
 			});
 		});
 	};
@@ -129,6 +147,7 @@ export default class EditingModal extends React.Component {
 					onCreate={this.handleCreate}
 					modifyState={this.state.modifyState}
 					parent={this.props.parent}
+					loading={this.state.loading}
 				/>
 
 			</div>

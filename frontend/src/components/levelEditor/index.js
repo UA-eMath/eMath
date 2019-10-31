@@ -4,6 +4,7 @@ import {Tree, Input} from 'antd';
 import getToc from "../../requests/getToc";
 import {Menu, Dropdown} from 'antd';
 import EditingModal from './editingModal';
+
 const {TreeNode} = Tree;
 const {Search} = Input;
 
@@ -38,6 +39,12 @@ const getParentKey = (id, tree) => {
 };
 
 export default class LevelEditor extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.updateLevelTree = this.updateLevelTree.bind(this)
+	}
+
 	state = {
 		expandedKeys: [],
 		searchValue: '',
@@ -57,7 +64,26 @@ export default class LevelEditor extends React.Component {
 					});
 					generateList(this.state.treeData);
 					this.setState({
-						expandedKeys:parentId
+						expandedKeys: parentId
+					});
+				}
+			}
+		)
+	}
+
+	updateLevelTree() {
+		let id = 1;
+		getToc({id: id}).then(
+			data => {
+				if (!data || data.status !== 200) {
+					console.error("FETCH_TAGS_FAILED", data);
+				} else {
+					this.setState({
+						treeData: data.data.children
+					});
+					generateList(this.state.treeData);
+					this.setState({
+						expandedKeys: parentId
 					});
 				}
 			}
@@ -88,6 +114,36 @@ export default class LevelEditor extends React.Component {
 		});
 	};
 
+	renderTreeNodes = data =>
+		data.filter(item => {
+			return item.tocTitle !== null
+		}).map(item => {
+
+			const index = item.tocTitle.indexOf(this.state.searchValue);
+			const beforeStr = item.tocTitle.substr(0, index);
+			const afterStr = item.tocTitle.substr(index + this.state.searchValue.length);
+			const title =
+				index > -1 ? (
+					<span>
+	                        {beforeStr}
+						<span style={{color: '#f50'}}>{this.state.searchValue}</span>
+						{afterStr}
+                        </span>
+				) : (
+					<span>{item.tocTitle}</span>
+				);
+			if (item.children) {
+				return (
+					<TreeNode key={item.id} title={
+						<EditingModal parent={item} title={title} updateTree={this.updateLevelTree}/>
+					}>
+						{this.renderTreeNodes(item.children)}
+					</TreeNode>
+				);
+			}
+			return <TreeNode key={item.id} title={item.tocTitle}/>;
+		});
+
 	render() {
 		const {expandedKeys, autoExpandParent} = this.state;
 		return (
@@ -103,35 +159,5 @@ export default class LevelEditor extends React.Component {
 			</div>
 		);
 	}
-
-	renderTreeNodes = data =>
-			data.filter(item => {
-				return item.tocTitle !== null
-			}).map(item => {
-
-				const index = item.tocTitle.indexOf(this.state.searchValue);
-				const beforeStr = item.tocTitle.substr(0, index);
-				const afterStr = item.tocTitle.substr(index + this.state.searchValue.length);
-				const title =
-					index > -1 ? (
-						<span>
-	                        {beforeStr}
-							<span style={{color: '#f50'}}>{this.state.searchValue}</span>
-							{afterStr}
-                        </span>
-					) : (
-						<span>{item.tocTitle}</span>
-					);
-				if (item.children) {
-					return (
-						<TreeNode key={item.id} title={
-							<EditingModal parent = {item} title={title}/>
-						}>
-							{this.renderTreeNodes(item.children)}
-						</TreeNode>
-					);
-				}
-				return <TreeNode key={item.id} title={item.tocTitle}/>;
-			});
 }
 
