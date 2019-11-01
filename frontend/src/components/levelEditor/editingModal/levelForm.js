@@ -1,16 +1,76 @@
 import React from 'react'
-import {Form,Button, Modal, Input, Checkbox} from "antd";
+import {Form, Button, Modal, Input, Checkbox, Icon} from "antd";
 
 const LevelForm = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
+		state = {
+			deleteButton: true
+		};
+
+		matchCheck = (e) => {
+			if (e.target.value === this.props.parent.tocTitle) {
+				this.setState({
+					deleteButton: false,
+				})
+			} else {
+				this.setState({
+					deleteButton: true,
+				})
+			}
+		};
+		cancelInput = () => {
+			this.setState({
+				deleteButton: true,
+			});
+			this.props.onCancel();
+		};
+
 		render() {
-			const {visible, onCancel, onCreate, form, parent, modifyState,loading} = this.props;
+			const {visible, onCancel, onCreate, form, parent, modifyState, loading, onDelete} = this.props;
 			const {getFieldDecorator} = form;
 			let title;
-			if (modifyState === "New"){
+			if (modifyState === "New") {
 				title = "Create a new branch under " + parent.tocTitle
-			} else if (modifyState === "Edit"){
+			} else if (modifyState === "Edit") {
 				title = "Edit " + parent.tocTitle
+			} else {
+				return (
+					<Modal
+						visible={visible}
+						title="Are you absolutely sure?"
+						okText="Remove"
+						onOk={onDelete}
+						onCancel={this.cancelInput}
+						footer={[
+							<Button key="delete" type={"danger"} disabled={this.state.deleteButton} onClick={onDelete}
+							        block={true}>
+
+								I understand the consequences, delete this branch
+							</Button>
+						]}
+					>
+						<p>
+							<Icon type="warning" theme="filled"/>
+							{"  This action cannot be undone. This will permanently delete the "}
+							<b> {parent.tocTitle} </b>
+							{" branch and all the content belongs to it."}
+						</p>
+
+						<p>
+							Please type in the name of the branch to confirm.
+						</p>
+
+
+						<Form layout="vertical">
+							<Form.Item>
+								{getFieldDecorator('title', {
+									initialValue: ''
+								})(<Input onChange={this.matchCheck}/>)}
+							</Form.Item>
+						</Form>
+
+					</Modal>
+				)
 			}
 
 			return (
