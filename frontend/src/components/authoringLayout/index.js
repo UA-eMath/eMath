@@ -12,7 +12,7 @@ export default class AuthoringLayout extends React.Component {
 				<TopNav/>
 				<SplitPane
 					split="vertical"
-					minSize={0} defaultSize={200}
+					minSize={0} defaultSize={500}
 				>
 					<div
 						style={{

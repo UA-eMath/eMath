@@ -128,7 +128,7 @@ export default class EditingModal extends React.Component {
 		return (
 			<div>
 				<Dropdown overlay={menu} trigger={['contextMenu']}>
-					<span style={{userSelect: 'none'}}>{this.props.title}</span>
+					<span style={{userSelect: 'none'}}>{this.props.parent.id +this.props.parent.title + this.props.parent.position.toString()}</span>
 				</Dropdown>
 				<LevelForm
 					wrappedComponentRef={this.saveFormRef}
