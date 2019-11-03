@@ -276,76 +276,6 @@ ALTER SEQUENCE public.database_externallink_id_seq OWNED BY public.presentation_
 
 
 --
--- Name: presentation_level_author; Type: TABLE; Schema: public; Owner: emath
---
-
-CREATE TABLE public.presentation_level_author (
-    id integer NOT NULL,
-    level_id integer NOT NULL,
-    person_id integer NOT NULL
-);
-
-
-ALTER TABLE public.presentation_level_author OWNER TO emath;
-
---
--- Name: database_level_author_id_seq; Type: SEQUENCE; Schema: public; Owner: emath
---
-
-CREATE SEQUENCE public.database_level_author_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.database_level_author_id_seq OWNER TO emath;
-
---
--- Name: database_level_author_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: emath
---
-
-ALTER SEQUENCE public.database_level_author_id_seq OWNED BY public.presentation_level_author.id;
-
-
---
--- Name: presentation_level_contributor; Type: TABLE; Schema: public; Owner: emath
---
-
-CREATE TABLE public.presentation_level_contributor (
-    id integer NOT NULL,
-    level_id integer NOT NULL,
-    person_id integer NOT NULL
-);
-
-
-ALTER TABLE public.presentation_level_contributor OWNER TO emath;
-
---
--- Name: database_level_contributor_id_seq; Type: SEQUENCE; Schema: public; Owner: emath
---
-
-CREATE SEQUENCE public.database_level_contributor_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.database_level_contributor_id_seq OWNER TO emath;
-
---
--- Name: database_level_contributor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: emath
---
-
-ALTER SEQUENCE public.database_level_contributor_id_seq OWNED BY public.presentation_level_contributor.id;
-
-
---
 -- Name: presentation_level; Type: TABLE; Schema: public; Owner: emath
 --
 
@@ -355,7 +285,7 @@ CREATE TABLE public.presentation_level (
     "isPage" boolean NOT NULL,
     title character varying(100),
     "tocTitle" character varying(100),
-    unit_type character varying(30) NOT NULL,
+    unit_type character varying(30),
     html_title character varying(100),
     date date,
     lft integer NOT NULL,
@@ -364,6 +294,8 @@ CREATE TABLE public.presentation_level (
     level integer NOT NULL,
     parent_id integer,
     "pageNum" integer,
+    author_id integer,
+    contributor_id integer,
     CONSTRAINT database_level_level_check CHECK ((level >= 0)),
     CONSTRAINT database_level_lft_check CHECK ((lft >= 0)),
     CONSTRAINT database_level_rght_check CHECK ((rght >= 0)),
@@ -402,7 +334,7 @@ ALTER SEQUENCE public.database_level_id_seq OWNED BY public.presentation_level.i
 CREATE TABLE public.presentation_para (
     id integer NOT NULL,
     content jsonb NOT NULL,
-    "position" integer NOT NULL,
+    "position" integer,
     caption character varying(100),
     para_parent_id integer NOT NULL
 );
@@ -671,20 +603,6 @@ ALTER TABLE ONLY public.presentation_level ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- Name: presentation_level_author id; Type: DEFAULT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_author ALTER COLUMN id SET DEFAULT nextval('public.database_level_author_id_seq'::regclass);
-
-
---
--- Name: presentation_level_contributor id; Type: DEFAULT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_contributor ALTER COLUMN id SET DEFAULT nextval('public.database_level_contributor_id_seq'::regclass);
-
-
---
 -- Name: presentation_para id; Type: DEFAULT; Schema: public; Owner: emath
 --
 
@@ -775,7 +693,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$150000$M3DfqSGuBH0S$SF8i22UAMV53UsOSO7Ur0W9ki+fgGhMbQlTX1bOZBOg=	2019-09-17 11:13:39.062821-06	t	yaozhilu			luyaozhiusing@gmail.com	t	t	2019-07-12 12:46:48.917551-06
+1	pbkdf2_sha256$150000$M3DfqSGuBH0S$SF8i22UAMV53UsOSO7Ur0W9ki+fgGhMbQlTX1bOZBOg=	2019-10-21 16:14:42.975013-06	t	yaozhilu			luyaozhiusing@gmail.com	t	t	2019-07-12 12:46:48.917551-06
 \.
 
 
@@ -1090,6 +1008,132 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 288	2019-09-25 13:03:43.706627-06	73	Para object (73)	2	[{"changed": {"fields": ["content"]}}]	9	1
 289	2019-09-25 13:05:11.92547-06	73	Para object (73)	2	[{"changed": {"fields": ["content"]}}]	9	1
 290	2019-09-25 13:07:50.870999-06	73	Para object (73)	2	[]	9	1
+291	2019-10-07 15:53:54.870158-06	73	Para object (73)	2	[{"changed": {"fields": ["content"]}}]	9	1
+292	2019-10-08 13:34:34.330077-06	75	Para object (75)	2	[{"changed": {"fields": ["content"]}}]	9	1
+293	2019-10-08 13:35:18.137891-06	68	Para object (68)	2	[{"changed": {"fields": ["content"]}}]	9	1
+294	2019-10-08 13:35:51.495215-06	66	Para object (66)	2	[{"changed": {"fields": ["content"]}}]	9	1
+295	2019-10-08 13:36:17.669184-06	59	Para object (59)	2	[{"changed": {"fields": ["content"]}}]	9	1
+296	2019-10-08 13:36:46.406252-06	52	Para object (52)	2	[{"changed": {"fields": ["content"]}}]	9	1
+297	2019-10-08 13:37:10.632218-06	69	Para object (69)	2	[{"changed": {"fields": ["content"]}}]	9	1
+298	2019-10-08 13:37:30.637236-06	67	Para object (67)	2	[{"changed": {"fields": ["content"]}}]	9	1
+299	2019-10-08 13:37:43.642689-06	60	Para object (60)	2	[]	9	1
+300	2019-10-08 13:38:00.022093-06	53	Para object (53)	2	[{"changed": {"fields": ["content"]}}]	9	1
+301	2019-10-08 13:38:05.384406-06	70	Para object (70)	2	[]	9	1
+302	2019-10-08 13:38:20.560326-06	61	Para object (61)	2	[{"changed": {"fields": ["content"]}}]	9	1
+303	2019-10-08 13:39:29.760911-06	54	Para object (54)	2	[]	9	1
+304	2019-10-08 13:39:55.429295-06	71	Para object (71)	2	[{"changed": {"fields": ["content"]}}]	9	1
+305	2019-10-08 13:40:16.052162-06	62	Para object (62)	2	[]	9	1
+306	2019-10-08 13:40:36.704267-06	55	Para object (55)	2	[{"changed": {"fields": ["content"]}}]	9	1
+307	2019-10-08 13:40:51.464929-06	72	Para object (72)	2	[{"changed": {"fields": ["content"]}}]	9	1
+308	2019-10-08 13:41:06.943844-06	63	Para object (63)	2	[{"changed": {"fields": ["content"]}}]	9	1
+309	2019-10-08 13:41:31.459444-06	56	Para object (56)	2	[{"changed": {"fields": ["content"]}}]	9	1
+310	2019-10-08 13:42:01.066945-06	73	Para object (73)	2	[{"changed": {"fields": ["content"]}}]	9	1
+311	2019-10-08 13:42:24.850191-06	64	Para object (64)	2	[{"changed": {"fields": ["content"]}}]	9	1
+312	2019-10-08 13:42:42.02371-06	57	Para object (57)	2	[{"changed": {"fields": ["content"]}}]	9	1
+313	2019-10-08 13:43:04.236397-06	74	Para object (74)	2	[{"changed": {"fields": ["content"]}}]	9	1
+314	2019-10-08 13:43:20.59121-06	65	Para object (65)	2	[{"changed": {"fields": ["content"]}}]	9	1
+315	2019-10-08 13:43:36.484499-06	58	Para object (58)	2	[]	9	1
+316	2019-10-08 13:45:13.892633-06	73	Para object (73)	2	[{"changed": {"fields": ["content"]}}]	9	1
+317	2019-10-08 14:10:52.895766-06	56	Para object (56)	2	[{"changed": {"fields": ["content"]}}]	9	1
+318	2019-10-08 14:12:05.45982-06	56	Para object (56)	2	[{"changed": {"fields": ["content"]}}]	9	1
+319	2019-10-08 14:14:06.879538-06	52	Para object (52)	2	[{"changed": {"fields": ["content"]}}]	9	1
+320	2019-10-08 16:08:31.477269-06	75	Para object (75)	2	[{"changed": {"fields": ["content"]}}]	9	1
+321	2019-10-08 16:09:35.332499-06	68	Para object (68)	2	[{"changed": {"fields": ["content"]}}]	9	1
+322	2019-10-08 16:10:02.3657-06	66	Para object (66)	2	[{"changed": {"fields": ["content"]}}]	9	1
+323	2019-10-08 16:10:26.356561-06	59	Para object (59)	2	[{"changed": {"fields": ["content"]}}]	9	1
+324	2019-10-08 16:11:21.231266-06	52	Para object (52)	2	[{"changed": {"fields": ["content"]}}]	9	1
+325	2019-10-08 16:11:30.031453-06	75	Para object (75)	2	[{"changed": {"fields": ["content"]}}]	9	1
+326	2019-10-08 16:11:41.158542-06	68	Para object (68)	2	[{"changed": {"fields": ["content"]}}]	9	1
+327	2019-10-08 16:11:51.806833-06	66	Para object (66)	2	[{"changed": {"fields": ["content"]}}]	9	1
+328	2019-10-08 16:11:59.632837-06	59	Para object (59)	2	[{"changed": {"fields": ["content"]}}]	9	1
+329	2019-10-08 16:12:04.435579-06	52	Para object (52)	2	[]	9	1
+330	2019-10-08 16:12:42.033985-06	67	Para object (67)	2	[{"changed": {"fields": ["content"]}}]	9	1
+331	2019-10-08 16:13:16.822721-06	60	Para object (60)	2	[{"changed": {"fields": ["content"]}}]	9	1
+332	2019-10-08 16:13:35.505641-06	53	Para object (53)	2	[{"changed": {"fields": ["content"]}}]	9	1
+333	2019-10-08 16:14:01.114202-06	70	Para object (70)	2	[{"changed": {"fields": ["content"]}}]	9	1
+334	2019-10-08 16:14:09.711227-06	53	Para object (53)	2	[{"changed": {"fields": ["content"]}}]	9	1
+335	2019-10-08 16:14:14.475921-06	60	Para object (60)	2	[]	9	1
+336	2019-10-08 16:14:45.359427-06	61	Para object (61)	2	[{"changed": {"fields": ["content"]}}]	9	1
+337	2019-10-08 16:15:25.241989-06	54	Para object (54)	2	[{"changed": {"fields": ["content"]}}]	9	1
+338	2019-10-08 16:15:55.76357-06	71	Para object (71)	2	[{"changed": {"fields": ["content"]}}]	9	1
+339	2019-10-08 16:16:23.019575-06	62	Para object (62)	2	[{"changed": {"fields": ["content"]}}]	9	1
+340	2019-10-08 16:16:50.472461-06	55	Para object (55)	2	[{"changed": {"fields": ["content"]}}]	9	1
+341	2019-10-08 16:17:09.38329-06	72	Para object (72)	2	[{"changed": {"fields": ["content"]}}]	9	1
+342	2019-10-08 16:17:30.586306-06	63	Para object (63)	2	[{"changed": {"fields": ["content"]}}]	9	1
+343	2019-10-08 16:17:38.769996-06	72	Para object (72)	2	[{"changed": {"fields": ["content"]}}]	9	1
+344	2019-10-08 16:17:45.789055-06	55	Para object (55)	2	[]	9	1
+345	2019-10-08 16:17:55.792961-06	62	Para object (62)	2	[]	9	1
+346	2019-10-08 16:18:03.87403-06	63	Para object (63)	2	[]	9	1
+347	2019-10-08 16:23:52.645337-06	56	Para object (56)	2	[{"changed": {"fields": ["content"]}}]	9	1
+348	2019-10-08 16:24:14.892-06	73	Para object (73)	2	[{"changed": {"fields": ["content"]}}]	9	1
+349	2019-10-08 16:24:34.074392-06	64	Para object (64)	2	[{"changed": {"fields": ["content"]}}]	9	1
+350	2019-10-08 16:24:55.258098-06	57	Para object (57)	2	[{"changed": {"fields": ["content"]}}]	9	1
+351	2019-10-08 16:25:12.028981-06	74	Para object (74)	2	[{"changed": {"fields": ["content"]}}]	9	1
+352	2019-10-08 16:25:18.668548-06	57	Para object (57)	2	[{"changed": {"fields": ["content"]}}]	9	1
+353	2019-10-08 16:25:22.747895-06	74	Para object (74)	2	[]	9	1
+354	2019-10-08 16:25:40.710993-06	65	Para object (65)	2	[{"changed": {"fields": ["content"]}}]	9	1
+355	2019-10-08 16:26:01.472056-06	58	Para object (58)	2	[{"changed": {"fields": ["content"]}}]	9	1
+356	2019-10-08 16:30:52.822739-06	54	Para object (54)	2	[{"changed": {"fields": ["content"]}}]	9	1
+357	2019-10-08 16:33:29.103447-06	64	Para object (64)	2	[{"changed": {"fields": ["content"]}}]	9	1
+358	2019-10-08 16:34:01.794277-06	69	Para object (69)	2	[{"changed": {"fields": ["content"]}}]	9	1
+359	2019-10-08 16:34:34.090019-06	69	Para object (69)	2	[{"changed": {"fields": ["content"]}}]	9	1
+360	2019-10-08 16:41:10.6481-06	52	Para object (52)	2	[{"changed": {"fields": ["content"]}}]	9	1
+361	2019-10-08 16:41:50.797745-06	52	Para object (52)	2	[{"changed": {"fields": ["content"]}}]	9	1
+362	2019-10-08 16:42:01.396352-06	53	Para object (53)	2	[{"changed": {"fields": ["content"]}}]	9	1
+363	2019-10-08 16:46:28.099669-06	53	Para object (53)	2	[{"changed": {"fields": ["content"]}}]	9	1
+364	2019-10-08 16:46:50.734554-06	53	Para object (53)	2	[{"changed": {"fields": ["content"]}}]	9	1
+365	2019-10-08 16:52:39.648383-06	64	Para object (64)	2	[{"changed": {"fields": ["content"]}}]	9	1
+366	2019-10-16 14:33:59.490618-06	87	Para object (87)	3		9	1
+367	2019-10-16 14:34:08.910499-06	88	Para object (88)	3		9	1
+368	2019-10-16 14:34:17.314134-06	90	Para object (90)	3		9	1
+369	2019-10-16 14:36:03.570029-06	21	Level object (21)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+370	2019-10-16 14:36:34.914671-06	22	Level object (22)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+371	2019-10-17 11:37:01.199204-06	54	Para object (54)	2	[{"changed": {"fields": ["content"]}}]	9	1
+372	2019-10-17 11:37:52.344569-06	62	Para object (62)	2	[{"changed": {"fields": ["content"]}}]	9	1
+373	2019-10-17 11:38:18.80727-06	73	Para object (73)	2	[{"changed": {"fields": ["content"]}}]	9	1
+374	2019-10-17 11:38:49.299795-06	64	Para object (64)	2	[{"changed": {"fields": ["content"]}}]	9	1
+375	2019-10-17 11:40:03.231737-06	54	Para object (54)	2	[]	9	1
+376	2019-10-18 13:27:13.027748-06	36	Level object (36)	2	[{"changed": {"fields": ["position"]}}]	7	1
+377	2019-10-18 13:27:25.292071-06	36	Level object (36)	2	[{"changed": {"fields": ["position"]}}]	7	1
+378	2019-10-18 13:29:57.248277-06	35	Level object (35)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+379	2019-10-21 10:58:30.855964-06	35	Level object (35)	3		7	1
+380	2019-10-21 10:58:45.713007-06	32	Level object (32)	2	[{"changed": {"fields": ["position"]}}]	7	1
+381	2019-10-21 10:59:08.452966-06	33	Level object (33)	2	[{"changed": {"fields": ["position"]}}]	7	1
+382	2019-10-21 10:59:20.943364-06	36	Level object (36)	2	[{"changed": {"fields": ["position"]}}]	7	1
+383	2019-10-21 11:13:02.280869-06	21	Level object (21)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+384	2019-10-21 11:13:22.950973-06	22	Level object (22)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+385	2019-10-21 11:13:49.315098-06	32	Level object (32)	2	[{"changed": {"fields": ["position"]}}]	7	1
+386	2019-10-21 11:13:59.335426-06	31	Level object (31)	2	[{"changed": {"fields": ["position"]}}]	7	1
+387	2019-10-21 11:14:05.890411-06	33	Level object (33)	2	[{"changed": {"fields": ["position"]}}]	7	1
+388	2019-10-21 11:14:15.514693-06	36	Level object (36)	2	[{"changed": {"fields": ["position"]}}]	7	1
+389	2019-10-21 11:15:03.079645-06	31	Level object (31)	2	[{"changed": {"fields": ["position"]}}]	7	1
+390	2019-10-21 11:15:12.184768-06	32	Level object (32)	2	[{"changed": {"fields": ["position"]}}]	7	1
+391	2019-10-21 11:58:04.644357-06	38	Level object (38)	3		7	1
+392	2019-10-21 11:58:14.850105-06	31	Level object (31)	2	[{"changed": {"fields": ["position"]}}]	7	1
+393	2019-10-21 12:49:48.710377-06	22	Level object (22)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+394	2019-10-21 12:49:57.17645-06	21	Level object (21)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+395	2019-10-21 12:55:06.242294-06	21	Level object (21)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+396	2019-10-21 12:55:15.037181-06	22	Level object (22)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+397	2019-10-21 13:01:41.816847-06	45	Level object (45)	3		7	1
+398	2019-10-21 13:01:41.914176-06	44	Level object (44)	3		7	1
+399	2019-10-21 13:01:41.926732-06	43	Level object (43)	3		7	1
+400	2019-10-21 13:01:41.94068-06	42	Level object (42)	3		7	1
+401	2019-10-21 13:01:41.990338-06	41	Level object (41)	3		7	1
+402	2019-10-21 13:01:42.018493-06	40	Level object (40)	3		7	1
+403	2019-10-21 13:01:42.034037-06	39	Level object (39)	3		7	1
+404	2019-10-21 13:02:05.24936-06	32	Level object (32)	2	[{"changed": {"fields": ["position"]}}]	7	1
+405	2019-10-21 13:02:13.762141-06	33	Level object (33)	2	[{"changed": {"fields": ["position"]}}]	7	1
+406	2019-10-21 13:02:24.490772-06	33	Level object (33)	2	[{"changed": {"fields": ["position"]}}]	7	1
+407	2019-10-21 13:02:33.735669-06	36	Level object (36)	2	[{"changed": {"fields": ["position"]}}]	7	1
+408	2019-10-23 16:33:10.83604-06	51	Level object (51)	2	[{"changed": {"fields": ["title"]}}]	7	1
+409	2019-10-23 16:36:17.703517-06	51	Level object (51)	2	[{"changed": {"fields": ["title"]}}]	7	1
+410	2019-10-23 16:36:54.44596-06	51	Level object (51)	2	[{"changed": {"fields": ["title"]}}]	7	1
+411	2019-10-23 16:37:46.371698-06	51	Level object (51)	2	[{"changed": {"fields": ["title"]}}]	7	1
+412	2019-10-23 16:39:38.886836-06	104	Para object (104)	2	[{"changed": {"fields": ["content"]}}]	9	1
+413	2019-10-23 16:40:51.162215-06	104	Para object (104)	2	[]	9	1
+414	2019-10-23 16:42:41.501718-06	104	Para object (104)	2	[{"changed": {"fields": ["content"]}}]	9	1
+415	2019-10-23 16:43:03.278663-06	104	Para object (104)	2	[{"changed": {"fields": ["content"]}}]	9	1
+416	2019-11-01 11:32:14.997076-06	22	Level object (22)	2	[{"changed": {"fields": ["position"]}}]	7	1
 \.
 
 
@@ -1148,6 +1192,10 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 28	presentation	0011_remove_para_para_type	2019-08-23 14:56:00.507491-06
 29	presentation	0012_auto_20190903_1137	2019-09-03 11:38:05.467242-06
 30	presentation	0002_auto_20190916_1134	2019-09-16 11:34:11.139763-06
+31	presentation	0003_auto_20191016_1209	2019-10-16 12:09:54.255375-06
+32	presentation	0004_auto_20191016_1215	2019-10-16 12:15:48.740354-06
+33	presentation	0005_auto_20191022_1322	2019-10-22 13:22:57.636587-06
+34	presentation	0006_auto_20191031_1309	2019-10-31 13:10:08.9341-06
 \.
 
 
@@ -1161,6 +1209,8 @@ rdz9o7k2uekv8hkihlfpywre5emnp6cz	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE
 6fgmgvpi05cy4yo3m5a91ws4lgbdhoxy	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2019-08-26 15:19:40.64501-06
 kjy919mkl3wngvr2db4fvpk8w68gxrnz	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2019-09-10 15:03:08.869941-06
 x55hh8xkx8i0glmjwt3icvqynmnriwn6	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2019-10-01 11:13:39.072477-06
+rk5gh5myimthodbmb55yxqybb1wvt707	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2019-10-21 14:03:26.221249-06
+9yeuunbujvno55mdq7ytb9rpa02cpznn	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2019-11-04 15:14:42.981999-07
 \.
 
 
@@ -1176,37 +1226,24 @@ COPY public.presentation_externallink (id, content, url, target, parent_e_id_id)
 -- Data for Name: presentation_level; Type: TABLE DATA; Schema: public; Owner: emath
 --
 
-COPY public.presentation_level (id, "position", "isPage", title, "tocTitle", unit_type, html_title, date, lft, rght, tree_id, level, parent_id, "pageNum") FROM stdin;
-5	0	f	Higher Dimensions and the Vector Space ℝn	Higher Dimensions and the Vector Space ℝn	chapter	Linear Algebra in Euclidean Space	2019-09-18	5	22	1	2	3	\N
-21	0	t	Double the Pennies	Double the Pennies	eg	Linear Algebra in Euclidean Space	2019-07-12	49	52	1	2	28	0
-22	1	t	Brake Distance Depends in a Quadratic Way on Speed	Brake Distance Depends in a Quadratic Way on Speed	eg	Linear Algebra in Euclidean Space	2019-07-12	53	56	1	2	28	0
-4	0	t	Linear Algebra in ℝn	Introduction	intro	Linear Algebra in Euclidean Space	2019-07-12	2	3	1	1	1	1
-1	0	f	Linear Algebra in Rn	Linear Algebra in Rn	Book	Linear Algebra in Euclidean Space	2019-06-03	1	58	1	0	\N	\N
-2	2	f	The Vector Space ℝn	The Vector Space ℝn	Part	Linear Algebra in Euclidean Space	2019-07-12	38	47	1	1	1	0
-3	1	f	Determinants and a Second Encounter with Spaces and Linear Maps	Determinants and a Second Encounter with Spaces and Linear Maps	part	Linear Algebra in Euclidean Space	2019-07-12	4	37	1	1	1	\N
-28	3	f	Appendix	Appendix	part	Linear Algebra in Euclidean Space	2019-09-03	48	57	1	1	1	\N
-27	7	f	\N	\N	text	\N	2019-09-03	54	55	1	3	22	\N
-29	7	f	\N	\N	text	\N	2019-09-23	50	51	1	3	21	\N
-\.
-
-
---
--- Data for Name: presentation_level_author; Type: TABLE DATA; Schema: public; Owner: emath
---
-
-COPY public.presentation_level_author (id, level_id, person_id) FROM stdin;
-1	1	1
-\.
-
-
---
--- Data for Name: presentation_level_contributor; Type: TABLE DATA; Schema: public; Owner: emath
---
-
-COPY public.presentation_level_contributor (id, level_id, person_id) FROM stdin;
-1	1	2
-2	1	3
-3	1	4
+COPY public.presentation_level (id, "position", "isPage", title, "tocTitle", unit_type, html_title, date, lft, rght, tree_id, level, parent_id, "pageNum", author_id, contributor_id) FROM stdin;
+5	0	f	Higher Dimensions and the Vector Space ℝn	Higher Dimensions and the Vector Space ℝn	chapter	Linear Algebra in Euclidean Space	2019-09-18	19	10	1	2	2	\N	\N	\N
+21	0	t	Double the Pennies	Double the Pennies	eg	Linear Algebra in Euclidean Space	2019-07-12	7	10	1	2	28	\N	\N	\N
+50	0	f	Product of   ℝm and ℝn	Definition	definition	\N	\N	19	20	1	4	33	\N	\N	\N
+51	1	f	<Math inline>\\mathbb{R}^m\\times \\mathbb{R}^n = \\mathbb{R}^{m+n}</Math>	Proposition	Proposition	\N	\N	13	20	1	4	33	\N	\N	\N
+46	4	t	Distance between Points	Distance between Points	section	\N	\N	20	9	1	3	5	6	\N	\N
+4	0	t	Linear Algebra in ℝn	Introduction	intro	Linear Algebra in Euclidean Space	2019-07-12	10	19	1	1	1	1	\N	\N
+31	0	t	Higher Dimensions and the Vector Space ℝn -- Introduction	Introduction	section	\N	\N	10	19	1	3	5	2	\N	\N
+32	1	t	The Space ℝn: Points and Coordinates	Points and Coordinates	section	\N	\N	10	9	1	3	5	3	\N	\N
+36	3	t	Equations in Several Variables	Equations in Several Variables	section	\N	\N	20	19	1	3	5	5	\N	\N
+1	0	f	Linear Algebra in Rn	Linear Algebra in Rn	Book	Linear Algebra in Euclidean Space	2019-06-03	1	34	1	0	\N	\N	\N	\N
+22	1	t	Brake Distance Depends in a Quadratic Way on Speed	Brake Distance Depends in a Quadratic Way on Speed	eg	Linear Algebra in Euclidean Space	2019-07-12	7	10	1	2	28	\N	\N	\N
+28	-1	f	Appendix	Appendix	part	Linear Algebra in Euclidean Space	2019-09-03	2	19	1	1	1	\N	\N	\N
+2	1	f	The Vector Space ℝn	The Vector Space ℝn	Part	Linear Algebra in Euclidean Space	2019-07-12	10	21	1	1	1	0	\N	\N
+3	2	f	Determinants and a Second Encounter with Spaces and Linear Maps	Determinants and a Second Encounter with Spaces and Linear Maps	part	Linear Algebra in Euclidean Space	2019-07-12	32	33	1	1	1	\N	\N	\N
+29	7	f	\N	\N	text	\N	2019-09-23	4	5	1	3	21	\N	\N	\N
+27	7	f	\N	\N	text	\N	2019-09-03	8	9	1	3	22	\N	\N	\N
+33	1	t	Cartesian Products of Subsets of n-Space	Cartesian Products of Subsets of n-Space	section	\N	\N	10	21	1	3	5	4	\N	\N
 \.
 
 
@@ -1215,30 +1252,44 @@ COPY public.presentation_level_contributor (id, level_id, person_id) FROM stdin;
 --
 
 COPY public.presentation_para (id, content, "position", caption, para_parent_id) FROM stdin;
-55	{"list": "", "text": "Such examples demonstrate how easy it is to comprehend linear relationships and to work with them. In contrast, non-linear relationships can be counter-intuitive and much harder to work with. – For an example of the counter intuitive nature of non linear relationships I'll offer you a deal:", "table": ""}	3	null	4
-57	{"list": "", "text": "So far for a first encounter with ‘linear’ vs. ‘nonlinear’. In this introductory ebook on Linear Algebra we will encounter", "table": ""}	5	null	4
-58	{"list": {"tag": "ol", "content": ["Vector spaces: the environment within which linear processes can be described", "Systems of linear equations, and methods for solving them", "Matrices as a vast extension of the system of real numbers", "Linear transformations and their relationship to matrices", "Determinants and their relationship to oriented volume"]}, "text": "", "table": ""}	6	null	4
-56	{"list": "", "text": "I give you $100 today, if over the next 14 days you agree to give me 1 penny today, 2 pennies tomorrow, and on each day double the number of pennies of the day before. –<iLink id = '21'> Does this sound like a good deal to you?</iLink>", "table": ""}	4	null	4
-53	{"list": "", "text": "Let us begin with a first impression of the distinction< between ‘linear’ and ‘non-linear’ processes:", "table": ""}	1	null	4
-52	{"list": "", "text": "<b> This ebook covers basic topics of linear algebra. It deals with vector spaces </b>, their subspaces and linear transformations between them. We emphasize a geometric/visual view of the subject which makes it particularly useful for science and engineering students. Beyond our immediate concerns, we also provide a good foundations for multivariable differential calculus and its applications, in particular certain aspects of differential equations and differential geometry. – Background knowledge assumed of a reader is very modest: basic algebra and knowledge of trigonometric functions.", "table": ""}	0	null	4
-54	{"list": {"tag": "ul", "content": ["Suppose you are traveling at constant speed of 80km/h. After one hour you will have covered a distance of 80km. After 2 hours you will have covered a distance of 160km; after 3 hours a distance of 240km, etc. – Thus 'time traveled' and 'distance covered' are in a linear relationship: <MathDisplay>\\\\text{distance traveled in $k$ hours} = k\\\\cdot \\\\text{(distance traveled in $1$ hour)} </MathDisplay>", "Suppose each day you put a marble into some bag. Then you know that after 1 day you will have 1 marble, after 2 days you will have two marbles; after 3 days you will have 3 marbles in the bag, etc. – This is an example of a linear relationship:<MathDisplay>\\\\text{no. of marbles after $k$ days} = k\\\\cdot \\\\text{(no. of marbles after $1$ day)}</MathDisplay>", "When driving a car, let’s make a table which records the distance it takes to brake the vehicle to a full stop from a given speed. – Such a table <iLink id = '22'> reveals a quadratic relationship </iLink> between speed and brake distance to a full stop.", ["In a cell growth experiment you might encounter a table like the following", {"table": {"data": [["Day", "1", "2", "3", "4", "5", "6", "7"], ["Cell Mass", "m", "2m", "4m", "8m", "16m", "32m", "64m"]], "direction": "h"}}, "This corresponds to a substance which doubles itself every day. Thus ‘number of days passed’ and ‘cell mass’ are not in a linear relationship but rather in an exponential relationship cell mass on day k = <MathDisplay inline = 'true'>2^{k-1}\\\\cdot</MathDisplay> ⋅ (cell mass on day 1)"]]}, "text": "", "table": ""}	2	null	4
-59	{"list": "", "text": "The distance which a car travels while brakes are being applied during an emergency breaking maneuver depends upon the initial speed and a number of environmental conditions such as road, tires, brake force, etc. Let us assume that these environmental conditions remain unchanged throughout while the following data were collected.", "table": ""}	0	null	22
-60	{"list": "", "text": "", "table": {"data": [["Speed [km/h]", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"], ["Brake Distance [m]", ".5", "2", "4.5", "8", "12.5", "18", "23.5", "32", "40.5", "50"]], "direction": "h"}}	1	null	22
-61	{"list": "", "text": "Now let us observe the following:", "table": ""}	2	null	22
-63	{"list": "", "text": "We may summarize this observation as follows: if the brake distance at speed s[km/h] equals d[m], then", "table": ""}	4	null	22
-65	{"list": "", "text": "Thus the brake distance is in a square, or a quadratic, relationship with the initial speed.", "table": ""}	6	null	22
-66	{"list": "", "text": "assume that brake distance depends linearly on speed. – Question: Given that it takes .5m to bring the car to a full stop from an initial speed of 10km/h, what would the brake distance be from an initial speed of 80km/h?", "table": ""}	0	For a thought experiment	27
-67	{"list": "", "text": "100km/h = 8⋅10km/h. So the brake distance should be 8⋅(0.5)=4m – a big difference from the truthful 30m in the above table.", "table": ""}	1	Answer	27
-64	{"list": "", "text": "the brake distance at speed <MathDisplay inline>(k\\\\cdot s)</MathDisplay>[km/h] equals <MathDisplay inline = 'true'>(k^2 \\\\cdot d)</MathDisplay>[m].", "table": ""}	5	null	22
-62	{"list": {"tag": "ol", "content": ["While a speed of 20km/h is 2⋅10km/h, the brake distance went up by a factor of <MathDisplay inline>4=2^2</MathDisplay>.", "While a speed of 30km/h is 3⋅10km/h, the brake distance went up by a factor of <MathDisplay inline>9=3^2</MathDisplay>.", "While a speed of 40km/h is 4⋅10km/h, the brake distance went up by a factor of <MathDisplay inline>16=4^2</MathDisplay>.", "etc."]}, "text": "", "table": ""}	3	null	22
-68	{"list": "", "text": "So, what was this deal again? – Your prof offers you $100 today if you agree to pay 1 penny today, 2 pennies tomorrow, 4 pennies the following day, etc. for the next 14 days.", "table": ""}	0	null	21
-69	{"list": "", "text": "On the surface this sounds like a great deal: collect $100 while only having to pay a few pennies back for each of the next 14 days. But before committing to such a deal, perhaps it is better to work out carefully what actually happens here.", "table": ""}	1	null	21
-70	{"list": "", "text": "", "table": {"data": [["day", 0, 1, 2, 3, 4, 5, 6, 7], ["pennies", 1, 2, 4, 8, 16, 32, 64, 128], ["day", 8, 9, 10, 11, 12, 13, 14], ["pennies", 256, 512, 1024, 2048, 4096, 8192, 16384]], "direction": "h"}}	2	null	21
-71	{"list": "", "text": "Oooopss! – Those numbers of pennies start out small. But they sure grow rapidly! So you see that, on the 14-th day alone, you’d pay your prof back everything (s)he gave you, plus you'd be handing over an additional $63.84.", "table": ""}	3	null	21
-72	{"list": "", "text": "This is an example of exponential growth, a ‘gotcha’ in many ways:", "table": ""}	4	null	21
-74	{"list": "", "text": "For another impression of ‘exponential growth’, work out what happens if you let the penny doubling return scheme run for 21 days instead of for 14.", "table": ""}	6	null	21
-75	{"list": "", "text": "Beware of debt: interest is compounded, and this leads to exponential growth of debt if no payments are being made – The same kind of ‘gotcha’ as the example above.", "table": ""}	0	null	29
-73	{"list": "", "text": "<center>number of pennies paid on day k = <MathDisplay inline = 'true'> 2^k </MathDisplay> </center>", "table": ""}	5	null	21
+55	{"data": {"content": "Such examples demonstrate how easy it is to comprehend linear relationships and to work with them. In contrast, non-linear relationships can be counter-intuitive and much harder to work with. – For an example of the counter intuitive nature of non linear relationships I'll offer you a deal:", "textAlign": ""}, "type": "text"}	3	null	4
+56	{"data": {"content": "I give you $100 today, if over the next 14 days you agree to give me 1 penny today, 2 pennies tomorrow, and on each day double the number of pennies of the day before. –<iLink id = '21'> Does this sound like a good deal to you?</iLink>", "textAlign": ""}, "type": "text"}	4	null	4
+57	{"data": {"content": "So far for a first encounter with ‘linear’ vs. ‘nonlinear’. In this introductory ebook on Linear Algebra we will encounter", "textAlign": ""}, "type": "text"}	5	null	4
+58	{"data": {"tag": "ol", "content": ["Vector spaces: the environment within which linear processes can be described", "Systems of linear equations, and methods for solving them", "Matrices as a vast extension of the system of real numbers", "Linear transformations and their relationship to matrices", "Determinants and their relationship to oriented volume"]}, "type": "list"}	6	null	4
+102	{"data": {"content": "The (cartesian) product of ℝm and ℝn is ℝm×ℝn, defined as the set of all ordered (m+n)-tuples of the form", "textAlign": ""}, "type": "text"}	0		50
+52	{"data": {"content": "This ebook covers basic topics of linear algebra. It deals with vector spaces, their subspaces and linear transformations between them. We emphasize a geometric/visual view of the subject which makes it particularly useful for science and engineering students. Beyond our immediate concerns, we also provide a good foundations for multivariable differential calculus and its applications, in particular certain aspects of differential equations and differential geometry. – Background knowledge assumed of a reader is very modest: basic algebra and knowledge of trigonometric functions.", "textAlign": ""}, "type": "text"}	0	null	4
+53	{"data": {"content": "Let us begin with a first impression of the distinction between ‘linear’ and ‘non-linear’ processes: ", "textAlign": ""}, "type": "text"}	1	null	4
+94	{"data": {"content": "In popular literature some mystery surrounds the concept of 4-dimensional and even higher dimensional spaces. Let us say for now: such spaces exist. Once we learn how to identify them, we find them all around us, and we use them all the time. – So why are they mysterious? They are pushed into mystery because they are <iLink> not accessible to our visual sense</iLink>!", "textAlign": ""}, "type": "text"}	3		31
+99	{"data": {"content": "Here we introduce our work environment: for each of the numbers n, with n one of 0,1,2,…, a space, denoted ℝn. It consists of all ordered n-tuples of real numbers.", "textAlign": ""}, "type": "text"}	0	Summary	32
+105	{"data": "<iLink>Proof</iLink><iLink>link2</iLink><iLink>link3</iLink>", "type": "linkGroup"}	2		51
+101	{"data": {"content": "We justify the notation ℝn by relating it to the set theoretic product operation to the effect that ℝn=ℝ×⋯×ℝ←n→. For now, this section merely serves to present the set theoretic perspective underlying the formation of the space ℝn. It may be skipped on a first reading.", "textAlign": ""}, "type": "text"}	2	Summary	33
+96	{"data": {"tag": "ol", "content": ["We begin by introducing the concept of <iLink>n-tuple of numbers</iLink>. The collection of all n-tuples is the <iLink>space ℝn</iLink>. We then use the product operation on sets to see that <Math inline>\\\\StPrdct{ \\\\RNrSpc{m} }{ \\\\RNrSpc{n} } = \\\\RNrSpc{m+n}</Math>", "We introduce a notion of distance between two points P and Q in ℝn. <iLink>It is based on the Theorem of Pythagoras.</iLink>", "To be able to make a transition from one point P to another Q, we introduce the arrow <Math inline>\\\\Arrow{P}{Q}</Math>. It has the point P at its tail and the point Q at its tip. The length of <Math inline>\\\\Arrow{P}{Q}</Math> is the distance between P and Q.", "An arrow is determined by its tail point, its direction, and its length. A vector consists of all arrows of given direction and length. It is sometimes convenient to think of a vector as an arrow that is allowed to ‘float freely’ while not changing its length nor its direction. We may <iLink>describe a vector</iLink> using a coordinate n-tuple. Thus a coordinate n-tuple now serves two purposes: (a) locate a point and, (b) describe a vector. We explain how these two purposes are related.", "Next we explain how two vectors can be <iLink>added</iLink>, and how a <iLink>vector is multiplied by a number</iLink>. These operations extend the rules for adding and multiplying numbers to vectors.", "A vector is determined by its direction and its length. By virtue of these properties vectors lend themselves to modeling any real life quantity that is determined by its direction and its magnitude. Here are some examples:", {"data": {"tag": "ol", "content": ["Shifting (translating) an object from one place to another (without rotating it in the process) moves each point of the object in the same direction by the same distance. Therefore, we may use a vector to describe this translation.", "A ‘force’ is determined by the direction in which it acts and its magnitude. Therefore, we may use a vector to represent this force.", "The ‘velocity’ of a moving object is given by the direction of the motion and its speed. Therefore, we may use a vector to represent this velocity."]}, "type": "list"}, "As an application, we offer an introduction to linear motions, that is a point shaped particle moving along a line with constant speed."]}, "type": "list"}	5		31
+54	{"data": {"tag": "ul", "content": ["Suppose you are traveling at constant speed of 80km/h. After one hour you will have covered a distance of 80km. After 2 hours you will have covered a distance of 160km; after 3 hours a distance of 240km, etc. – Thus 'time traveled' and 'distance covered' are in a linear relationship: <Math>\\\\text{distance traveled in $k$ hours} = k\\\\cdot \\\\text{(distance traveled in $1$ hour)} </Math>", "Suppose each day you put a marble into some bag. Then you know that after 1 day you will have 1 marble, after 2 days you will have two marbles; after 3 days you will have 3 marbles in the bag, etc. – This is an example of a linear relationship:<Math>\\\\text{no. of marbles after $k$ days} = k\\\\cdot \\\\text{(no. of marbles after $1$ day)}</Math>", "When driving a car, let’s make a table which records the distance it takes to brake the vehicle to a full stop from a given speed. – Such a table <iLink id = '22'> reveals a quadratic relationship </iLink> between speed and brake distance to a full stop.", ["In a cell growth experiment you might encounter a table like the following", {"data": {"content": [["Day", "1", "2", "3", "4", "5", "6", "7"], ["Cell Mass", "m", "2m", "4m", "8m", "16m", "32m", "64m"]], "direction": "h"}, "type": "table"}, "This corresponds to a substance which doubles itself every day. Thus ‘number of days passed’ and ‘cell mass’ are not in a linear relationship but rather in an exponential relationship cell mass on day k = <Math inline = 'true'>2^{k-1}\\\\cdot</Math> ⋅ (cell mass on day 1)"]]}, "type": "list"}	2	null	4
+100	{"data": {"content": "To get started, let's recall the set <iLink>ℝ of real numbers.</iLink> Geometrically, real numbers correspond to the points on a line, a 1-dimensional object. Similarly, you have already seen how a pair of real numbers corresponds to a point in a plane, a 2-dimensional object, and a triple of three numbers may be used to describe the location of a point in space surrounding us, which has dimension 3. Here we take these associations a big step forward: we introduce spaces of arbitrarily many dimensions, and these spaces will form our primary work environment. The key constituent in any of these spaces is an ordered n-tuple of numbers, which we think of as a point:", "textAlign": ""}, "type": "text"}	1	Outline	32
+103	{"data": {"content": "<Math>({\\\\color{red} x_1,\\\\dots, x_m},{\\\\color{blue} y_1,\\\\dots, y_n})\\\\quad \\\\text{with}\\\\quad ({\\\\color{red} x_1,\\\\dots, x_m})\\\\ \\\\text{in}\\\\ \\\\mathbb{R}{m}\\\\quad \\\\text{and}\\\\quad ({\\\\color{blue} y_1,\\\\dots, y_n})\\\\ \\\\text{in}\\\\ \\\\mathbb{R}{n}</Math>", "textAlign": ""}, "type": "text"}	2		50
+104	{"data": {"content": "For all m,n≥1, <Math inline>\\\\mathbb{R}^m\\\\times \\\\mathbb{R}^n = \\\\mathbb{R}^{m+n}</Math>.", "textAlign": ""}, "type": "text"}	0	\N	51
+68	{"data": {"content": "So, what was this deal again? – Your prof offers you $100 today if you agree to pay 1 penny today, 2 pennies tomorrow, 4 pennies the following day, etc. for the next 14 days.", "textAlign": ""}, "type": "text"}	0	null	21
+66	{"data": {"content": "assume that brake distance depends linearly on speed. – Question: Given that it takes .5m to bring the car to a full stop from an initial speed of 10km/h, what would the brake distance be from an initial speed of 80km/h?", "textAlign": ""}, "type": "text"}	0	For a thought experiment	27
+59	{"data": {"content": "The distance which a car travels while brakes are being applied during an emergency breaking maneuver depends upon the initial speed and a number of environmental conditions such as road, tires, brake force, etc. Let us assume that these environmental conditions remain unchanged throughout while the following data were collected.", "textAlign": ""}, "type": "text"}	0	null	22
+67	{"data": {"content": "100km/h = 8⋅10km/h. So the brake distance should be 8⋅(0.5)=4m – a big difference from the truthful 30m in the above table.", "textAlign": ""}, "type": "text"}	1	Answer	27
+60	{"data": {"content": [["Speed [km/h]", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"], ["Brake Distance [m]", ".5", "2", "4.5", "8", "12.5", "18", "23.5", "32", "40.5", "50"]], "direction": "h"}, "type": "table"}	1	null	22
+71	{"data": {"content": "Oooopss! – Those numbers of pennies start out small. But they sure grow rapidly! So you see that, on the 14-th day alone, you’d pay your prof back everything (s)he gave you, plus you'd be handing over an additional $63.84.", "textAlign": ""}, "type": "text"}	3	null	21
+61	{"data": {"content": "Now let us observe the following:", "textAlign": ""}, "type": "text"}	2	null	22
+63	{"data": {"content": "We may summarize this observation as follows: if the brake distance at speed s[km/h] equals d[m], then", "textAlign": ""}, "type": "text"}	4	null	22
+73	{"data": {"content": "number of pennies paid on day k = <Math inline = 'true'> 2^k </Math> ", "textAlign": "center"}, "type": "text"}	5	null	21
+72	{"data": {"content": "This is an example of exponential growth, a ‘gotcha’ in many ways:", "textAlign": ""}, "type": "text"}	4	null	21
+65	{"data": {"content": "Thus the brake distance is in a square, or a quadratic, relationship with the initial speed.", "textAlign": ""}, "type": "text"}	6	null	22
+74	{"data": {"content": "For another impression of ‘exponential growth’, work out what happens if you let the penny doubling return scheme run for 21 days instead of for 14.", "textAlign": ""}, "type": "text"}	6	null	21
+70	{"data": {"content": [["day", 0, 1, 2, 3, 4, 5, 6, 7], ["pennies", 1, 2, 4, 8, 16, 32, 64, 128], ["day", 8, 9, 10, 11, 12, 13, 14], ["pennies", 256, 512, 1024, 2048, 4096, 8192, 16384]], "direction": "h"}, "type": "table"}	2	null	21
+69	{"data": {"content": "On the surface this sounds like a great deal: collect $100 while only having to pay a few pennies back for each of the next 14 days. But before committing to such a deal, perhaps it is better to work out carefully what actually happens here.", "textAlign": ""}, "type": "text"}	1	null	21
+95	{"data": {"content": "Let us now outline the essence of this introductory chapter to the vector space ℝn.", "textAlign": ""}, "type": "text"}	4	Chapter overview	31
+75	{"data": {"content": "Beware of debt: interest is compounded, and this leads to exponential growth of debt if no payments are being made – The same kind of ‘gotcha’ as the example above.", "textAlign": ""}, "type": "text"}	0	null	29
+64	{"data": {"content": "the brake distance at speed <Math inline>(k\\\\cdot s)</Math>[km/h] equals <Math inline = 'true'>(k^2 \\\\cdot d)</Math>[m].", "textAlign": "center"}, "type": "text"}	5	null	22
+93	{"data": {"tag": "ul", "content": ["A single point is a 0-dimensional space, as it permits no motion inside of it at all.", "A line or a curve are 1-dimensional spaces: inside of it, at each of its points, there is exactly one direction of motion. It could be called <iLink>forward-backward</iLink>.", "A plane or a surface are 2-dimensional spaces: inside of it, at each of its points, there are exactly two independent directions of motion. These could be called <iLink>forward-backward and left-right.</iLink> Every other direction of motion can be combined from these two.", "The space surrounding us is 3-dimensional: inside of it, at each of its points, there are exactly three independent directions of motion. These could be called forward-backward, left-right, and up-down. Every other direction of motion can be combined from these three."]}, "type": "list"}	2		31
+91	{"data": {"content": "In this chapter we will introduce our work environment: for each integer n≥0 a ‘straight’ and ‘endless’ space, denoted ℝn. The integer n is the dimension the space. A point in ℝn is given by n numbers x1,…,xn, written in order as (x1,…,xn). We will study in detail how to use such points to describe objects like lines and planes in ℝn. We will learn how to move such objects around and how to change their shape. We will learn general rules on how to compute with such points.", "textAlign": ""}, "type": "text"}	0	Our work environment	31
+92	{"data": {"content": "Let us take an intuitive look at <b>the dimension concept</b> For a natural number n, a space is called n-dimensional if, at each of its points, it permits exactly n independent directions of motion which can be combined to reach any nearby point. For example,", "textAlign": ""}, "type": "text"}	1		31
+62	{"data": {"tag": "ol", "content": ["While a speed of 20km/h is 2⋅10km/h, the brake distance went up by a factor of <Math inline>4=2^2</Math>.", "While a speed of 30km/h is 3⋅10km/h, the brake distance went up by a factor of <Math inline>9=3^2</Math>.", "While a speed of 40km/h is 4⋅10km/h, the brake distance went up by a factor of <Math inline>16=4^2</Math>.", "etc."]}, "type": "list"}	3	null	22
+98	{"data": {"content": "One fundamental concern of mathematics is the study of equations and their solutions. Here we introduce equations in n variables (also: unknowns), and we explain how such equations can be used to define certain objects in ℝn.", "textAlign": ""}, "type": "text"}	4	Summary	36
 \.
 
 
@@ -1306,31 +1357,17 @@ SELECT pg_catalog.setval('public.database_externallink_id_seq', 1, false);
 
 
 --
--- Name: database_level_author_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
---
-
-SELECT pg_catalog.setval('public.database_level_author_id_seq', 1, true);
-
-
---
--- Name: database_level_contributor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
---
-
-SELECT pg_catalog.setval('public.database_level_contributor_id_seq', 3, true);
-
-
---
 -- Name: database_level_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
 --
 
-SELECT pg_catalog.setval('public.database_level_id_seq', 29, true);
+SELECT pg_catalog.setval('public.database_level_id_seq', 66, true);
 
 
 --
 -- Name: database_para_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
 --
 
-SELECT pg_catalog.setval('public.database_para_id_seq', 75, true);
+SELECT pg_catalog.setval('public.database_para_id_seq', 105, true);
 
 
 --
@@ -1344,7 +1381,7 @@ SELECT pg_catalog.setval('public.database_person_id_seq', 6, true);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 290, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 416, true);
 
 
 --
@@ -1358,7 +1395,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 12, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 30, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 34, true);
 
 
 --
@@ -1463,38 +1500,6 @@ ALTER TABLE ONLY public.auth_user
 
 ALTER TABLE ONLY public.presentation_externallink
     ADD CONSTRAINT database_externallink_pkey PRIMARY KEY (id);
-
-
---
--- Name: presentation_level_author database_level_author_level_id_person_id_1780d99b_uniq; Type: CONSTRAINT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_author
-    ADD CONSTRAINT database_level_author_level_id_person_id_1780d99b_uniq UNIQUE (level_id, person_id);
-
-
---
--- Name: presentation_level_author database_level_author_pkey; Type: CONSTRAINT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_author
-    ADD CONSTRAINT database_level_author_pkey PRIMARY KEY (id);
-
-
---
--- Name: presentation_level_contributor database_level_contributor_level_id_person_id_b7adb61e_uniq; Type: CONSTRAINT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_contributor
-    ADD CONSTRAINT database_level_contributor_level_id_person_id_b7adb61e_uniq UNIQUE (level_id, person_id);
-
-
---
--- Name: presentation_level_contributor database_level_contributor_pkey; Type: CONSTRAINT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_contributor
-    ADD CONSTRAINT database_level_contributor_pkey PRIMARY KEY (id);
 
 
 --
@@ -1632,34 +1637,6 @@ CREATE INDEX database_externallink_parent_e_id_id_6dc28d45 ON public.presentatio
 
 
 --
--- Name: database_level_author_level_id_6696cbee; Type: INDEX; Schema: public; Owner: emath
---
-
-CREATE INDEX database_level_author_level_id_6696cbee ON public.presentation_level_author USING btree (level_id);
-
-
---
--- Name: database_level_author_person_id_f1eeb474; Type: INDEX; Schema: public; Owner: emath
---
-
-CREATE INDEX database_level_author_person_id_f1eeb474 ON public.presentation_level_author USING btree (person_id);
-
-
---
--- Name: database_level_contributor_level_id_7adfbd76; Type: INDEX; Schema: public; Owner: emath
---
-
-CREATE INDEX database_level_contributor_level_id_7adfbd76 ON public.presentation_level_contributor USING btree (level_id);
-
-
---
--- Name: database_level_contributor_person_id_0c153aa6; Type: INDEX; Schema: public; Owner: emath
---
-
-CREATE INDEX database_level_contributor_person_id_0c153aa6 ON public.presentation_level_contributor USING btree (person_id);
-
-
---
 -- Name: database_level_parent_id_fa9da85a; Type: INDEX; Schema: public; Owner: emath
 --
 
@@ -1706,6 +1683,20 @@ CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING 
 --
 
 CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: presentation_level_author_id_4661595c; Type: INDEX; Schema: public; Owner: emath
+--
+
+CREATE INDEX presentation_level_author_id_4661595c ON public.presentation_level USING btree (author_id);
+
+
+--
+-- Name: presentation_level_contributor_id_f29508a3; Type: INDEX; Schema: public; Owner: emath
+--
+
+CREATE INDEX presentation_level_contributor_id_f29508a3 ON public.presentation_level USING btree (contributor_id);
 
 
 --
@@ -1773,38 +1764,6 @@ ALTER TABLE ONLY public.presentation_externallink
 
 
 --
--- Name: presentation_level_author database_level_author_level_id_6696cbee_fk_database_level_id; Type: FK CONSTRAINT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_author
-    ADD CONSTRAINT database_level_author_level_id_6696cbee_fk_database_level_id FOREIGN KEY (level_id) REFERENCES public.presentation_level(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: presentation_level_author database_level_author_person_id_f1eeb474_fk_database_person_id; Type: FK CONSTRAINT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_author
-    ADD CONSTRAINT database_level_author_person_id_f1eeb474_fk_database_person_id FOREIGN KEY (person_id) REFERENCES public.presentation_person(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: presentation_level_contributor database_level_contr_level_id_7adfbd76_fk_database_; Type: FK CONSTRAINT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_contributor
-    ADD CONSTRAINT database_level_contr_level_id_7adfbd76_fk_database_ FOREIGN KEY (level_id) REFERENCES public.presentation_level(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
--- Name: presentation_level_contributor database_level_contr_person_id_0c153aa6_fk_database_; Type: FK CONSTRAINT; Schema: public; Owner: emath
---
-
-ALTER TABLE ONLY public.presentation_level_contributor
-    ADD CONSTRAINT database_level_contr_person_id_0c153aa6_fk_database_ FOREIGN KEY (person_id) REFERENCES public.presentation_person(id) DEFERRABLE INITIALLY DEFERRED;
-
-
---
 -- Name: presentation_level database_level_parent_id_fa9da85a_fk_database_level_id; Type: FK CONSTRAINT; Schema: public; Owner: emath
 --
 
@@ -1834,6 +1793,22 @@ ALTER TABLE ONLY public.django_admin_log
 
 ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: presentation_level presentation_level_author_id_4661595c_fk_presentation_person_id; Type: FK CONSTRAINT; Schema: public; Owner: emath
+--
+
+ALTER TABLE ONLY public.presentation_level
+    ADD CONSTRAINT presentation_level_author_id_4661595c_fk_presentation_person_id FOREIGN KEY (author_id) REFERENCES public.presentation_person(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: presentation_level presentation_level_contributor_id_f29508a3_fk_presentat; Type: FK CONSTRAINT; Schema: public; Owner: emath
+--
+
+ALTER TABLE ONLY public.presentation_level
+    ADD CONSTRAINT presentation_level_contributor_id_f29508a3_fk_presentat FOREIGN KEY (contributor_id) REFERENCES public.presentation_person(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
