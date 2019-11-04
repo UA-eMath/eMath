@@ -87,6 +87,7 @@ export default class LevelEditor extends React.Component {
 	}
 
 	updateLevelTree() {
+		//TODO change here
 		let id = 1;
 		getToc({id: id}).then(
 			data => {
@@ -166,7 +167,7 @@ export default class LevelEditor extends React.Component {
 
 
 	onDrop = info => {
-		console.log(info);
+		// console.log(info);
 		const node_been_dragged_key = info.dragNode.props.eventKey;
 		const node_been_dropped_key = info.node.props.eventKey;
 
@@ -194,10 +195,14 @@ export default class LevelEditor extends React.Component {
 			//change position
 		request_body = JSON.stringify({
 			...request_body,
-			position: getNode(node_been_dropped_key, this.state.treeData) + dropPosition,
+			//position: getNode(node_been_dropped_key, this.state.treeData) + dropPosition,
+			position: dropPosition,
+			target: node_been_dropped_key
 		});
 
-		console.log(request_body);
+		// console.log(getNode(node_been_dropped_key, this.state.treeData));
+		// console.log(node_been_dragged_key,node_been_dropped_key,dropPosition);
+		// console.log(request_body);
 
 		updateLevel(request_body, node_been_dragged_key).then(data => {
 			if (!data || data.status !== 200) {

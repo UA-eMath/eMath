@@ -84,12 +84,21 @@ class LevelViewset(viewsets.ModelViewSet):
 	#PUT http://localhost:8000/Level/**/
 	#PATCH http://localhost:8000/Level/**/
 	def update(self, request,*args, **kwargs):
-		response = super().update(request,*args, **kwargs)
-
+		#move node
+			#position : -1 left or 1 right
+			# target : dropped node id
+			#child : dragged node id
 		if request.data.get("position") != None:
-			updatePosition(Level.objects.get(pk=self.kwargs["pk"]))
+			child = Level.objects.get(pk=self.kwargs["pk"])
+			target = Level.objects.get(pk= request.data.get('target'))
+			position = int(request.data.get('position'))
 
-		print(request.data.get("position"))
+			updatePosition(child,target,position)
+
+			response = Response(child.position)
+		else:
+			response = super().update(request, *args, **kwargs)
+
 
 		self._updatePageNumber(Level.objects.get(pk=self.kwargs["pk"]).get_root())
 		return response

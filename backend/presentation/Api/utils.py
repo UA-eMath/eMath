@@ -1,7 +1,8 @@
 from itertools import chain
 from presentation.models import Level
 
-def updatePosition(child):
+
+def updatePosition(child, target, position):
 	parent = child.parent
 
 	children_list = parent.get_children().order_by('position')
@@ -13,11 +14,12 @@ def updatePosition(child):
 
 	cached_list.remove(child)
 
+	if position == -1:
+		position = 0
+	cached_list.insert(cached_list.index(target)+position,child)
+
 	index = 0
 	for i in cached_list:
-		if index == child.position:
-			index += 1
-
 		if i.position != index:
 			i.position = index
 			try:

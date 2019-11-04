@@ -105,4 +105,4 @@ venv.bak/
 .DS_Store
 /frontend/src/layouts/SplitView/redundent.js
 
-../.idea/workspace.xml
+.idea
