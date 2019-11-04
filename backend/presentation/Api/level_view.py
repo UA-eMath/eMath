@@ -85,13 +85,14 @@ class LevelViewset(viewsets.ModelViewSet):
 	#PATCH http://localhost:8000/Level/**/
 	def update(self, request,*args, **kwargs):
 		response = super().update(request,*args, **kwargs)
-		print(request.data.get("position"))
-		if request.data.get("position") != None:
-			updatePosition(Level.objects.get(pk=self.kwargs["pk"]).parent,request.data.get("position"))
 
+		if request.data.get("position") != None:
+			updatePosition(Level.objects.get(pk=self.kwargs["pk"]))
+
+		print(request.data.get("position"))
 
 		self._updatePageNumber(Level.objects.get(pk=self.kwargs["pk"]).get_root())
-		return response.data
+		return response
 
 	def _updatePageNumber(self,root):
 		page_number = 1

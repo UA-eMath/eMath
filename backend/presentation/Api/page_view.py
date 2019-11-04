@@ -36,6 +36,9 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 		else:
 			return None
 
+		if pages == None:
+			return None
+
 		return self.getParas(pages)
 
 	def getParas(self,root):

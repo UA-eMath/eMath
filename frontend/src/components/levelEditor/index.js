@@ -67,6 +67,7 @@ export default class LevelEditor extends React.Component {
 	};
 
 	componentDidMount() {
+		//TODO change here
 		let id = 1;
 		getToc({id: id}).then(
 			data => {
