@@ -12,11 +12,9 @@ def updatePosition(child, target, position):
 
 	else:
 		parent = target.parent
-
 		children_list = parent.get_children().order_by('position')
 		cached_list = list(chain(children_list))
 		# cached_list = sorted(cached_list, key=lambda instance: instance.position)
-
 		try:
 			#move under same parent
 			cached_list.remove(child)
@@ -46,4 +44,6 @@ def updatePosition(child, target, position):
 				Level.objects.rebuild()
 				i.save()
 		index += 1
+
+	Level.objects.rebuild()
 	return

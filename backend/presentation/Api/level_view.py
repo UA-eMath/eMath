@@ -95,7 +95,7 @@ class LevelViewset(viewsets.ModelViewSet):
 			position = int(request.data.get('position'))
 
 			#validattion check
-			if target.isPage == True:
+			if target.isPage == True and position == 0:
 				return Response(data='You cannot move a branch under a page.',status=400)
 
 			updatePosition(child,target,position)
@@ -114,7 +114,6 @@ class LevelViewset(viewsets.ModelViewSet):
 		def _recursivelyUpdatePageNum(root,page_number):
 			# base
 			if root.isPage:
-				print(root,page_number)
 				root.pageNum = page_number
 				root.save()
 				return page_number + 1
