@@ -53,7 +53,9 @@ class SplitView extends React.Component {
 	}
 
 	async componentDidMount() {
-		let id =this.props.match.params['id'];
+		//TODO
+		let id =4;
+		console.log(this.props.match.params['id']);
 		let page = null;
 		const pageContent = await getPage({id: id, page: page});
 

@@ -3,7 +3,7 @@ from presentation.models import Level
 
 
 def updatePosition(child, target, position):
-	parent = child.parent
+	parent = target.parent
 
 	children_list = parent.get_children().order_by('position')
 	children_para_list = parent.para_set.all().order_by('position')
@@ -12,7 +12,16 @@ def updatePosition(child, target, position):
 	cached_list = list(chain(children_list, children_para_list))
 	cached_list = sorted(cached_list, key=lambda instance: instance.position)
 
-	cached_list.remove(child)
+	try:
+		cached_list.remove(child)
+	except:
+		if position == -1:
+			pos = 'left'
+		else:
+			pos = 'right'
+		child.move_to(target,pos)
+		Level.objects.rebuild()
+		pass
 
 	if position == -1:
 		position = 0

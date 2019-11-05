@@ -76,7 +76,8 @@ class LevelViewset(viewsets.ModelViewSet):
 			return Response("level id(" + self.kwargs["pk"] +") is not found", 404)
 
 		level.delete()
-		updatePosition(parent_level)
+		#TODO
+		#updatePosition(parent_level);
 		self._updatePageNumber(root)
 
 		return Response("Level is successfully deleted.", 204)
@@ -104,17 +105,19 @@ class LevelViewset(viewsets.ModelViewSet):
 		return response
 
 	def _updatePageNumber(self,root):
-		page_number = 1
+		page_number = -1
 		def _recursivelyUpdatePageNum(root,page_number):
 			# base
 			if root.isPage:
+				print(root,page_number)
 				root.pageNum = page_number
 				root.save()
 				return page_number + 1
 
 			if root.position >=0:
 				for child in root.get_children().order_by("position"):
-					page_number = _recursivelyUpdatePageNum(child,page_number)
+					if child.position>=0:
+						page_number = _recursivelyUpdatePageNum(child,page_number)
 
 			return page_number
 		_recursivelyUpdatePageNum(root, page_number)

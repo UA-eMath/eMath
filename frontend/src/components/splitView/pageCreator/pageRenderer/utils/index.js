@@ -41,6 +41,10 @@ export function tagParser(para, props) {
 	};
 
 	//Link parser
+	//TODO
+	if (para === null){
+		return
+	}
 	let paragraphs = para.toString().split(regex.link.phrase);
 
 	paragraphs = paragraphs.map((text, i) => {

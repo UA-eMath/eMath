@@ -32,6 +32,7 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 		if page_num is not None and page_num != 0:
 			pages = Level.objects.filter(isPage=True,pageNum=page_num).first()
 		elif level_id is not None:
+			#TODO handle when id is root
 			pages = Level.objects.filter(isPage=True,id=level_id).first()
 		else:
 			return None
