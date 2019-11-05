@@ -13,5 +13,7 @@ export default function updateLevel(level,id) {
 		.then(response => {
 			return response;
 		})
-		.catch(error => console.log(error))
+		.catch(error => {
+			return error.response
+		})
 }

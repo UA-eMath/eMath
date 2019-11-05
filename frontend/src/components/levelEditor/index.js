@@ -1,8 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import {Tree, Input} from 'antd';
+import {Tree, Input,Icon,message} from 'antd';
 import getToc from "../../requests/getToc";
-import {Menu, Dropdown} from 'antd';
 import EditingModal from './editingModal';
 import updateLevel from '../../requests/updateLevel';
 
@@ -39,18 +38,6 @@ const getParentKey = (id, tree) => {
 	return parentKey;
 };
 
-const getNode = (id, tree) => {
-	for (let i = 0; i < tree.length; i++) {
-		if (parseInt(tree[i].id) === parseInt(id)) {
-			return tree[i].position;
-		}
-		else if (tree[i].children) {
-			if (typeof getNode(id, tree[i].children) !== 'undefined') {
-				return getNode(id, tree[i].children);
-			}
-		}
-	}
-};
 
 export default class LevelEditor extends React.Component {
 	constructor(props) {
@@ -68,27 +55,15 @@ export default class LevelEditor extends React.Component {
 
 	componentDidMount() {
 		//TODO change here
-		let id = 1;
-		getToc({id: id}).then(
-			data => {
-				if (!data || data.status !== 200) {
-					console.error("FETCH_TAGS_FAILED", data);
-				} else {
-					this.setState({
-						treeData: data.data.children
-					});
-					generateList(this.state.treeData);
-					this.setState({
-						expandedKeys: parentId
-					});
-				}
-			}
-		)
+		this.getTreeData(1);
 	}
 
 	updateLevelTree() {
 		//TODO change here
-		let id = 1;
+		this.getTreeData(1);
+	}
+
+	getTreeData = (id) => {
 		getToc({id: id}).then(
 			data => {
 				if (!data || data.status !== 200) {
@@ -104,7 +79,7 @@ export default class LevelEditor extends React.Component {
 				}
 			}
 		)
-	}
+	};
 
 	onExpand = expandedKeys => {
 		this.setState({
@@ -149,22 +124,36 @@ export default class LevelEditor extends React.Component {
 				) : (
 					<span>{item.tocTitle}</span>
 				);
+
 			if (item.children) {
+				if (item.isPage === true) {
+					return (
+						<TreeNode icon = { <Icon type="file" /> }
+						          key={item.id}
+						          title={<EditingModal
+							          parent={item}
+							          title={title}
+							          updateTree={this.updateLevelTree}
+						          />}
+						/>
+					)
+				}
 				return (
-					<TreeNode key={item.id} title={
-						<EditingModal parent={item} title={title} updateTree={this.updateLevelTree}/>
-					}>
+					<TreeNode icon = {<Icon type="branches" />}
+					          key={item.id}
+					          title={<EditingModal
+						          parent={item}
+						          title={title}
+						          updateTree={this.updateLevelTree}/>
+					          }>
 						{this.renderTreeNodes(item.children)}
-					</TreeNode>
-				);
+					</TreeNode>)
 			}
-			return <TreeNode key={item.id} title={item.tocTitle}/>;
 		});
 
 	onDragEnter = info => {
 
 	};
-
 
 	onDrop = info => {
 		// console.log(info);
@@ -177,7 +166,7 @@ export default class LevelEditor extends React.Component {
 
 		let request_body = {};
 		// Need to change parent and position
-			//change parent
+		//change parent
 		let dragged_node_parent = getParentKey(node_been_dragged_key, this.state.treeData);
 		if (typeof dragged_node_parent === 'undefined') {
 			dragged_node_parent = this.state.treeData[0].parent;
@@ -192,7 +181,7 @@ export default class LevelEditor extends React.Component {
 			request_body = {...request_body, parent: dropped_node_parent}
 		}
 
-			//change position
+		//change position
 		request_body = JSON.stringify({
 			...request_body,
 			//position: getNode(node_been_dropped_key, this.state.treeData) + dropPosition,
@@ -200,13 +189,15 @@ export default class LevelEditor extends React.Component {
 			target: node_been_dropped_key
 		});
 
-		// console.log(getNode(node_been_dropped_key, this.state.treeData));
-		// console.log(node_been_dragged_key,node_been_dropped_key,dropPosition);
-		// console.log(request_body);
+		console.log(node_been_dragged_key, node_been_dropped_key, dropPosition);
+		console.log(request_body);
 
 		updateLevel(request_body, node_been_dragged_key).then(data => {
 			if (!data || data.status !== 200) {
-				console.error("Update error", request_body ,data);
+				if (data.status === 400){
+					message.error(data.data);
+				}
+				console.error("Update error", request_body, data);
 			}
 			this.updateLevelTree();
 		})
@@ -225,6 +216,7 @@ export default class LevelEditor extends React.Component {
 					blockNode
 					onDragEnter={this.onDragEnter}
 					onDrop={this.onDrop}
+					showIcon={true}
 				>
 					{this.renderTreeNodes(this.state.treeData)}
 				</Tree>

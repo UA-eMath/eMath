@@ -3,30 +3,39 @@ from presentation.models import Level
 
 
 def updatePosition(child, target, position):
-	parent = target.parent
+	if position == 0:
+		child.move_to(target, "first-child")
+		child.parent = target
+		child.save()
+		cached_list = list(chain(target.get_children().order_by('position')))
+		cached_list.insert(0,child)
 
-	children_list = parent.get_children().order_by('position')
-	children_para_list = parent.para_set.all().order_by('position')
+	else:
+		parent = target.parent
 
-	# merge two list
-	cached_list = list(chain(children_list, children_para_list))
-	cached_list = sorted(cached_list, key=lambda instance: instance.position)
+		children_list = parent.get_children().order_by('position')
+		cached_list = list(chain(children_list))
+		# cached_list = sorted(cached_list, key=lambda instance: instance.position)
 
-	try:
-		cached_list.remove(child)
-	except:
+		try:
+			#move under same parent
+			cached_list.remove(child)
+
+		except:
+			#child not found, change parent
+			if position == -1:
+				child.move_to(target, "left")
+
+			elif position == 1:
+				child.move_to(target,'right' )
+			pass
+
 		if position == -1:
-			pos = 'left'
-		else:
-			pos = 'right'
-		child.move_to(target,pos)
-		Level.objects.rebuild()
-		pass
+			cached_list.insert(cached_list.index(target), child)
+		elif position == 1:
+			cached_list.insert(cached_list.index(target) + 1, child)
 
-	if position == -1:
-		position = 0
-	cached_list.insert(cached_list.index(target)+position,child)
-
+	print(cached_list)
 	index = 0
 	for i in cached_list:
 		if i.position != index:
@@ -36,7 +45,5 @@ def updatePosition(child, target, position):
 			except:
 				Level.objects.rebuild()
 				i.save()
-
 		index += 1
-
 	return

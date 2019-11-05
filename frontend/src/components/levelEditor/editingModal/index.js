@@ -126,7 +126,7 @@ export default class EditingModal extends React.Component {
 		);
 
 		return (
-			<div>
+			<span>
 				<Dropdown overlay={menu} trigger={['contextMenu']}>
 					<span style={{userSelect: 'none'}}>{this.props.parent.id +this.props.parent.title + this.props.parent.position.toString()}</span>
 				</Dropdown>
@@ -141,7 +141,7 @@ export default class EditingModal extends React.Component {
 					loading={this.state.loading}
 				/>
 
-			</div>
+			</span>
 		);
 	}
 };

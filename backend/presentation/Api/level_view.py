@@ -86,13 +86,17 @@ class LevelViewset(viewsets.ModelViewSet):
 	#PATCH http://localhost:8000/Level/**/
 	def update(self, request,*args, **kwargs):
 		#move node
-			#position : -1 left or 1 right
+			#position : -1 left or 1 right or 0 make a branch
 			# target : dropped node id
 			#child : dragged node id
 		if request.data.get("position") != None:
 			child = Level.objects.get(pk=self.kwargs["pk"])
 			target = Level.objects.get(pk= request.data.get('target'))
 			position = int(request.data.get('position'))
+
+			#validattion check
+			if target.isPage == True:
+				return Response(data='You cannot move a branch under a page.',status=400)
 
 			updatePosition(child,target,position)
 
@@ -105,6 +109,7 @@ class LevelViewset(viewsets.ModelViewSet):
 		return response
 
 	def _updatePageNumber(self,root):
+		#TODO change here
 		page_number = -1
 		def _recursivelyUpdatePageNum(root,page_number):
 			# base
