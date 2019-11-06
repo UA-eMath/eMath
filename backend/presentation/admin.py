@@ -9,4 +9,4 @@ admin.site.register(Level,MPTTModelAdmin)
 admin.site.register(Person)
 admin.site.register(Para)
 admin.site.register(ExternalLink)
-
+admin.site.register(RootLevel)

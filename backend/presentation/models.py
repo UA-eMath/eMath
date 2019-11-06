@@ -9,6 +9,14 @@ dell1234
 
 
 # Create your models here.
+class RootLevel(models.Model):
+
+	html_title = models.CharField(max_length=100, null=True, blank=True)
+	author = models.ForeignKey('Person', related_name="author", null=True, blank=True, on_delete=models.CASCADE)
+	contributor = models.ForeignKey('Person', related_name="contributors", null=True, blank=True,
+	                                on_delete=models.CASCADE)
+	date = models.DateField(null=True, blank=True)
+
 class Level(MPTTModel):
 	'''
 	This class represents a level structure.
@@ -37,10 +45,8 @@ class Level(MPTTModel):
 	title = models.CharField(max_length=100, null=True, blank=True)
 	tocTitle = models.CharField(max_length=100, null=True, blank=True)
 	unit_type = models.CharField(max_length=30,null=True, blank=True)
-	html_title = models.CharField(max_length=100, null=True, blank=True)
-	author = models.ForeignKey('Person', related_name="author",null=True, blank=True,on_delete=models.CASCADE)
-	contributor = models.ForeignKey('Person', related_name="contributors", null=True,blank=True,on_delete=models.CASCADE)
-	date = models.DateField(null=True, blank=True)
+	root = models.OneToOneField(RootLevel,on_delete=models.CASCADE,null=True, blank=True)
+
 
 	class MPTTMeta:
 		order_insertion_by = ['position']
