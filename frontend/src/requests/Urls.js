@@ -1,5 +1,5 @@
 
-const local = false;
+const local = true;
 const domain = local ? "http://localhost" : "142.244.163.57";
 
 export default {

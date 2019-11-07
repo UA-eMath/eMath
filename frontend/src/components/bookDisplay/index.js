@@ -11,32 +11,33 @@ export default class BookDisplay extends React.Component {
 
 	state = {
 		data: [],
-		value: [],
-		fetching: false,
 	};
 
 	//TODO Roots should not include individual Levels
 	componentDidMount() {
-		this.fetchRoots();
-	}
-
-	fetchRoots = () => {
-		this.setState({data: [], fetching: true});
 		GetRoots().then(
 			data => {
 				if (!data || data.status !== 200) {
 					console.error("FETCH_TAGS_FAILED", data);
 				}
 				else {
+					console.log(data);
 					this.setState({
 						data: data.data
 					});
 
 				}
 			}
-
 		)
-	};
+	}
+
+	render() {
+		return (
+			<CardDeck style={{justifyContent: 'center'}}>
+				{this.bookCard()}
+			</CardDeck>
+		)
+	}
 
 	bookCard = () => {
 		const {data} = this.state;
@@ -49,7 +50,7 @@ export default class BookDisplay extends React.Component {
 
 
 			function renderTooltip(props) {
-				const {outOfBoundaries,scheduleUpdate,show,arrowProps, ...rest} = props;
+				const {outOfBoundaries, scheduleUpdate, show, arrowProps, ...rest} = props;
 				return (
 					<div
 						{...rest}
@@ -66,10 +67,11 @@ export default class BookDisplay extends React.Component {
 				)
 			}
 
-
 			let authors = () => {
 				let description = '';
-				let author_array = data[i].author;
+				//TODO author array
+				let author_array = [data[i].root.author];
+				console.log(author_array);
 				for (let key in author_array) {
 					description += author_array[key].first_name + ' ';
 					let md = author_array[key].middle_name;
@@ -79,47 +81,36 @@ export default class BookDisplay extends React.Component {
 				return description
 			};
 
-			let oneCard =
-				<Card
-					hoverable
-					style={{width: 300, margin: 20}}
-					cover={<img alt="example"
-					            src="https://images-na.ssl-images-amazon.com/images/I/419zQEc-u4L._SX384_BO1,204,203,200_.jpg"/>}
-				>
-					<Meta title={data[i].title} description={authors()}/>
-				</Card>;
-
-			let oneCardWithTooltip =
-				<OverlayTrigger
-					placement="bottom"
-					delay={{show: 250, hide: 400}}
-					overlay={renderTooltip}
-				>
-					<div onClick={() => {
-						window.location.href = '/'+data[i].title +'/'+ data[i].id
-					}}>
-						{oneCard}
-					</div>
-				</OverlayTrigger>;
-
 			itemToPush =
-				<Row type="flex" justify="space-between" key={i}>
+				<Row type="flex"
+				     justify="space-between"
+				     key={i}>
 					<Col span={4}>
-						{oneCardWithTooltip}
+						<OverlayTrigger
+							placement="bottom"
+							delay={{show: 250, hide: 400}}
+							overlay={renderTooltip}
+						>
+							<div onClick={() => {
+								window.location.href = '/' + data[i].title + '/' + data[i].id
+							}}>
+								<Card
+									hoverable
+									style={{width: 300, margin: 20}}
+									cover={<img alt="example"
+									            src="https://images-na.ssl-images-amazon.com/images/I/419zQEc-u4L._SX384_BO1,204,203,200_.jpg"/>}
+								>
+									<Meta title={data[i].title}
+									      description={authors()}/>
+								</Card>
+							</div>
+						</OverlayTrigger>
 					</Col>
 				</Row>;
-
 
 			cards.push(itemToPush);
 		}
 		return cards;
 	};
 
-	render() {
-		return (
-			<CardDeck style={{justifyContent: 'center'}}>
-				{this.bookCard()}
-			</CardDeck>
-		)
-	}
 }
