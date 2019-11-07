@@ -13,5 +13,5 @@ export default function GetRoots(params = {}) {
 		.then(response => {
 			return response;
 		})
-		.catch(error => console.log(error))
+		.catch(error => console.log(error.response))
 }
