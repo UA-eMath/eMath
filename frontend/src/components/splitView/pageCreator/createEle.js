@@ -31,7 +31,6 @@ class CreateElement extends React.Component {
 		this.state = {
 			paraText: [],
 			pageTitle: null,
-			para_parent: null,
 		};
 	}
 
@@ -43,17 +42,13 @@ class CreateElement extends React.Component {
 		console.log(pageContent);
 		if (typeof (pageContent) !== 'undefined' && pageContent.data.length !== 0) {
 			this.setState({
-				pageTitle: pageContent.data[0].para_parent.title,
-				para_parent: pageContent.data[0].para_parent,
+				pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
 				paraText: pageContent.data,
-
 			});
 		} else {
 			this.setState({
 				pageTitle: ['This page is under construction.'],
-				para_parent: null,
 				paraText: null,
-
 			});
 		}
 	}

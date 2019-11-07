@@ -4,7 +4,6 @@ import * as utils from './utils'
 import {addCaption} from "./utils/caption";
 import {listProcessor} from "./utils/list";
 import {tableProcessor} from "./utils/table";
-import {tagParser} from "./utils";
 import {linkGroup} from "./utils/linkGroup";
 import {blockOfPara} from "./utils/paraBlock";
 /*

@@ -1,5 +1,4 @@
 import React from 'react'
-import {mathDisplay} from "./mathDisplay";
 /*
 Link Groups:
 		{   ...
@@ -47,6 +46,7 @@ export function linkGroup(links, props) {
 					</a>
 				</div>
 			)
+		}else {
 		}
 	});
 

@@ -45,24 +45,20 @@ class SplitView extends React.Component {
 
 		this.state = {
 			paraText: [],
-			pageTitle: 'This page is undefined',
-			para_parent: null,
+			pageTitle: 'Loading page ...',
 		};
 		this.onBreakpointChange = this.onBreakpointChange.bind(this);
 		this.initElement = initElement.bind(this);
 	}
 
 	async componentDidMount() {
-		//TODO
-		let id =4;
-		console.log(this.props.match.params['id']);
+		let id = this.props.match.params['id'];
 		let page = null;
 		const pageContent = await getPage({id: id, page: page});
 
 		if (typeof pageContent !== 'undefined' && pageContent.data.length > 0) {
 			this.setState({
-				pageTitle: pageContent.data[0].para_parent.title,
-				para_parent: pageContent.data[0].para_parent,
+				pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
 				paraText: pageContent.data,
 				pageNum: 1
 			});
