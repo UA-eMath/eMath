@@ -12,9 +12,9 @@ dell1234
 class RootLevel(models.Model):
 
 	html_title = models.CharField(max_length=100, null=True, blank=True)
-	author = models.ForeignKey('Person', related_name="author", null=True, blank=True, on_delete=models.CASCADE)
+	author = models.ForeignKey('Person', related_name="author", null=True, blank=True, on_delete=models.SET_NULL)
 	contributor = models.ForeignKey('Person', related_name="contributors", null=True, blank=True,
-	                                on_delete=models.CASCADE)
+	                                on_delete=models.SET_NULL)
 	date = models.DateField(null=True, blank=True)
 
 class Level(MPTTModel):
