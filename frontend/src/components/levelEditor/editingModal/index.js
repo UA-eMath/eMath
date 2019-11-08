@@ -44,6 +44,7 @@ export default class EditingModal extends React.Component {
 			if (values.tocTitle === '' && values.title !== '') {
 				values.tocTitle = values.title;
 			}
+			// values.isPage = (values.isPage === "true");
 
 			let request_body;
 

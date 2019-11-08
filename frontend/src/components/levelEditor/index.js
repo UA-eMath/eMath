@@ -67,10 +67,10 @@ export default class LevelEditor extends React.Component {
 		getToc({id: id}).then(
 			data => {
 				if (!data || data.status !== 200) {
-					console.error("FETCH_TAGS_FAILED", data);
+					console.error("FETCH_TREE_FAILED", data);
 				} else {
 					this.setState({
-						treeData: data.data.children
+						treeData: [data.data]
 					});
 					generateList(this.state.treeData);
 					this.setState({
@@ -139,7 +139,7 @@ export default class LevelEditor extends React.Component {
 					)
 				}
 				return (
-					<TreeNode icon = {<Icon type="branches" />}
+					<TreeNode icon = {item.parent === null ? <Icon type="book" /> : <Icon type="branches" />}
 					          key={item.id}
 					          title={<EditingModal
 						          parent={item}
@@ -150,10 +150,6 @@ export default class LevelEditor extends React.Component {
 					</TreeNode>)
 			}
 		});
-
-	onDragEnter = info => {
-
-	};
 
 	onDrop = info => {
 		// console.log(info);
@@ -214,9 +210,9 @@ export default class LevelEditor extends React.Component {
 					autoExpandParent={autoExpandParent}
 					draggable
 					blockNode
-					onDragEnter={this.onDragEnter}
 					onDrop={this.onDrop}
 					showIcon={true}
+					selectable={false}
 				>
 					{this.renderTreeNodes(this.state.treeData)}
 				</Tree>
