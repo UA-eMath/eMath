@@ -2,6 +2,7 @@ import React from 'react'
 import 'antd/dist/antd.css';
 import TopNav from './../../components/topNav';
 import LevelEditor from './../../components/levelEditor'
+import ParaEditor from './../../components/paraEditor'
 import SplitPane from "react-split-pane"
 import './index.css'
 
@@ -27,7 +28,7 @@ export default class AuthoringLayout extends React.Component {
 							minHeight: "90vh",
 						}}
 					>
-						Editor
+						<ParaEditor/>
 					</div>
 
 				</SplitPane>

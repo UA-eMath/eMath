@@ -109,15 +109,6 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 								initialValue: modifyState === "New" ? false : parent.isPage,
 							})(<Checkbox>It will be a page</Checkbox>)}
 
-							{/*{getFieldDecorator('isPage', {*/}
-								{/*valuePropName: 'checked',*/}
-							{/*})(<Select*/}
-								{/*value={modifyState === "New" ? "false" : parent.isPage.toString()}*/}
-								{/*style={{ width: 120 }}*/}
-							{/*>*/}
-								{/*<Option value="true">Yes</Option>*/}
-								{/*<Option value="false">No</Option>*/}
-							{/*</Select>)}*/}
 						</Form.Item>
 					</Form>
 				</Modal>
