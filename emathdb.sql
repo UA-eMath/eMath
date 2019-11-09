@@ -1284,11 +1284,11 @@ COPY public.presentation_level (id, "position", "isPage", title, "tocTitle", uni
 50	1	f	Product of   ℝm and ℝn	Definition	definition	21	22	1	4	33	\N	\N
 51	2	f	<Math inline>\\mathbb{R}^m\\times \\mathbb{R}^n = \\mathbb{R}^{m+n}</Math>	Proposition	Proposition	23	24	1	4	33	\N	\N
 5	1	f	Higher Dimensions and the Vector Space ℝn	Higher Dimensions and the Vector Space ℝn	chapter	15	30	1	2	2	\N	\N
-67	0	f	node1	node1	\N	34	35	1	3	68	\N	\N
+67	0	f	node1	node1	\N	33	34	1	2	3	\N	\N
 21	0	t	Double the Pennies	Double the Pennies	eg	3	6	1	2	28	-1	\N
 46	4	t	Distance between Points	Distance between Points	section	28	29	1	3	5	6	\N
+68	1	f	node2	node2	\N	35	36	1	2	3	\N	\N
 1	0	f	Linear Algebra in Rn	Linear Algebra in Rn	Book	1	38	1	0	\N	\N	1
-68	0	f	node2	node2	\N	33	36	1	2	3	\N	\N
 22	1	t	Brake Distance Depends in a Quadratic Way on Speed	Brake Distance Depends in a Quadratic Way on Speed	eg	7	10	1	2	28	0	\N
 4	1	t	Linear Algebra in ℝn	Introduction	intro	12	13	1	1	1	1	\N
 31	0	t	Higher Dimensions and the Vector Space ℝn -- Introduction	Introduction	section	16	17	1	3	5	2	\N
