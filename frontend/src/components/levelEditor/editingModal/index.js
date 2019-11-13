@@ -149,6 +149,7 @@ class EditingModal extends React.Component {
 				onDoubleClick={()=>{
 					if(this.props.parent.isPage){
 						this.props.fetchPage(this.props.parent.id);
+						this.props.changePaneSize(300);
 					}
 			}}>
 

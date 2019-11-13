@@ -7,19 +7,31 @@ import SplitPane from "react-split-pane"
 import './index.css'
 
 export default class AuthoringLayout extends React.Component {
+
+	state = {
+		paneSize : 700,
+	};
+
+	changePaneSize = paneSize =>{
+		this.setState({
+			paneSize : paneSize,
+		})
+	};
+
 	render() {
 		return (
 			<div>
 				<TopNav/>
 				<SplitPane
 					split="vertical"
-					minSize={0} defaultSize={500}
+					minSize={0}
+					size={this.state.paneSize}
 				>
 					<div
 						style={{
 							minHeight: "90vh",
 						}}>
-						<LevelEditor/>
+						<LevelEditor changePaneSize = {this.changePaneSize}/>
 					</div>
 
 					<div

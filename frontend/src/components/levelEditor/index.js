@@ -134,6 +134,7 @@ class LevelEditor extends React.Component {
 							          parent={item}
 							          title={title}
 							          updateTree={this.updateLevelTree}
+							          changePaneSize = {this.props.changePaneSize}
 						          />}
 						/>
 					)
@@ -185,8 +186,8 @@ class LevelEditor extends React.Component {
 			target: node_been_dropped_key
 		});
 
-		console.log(node_been_dragged_key, node_been_dropped_key, dropPosition);
-		console.log(request_body);
+		// console.log(node_been_dragged_key, node_been_dropped_key, dropPosition);
+		// console.log(request_body);
 
 		updateLevel(request_body, node_been_dragged_key).then(data => {
 			if (!data || data.status !== 200) {
