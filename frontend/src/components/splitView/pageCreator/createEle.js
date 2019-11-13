@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {closeWindow, minimizeWindow, onLayoutChange, openNewWindow} from "../../../actions";
 import getPage from "../../../requests/getPage";
 import contentProcessor from "./pageRenderer";
+import _ from "lodash";
 
 
 const mapStateToProps = state => {
@@ -83,7 +84,12 @@ class CreateElement extends React.Component {
 						margin: '1em .9em',
 						padding: '.25em 1.25em .1em'
 					}}>
-						{contentProcessor(this.state.paraText, this.props)}
+						{
+							_.map(this.state.paraText, para => {
+								return contentProcessor(para, this.props)
+							})
+						}
+
 					</div>
 
 				</Scrollbars>

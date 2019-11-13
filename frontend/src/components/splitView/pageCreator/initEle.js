@@ -3,6 +3,7 @@ import styles from "../styles/style";
 import {Scrollbars} from 'react-custom-scrollbars';
 import {NextButton} from '../styles/nextButton';
 import {PreButton} from '../styles/preButton';
+import _ from "lodash";
 
 import getPage from "../../../requests/getPage";
 import contentProcessor from './pageRenderer/index'
@@ -66,7 +67,13 @@ export default function initElement(el) {
 						padding: '.25em 1.25em .1em',
 						height: '300vh'
 					}}>
-					{contentProcessor(this.state.paraText, this.props)}
+
+					{
+						_.map(this.state.paraText, para => {
+							return contentProcessor(para, this.props)
+						})
+					}
+
 				</div>
 			</Scrollbars>
 		</div>
@@ -77,12 +84,10 @@ async function getNextPage(pageNum, setData) {
 	await getPage({page: pageNum + 1}).then(nextPage => {
 		if (!nextPage || nextPage.status !== 200) {
 			console.error("No more pages", nextPage);
-		}
-		else if (nextPage.data.length === 0) {
+		} else if (nextPage.data.length === 0) {
 
 			return null
-		}
-		else {
+		} else {
 			setData(nextPage.data)
 		}
 	})
@@ -95,11 +100,9 @@ async function getPrePage(pageNum, setData) {
 	await getPage({page: pageNum - 1}).then(prePage => {
 		if (!prePage || prePage.status !== 200) {
 			console.error("Fail to get pre page", prePage);
-		}
-		else if (prePage.data.length === 0) {
+		} else if (prePage.data.length === 0) {
 			return null
-		}
-		else {
+		} else {
 			setData(prePage.data)
 		}
 	})

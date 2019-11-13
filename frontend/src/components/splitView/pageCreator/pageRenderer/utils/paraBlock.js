@@ -44,8 +44,11 @@ export function blockOfPara(dataArray, left_title, right_title, props) {
 				style={{
 					padding: "2px 4px 2px 4px"
 				}}>
-
-				{contentProcessor(dataArray, props)}
+				{
+					_.map(dataArray, para => {
+						return contentProcessor(para, props)
+					})
+				}
 			</div>
 
 		</div>

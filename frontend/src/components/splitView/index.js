@@ -55,6 +55,7 @@ class SplitView extends React.Component {
 		let id = this.props.match.params['id'];
 		let page = null;
 		const pageContent = await getPage({id: id, page: page});
+		console.log(pageContent);
 
 		if (typeof pageContent !== 'undefined' && pageContent.data.length > 0) {
 			this.setState({

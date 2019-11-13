@@ -1,6 +1,5 @@
-
 import * as types from '../constants/ActionTypes'
-
+import getPage from "../requests/getPage";
 
 
 export const openNewWindow = (pageId) => ({
@@ -46,3 +45,26 @@ export const closeSubs = id => ({
 	type: types.CLOSE_SUBS,
 	id
 });
+
+// Para editor actions
+
+export const loadPage = (data,status) =>({
+	type : types.LOAD_PARAS,
+	data : data,
+	status:status,
+});
+
+export const loadPageError = (error) =>({
+	type : types.LOAD_PARAS_ERROR,
+	error : error
+});
+
+
+export function fetchPage(id) {
+	return function (dispatch) {
+		return getPage({id:id}).then(
+			(data) => dispatch(loadPage(data.data,data.status)),
+			(error) => dispatch(loadPageError(error))
+		);
+	};
+}

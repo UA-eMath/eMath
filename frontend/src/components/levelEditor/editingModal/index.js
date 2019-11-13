@@ -5,7 +5,25 @@ import updateLevel from '../../../requests/updateLevel';
 import removeLevel from '../../../requests/removeLevel';
 import LevelForm from './levelForm';
 
-export default class EditingModal extends React.Component {
+import {connect} from "react-redux";
+import {
+	fetchPage,
+} from '../../../actions'
+
+
+const mapStateToProps = state => {
+	return {
+		data: state.paras.data,
+		status: state.paras.status
+	}
+};
+
+const mapDispatchToProps = dispatch => ({
+	fetchPage:(id)=>dispatch(fetchPage(id)),
+});
+
+
+class EditingModal extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -127,7 +145,13 @@ export default class EditingModal extends React.Component {
 		);
 
 		return (
-			<span>
+			<span
+				onDoubleClick={()=>{
+					if(this.props.parent.isPage){
+						this.props.fetchPage(this.props.parent.id);
+					}
+			}}>
+
 				<Dropdown overlay={menu} trigger={['contextMenu']}>
 					<span style={{userSelect: 'none'}}>{this.props.parent.id +this.props.parent.title + this.props.parent.position.toString()}</span>
 				</Dropdown>
@@ -145,4 +169,7 @@ export default class EditingModal extends React.Component {
 			</span>
 		);
 	}
-};
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(EditingModal)

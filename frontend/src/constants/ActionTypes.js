@@ -4,3 +4,6 @@ export const ON_LAYOUT_CHANGE = 'ON_LAYOUT_CHANGE';
 
 export const ADD_SUBS = "ADD_SUBS";
 export const CLOSE_SUBS = "CLOSE_SUBS";
+
+export const LOAD_PARAS = "LOAD_PARAS";
+export const LOAD_PARAS_ERROR = "LOAD_PARAS_ERROR";

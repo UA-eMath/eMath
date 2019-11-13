@@ -39,7 +39,7 @@ const getParentKey = (id, tree) => {
 };
 
 
-export default class LevelEditor extends React.Component {
+class LevelEditor extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -221,3 +221,5 @@ export default class LevelEditor extends React.Component {
 	}
 }
 
+
+export default LevelEditor

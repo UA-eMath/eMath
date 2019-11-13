@@ -25,7 +25,7 @@ export default class AuthoringLayout extends React.Component {
 					<div
 						style={{
 							background: '#aaaa00',
-							minHeight: "90vh",
+							minHeight: "100vh",
 						}}
 					>
 						<ParaEditor/>
