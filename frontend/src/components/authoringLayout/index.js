@@ -6,15 +6,19 @@ import ParaEditor from './../../components/paraEditor'
 import SplitPane from "react-split-pane"
 import './index.css'
 
+import MathJaxConfig from '../../constants/MathJax_config'
+import MathJax from '../mathDisplay'
+
+
 export default class AuthoringLayout extends React.Component {
 
 	state = {
-		paneSize : 700,
+		paneSize: 700,
 	};
 
-	changePaneSize = paneSize =>{
+	changePaneSize = paneSize => {
 		this.setState({
-			paneSize : paneSize,
+			paneSize: paneSize,
 		})
 	};
 
@@ -22,6 +26,8 @@ export default class AuthoringLayout extends React.Component {
 		return (
 			<div>
 				<TopNav/>
+
+
 				<SplitPane
 					split="vertical"
 					minSize={0}
@@ -31,20 +37,32 @@ export default class AuthoringLayout extends React.Component {
 						style={{
 							minHeight: "100vh",
 						}}>
-						<LevelEditor changePaneSize = {this.changePaneSize}/>
+						<LevelEditor changePaneSize={this.changePaneSize}/>
 					</div>
 
-					<div
-						style={{
-							background: '#aaaa00',
-							minHeight: "100vh",
-							paddingLeft:"10px"
+					<MathJax.Provider
+						{...MathJaxConfig}
+						onError={(MathJax, error) => {
+							console.warn(error);
+							console.log("Encountered a MathJax error, re-attempting a typeset!");
+							MathJax.Hub.Queue(
+								MathJax.Hub.Typeset()
+							);
 						}}
 					>
-						<ParaEditor/>
-					</div>
-
+						<div
+							style={{
+								background: '#aaaa00',
+								minHeight: "100vh",
+								paddingLeft: "10px"
+							}}
+						>
+							<ParaEditor/>
+						</div>
+					</MathJax.Provider>
 				</SplitPane>
+
+
 			</div>
 		)
 	}
