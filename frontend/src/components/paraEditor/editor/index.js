@@ -57,8 +57,9 @@ class Editor extends React.Component {
 					<div style={{display: 'flex', justifyContent: 'center', marginTop: '30%', background:'#FFF933'}}>
 						<p style={{fontSize: '25px'}}> Double click a page to edit.</p>
 					</div>) : (
-						<Scrollbars style={{ width: '90vw', height: '100vh' }}>
-					<div style={{margin: '10px 10px',padding:"0px 50px"}}>
+						<Scrollbars
+							style={{ width: '80vw' ,height:"100vh",display: 'flex', justifyContent: 'center'}}>
+					<div style={{margin: '10px 10px'}}>
 						{_.map(this.props.data, (item,i) => {
 							let defaultValue;
 							if(Array.isArray(item)){
