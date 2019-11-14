@@ -4,9 +4,10 @@ import {
 	loadPage,
 	loadPageError,
 	openNewWindow,
+	paraOnChange,
 
 } from '../../../actions'
-import {Input} from 'antd';
+import {Input,message} from 'antd';
 import _ from "lodash";
 import contentProcessor from './../../splitView/pageCreator/pageRenderer/index'
 import {Scrollbars} from 'react-custom-scrollbars';
@@ -25,6 +26,7 @@ const mapDispatchToProps = dispatch => ({
 	loadPageError: (error) => dispatch(loadPageError(error)),
 	onWindowOpen: (pageId) =>
 		dispatch(openNewWindow(pageId)),
+	paraOnChange:(para,id) => dispatch(paraOnChange(para,id))
 });
 
 
@@ -37,35 +39,53 @@ class Editor extends React.Component {
 
 	}
 
+	setContent = (e,id) =>{
+		// console.log(e.target.value);
+		// console.log(id);
+		try{
+			JSON.parse(e.target.value);
+			this.props.paraOnChange(e.target.value,id);
+		} catch (err) {
+			message.warning('Fail to parse your content!');
+		}
+	};
+
 	render() {
 		return (
-			<div style={{
-				overflowY: 'scroll',
-			}}>
+			<div>
 				{(this.props.status === null) ? (
-					<div style={{display: 'flex', justifyContent: 'center', marginTop: '35%'}}>
+					<div style={{display: 'flex', justifyContent: 'center', marginTop: '30%', background:'#FFF933'}}>
 						<p style={{fontSize: '25px'}}> Double click a page to edit.</p>
 					</div>) : (
-					<div style={{margin: '10px 10px'}}>
-						{_.map(this.props.data, item => {
+						<Scrollbars style={{ width: '90vw', height: '100vh' }}>
+					<div style={{margin: '10px 10px',padding:"0px 50px"}}>
+						{_.map(this.props.data, (item,i) => {
+							let defaultValue;
+							if(Array.isArray(item)){
+								defaultValue = item.map(obj=>{
+									return obj.content
+								});
+							} else {
+								defaultValue = item.content
+							}
 							return (
-								<div
-									key={item.id}>
+								<div key={item.id}>
 									<TextArea
-
-										defaultValue={JSON.stringify(item.content)}
+										defaultValue={JSON.stringify(defaultValue)}
 										autosize={{minRows: 2, maxRows: 6}}
 										style={{margin: '10px 0px'}}
+										onChange={(e)=>this.setContent(e,item.id)}
 									/>
 
-									<div style={{background: "#FFFBE6"}}>
-										{contentProcessor(item, this.props.onWindowOpen)}
+									<div style={{padding: '10px 10px', background: "#FFFBE6"}}>
+										{contentProcessor(this.props.data[i], this.props.onWindowOpen)}
 									</div>
 								</div>
 
 							)
 						})}
 					</div>
+						</Scrollbars>
 				)}
 
 			</div>

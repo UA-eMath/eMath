@@ -47,6 +47,11 @@ export const closeSubs = id => ({
 });
 
 // Para editor actions
+export const paraOnChange = (para,id) =>({
+	type: types.PARA_ONCHANGE,
+	para: para,
+	id  : id,
+});
 
 export const loadPage = (data,status) =>({
 	type : types.LOAD_PARAS,

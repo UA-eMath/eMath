@@ -29,7 +29,7 @@ export default class AuthoringLayout extends React.Component {
 				>
 					<div
 						style={{
-							minHeight: "90vh",
+							minHeight: "100vh",
 						}}>
 						<LevelEditor changePaneSize = {this.changePaneSize}/>
 					</div>
