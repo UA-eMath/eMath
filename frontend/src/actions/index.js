@@ -1,7 +1,6 @@
 import * as types from '../constants/ActionTypes'
 import getPage from "../requests/getPage";
 
-
 export const openNewWindow = (pageId) => ({
 	type: types.OPEN_NEW_WINDOW,
 	pageId
@@ -47,6 +46,16 @@ export const closeSubs = id => ({
 });
 
 // Para editor actions
+export const clearQueue = () =>({
+	type: types.CLEAR_QUEUE,
+});
+
+export const popQueue = (id) =>({
+	type: types.POP_QUEUE,
+	id : id,
+});
+
+
 export const paraOnChange = (para,id) =>({
 	type: types.PARA_ONCHANGE,
 	para: para,

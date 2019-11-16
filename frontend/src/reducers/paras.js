@@ -1,6 +1,7 @@
 const pageParas = {
 	paras: [],
-	status: null
+	status: null,
+	uploadingQueue: {}
 };
 
 const paras = (state = pageParas, action) => {
@@ -18,16 +19,36 @@ const paras = (state = pageParas, action) => {
 
 		case "PARA_ONCHANGE":
 			let temp_state = [];
-
+			let temp_queue = {};
 			//copy value
-			Object.assign(temp_state,state.paras);
-			//find and replace
-			temp_state[temp_state.findIndex(i => i.id === action.id)].content = JSON.parse(action.para);
+			Object.assign(temp_state, state.paras);
+			Object.assign(temp_queue,state.uploadingQueue);
 
+			//editing
+			if (action.id !== null) {
+				//find and replace
+				temp_state.flat(Infinity)[temp_state.findIndex(i => i.id === action.id)].content.data.content = JSON.parse(action.para);
+				if(temp_queue[action.id] === undefined){
+					temp_queue[action.id] = {"status":"update"};
+				}
+			}
 
 			return Object.assign({}, state, {
-				paras: temp_state
+				paras: temp_state,
+				uploadingQueue: temp_queue,
 			});
+
+		case "CLEAR_QUEUE":
+			return Object.assign({},state,{
+				uploadingQueue:{},
+			});
+
+		case "POP_QUEUE":
+			return Object.assign({},state,{
+				...state,
+				uploadingQueue : delete state.uploadingQueue[action.id]
+			});
+
 
 		default:
 			return state

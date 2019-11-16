@@ -12,6 +12,9 @@ import _ from "lodash";
 import contentProcessor from './../splitView/pageCreator/pageRenderer/index'
 import {Scrollbars} from 'react-custom-scrollbars';
 import EditorToolBar from './editorBar'
+import postPara from "../../requests/postPara";
+import updatePara from "../../requests/updatePara";
+
 
 //this.props.data
 const mapStateToProps = state => {
@@ -42,6 +45,16 @@ class ParaEditor extends React.Component {
 			sideAlign: true,
 		}
 	}
+
+	//save para periodically
+	// async componentDidMount() {
+	// 	try {
+	// 		setInterval(async ()=>{
+	//
+	// 			const response = await
+	// 		})
+	// 	}
+	// }
 
 	setContent = (e, id) => {
 		// console.log(e.target.value);
@@ -84,15 +97,12 @@ class ParaEditor extends React.Component {
 								let defaultValue;
 								if (Array.isArray(item)) {
 									defaultValue = item.map(obj => {
-										return obj.content
+										return obj.content.data.content
 									});
 								} else {
-									defaultValue = item.content
+									defaultValue = item.content.data.content
 								}
 
-								const suffix = (this.state.uploading === true) ? (<Icon type="sync" spin/>)
-									: (
-										<span/>);
 								return (
 									<div
 										key={item.id}
@@ -108,9 +118,6 @@ class ParaEditor extends React.Component {
 												margin: '10px'
 											}}
 											onChange={(e) => this.setContent(e, item.id)}
-											suffix={
-												suffix
-											}
 										/>
 
 										<div
