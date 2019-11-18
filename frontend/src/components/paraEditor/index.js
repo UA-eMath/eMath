@@ -5,6 +5,7 @@ import {
 	loadPageError,
 	openNewWindow,
 	paraOnChange,
+	popQueue,
 
 } from '../../actions'
 import {Input, message, Icon} from 'antd';
@@ -20,7 +21,8 @@ import updatePara from "../../requests/updatePara";
 const mapStateToProps = state => {
 	return {
 		data: state.paras.paras,
-		status: state.paras.status
+		status: state.paras.status,
+		uploadingQueue: state.paras.uploadingQueue,
 	}
 };
 
@@ -29,7 +31,9 @@ const mapDispatchToProps = dispatch => ({
 	loadPageError: (error) => dispatch(loadPageError(error)),
 	onWindowOpen: (pageId) =>
 		dispatch(openNewWindow(pageId)),
-	paraOnChange: (para, id) => dispatch(paraOnChange(para, id))
+	paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
+	popQueue: (id) => dispatch(popQueue(id)),
+
 });
 
 
@@ -41,20 +45,57 @@ class ParaEditor extends React.Component {
 		super(props);
 
 		this.state = {
-			uploading: true,
+			uploading: false,
 			sideAlign: true,
-		}
+		};
+
+		this.uploadingData = this.uploadingData.bind(this);
 	}
 
 	//save para periodically
-	// async componentDidMount() {
-	// 	try {
-	// 		setInterval(async ()=>{
-	//
-	// 			const response = await
-	// 		})
-	// 	}
-	// }
+	async componentDidMount() {
+		setInterval(this.uploadingData, 10000)
+	}
+
+	async uploadingData() {
+		try {
+			this.setState({
+				uploading: true
+			});
+			console.log(this.props.uploadingQueue);
+
+			for (let key in this.props.uploadingQueue) {
+				if (!this.props.uploadingQueue.hasOwnProperty(key)) continue;
+
+				if (this.props.uploadingQueue[key]) {
+					if (this.props.uploadingQueue[key].status === "update") {
+
+						let request_body = JSON.stringify({
+							"content": this.props.uploadingQueue[key]["content"],
+							"caption": this.props.uploadingQueue[key]["caption"],
+						}, key);
+
+						await updatePara(request_body, key).then(data => {
+							if (!data || data.status !== 200) {
+								if (data.status === 400) {
+									message.error(data.data);
+								}
+								console.error("Update Para error", request_body, data);
+
+							}
+						});
+						this.props.popQueue(key);
+					}
+				}
+
+			}
+			this.setState({
+				uploading: false
+			})
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	setContent = (e, id) => {
 		// console.log(e.target.value);
@@ -67,8 +108,8 @@ class ParaEditor extends React.Component {
 		}
 	};
 
-	switchView = () =>{
-		this.setState(prevState=>({
+	switchView = () => {
+		this.setState(prevState => ({
 			sideAlign: !prevState.sideAlign
 		}))
 	};
@@ -84,13 +125,16 @@ class ParaEditor extends React.Component {
 					<div>
 
 						<EditorToolBar switchView={this.switchView}/>
-
+						<div style={{backgroud: "white"}}>
+							{<span> Loading indicator: </span>}
+							{this.state.uploading === true ? <Icon type="sync" spin/> : <Icon type="check"/>}
+						</div>
 						<Scrollbars
 							style={{
 								width: '83vw',
 								height: "90vh",
 								paddingBottom: '20px',
-								margin:'10px',
+								margin: '10px',
 							}}
 						>
 							{_.map(this.props.data, (item, i) => {

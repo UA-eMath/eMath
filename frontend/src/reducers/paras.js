@@ -1,3 +1,4 @@
+export {}
 const pageParas = {
 	paras: [],
 	status: null,
@@ -5,6 +6,9 @@ const pageParas = {
 };
 
 const paras = (state = pageParas, action) => {
+	let temp_state = [];
+	let temp_queue = {};
+
 	switch (action.type) {
 		case "LOAD_PARAS":
 			return Object.assign({}, state, {
@@ -18,18 +22,26 @@ const paras = (state = pageParas, action) => {
 			});
 
 		case "PARA_ONCHANGE":
-			let temp_state = [];
-			let temp_queue = {};
+
 			//copy value
 			Object.assign(temp_state, state.paras);
-			Object.assign(temp_queue,state.uploadingQueue);
+			Object.assign(temp_queue, state.uploadingQueue);
 
 			//editing
 			if (action.id !== null) {
 				//find and replace
-				temp_state.flat(Infinity)[temp_state.findIndex(i => i.id === action.id)].content.data.content = JSON.parse(action.para);
-				if(temp_queue[action.id] === undefined){
-					temp_queue[action.id] = {"status":"update"};
+				let target_para = temp_state.flat(Infinity)[temp_state.findIndex(i => i.id === action.id)];
+				target_para.content.data.content = JSON.parse(action.para);
+
+				//update uploading queue
+				if (temp_queue[action.id] === undefined) {
+					temp_queue[action.id] = {
+						"status": "update",
+						"content": target_para.content,
+						"caption": target_para.caption,
+					};
+				} else {
+					temp_queue[action.id]["data"] = target_para.content
 				}
 			}
 
@@ -39,14 +51,19 @@ const paras = (state = pageParas, action) => {
 			});
 
 		case "CLEAR_QUEUE":
-			return Object.assign({},state,{
-				uploadingQueue:{},
+			return Object.assign({}, state, {
+				uploadingQueue: {},
 			});
 
 		case "POP_QUEUE":
-			return Object.assign({},state,{
+
+			Object.assign(temp_queue, state.uploadingQueue);
+
+			delete temp_queue[action.id];
+
+			return Object.assign({}, state, {
 				...state,
-				uploadingQueue : delete state.uploadingQueue[action.id]
+				uploadingQueue: temp_queue
 			});
 
 
