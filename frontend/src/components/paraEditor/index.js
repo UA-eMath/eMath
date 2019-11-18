@@ -8,7 +8,7 @@ import {
 	popQueue,
 
 } from '../../actions'
-import {Input, message, Icon} from 'antd';
+import {Input, message,Button ,Icon} from 'antd';
 import _ from "lodash";
 import contentProcessor from './../splitView/pageCreator/pageRenderer/index'
 import {Scrollbars} from 'react-custom-scrollbars';
@@ -126,8 +126,7 @@ class ParaEditor extends React.Component {
 
 						<EditorToolBar switchView={this.switchView}/>
 						<div style={{backgroud: "white"}}>
-							{<span> Loading indicator: </span>}
-							{this.state.uploading === true ? <Icon type="sync" spin/> : <Icon type="check"/>}
+							{<Button type="primary" icon = "upload" loading={this.state.uploading} onClick={()=>this.uploadingData()} />}
 						</div>
 						<Scrollbars
 							style={{
