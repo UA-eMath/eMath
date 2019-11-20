@@ -19,7 +19,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	fetchPage:(id)=>dispatch(fetchPage(id)),
+	fetchPage:(id,title)=>dispatch(fetchPage(id,title)),
 });
 
 
@@ -148,7 +148,7 @@ class EditingModal extends React.Component {
 			<span
 				onDoubleClick={()=>{
 					if(this.props.parent.isPage){
-						this.props.fetchPage(this.props.parent.id);
+						this.props.fetchPage(this.props.parent.id,this.props.parent.title);
 						this.props.changePaneSize(300);
 					}
 			}}>

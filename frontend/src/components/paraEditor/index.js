@@ -8,7 +8,7 @@ import {
 	popQueue,
 
 } from '../../actions'
-import {Input, message,Button ,Icon} from 'antd';
+import {Input, message, Button, Icon} from 'antd';
 import _ from "lodash";
 import contentProcessor from './../splitView/pageCreator/pageRenderer/index'
 import {Scrollbars} from 'react-custom-scrollbars';
@@ -23,6 +23,7 @@ const mapStateToProps = state => {
 		data: state.paras.paras,
 		status: state.paras.status,
 		uploadingQueue: state.paras.uploadingQueue,
+		title: state.paras.title,
 	}
 };
 
@@ -58,42 +59,44 @@ class ParaEditor extends React.Component {
 	}
 
 	async uploadingData() {
-		try {
-			this.setState({
-				uploading: true
-			});
-			console.log(this.props.uploadingQueue);
+		if (this.props.uploadingQueue.length >= 0) {
+			try {
+				this.setState({
+					uploading: true
+				});
+				console.log(this.props.uploadingQueue);
 
-			for (let key in this.props.uploadingQueue) {
-				if (!this.props.uploadingQueue.hasOwnProperty(key)) continue;
+				for (let key in this.props.uploadingQueue) {
+					if (!this.props.uploadingQueue.hasOwnProperty(key)) continue;
 
-				if (this.props.uploadingQueue[key]) {
-					if (this.props.uploadingQueue[key].status === "update") {
+					if (this.props.uploadingQueue[key]) {
+						if (this.props.uploadingQueue[key].status === "update") {
 
-						let request_body = JSON.stringify({
-							"content": this.props.uploadingQueue[key]["content"],
-							"caption": this.props.uploadingQueue[key]["caption"],
-						}, key);
+							let request_body = JSON.stringify({
+								"content": this.props.uploadingQueue[key]["content"],
+								"caption": this.props.uploadingQueue[key]["caption"],
+							}, key);
 
-						await updatePara(request_body, key).then(data => {
-							if (!data || data.status !== 200) {
-								if (data.status === 400) {
-									message.error(data.data);
+							await updatePara(request_body, key).then(data => {
+								if (!data || data.status !== 200) {
+									if (data.status === 400) {
+										message.error(data.data);
+									}
+									console.error("Update Para error", request_body, data);
+
 								}
-								console.error("Update Para error", request_body, data);
-
-							}
-						});
-						this.props.popQueue(key);
+							});
+							this.props.popQueue(key);
+						}
 					}
-				}
 
+				}
+				this.setState({
+					uploading: false
+				})
+			} catch (error) {
+				console.log(error);
 			}
-			this.setState({
-				uploading: false
-			})
-		} catch (error) {
-			console.log(error);
 		}
 	};
 
@@ -126,8 +129,12 @@ class ParaEditor extends React.Component {
 
 						<EditorToolBar switchView={this.switchView}/>
 						<div style={{backgroud: "white"}}>
-							{<Button type="primary" icon = "upload" loading={this.state.uploading} onClick={()=>this.uploadingData()} />}
+							{<Button type="primary" icon="upload" loading={this.state.uploading}
+							         onClick={() => this.uploadingData()}/>}
 						</div>
+						<h3 align={"center"}>
+							{this.props.title}
+						</h3>
 						<Scrollbars
 							style={{
 								width: '83vw',
@@ -156,6 +163,7 @@ class ParaEditor extends React.Component {
 
 										<TextArea
 											defaultValue={JSON.stringify(defaultValue)}
+											autoSize={true}
 											style={{
 												width: this.state.sideAlign ? '40vw' : '80vw',
 												margin: '10px'

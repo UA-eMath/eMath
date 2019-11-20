@@ -2,7 +2,8 @@ export {}
 const pageParas = {
 	paras: [],
 	status: null,
-	uploadingQueue: {}
+	uploadingQueue: {},
+	title:null,
 };
 
 const paras = (state = pageParas, action) => {
@@ -13,7 +14,8 @@ const paras = (state = pageParas, action) => {
 		case "LOAD_PARAS":
 			return Object.assign({}, state, {
 				paras: action.data,
-				status: action.status
+				status: action.status,
+				title:action.title,
 			});
 
 		case "LOAD_PARAS_ERROR":
@@ -62,7 +64,6 @@ const paras = (state = pageParas, action) => {
 			delete temp_queue[action.id];
 
 			return Object.assign({}, state, {
-				...state,
 				uploadingQueue: temp_queue
 			});
 

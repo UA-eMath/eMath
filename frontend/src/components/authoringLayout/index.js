@@ -24,32 +24,32 @@ export default class AuthoringLayout extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<TopNav/>
+			<MathJax.Provider
+				{...MathJaxConfig}
+				onError={(MathJax, error) => {
+					console.warn(error);
+					console.log("Encountered a MathJax error, re-attempting a typeset!");
+					MathJax.Hub.Queue(
+						MathJax.Hub.Typeset()
+					);
+				}}
+			>
+				<div>
+					<TopNav/>
 
 
-				<SplitPane
-					split="vertical"
-					minSize={0}
-					size={this.state.paneSize}
-				>
-					<div
-						style={{
-							minHeight: "100vh",
-						}}>
-						<LevelEditor changePaneSize={this.changePaneSize}/>
-					</div>
-
-					<MathJax.Provider
-						{...MathJaxConfig}
-						onError={(MathJax, error) => {
-							console.warn(error);
-							console.log("Encountered a MathJax error, re-attempting a typeset!");
-							MathJax.Hub.Queue(
-								MathJax.Hub.Typeset()
-							);
-						}}
+					<SplitPane
+						split="vertical"
+						minSize={0}
+						size={this.state.paneSize}
 					>
+						<div
+							style={{
+								minHeight: "100vh",
+							}}>
+							<LevelEditor changePaneSize={this.changePaneSize}/>
+						</div>
+
 						<div
 							style={{
 								background: '#aaaa00',
@@ -58,11 +58,12 @@ export default class AuthoringLayout extends React.Component {
 						>
 							<ParaEditor/>
 						</div>
-					</MathJax.Provider>
-				</SplitPane>
+
+					</SplitPane>
+				</div>
+			</MathJax.Provider>
 
 
-			</div>
 		)
 	}
 }

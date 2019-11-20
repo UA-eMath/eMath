@@ -62,10 +62,11 @@ export const paraOnChange = (para,id) =>({
 	id  : id,
 });
 
-export const loadPage = (data,status) =>({
+export const loadPage = (data,status,title) =>({
 	type : types.LOAD_PARAS,
 	data : data,
 	status:status,
+	title: title,
 });
 
 export const loadPageError = (error) =>({
@@ -74,10 +75,10 @@ export const loadPageError = (error) =>({
 });
 
 
-export function fetchPage(id) {
+export function fetchPage(id,title) {
 	return function (dispatch) {
 		return getPage({id:id}).then(
-			(data) => dispatch(loadPage(data.data,data.status)),
+			(data) => dispatch(loadPage(data.data,data.status,title)),
 			(error) => dispatch(loadPageError(error))
 		);
 	};
