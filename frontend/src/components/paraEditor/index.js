@@ -15,6 +15,9 @@ import {Scrollbars} from 'react-custom-scrollbars';
 import EditorToolBar from './editorBar'
 import postPara from "../../requests/postPara";
 import updatePara from "../../requests/updatePara";
+import MathJax from "../mathDisplay";
+import MathJaxConfig from "../../constants/MathJax_config";
+import SplitPane from "react-split-pane";
 
 
 //this.props.data
@@ -59,7 +62,7 @@ class ParaEditor extends React.Component {
 	}
 
 	async uploadingData() {
-		if (this.props.uploadingQueue.length >= 0) {
+		if (!_.isEmpty(this.props.uploadingQueue)){
 			try {
 				this.setState({
 					uploading: true
@@ -171,15 +174,28 @@ class ParaEditor extends React.Component {
 											onChange={(e) => this.setContent(e, item.id)}
 										/>
 
-										<div
-											style={{
-												width: this.state.sideAlign ? '40vw' : '80vw',
-												margin: '10px',
-												padding: '10px',
-												background: "#FFFBE6",
-											}}>
-											{contentProcessor(this.props.data[i], this.props.onWindowOpen)}
-										</div>
+										<MathJax.Provider
+											{...MathJaxConfig}
+											onError={(MathJax, error) => {
+												console.warn(error);
+												console.log("Encountered a MathJax error, re-attempting a typeset!");
+												MathJax.Hub.Queue(
+													MathJax.Hub.Typeset()
+												);
+											}}
+										>
+											<div
+												style={{
+													width: this.state.sideAlign ? '40vw' : '80vw',
+													margin: '10px',
+													padding: '10px',
+													background: "#FFFBE6",
+												}}>
+												{contentProcessor(this.props.data[i], this.props.onWindowOpen)}
+											</div>
+
+										</MathJax.Provider>
+
 									</div>
 
 								)
