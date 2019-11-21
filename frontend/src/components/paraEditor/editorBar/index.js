@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon, Switch} from 'antd';
+import {Button, Icon, Switch, Tooltip} from 'antd';
 
 import {connect} from 'react-redux';
 import {
@@ -25,8 +25,6 @@ const ButtonGroup = Button.Group;
 class EditorToolBar extends React.Component {
 	constructor(props) {
 		super(props);
-
-
 	}
 
 	render() {
@@ -36,42 +34,64 @@ class EditorToolBar extends React.Component {
 				padding: '10px 10px 10px'
 			}}>
 				<ButtonGroup>
-					<Button>
-						Cap
-					</Button>
+					<Tooltip placement="bottom" title={"Caption"}>
+						<Button>
+							Cap
+						</Button>
+					</Tooltip>
 
-					<Button>
-						<Icon type="bold"/>
-					</Button>
+					<Tooltip placement="bottom" title={"Bold"}>
+						<Button>
+							<Icon type="bold"/>
+						</Button>
+					</Tooltip>
 
-					<Button>
-						<Icon type="italic"/>
-					</Button>
-					<Button>
-						<Icon type="link"/>
-					</Button>
-					<Button>
-						<Icon type="file-image"/>
-					</Button>
-					<Button>
-						<Icon type="ordered-list"/>
-					</Button>
-					<Button>
-						<Icon type="unordered-list"/>
-					</Button>
+					<Tooltip placement="bottom" title={"Italic"}>
+						<Button>
+							<Icon type="italic"/>
+						</Button>
+					</Tooltip>
 
-					<Button>
-						<Icon type="table"/>
-					</Button>
+					<Tooltip placement="bottom" title={"Link"}>
+						<Button>
+							<Icon type="link"/>
+						</Button>
+					</Tooltip>
+
+					<Tooltip placement="bottom" title={"Image"}>
+						<Button>
+							<Icon type="file-image"/>
+						</Button>
+					</Tooltip>
+
+					<Tooltip placement="bottom" title={"Numbered List"}>
+						<Button>
+							<Icon type="ordered-list"/>
+						</Button>
+					</Tooltip>
+
+					<Tooltip placement="bottom" title={"Bulleted List"}>
+						<Button>
+							<Icon type="unordered-list"/>
+						</Button>
+					</Tooltip>
+
+					<Tooltip placement="bottom" title={"Table"}>
+						<Button>
+							<Icon type="table"/>
+						</Button>
+					</Tooltip>
 
 				</ButtonGroup>
 
 				<ButtonGroup className={"float-right"}>
-					<Button style={{
-						width: '100px'
-					}}>
-						<Icon type="plus"/>
-					</Button>
+					<Tooltip placement="bottom" title={"Add content block"}>
+						<Button style={{
+							width: '100px'
+						}}>
+							<Icon type="plus"/>
+						</Button>
+					</Tooltip>
 				</ButtonGroup>
 
 				<br/>
@@ -84,8 +104,6 @@ class EditorToolBar extends React.Component {
 					/>
 				</ButtonGroup>
 
-				{/*<ButtonGroup>*/}
-				{/*</ButtonGroup>*/}
 			</div>
 		)
 	}

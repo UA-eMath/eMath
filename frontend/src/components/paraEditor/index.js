@@ -6,9 +6,10 @@ import {
 	openNewWindow,
 	paraOnChange,
 	popQueue,
+	fetchPage,
 
 } from '../../actions'
-import {Input, message, Button, Icon} from 'antd';
+import {Input, message, Button, Icon, Tooltip} from 'antd';
 import _ from "lodash";
 import contentProcessor from './../splitView/pageCreator/pageRenderer/index'
 import {Scrollbars} from 'react-custom-scrollbars';
@@ -17,7 +18,6 @@ import postPara from "../../requests/postPara";
 import updatePara from "../../requests/updatePara";
 import MathJax from "../mathDisplay";
 import MathJaxConfig from "../../constants/MathJax_config";
-import SplitPane from "react-split-pane";
 
 
 //this.props.data
@@ -27,10 +27,12 @@ const mapStateToProps = state => {
 		status: state.paras.status,
 		uploadingQueue: state.paras.uploadingQueue,
 		title: state.paras.title,
+		id: state.paras.id,
 	}
 };
 
 const mapDispatchToProps = dispatch => ({
+	fetchPage:(id,title)=>dispatch(fetchPage(id,title)),
 	loadPage: (id) => dispatch(loadPage(id)),
 	loadPageError: (error) => dispatch(loadPageError(error)),
 	onWindowOpen: (pageId) =>
@@ -62,7 +64,7 @@ class ParaEditor extends React.Component {
 	}
 
 	async uploadingData() {
-		if (!_.isEmpty(this.props.uploadingQueue)){
+		if (!_.isEmpty(this.props.uploadingQueue)) {
 			try {
 				this.setState({
 					uploading: true
@@ -120,6 +122,33 @@ class ParaEditor extends React.Component {
 		}))
 	};
 
+	addPara = () => {
+		//this.props.id
+		let request_body;
+		request_body = JSON.stringify({
+			"content": {
+				"data": {
+					"content":"",
+					"textAlign":"",
+				},
+				"type": "text"
+			},
+
+			"caption": "",
+			"para_parent": this.props.id
+		});
+
+		postPara(request_body).then(data => {
+			if (!data || data.status !== 200) {
+				console.error("Failed to add para", data);
+			}
+			else {
+				console.log(data);
+				this.props.fetchPage(this.props.id,this.props.title);
+			}
+		})
+	};
+
 	render() {
 		return (
 			<div>
@@ -141,9 +170,10 @@ class ParaEditor extends React.Component {
 						<Scrollbars
 							style={{
 								width: '83vw',
-								height: "90vh",
+								height: "80vh",
 								paddingBottom: '20px',
 								margin: '10px',
+								"textAlign":"center",
 							}}
 						>
 							{_.map(this.props.data, (item, i) => {
@@ -166,7 +196,7 @@ class ParaEditor extends React.Component {
 
 										<TextArea
 											defaultValue={JSON.stringify(defaultValue)}
-											autoSize={true}
+											autosize={!this.state.sideAlign}
 											style={{
 												width: this.state.sideAlign ? '40vw' : '80vw',
 												margin: '10px'
@@ -200,8 +230,15 @@ class ParaEditor extends React.Component {
 
 								)
 							})}
-						</Scrollbars>
 
+							<Tooltip placement="bottom" title={"Add one para"}>
+								<Button onClick={this.addPara} size={"large"} style={{width:"30vw"}}>
+									<Icon type="plus"/>
+								</Button>
+							</Tooltip>
+
+						</Scrollbars>
+						
 					</div>
 				)}
 

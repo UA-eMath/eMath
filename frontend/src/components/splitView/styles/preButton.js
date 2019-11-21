@@ -15,7 +15,7 @@ export const PreButton = props => (
 			<use fill="#EAE8DC" xlinkHref="#a"/>
 			<path stroke="#000" d="M.5.5h115v41H.5z"/>
 			<text
-				fontFamily="ComicSansMS, Comic Sans MS"
+				fontFamily="TimesNewRomanPSMT, Times New Roman"
 				fontSize={20}
 				letterSpacing={0.807}
 				fill="#000"

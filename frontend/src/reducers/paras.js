@@ -4,6 +4,7 @@ const pageParas = {
 	status: null,
 	uploadingQueue: {},
 	title:null,
+	id:null,
 };
 
 const paras = (state = pageParas, action) => {
@@ -16,6 +17,7 @@ const paras = (state = pageParas, action) => {
 				paras: action.data,
 				status: action.status,
 				title:action.title,
+				id:action.id,
 			});
 
 		case "LOAD_PARAS_ERROR":

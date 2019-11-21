@@ -5,7 +5,6 @@ from presentation.Serializers.para_serializers import ParaSerializers, ParaReadS
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from itertools import chain
 from presentation.Api.utils import *
 
 class ParaViewSet(viewsets.ModelViewSet):
@@ -42,15 +41,22 @@ class ParaViewSet(viewsets.ModelViewSet):
 		# append
 		children_list = parent.get_children().order_by('position')
 		children_para_list = parent.para_set.all().order_by('position')
-		try:
-			# get last position.
-			last_position = max(
-				i for i in [children_list.last().position, children_para_list.last().position] if i is not None)
-		except:
-			# empty node (max(none,none)), add one level child with position of -1 + 1 = 0
+
+		#get last position.
+		last_position = None
+		if children_list.last():
+			last_position = children_list.last().position
+		if children_para_list.last():
+			if last_position == None:
+				last_position = children_para_list.last().position
+			else:
+				if children_para_list.last().position > last_position:
+					last_position = children_para_list.last().position
+
+		if last_position == None:
 			last_position = -1
 
-		if request_data.get('position') is None or  request_data.get('position') == '':
+		if request_data.get('position') is None or request_data.get('position') == '':
 			request_data['position'] = last_position + 1
 
 		# insert
@@ -77,7 +83,8 @@ class ParaViewSet(viewsets.ModelViewSet):
 			return Response("Para id(" + self.kwargs["pk"] + ") is not found", 404)
 
 		para.delete()
-		updatePosition(para.para_parent)
+
+		updateParaPosition(self.kwargs["pk"])
 
 		return Response("Para is successfully deleted.", 204)
 
@@ -86,7 +93,7 @@ class ParaViewSet(viewsets.ModelViewSet):
 	def update(self, request, *args, **kwargs):
 		response = super().update(request, *args, **kwargs)
 		if request.data.get("position") is not None:
-			updatePosition(Para.objects.get(pk=self.kwargs["pk"]).para_parent,int(request.data["position"]))
+			updateParaPosition(self.kwargs["pk"])
 
 		response.data = {'status': 'successfully update'}
 		return response

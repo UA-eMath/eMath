@@ -18,7 +18,7 @@ export default {
 		userSelect: 'none',
 		cursor: 'default',
 		paddingLeft: '12px',
-		fontFamily: 'ComicSansMS',
+		fontFamily: 'TimesNewRomanPSMT, Times New Roman',
 		fontSize: '20px',
 		color: '#000000',
 		flex: 1,

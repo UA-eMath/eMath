@@ -3,7 +3,6 @@ import url from './Urls'
 
 
 export default function postLevel(level) {
-
 	return axios
 		.post(url.domain + ':' + url.port+ "/Level/",
 			level,

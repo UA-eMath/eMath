@@ -1,17 +1,17 @@
 import axios from 'axios'
-import url from 'url'
+import url from './Urls'
 
 
-export default function postPara(para){
+export default function postPara(para) {
 	return axios.post(url.domain + ":" + url.port + "/para/",
 		para,
 		{
-			headers:{
-				"Content-Type":"application/json"
+			headers: {
+				"Content-Type": "application/json"
 			}
-		}).then(response =>{
-			return response;
-	}).catch(error=>{
+		}).then(response => {
+		return response;
+	}).catch(error => {
 		console.log(error)
 	})
 }
