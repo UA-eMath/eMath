@@ -9,13 +9,14 @@ import {
 	fetchPage,
 
 } from '../../actions'
-import {Input, message, Button, Icon, Tooltip} from 'antd';
+import {Input, message, Button, Icon, Tooltip, Row, Col, Modal} from 'antd';
 import _ from "lodash";
 import contentProcessor from './../splitView/pageCreator/pageRenderer/index'
 import {Scrollbars} from 'react-custom-scrollbars';
 import EditorToolBar from './editorBar'
 import postPara from "../../requests/postPara";
 import updatePara from "../../requests/updatePara";
+import removePara from "../../requests/removePara";
 import MathJax from "../mathDisplay";
 import MathJaxConfig from "../../constants/MathJax_config";
 
@@ -32,7 +33,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	fetchPage:(id,title)=>dispatch(fetchPage(id,title)),
+	fetchPage: (id, title) => dispatch(fetchPage(id, title)),
 	loadPage: (id) => dispatch(loadPage(id)),
 	loadPageError: (error) => dispatch(loadPageError(error)),
 	onWindowOpen: (pageId) =>
@@ -44,6 +45,7 @@ const mapDispatchToProps = dispatch => ({
 
 
 const {TextArea} = Input;
+const {confirm} = Modal;
 
 
 class ParaEditor extends React.Component {
@@ -128,8 +130,8 @@ class ParaEditor extends React.Component {
 		request_body = JSON.stringify({
 			"content": {
 				"data": {
-					"content":"",
-					"textAlign":"",
+					"content": "",
+					"textAlign": "",
 				},
 				"type": "text"
 			},
@@ -144,10 +146,34 @@ class ParaEditor extends React.Component {
 			}
 			else {
 				console.log(data);
-				this.props.fetchPage(this.props.id,this.props.title);
+				this.props.fetchPage(this.props.id, this.props.title);
 			}
 		})
 	};
+
+
+	deletePara = (id) => {
+		confirm({
+			title: 'Are you sure delete this paragraph?',
+			okText: 'Yes',
+			okType: 'danger',
+			cancelText: 'No',
+			onOk: () => {
+				removePara(id).then(data => {
+					if (data.status !== 204) {
+						console.error("Delete error", data);
+					}
+					else {
+						console.log(data);
+						this.props.fetchPage(this.props.id, this.props.title);
+					}
+				})
+			},
+			onCancel() {
+			},
+		});
+	};
+
 
 	render() {
 		return (
@@ -173,7 +199,7 @@ class ParaEditor extends React.Component {
 								height: "80vh",
 								paddingBottom: '20px',
 								margin: '10px',
-								"textAlign":"center",
+								"textAlign": "center",
 							}}
 						>
 							{_.map(this.props.data, (item, i) => {
@@ -186,59 +212,122 @@ class ParaEditor extends React.Component {
 									defaultValue = item.content.data.content
 								}
 
-								return (
-									<div
-										key={item.id}
+								let textArea =
+									<TextArea
+										defaultValue={JSON.stringify(defaultValue)}
+										// autosize={this.state.sideAlign}
+
 										style={{
-											display: this.state.sideAlign ? 'flex' : 'block'
+											fontSize: "15px",
+											marginBottom: "10px",
+											height: "100%",
+										}}
+										onChange={(e) => this.setContent(e, item.id)}
+									/>;
+
+								let displayArea =
+									<MathJax.Provider
+										{...MathJaxConfig}
+										onError={(MathJax, error) => {
+											console.warn(error);
+											console.log("Encountered a MathJax error, re-attempting a typeset!");
+											MathJax.Hub.Queue(
+												MathJax.Hub.Typeset()
+											);
 										}}
 									>
-
-										<TextArea
-											defaultValue={JSON.stringify(defaultValue)}
-											autosize={!this.state.sideAlign}
+										<div
 											style={{
-												width: this.state.sideAlign ? '40vw' : '80vw',
-												margin: '10px'
-											}}
-											onChange={(e) => this.setContent(e, item.id)}
-										/>
+												background: "#FFFBE6",
+												display: "block",
+												marginBottom: "10px",
+												height: "100%",
+											}}>
+											{contentProcessor(this.props.data[i], this.props.onWindowOpen)}
+										</div>
+									</MathJax.Provider>;
 
-										<MathJax.Provider
-											{...MathJaxConfig}
-											onError={(MathJax, error) => {
-												console.warn(error);
-												console.log("Encountered a MathJax error, re-attempting a typeset!");
-												MathJax.Hub.Queue(
-													MathJax.Hub.Typeset()
-												);
+								let controlArea =
+									<div style={{
+										background: "white",
+										height: "100%",
+									}}>
+										<Button>
+											<Icon type="up"/>
+										</Button>
+
+										<Button type={"danger"} onClick={() => this.deletePara(item.id)}>
+											<Icon type="delete"/>
+										</Button>
+
+										<Button>
+											<Icon type="down"/>
+										</Button>
+									</div>;
+
+								if (this.state.sideAlign) {
+									return (
+										<Row
+											key={item.id}
+											style={{
+												display: "flex"
 											}}
 										>
-											<div
-												style={{
-													width: this.state.sideAlign ? '40vw' : '80vw',
-													margin: '10px',
-													padding: '10px',
-													background: "#FFFBE6",
-												}}>
-												{contentProcessor(this.props.data[i], this.props.onWindowOpen)}
-											</div>
+											<Col span={11} style={{
+												margin: "10px",
+											}}>
+												{textArea}
+											</Col>
 
-										</MathJax.Provider>
+											<Col span={10} style={{
+												margin: "10px",
+											}}>
+												{displayArea}
+											</Col>
 
-									</div>
+											<Col span={1} style={{
+												margin: "10px",
+											}}>
+												{controlArea}
+											</Col>
+										</Row>
+									)
+								} else {
+									return (
+										<Row
+											key={item.id}
+										>
+											<Col span={21}
+											     style={{
+												     margin: "10px"
+											     }}
+											>
+												{textArea}
+												{displayArea}
 
-								)
+											</Col>
+
+											<Col span={1}
+											     style={{
+												     margin: "10px"
+											     }}
+											>
+												{controlArea}
+											</Col>
+
+										</Row>
+									)
+								}
 							})}
 
 							<Tooltip placement="bottom" title={"Add one para"}>
-								<Button onClick={this.addPara} size={"large"} style={{width:"30vw"}}>
+								<Button onClick={this.addPara} size={"large"} style={{width: "30vw"}}>
 									<Icon type="plus"/>
 								</Button>
 							</Tooltip>
 
 						</Scrollbars>
-						
+
 					</div>
 				)}
 

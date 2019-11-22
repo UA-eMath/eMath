@@ -82,9 +82,10 @@ class ParaViewSet(viewsets.ModelViewSet):
 		except ObjectDoesNotExist:
 			return Response("Para id(" + self.kwargs["pk"] + ") is not found", 404)
 
+		parent = para.para_parent
 		para.delete()
 
-		updateParaPosition(self.kwargs["pk"])
+		updateParaPosition(parent)
 
 		return Response("Para is successfully deleted.", 204)
 
