@@ -19,7 +19,7 @@ import updatePara from "../../requests/updatePara";
 import removePara from "../../requests/removePara";
 import MathJax from "../mathDisplay";
 import MathJaxConfig from "../../constants/MathJax_config";
-
+import "./style/index.css"
 
 //this.props.data
 const mapStateToProps = state => {
@@ -218,10 +218,9 @@ class ParaEditor extends React.Component {
 										// autosize={this.state.sideAlign}
 
 										style={{
-											fontSize: "15px",
-											marginBottom: "10px",
 											height: "100%",
 										}}
+										className="userInput"
 										onChange={(e) => this.setContent(e, item.id)}
 									/>;
 

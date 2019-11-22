@@ -1,0 +1,10 @@
+.userInput {
+	font-size: 15px;
+	margin-bottom: 10px;
+}
+
+.userInput:focus {
+	outline: none !important;
+	border: 5px solid deepskyblue;
+	box-shadow: 0 0 10px #719ECE;
+}
