@@ -41,16 +41,29 @@ class EditorToolBar extends React.Component {
 					</Tooltip>
 
 					<Tooltip placement="bottom" title={"Bold"}>
-						<Button>
+						<Button onClick={() => this.props.tagInsertion('<b></b> ',3)}>
 							<Icon type="bold"/>
 						</Button>
 					</Tooltip>
 
 					<Tooltip placement="bottom" title={"Italic"}>
-						<Button>
+						<Button onClick={() => this.props.tagInsertion('<i></i> ',3)}>
 							<Icon type="italic"/>
 						</Button>
 					</Tooltip>
+
+					<Tooltip placement="bottom" title={"Inline Math"}>
+						<Button onClick={() => this.props.tagInsertion('<Math inline></Math> ',13)}>
+							iMath
+						</Button>
+					</Tooltip>
+
+					<Tooltip placement="bottom" title={"Display math"}>
+						<Button onClick={() => this.props.tagInsertion('<Math></Math> ',6)}>
+							dMath
+						</Button>
+					</Tooltip>
+
 
 					<Tooltip placement="bottom" title={"Link"}>
 						<Button>

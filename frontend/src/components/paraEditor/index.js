@@ -55,6 +55,7 @@ class ParaEditor extends React.Component {
 		this.state = {
 			uploading: false,
 			sideAlign: true,
+			focusArea: null,
 		};
 
 		this.uploadingData = this.uploadingData.bind(this);
@@ -107,8 +108,9 @@ class ParaEditor extends React.Component {
 		}
 	};
 
+
 	setContent = (e, id) => {
-		// console.log(e.target.value);
+		// console.log(e.target.selectionStart);
 		// console.log(id);
 		try {
 			JSON.parse(e.target.value);
@@ -143,8 +145,7 @@ class ParaEditor extends React.Component {
 		postPara(request_body).then(data => {
 			if (!data || data.status !== 200) {
 				console.error("Failed to add para", data);
-			}
-			else {
+			} else {
 				console.log(data);
 				this.props.fetchPage(this.props.id, this.props.title);
 			}
@@ -162,8 +163,7 @@ class ParaEditor extends React.Component {
 				removePara(id).then(data => {
 					if (data.status !== 204) {
 						console.error("Delete error", data);
-					}
-					else {
+					} else {
 						console.log(data);
 						this.props.fetchPage(this.props.id, this.props.title);
 					}
@@ -174,6 +174,23 @@ class ParaEditor extends React.Component {
 		});
 	};
 
+	insertAtCursor = (tag, length) => {
+		let focusedTextarea = document.getElementsByClassName("userInput")[this.state.focusArea];
+		//console.log(this.state.focusArea);
+		if (focusedTextarea.value !== undefined) {
+			let prefix = (focusedTextarea.value).substring(0, focusedTextarea.selectionStart);
+			let suffix = (focusedTextarea.value).substring(focusedTextarea.selectionStart, focusedTextarea.value.length);
+
+			let prePos = focusedTextarea.selectionStart;
+			console.log(focusedTextarea.selectionStart);
+			focusedTextarea.value = prefix + tag + suffix;
+			console.log(focusedTextarea.selectionStart);
+
+			focusedTextarea.selectionStart = prePos + length;
+			focusedTextarea.selectionEnd = focusedTextarea.selectionStart;
+			focusedTextarea.focus();
+		}
+	};
 
 	render() {
 		return (
@@ -185,7 +202,7 @@ class ParaEditor extends React.Component {
 
 					<div>
 
-						<EditorToolBar switchView={this.switchView}/>
+						<EditorToolBar switchView={this.switchView} tagInsertion={this.insertAtCursor}/>
 						<div style={{backgroud: "white"}}>
 							{<Button type="primary" icon="upload" loading={this.state.uploading}
 							         onClick={() => this.uploadingData()}/>}
@@ -221,6 +238,9 @@ class ParaEditor extends React.Component {
 											height: "100%",
 										}}
 										className="userInput"
+										onFocus={() => {
+											this.setState({focusArea: i})
+										}}
 										onChange={(e) => this.setContent(e, item.id)}
 									/>;
 
