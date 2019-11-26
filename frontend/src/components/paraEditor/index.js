@@ -112,6 +112,7 @@ class ParaEditor extends React.Component {
 	setContent = (e, id) => {
 		// console.log(e.target.selectionStart);
 		// console.log(id);
+		//undefined => content block
 		try {
 			JSON.parse(e.target.value);
 			this.props.paraOnChange(e.target.value, id);
@@ -182,9 +183,7 @@ class ParaEditor extends React.Component {
 			let suffix = (focusedTextarea.value).substring(focusedTextarea.selectionStart, focusedTextarea.value.length);
 
 			let prePos = focusedTextarea.selectionStart;
-			console.log(focusedTextarea.selectionStart);
 			focusedTextarea.value = prefix + tag + suffix;
-			console.log(focusedTextarea.selectionStart);
 
 			focusedTextarea.selectionStart = prePos + length;
 			focusedTextarea.selectionEnd = focusedTextarea.selectionStart;
@@ -193,6 +192,7 @@ class ParaEditor extends React.Component {
 	};
 
 	render() {
+		let index = 0;
 		return (
 			<div>
 				{(this.props.status === null) ? (
@@ -216,33 +216,46 @@ class ParaEditor extends React.Component {
 								height: "80vh",
 								paddingBottom: '20px',
 								margin: '10px',
-								"textAlign": "center",
 							}}
 						>
 							{_.map(this.props.data, (item, i) => {
 								let defaultValue;
+								let textArea;
 								if (Array.isArray(item)) {
-									defaultValue = item.map(obj => {
-										return obj.content.data.content
-									});
+									textArea =
+										<div>
+											{item.map(obj => {
+												index += 1;
+												return <TextArea
+													defaultValue={JSON.stringify(obj.content.data.content, null, ' ')}
+													style={{
+														height: "100%",
+													}}
+													className="userInput"
+													onFocus={() => {
+														this.setState({focusArea: index - 1})
+													}}
+													onChange={(e) => this.setContent(e, obj.id)}
+												/>;
+											})}
+										</div>;
+
 								} else {
-									defaultValue = item.content.data.content
+									defaultValue = item.content.data.content;
+									textArea =
+										<TextArea
+											defaultValue={JSON.stringify(defaultValue, null, ' ')}
+											style={{
+												height: "100%",
+											}}
+											className="userInput"
+											onFocus={() => {
+												this.setState({focusArea: index})
+											}}
+											onChange={(e) => this.setContent(e, item.id)}
+										/>;
+									index += 1;
 								}
-
-								let textArea =
-									<TextArea
-										defaultValue={JSON.stringify(defaultValue)}
-										// autosize={this.state.sideAlign}
-
-										style={{
-											height: "100%",
-										}}
-										className="userInput"
-										onFocus={() => {
-											this.setState({focusArea: i})
-										}}
-										onChange={(e) => this.setContent(e, item.id)}
-									/>;
 
 								let displayArea =
 									<MathJax.Provider
@@ -259,8 +272,8 @@ class ParaEditor extends React.Component {
 											style={{
 												background: "#FFFBE6",
 												display: "block",
-												marginBottom: "10px",
 												height: "100%",
+												padding: "10px",
 											}}>
 											{contentProcessor(this.props.data[i], this.props.onWindowOpen)}
 										</div>
@@ -340,7 +353,14 @@ class ParaEditor extends React.Component {
 							})}
 
 							<Tooltip placement="bottom" title={"Add one para"}>
-								<Button onClick={this.addPara} size={"large"} style={{width: "30vw"}}>
+								<Button
+									onClick={this.addPara}
+									size={"large"}
+									style={{
+										width: "30vw",
+										justifyContent: "center",
+									}}
+								>
 									<Icon type="plus"/>
 								</Button>
 							</Tooltip>
