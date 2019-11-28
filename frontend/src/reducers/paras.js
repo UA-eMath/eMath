@@ -36,8 +36,7 @@ const paras = (state = pageParas, action) => {
 				//find and replace
 				let flat_state = temp_state.flat(Infinity);
 				let target_para = flat_state[flat_state.findIndex(i => i.id === action.id)];
-
-				target_para.content.data.content = JSON.parse(action.para);
+				target_para.content.data.content = action.para;
 
 				//update uploading queue
 				if (temp_queue[action.id] === undefined) {

@@ -53,8 +53,7 @@ function stringToObj(str) {
 
 function objToString(obj) {
 	if (obj.content.type === "text") {
-		let textString = JSON.stringify(obj.content.data.content);
-		textString = textString.slice(1, textString.length - 1);
+		let textString = obj.content.data.content;
 		textString = textString.replace(/\\\\/g, '\\');
 		return textString
 	} else {
@@ -128,10 +127,8 @@ class ParaEditor extends React.Component {
 		// console.log(e.target.selectionStart);
 		// console.log(id);
 		//undefined => content block
-		console.log(JSON.parse(stringToObj(e.target.value)));
 		try {
-			JSON.parse(stringToObj(e.target.value));
-			this.props.paraOnChange(stringToObj(e.target.value, id));
+			this.props.paraOnChange(stringToObj(e.target.value), id);
 		} catch (err) {
 			message.warning('There might be an error in your content!');
 		}
