@@ -47,6 +47,21 @@ const mapDispatchToProps = dispatch => ({
 const {TextArea} = Input;
 const {confirm} = Modal;
 
+function stringToObj(str) {
+	return '"' + str.replace(/\\/g,'\\\\') + '"';
+}
+
+function objToString(obj) {
+	if (obj.content.type === "text") {
+		let textString = JSON.stringify(obj.content.data.content);
+		textString = textString.slice(1, textString.length - 1);
+		textString = textString.replace(/\\\\/g, '\\');
+		return textString
+	} else {
+		return JSON.stringify(obj.content.data.content);
+	}
+}
+
 
 class ParaEditor extends React.Component {
 	constructor(props) {
@@ -113,9 +128,10 @@ class ParaEditor extends React.Component {
 		// console.log(e.target.selectionStart);
 		// console.log(id);
 		//undefined => content block
+		console.log(JSON.parse(stringToObj(e.target.value)));
 		try {
-			JSON.parse(e.target.value);
-			this.props.paraOnChange(e.target.value, id);
+			JSON.parse(stringToObj(e.target.value));
+			this.props.paraOnChange(stringToObj(e.target.value, id));
 		} catch (err) {
 			message.warning('There might be an error in your content!');
 		}
@@ -225,9 +241,10 @@ class ParaEditor extends React.Component {
 									textArea =
 										<div>
 											{item.map(obj => {
+												defaultValue = objToString(obj);
 												index += 1;
 												return <TextArea
-													defaultValue={JSON.stringify(obj.content.data.content, null, ' ')}
+													defaultValue={defaultValue}
 													style={{
 														height: "100%",
 													}}
@@ -241,10 +258,10 @@ class ParaEditor extends React.Component {
 										</div>;
 
 								} else {
-									defaultValue = item.content.data.content;
+									defaultValue = objToString(item);
 									textArea =
 										<TextArea
-											defaultValue={JSON.stringify(defaultValue, null, ' ')}
+											defaultValue={defaultValue}
 											style={{
 												height: "100%",
 											}}

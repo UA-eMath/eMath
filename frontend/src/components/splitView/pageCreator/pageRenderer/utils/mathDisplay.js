@@ -36,9 +36,16 @@ export function mathDisplay(text, regex) {
 			)
 
 		} else {
-			//["inline"]
 			return (
-				<div key={_.uniqueId('MJN_')}>
+				<div
+					key={_.uniqueId('MJN_')}
+					style={{
+						height:'40px',
+						display: "flow-root",
+						width:"100%",
+						overflow:"visible",
+					}}
+				>
 					<MathJax.Node formula={mathText.split(regex.latex.content)[1]}/>
 				</div>
 			)
