@@ -19,12 +19,9 @@ function stringToObj(str, obj) {
 			.replace(/<ol>/g, '["ol",')
 			.replace(/<ul>/g, '["ul",')
 			.replace(/<li>/g, '"')
-			.replace(/<\/li><\/ul>|<\/li>\n<\/ul>/g, '"]')
-			.replace(/<\/li><\/ol>|<\/li>\n<\/ol>/g, '"]')
+			.replace(/<\/li><\/ul>|<\/li>\n<\/ul>|<\/li><\/ol>|<\/li>\n<\/ol>/g, '"]')
 			.replace(/<\/li>/g, '",')
-			.replace(/<\/li>/g, '",')
-			.replace(/<\/ol>/g, ']')
-			.replace(/<\/ul>/g, ']')
+			.replace(/<\/ol>|<\/ul>/g, ']')
 			.replace(/"[^"]*(?:""[^"]*)*"/g, function (m) {
 				return m.replace(/\n/g, '&q@q&');
 			})
@@ -36,9 +33,6 @@ function stringToObj(str, obj) {
 
 		function arrayToObj(parsed_array) {
 			return parsed_array.map(item => {
-
-
-
 
 				if (Array.isArray(item)) {
 					let array_indicator = item.shift();
@@ -69,7 +63,22 @@ function stringToObj(str, obj) {
 		return arrayToObj(parsed_array);
 
 	} else if (obj.type === 'table') {
-		return JSON.parse(str);
+		let tableArray =  str.split(/\\/g).join("\\\\");
+		tableArray = tableArray
+			.replace(/"/g, '&quot;')
+			.replace(/\t/g, "")
+			.replace(/\n/g, "")
+			.replace(/<table>|<tr>/g,"[")
+			.replace(/<td>|<th>/g,"\"")
+			.replace(/<\/td><\/tr><\/table>/g,'"]]')
+			.replace(/<\/td><\/tr>/g,'"],')
+			.replace(/<\/td>/g,'",')
+			.replace(/<\/tr>/g,",")
+			.replace(/<\/table>/g,"]");
+
+		let parsed_array = JSON.parse(tableArray);
+
+		return parsed_array
 	}
 	// return str.split(/\\/g).join("\\\\");
 }

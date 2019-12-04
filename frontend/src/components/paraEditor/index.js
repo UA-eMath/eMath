@@ -85,13 +85,16 @@ function objToString(obj) {
 
 	} else if(obj.type === 'table'){
 		let tableArray = obj.data.content;
+		let direction = obj.data.direction;
+
 		let result = "<table>\n";
-		tableArray.map(data=>{
-			if (typeof (data) === "object" && data["type"] === "list") {}
-
-
+		tableArray.map(rowData=>{
+			result += "\t<tr>\n";
+			rowData.map(data=>{
+				result += "\t\t<td>" + data.toString().replace(/\\\\/g, '\\') + "</td>\n";
+			});
+			result += "\t</tr>\n";
 		});
-
 
 		return result + "</table>\n";
 	}
@@ -297,6 +300,7 @@ class ParaEditor extends React.Component {
 														this.setState({focusArea: index - 1})
 													}}
 													onChange={(e) => this.setContent(e, obj.id)}
+													key={i}
 												/>;
 											})}
 										</div>;
