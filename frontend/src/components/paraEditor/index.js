@@ -47,17 +47,48 @@ const mapDispatchToProps = dispatch => ({
 const {TextArea} = Input;
 const {confirm} = Modal;
 
-function stringToObj(str) {
-	return '"' + str.replace(/\\/g,'\\\\') + '"';
-}
-
 function objToString(obj) {
-	if (obj.content.type === "text") {
-		let textString = obj.content.data.content;
+	if (obj.type === "text") {
+		let textString = obj.data.content;
 		textString = textString.replace(/\\\\/g, '\\');
 		return textString
-	} else {
-		return JSON.stringify(obj.content.data.content);
+	} else if (obj.type === "list") {
+		let listArray = obj.data.content;
+		// present text
+		let result = "<" + obj.data.tag + ">\n";
+		listArray.map(data => {
+			// sub list
+			if (typeof (data) === "object" && data["type"] === "list") {
+				return result += objToString(data);
+			} // sub table
+			else if (typeof (data) === "object" && data["type"] === "table") {
+				return result += objToString(data);
+			} //mixed data
+			else if (Array.isArray(data)) {
+				result += "\t<li>";
+				data.map(mixData => {
+					if (typeof (mixData) === "string") {
+						result += mixData.replace(/\\\\/g, '\\') + "," + "\n";
+					} else if (typeof (mixData) === "object" && mixData["type"] === "list") {
+						return result += objToString(mixData);
+					} else if (typeof (mixData) === "object" && mixData["type"] === "table") {
+						return result += objToString(mixData);
+					}
+				});
+				result += "\t</li>\n";
+			} else {
+				result += "\t<li>" + data.replace(/\\\\/g, '\\') + "</li>\n";
+			}
+		});
+
+		return result + "</" + obj.data.tag +">\n";
+
+	} else if(obj.type === 'table'){
+		let tableArray = obj.data.content;
+
+	}
+	else {
+		return JSON.stringify(obj.data.content);
 	}
 }
 
@@ -70,6 +101,7 @@ class ParaEditor extends React.Component {
 			uploading: false,
 			sideAlign: true,
 			focusArea: null,
+			intervalId: null,
 		};
 
 		this.uploadingData = this.uploadingData.bind(this);
@@ -77,7 +109,14 @@ class ParaEditor extends React.Component {
 
 	//save para periodically
 	async componentDidMount() {
-		setInterval(this.uploadingData, 10000)
+		const id = setInterval(this.uploadingData, 10000);
+		this.setState({
+			intervalId : id,
+		})
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.state.intervalId)
 	}
 
 	async uploadingData() {
@@ -128,7 +167,7 @@ class ParaEditor extends React.Component {
 		// console.log(id);
 		//undefined => content block
 		try {
-			this.props.paraOnChange(stringToObj(e.target.value), id);
+			this.props.paraOnChange(e.target.value, id);
 		} catch (err) {
 			message.warning('There might be an error in your content!');
 		}
@@ -238,7 +277,7 @@ class ParaEditor extends React.Component {
 									textArea =
 										<div>
 											{item.map(obj => {
-												defaultValue = objToString(obj);
+												defaultValue = objToString(obj.content);
 												index += 1;
 												return <TextArea
 													defaultValue={defaultValue}
@@ -255,7 +294,7 @@ class ParaEditor extends React.Component {
 										</div>;
 
 								} else {
-									defaultValue = objToString(item);
+									defaultValue = objToString(item.content);
 									textArea =
 										<TextArea
 											defaultValue={defaultValue}

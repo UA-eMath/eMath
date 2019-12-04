@@ -3,9 +3,55 @@ const pageParas = {
 	paras: [],
 	status: null,
 	uploadingQueue: {},
-	title:null,
-	id:null,
+	title: null,
+	id: null,
 };
+
+function stringToObj(str, obj) {
+	if (obj.type === 'text') {
+		return str
+	} else if (obj.type === 'list') {
+		//escape \ and quotes
+		let listArray = str.split(/\\/g).join("\\\\");
+		listArray = listArray
+			.replace(/"/g, '&quot;')
+			.replace(/\n/g,"")
+			.replace(/\t/g,"")
+			.replace(/<ol>/g,"[")
+			.replace(/<ul>/g,"[")
+			.replace(/<li>/g,'"')
+			.replace(/<\/li><\/ul>/g,'"]')
+			.replace(/<\/li><\/ol>/g,'"]')
+			.replace(/<\/li>/g,'",')
+			.replace(/<\/ol>/g,']')
+			.replace(/<\/ul>/g,']');
+
+
+		console.log(listArray);
+
+		let parsed_array = JSON.parse(listArray);
+
+		return function arrayToObj(parsed_array, obj) {
+			return parsed_array.map(item => {
+				if (Array.isArray(item)) {
+					return {
+						"data": {
+							"tag": obj.data.tag,
+							"content": arrayToObj(item, obj)
+						},
+						"type": "list"
+					}
+				} else {
+					return item;
+				}
+			});
+		}
+
+	} else if (obj.type === 'table') {
+		return JSON.parse(str);
+	}
+	// return str.split(/\\/g).join("\\\\");
+}
 
 const paras = (state = pageParas, action) => {
 	let temp_state = [];
@@ -16,8 +62,8 @@ const paras = (state = pageParas, action) => {
 			return Object.assign({}, state, {
 				paras: action.data,
 				status: action.status,
-				title:action.title,
-				id:action.id,
+				title: action.title,
+				id: action.id,
 			});
 
 		case "LOAD_PARAS_ERROR":
@@ -36,7 +82,14 @@ const paras = (state = pageParas, action) => {
 				//find and replace
 				let flat_state = temp_state.flat(Infinity);
 				let target_para = flat_state[flat_state.findIndex(i => i.id === action.id)];
-				target_para.content.data.content = action.para;
+
+				try {
+					stringToObj(action.para, target_para.content);
+					//target_para.content.data.content = stringToObj(action.para, target_para.content);
+					//console.log(target_para.content.data.content);
+				} catch (e) {
+					console.log(e);
+				}
 
 				//update uploading queue
 				if (temp_queue[action.id] === undefined) {

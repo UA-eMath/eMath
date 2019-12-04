@@ -51,9 +51,14 @@ table, th, td {
 	margin-bottom: 10px;
 }
 
-th, td {
+th {
 	padding: 5px;
 	text-align: left;
+}
+
+td {
+	padding: 5px;
+	text-align: right;
 }
 
 /*

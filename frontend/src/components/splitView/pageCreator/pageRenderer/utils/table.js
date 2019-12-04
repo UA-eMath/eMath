@@ -29,18 +29,20 @@ export function tableProcessor(tableContent, props) {
 			<tbody>
 			{tableData.map((tableRow, i) => {
 				let rid = "row" + i.toString();
-				if (typeof(tableRow) === 'object' && tableRow["type"]==="table") {
+				if (typeof (tableRow) === 'object' && tableRow["type"] === "table") {
 					return (
 						tableProcessor(tableRow["data"], props)
 					)
-				} else if (typeof(tableRow) === "object" && tableRow["type"]==="list") {
+				} else if (typeof (tableRow) === "object" && tableRow["type"] === "list") {
 					const List = tableRow["data"]["tag"];
 					return (
 						<tr key={rid}>
 							<td>
-								<List>
-									{listProcessor(tableRow["data"], props)}
-								</List>
+								<div style={{wordWrap:"break-word"}}>
+									<List>
+										{listProcessor(tableRow["data"], props)}
+									</List>
+								</div>
 							</td>
 						</tr>
 					)
@@ -53,20 +55,26 @@ export function tableProcessor(tableContent, props) {
 								if (direction === 'v' && (i === 0)) {
 									return (
 										<th key={id}>
-											{tagParser(tableData, props)}
+											<div style={{wordWrap:"break-word"}}>
+												{tagParser(tableData, props)}
+											</div>
 										</th>
 									)
 								} else if (direction === 'h' && j === 0) {
 									return (
 										<th key={id}>
-											{tagParser(tableData, props)}
+											<div style={{wordWrap:"break-word"}}>
+												{tagParser(tableData, props)}
+											</div>
 										</th>
 									)
 								}
 
 								return (
 									<td key={id}>
-										{tagParser(tableData, props)}
+										<div style={{wordWrap:"break-word"}}>
+											{tagParser(tableData, props)}
+										</div>
 									</td>
 								)
 							})

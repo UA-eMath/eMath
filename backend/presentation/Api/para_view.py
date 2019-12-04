@@ -94,7 +94,9 @@ class ParaViewSet(viewsets.ModelViewSet):
 	def update(self, request, *args, **kwargs):
 		response = super().update(request, *args, **kwargs)
 		if request.data.get("position") is not None:
-			updateParaPosition(self.kwargs["pk"])
+			para = Para.objects.get(pk=self.kwargs["pk"])
+			parent = para.para_parent
+			updateParaPosition(parent)
 
 		response.data = {'status': 'successfully update'}
 		return response
