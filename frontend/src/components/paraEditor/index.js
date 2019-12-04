@@ -70,9 +70,9 @@ function objToString(obj) {
 					if (typeof (mixData) === "string") {
 						result += mixData.replace(/\\\\/g, '\\') + "," + "\n";
 					} else if (typeof (mixData) === "object" && mixData["type"] === "list") {
-						return result += objToString(mixData);
+						return result += objToString(mixData) +"\n";
 					} else if (typeof (mixData) === "object" && mixData["type"] === "table") {
-						return result += objToString(mixData);
+						return result += objToString(mixData)+ "\n";
 					}
 				});
 				result += "\t</li>\n";
@@ -85,7 +85,15 @@ function objToString(obj) {
 
 	} else if(obj.type === 'table'){
 		let tableArray = obj.data.content;
+		let result = "<table>\n";
+		tableArray.map(data=>{
+			if (typeof (data) === "object" && data["type"] === "list") {}
 
+
+		});
+
+
+		return result + "</table>\n";
 	}
 	else {
 		return JSON.stringify(obj.data.content);

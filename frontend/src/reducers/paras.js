@@ -15,37 +15,58 @@ function stringToObj(str, obj) {
 		let listArray = str.split(/\\/g).join("\\\\");
 		listArray = listArray
 			.replace(/"/g, '&quot;')
-			.replace(/\n/g,"")
-			.replace(/\t/g,"")
-			.replace(/<ol>/g,"[")
-			.replace(/<ul>/g,"[")
-			.replace(/<li>/g,'"')
-			.replace(/<\/li><\/ul>/g,'"]')
-			.replace(/<\/li><\/ol>/g,'"]')
-			.replace(/<\/li>/g,'",')
-			.replace(/<\/ol>/g,']')
-			.replace(/<\/ul>/g,']');
-
-
-		console.log(listArray);
+			.replace(/\t/g, "")
+			.replace(/<ol>/g, '["ol",')
+			.replace(/<ul>/g, '["ul",')
+			.replace(/<li>/g, '"')
+			.replace(/<\/li><\/ul>|<\/li>\n<\/ul>/g, '"]')
+			.replace(/<\/li><\/ol>|<\/li>\n<\/ol>/g, '"]')
+			.replace(/<\/li>/g, '",')
+			.replace(/<\/li>/g, '",')
+			.replace(/<\/ol>/g, ']')
+			.replace(/<\/ul>/g, ']')
+			.replace(/"[^"]*(?:""[^"]*)*"/g, function (m) {
+				return m.replace(/\n/g, '&q@q&');
+			})
+			.replace(/\n/g, "");
 
 		let parsed_array = JSON.parse(listArray);
+		parsed_array.shift();
+		console.log(parsed_array);
 
-		return function arrayToObj(parsed_array, obj) {
+		function arrayToObj(parsed_array) {
 			return parsed_array.map(item => {
+
+
+
+
 				if (Array.isArray(item)) {
-					return {
-						"data": {
-							"tag": obj.data.tag,
-							"content": arrayToObj(item, obj)
-						},
-						"type": "list"
+					let array_indicator = item.shift();
+
+					if (array_indicator === 'ol' || array_indicator === 'ul') {
+						return {
+							"data": {
+								"tag": array_indicator,
+								"content": arrayToObj(item)
+							},
+							"type": "list"
+						}
+					} else {
+						return {
+							"data":{
+								"direction" : array_indicator,
+								"content" : item
+							}
+						}
 					}
+
 				} else {
 					return item;
 				}
 			});
 		}
+
+		return arrayToObj(parsed_array);
 
 	} else if (obj.type === 'table') {
 		return JSON.parse(str);
@@ -84,8 +105,7 @@ const paras = (state = pageParas, action) => {
 				let target_para = flat_state[flat_state.findIndex(i => i.id === action.id)];
 
 				try {
-					stringToObj(action.para, target_para.content);
-					//target_para.content.data.content = stringToObj(action.para, target_para.content);
+					target_para.content.data.content = stringToObj(action.para, target_para.content);
 					//console.log(target_para.content.data.content);
 				} catch (e) {
 					console.log(e);
