@@ -7,103 +7,146 @@ const pageParas = {
 	id: null,
 };
 
-function stringToObj(str, obj) {
-	if (obj.type === 'text') {
-		return str
-	} else if (obj.type === 'list') {
-		//escape \ and quotes
-		let listArray = str.split(/\\/g).join("\\\\");
-		listArray = listArray
-			.replace(/"/g, '&quot;')
-			.replace(/\t/g, "")
-			.replace(/<ol>/g, '["ol",')
-			.replace(/<ul>/g, '["ul",')
-			.replace(/<li>/g, '"')
-			.replace(/<\/li><\/ul>|<\/li>\n<\/ul>|<\/li><\/ol>|<\/li>\n<\/ol>/g, '"]')
-			.replace(/<\/li>/g, '",')
-			.replace(/<\/ol>|<\/ul>/g, ']')
-			.replace(/"[^"]*(?:""[^"]*)*"/g, function (m) {
-				return m.replace(/\n/g, '&q@q&');
-			})
-			.replace(/\n/g, "");
+function stringToObj(str) {
+	let listArray = str.split(/\\/g).join("\\\\");
+	listArray = listArray
+		.replace(/"/g, '&quot;')
+		.replace(/\t/g, "")
+		.replace(/\n/g, "");
 
-		let parsed_array = JSON.parse(listArray);
-		parsed_array.shift();
-		console.log(parsed_array);
+	let parser = new DOMParser();
 
-		function arrayToObj(parsed_array) {
-			return parsed_array.map(item => {
+	//TODO error handling
+	//ol/ul, table, #text
 
-				if (Array.isArray(item)) {
-					let array_indicator = item.shift();
+	let doc = parser.parseFromString(listArray, "text/html").getElementsByTagName("body")[0].childNodes[0];
+	let wrapperTagName = doc.nodeName.toLowerCase();
 
-					if (array_indicator === 'ol' || array_indicator === 'ul') {
-						return {
-							"data": {
-								"tag": array_indicator,
-								"content": arrayToObj(item)
-							},
-							"type": "list"
-						}
-					} else {
-						return {
-							"data":{
-								"direction" : array_indicator,
-								"content" : item
-							}
-						}
-					}
-					// else if (item.split(/&q@q&/).length > 0) {
-				// 	let mixDataArray = [];
-				// 	let splitedItemArray = item.split(/&q@q&/);
-				// 	let tableStart = splitedItemArray.indexOf("<table>");
-				// 	let tableEnd = splitedItemArray.indexOf("</table>",-1);
-				// 	let tableString = splitedItemArray.slice(tableStart,tableEnd).join("");
-				// 	splitedItemArray.splice(tableStart,tableEnd-tableStart+1,tableString).map(i => {
-				// 		if (i.search(/<table>/) > -1) {
-				// 			mixDataArray.push({
-				// 				"data": {
-				// 					"direction": "",
-				// 					"content": stringToObj(item, {"type": "table"})
-				// 				}
-				// 			})
-				// 		} else if(Array.isArray(i)){
-				// 			mixDataArray.push(arrayToObj([i]))
-				// 		} else {
-				// 			mixDataArray.push(i)
-				// 		}
-				// 	});
-				// 	return mixDataArray
-				//
-				// }
-
-				} else {
-					return item;
-				}
-			});
+	if (wrapperTagName in ['ol', 'ul']) {
+		return {
+			"data": {
+				"tag": wrapperTagName,
+				"content": listDomToJson(doc, [])
+			},
+			"type": "list"
 		}
-
-		return arrayToObj(parsed_array);
-
-	} else if (obj.type === 'table') {
-		let tableArray =  str.split(/\\/g).join("\\\\");
-		tableArray = tableArray
-			.replace(/"/g, '&quot;')
-			.replace(/\t/g, "")
-			.replace(/\n/g, "")
-			.replace(/<table>|<tr>/g,"[")
-			.replace(/<td>|<th>/g,"\"")
-			.replace(/<\/td><\/tr><\/table>/g,'"]]')
-			.replace(/<\/td><\/tr>/g,'"],')
-			.replace(/<\/td>/g,'",')
-			.replace(/<\/tr>/g,",")
-			.replace(/<\/table>/g,"]");
-
-		let parsed_array = JSON.parse(tableArray);
-
-		return parsed_array
+	} else if (wrapperTagName in ['table']) {
+		return {
+			"data": {
+				"tag": wrapperTagName,
+				"content": tableDomToJson(doc, [])
+			},
+			"type": "list"
+		}
+	} else {
+		return {
+			"data": {
+				"textAlign": "",
+				"content": listArray
+			},
+			"type": "text"
+		}
 	}
-	// return str.split(/\\/g).join("\\\\");
+
+	function tableDomToJson(dom, contentArray) {
+		for (let i = 0; i < dom.childNodes[0].childNodes.length; i++) {
+			//tr
+			let tableRow = dom.childNodes[0].childNodes[i];
+			let rowArray = [];
+			for (let j = 0; j < tableRow.childNodes.length; j++) {
+				let tableData = tableRow.childNodes[j];
+				let isNested = nodeExistenceChecker(tableData);
+				if (!isNested) {
+					rowArray.push(tableData.innerHTML)
+				} else if (isNested === "ol" || isNested === "ul") {
+					rowArray.push({
+						"data": {
+							"tag": isNested,
+							"content": listDomToJson(tableData, [])
+						},
+						"type": "list"
+					})
+				} else if (isNested === 'table') {
+					rowArray.push({
+						"data": {
+							"direction": "",
+							"content": tableDomToJson(tableData, [])
+						},
+						"type": "table"
+					})
+				} else {
+					rowArray.push(tableData.innerHTML)
+				}
+			}
+			contentArray.push(rowArray);
+		}
+	}
+
+	function listDomToJson(dom, contentArray) {
+		for (let i = 0; i < dom.childNodes.length; i++) {
+			let domChild = dom.childNodes[i];
+			let isNested = nodeExistenceChecker(domChild.childNodes);
+			if (!isNested) {
+				contentArray.push(domChild.innerHTML)
+			} else if (isNested === "ol" || isNested === "ul") {
+				contentArray.push({
+					"data": {
+						"tag": isNested,
+						"content": listDomToJson(domChild, [])
+					},
+					"type": "list"
+				})
+			} else if (isNested === 'table') {
+				contentArray.push({
+					"data": {
+						"direction": "",
+						"content": tableDomToJson(domChild, [])
+					},
+					"type": "table"
+				})
+			} else {
+				let noneNodeString = "";
+				let nestedArray = [];
+				for (let j = 0; j < domChild.childNodes.length; j++) {
+					if (!(domChild.childNodes[j].nodeName in ["OL", "UL", "TABLE"])) {
+						noneNodeString += domChild.childNodes[j].innerHTML;
+					} else if (domChild.childNodes[j].nodeName in ["OL", "UL"]) {
+						noneNodeString += '\n';
+						nestedArray.push(noneNodeString);
+						noneNodeString = "";
+						nestedArray.push(listDomToJson(domChild.childNodes[j], nestedArray))
+					} else {
+						noneNodeString += '\n';
+						nestedArray.push(noneNodeString);
+						noneNodeString = "";
+						nestedArray.push(tableDomToJson(domChild.childNodes[j], nestedArray))
+					}
+				}
+				contentArray.push(nestedArray)
+			}
+		}
+	}
+
+	function nodeExistenceChecker(nodeList) {
+		for (let i = 0; i < nodeList.length; i++) {
+			if (nodeList[i].nodeName === "OL" || nodeList[i].nodeName === "UL") {
+				if (i === 0) {
+					return nodeList[i].nodeName.toLowerCase();
+				} else {
+					return "mixData"
+				}
+
+			} else if (nodeList[i].nodeName === 'TABLE') {
+				if (i === 0) {
+					return "table";
+				} else {
+					return "mixData"
+				}
+			}
+		}
+		return false;
+	}
+
 }
 
 const paras = (state = pageParas, action) => {
@@ -137,7 +180,7 @@ const paras = (state = pageParas, action) => {
 				let target_para = flat_state[flat_state.findIndex(i => i.id === action.id)];
 
 				try {
-					target_para.content.data.content = stringToObj(action.para, target_para.content);
+					target_para.content = stringToObj(action.para);
 					//console.log(target_para.content.data.content);
 				} catch (e) {
 					console.log(e);
