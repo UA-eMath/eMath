@@ -155,15 +155,16 @@ class ParaEditor extends React.Component {
 								"caption": this.props.uploadingQueue[key]["caption"],
 							}, key);
 
-							await updatePara(request_body, key).then(data => {
-								if (!data || data.status !== 200) {
-									if (data.status === 400) {
-										message.error(data.data);
-									}
-									console.error("Update Para error", request_body, data);
-
-								}
-							});
+							//TODO open auto save
+							// await updatePara(request_body, key).then(data => {
+							// 	if (!data || data.status !== 200) {
+							// 		if (data.status === 400) {
+							// 			message.error(data.data);
+							// 		}
+							// 		console.error("Update Para error", request_body, data);
+							//
+							// 	}
+							// });
 							this.props.popQueue(key);
 						}
 					}

@@ -53,6 +53,29 @@ function stringToObj(str, obj) {
 							}
 						}
 					}
+					// else if (item.split(/&q@q&/).length > 0) {
+				// 	let mixDataArray = [];
+				// 	let splitedItemArray = item.split(/&q@q&/);
+				// 	let tableStart = splitedItemArray.indexOf("<table>");
+				// 	let tableEnd = splitedItemArray.indexOf("</table>",-1);
+				// 	let tableString = splitedItemArray.slice(tableStart,tableEnd).join("");
+				// 	splitedItemArray.splice(tableStart,tableEnd-tableStart+1,tableString).map(i => {
+				// 		if (i.search(/<table>/) > -1) {
+				// 			mixDataArray.push({
+				// 				"data": {
+				// 					"direction": "",
+				// 					"content": stringToObj(item, {"type": "table"})
+				// 				}
+				// 			})
+				// 		} else if(Array.isArray(i)){
+				// 			mixDataArray.push(arrayToObj([i]))
+				// 		} else {
+				// 			mixDataArray.push(i)
+				// 		}
+				// 	});
+				// 	return mixDataArray
+				//
+				// }
 
 				} else {
 					return item;
