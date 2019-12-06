@@ -47,7 +47,7 @@ const mapDispatchToProps = dispatch => ({
 const {TextArea} = Input;
 const {confirm} = Modal;
 
-function objToString(obj) {
+function objToString(obj, nestedLevel) {
 	if (obj.type === "text") {
 		let textString = obj.data.content;
 		textString = textString.replace(/\\\\/g, '\\');
@@ -55,50 +55,56 @@ function objToString(obj) {
 	} else if (obj.type === "list") {
 		let listArray = obj.data.content;
 		// present text
-		let result = "<" + obj.data.tag + ">\n";
+		let result = "\t".repeat(nestedLevel === 1 ? (nestedLevel - 1) : nestedLevel) + "<" + obj.data.tag + ">\n";
 		listArray.map(data => {
 			// sub list
+			result += "\t".repeat(nestedLevel) + "<li>";
 			if (typeof (data) === "object" && data["type"] === "list") {
-				return result += objToString(data);
+				result += "\n" + objToString(data, nestedLevel + 1);
+				result += "\t".repeat(nestedLevel) + "</li>\n";
 			} // sub table
 			else if (typeof (data) === "object" && data["type"] === "table") {
-				return result += objToString(data);
+				result += "\n" + objToString(data, nestedLevel + 1);
+				result += "\t".repeat(nestedLevel) + "</li>\n";
 			} //mixed data
 			else if (Array.isArray(data)) {
-				result += "\t<li>";
-				data.map(mixData => {
+				data.map((mixData,i) => {
 					if (typeof (mixData) === "string") {
-						result += mixData.replace(/\\\\/g, '\\') + "," + "\n";
+						if(i>0){
+							result += "\t".repeat(nestedLevel);
+						}
+						result += mixData.replace(/\\\\/g, '\\') + "\n";
 					} else if (typeof (mixData) === "object" && mixData["type"] === "list") {
-						return result += objToString(mixData) +"\n";
+						result += objToString(mixData, nestedLevel + 1) + "\n";
 					} else if (typeof (mixData) === "object" && mixData["type"] === "table") {
-						return result += objToString(mixData)+ "\n";
+						result += objToString(mixData, nestedLevel + 1) + "\n";
 					}
 				});
-				result += "\t</li>\n";
+				result += "\t".repeat(nestedLevel) + "</li>\n";
 			} else {
-				result += "\t<li>" + data.replace(/\\\\/g, '\\') + "</li>\n";
+				result += data.replace(/\\\\/g, '\\') + "</li>\n";
 			}
+
+
 		});
 
-		return result + "</" + obj.data.tag +">\n";
+		return result + "\t".repeat(nestedLevel === 1 ? (nestedLevel - 1) : nestedLevel) + "</" + obj.data.tag + ">\n";
 
-	} else if(obj.type === 'table'){
+	} else if (obj.type === 'table') {
 		let tableArray = obj.data.content;
 		let direction = obj.data.direction;
 
-		let result = "<table>\n";
-		tableArray.map(rowData=>{
-			result += "\t<tr>\n";
-			rowData.map(data=>{
-				result += "\t\t<td>" + data.toString().replace(/\\\\/g, '\\') + "</td>\n";
+		let result = "\t".repeat(nestedLevel) + "<table>\n";
+		tableArray.map(rowData => {
+			result += "\t".repeat(nestedLevel + 1) + "<tr>\n";
+			rowData.map(data => {
+				result += "\t".repeat(nestedLevel + 2) + "<td>" + data.toString().replace(/\\\\/g, '\\') + "</td>\n";
 			});
-			result += "\t</tr>\n";
+			result += "\t".repeat(nestedLevel + 1) + "</tr>\n";
 		});
 
-		return result + "</table>\n";
-	}
-	else {
+		return result + "\t".repeat(nestedLevel) + "</table>\n";
+	} else {
 		return JSON.stringify(obj.data.content);
 	}
 }
@@ -122,7 +128,7 @@ class ParaEditor extends React.Component {
 	async componentDidMount() {
 		const id = setInterval(this.uploadingData, 10000);
 		this.setState({
-			intervalId : id,
+			intervalId: id,
 		})
 	}
 
@@ -288,7 +294,7 @@ class ParaEditor extends React.Component {
 									textArea =
 										<div>
 											{item.map(obj => {
-												defaultValue = objToString(obj.content);
+												defaultValue = objToString(obj.content, 1);
 												index += 1;
 												return <TextArea
 													defaultValue={defaultValue}
@@ -306,7 +312,7 @@ class ParaEditor extends React.Component {
 										</div>;
 
 								} else {
-									defaultValue = objToString(item.content);
+									defaultValue = objToString(item.content, 1);
 									textArea =
 										<TextArea
 											defaultValue={defaultValue}
