@@ -19,7 +19,7 @@ import updatePara from "../../requests/updatePara";
 import removePara from "../../requests/removePara";
 import MathJax from "../mathDisplay";
 import MathJaxConfig from "../../constants/MathJax_config";
-import "./style/index.css"
+import "./style/index.css";
 
 //this.props.data
 const mapStateToProps = state => {
@@ -68,9 +68,9 @@ function objToString(obj, nestedLevel) {
 				result += "\t".repeat(nestedLevel) + "</li>\n";
 			} //mixed data
 			else if (Array.isArray(data)) {
-				data.map((mixData,i) => {
+				data.map((mixData, i) => {
 					if (typeof (mixData) === "string") {
-						if(i>0){
+						if (i > 0) {
 							result += "\t".repeat(nestedLevel);
 						}
 						result += mixData.replace(/\\\\/g, '\\') + "\n";
@@ -156,15 +156,15 @@ class ParaEditor extends React.Component {
 							}, key);
 
 							//TODO open auto save
-							// await updatePara(request_body, key).then(data => {
-							// 	if (!data || data.status !== 200) {
-							// 		if (data.status === 400) {
-							// 			message.error(data.data);
-							// 		}
-							// 		console.error("Update Para error", request_body, data);
-							//
-							// 	}
-							// });
+							await updatePara(request_body, key).then(data => {
+								if (!data || data.status !== 200) {
+									if (data.status === 400) {
+										message.error(data.data);
+									}
+									console.error("Update Para error", request_body, data);
+
+								}
+							});
 							this.props.popQueue(key);
 						}
 					}
@@ -246,8 +246,7 @@ class ParaEditor extends React.Component {
 	};
 
 	insertAtCursor = (tag, length) => {
-		let focusedTextarea = document.getElementsByClassName("userInput")[this.state.focusArea];
-		//console.log(this.state.focusArea);
+		let focusedTextarea = document.getElementById(this.state.focusArea);
 		if (focusedTextarea.value !== undefined) {
 			let prefix = (focusedTextarea.value).substring(0, focusedTextarea.selectionStart);
 			let suffix = (focusedTextarea.value).substring(focusedTextarea.selectionStart, focusedTextarea.value.length);
@@ -262,7 +261,6 @@ class ParaEditor extends React.Component {
 	};
 
 	render() {
-		let index = 0;
 		return (
 			<div>
 				{(this.props.status === null) ? (
@@ -294,17 +292,17 @@ class ParaEditor extends React.Component {
 								if (Array.isArray(item)) {
 									textArea =
 										<div>
-											{item.map(obj => {
+											{item.map((obj) => {
 												defaultValue = objToString(obj.content, 1);
-												index += 1;
 												return <TextArea
+													id={obj.id}
 													defaultValue={defaultValue}
 													style={{
 														height: "100%",
 													}}
 													className="userInput"
 													onFocus={() => {
-														this.setState({focusArea: index - 1})
+														this.setState({focusArea: obj.id})
 													}}
 													onChange={(e) => this.setContent(e, obj.id)}
 													key={i}
@@ -316,17 +314,17 @@ class ParaEditor extends React.Component {
 									defaultValue = objToString(item.content, 1);
 									textArea =
 										<TextArea
+											id={item.id}
 											defaultValue={defaultValue}
 											style={{
 												height: "100%",
 											}}
 											className="userInput"
 											onFocus={() => {
-												this.setState({focusArea: index})
+												this.setState({focusArea: item.id})
 											}}
 											onChange={(e) => this.setContent(e, item.id)}
 										/>;
-									index += 1;
 								}
 
 								let displayArea =
