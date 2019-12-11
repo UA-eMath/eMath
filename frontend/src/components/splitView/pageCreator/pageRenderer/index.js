@@ -31,6 +31,10 @@ export default function contentProcessor(para, props) {
 	let type = processingPara["type"];
 	let data = processingPara["data"];
 
+	if (typeof data["content"] === "undefined") {
+		return (<div key={_.uniqueId("div_")}/>)
+	}
+
 	if (type === "text") {
 		textAlign = data["textAlign"];
 		processingPara = utils.tagParser(data["content"], props);

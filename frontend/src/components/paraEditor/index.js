@@ -50,43 +50,45 @@ const {confirm} = Modal;
 function objToString(obj, nestedLevel) {
 	if (obj.type === "text") {
 		let textString = obj.data.content;
-		textString = textString.replace(/\\\\/g, '\\');
+		textString = textString
+			.replace(/\\/g, '\\')
+			.replace(/&quot;/g, '"');
 		return textString
 	} else if (obj.type === "list") {
 		let listArray = obj.data.content;
 		// present text
 		let result = "\t".repeat(nestedLevel === 1 ? (nestedLevel - 1) : nestedLevel) + "<" + obj.data.tag + ">\n";
-		listArray.map(data => {
-			// sub list
-			result += "\t".repeat(nestedLevel) + "<li>";
-			if (typeof (data) === "object" && data["type"] === "list") {
-				result += "\n" + objToString(data, nestedLevel + 1);
-				result += "\t".repeat(nestedLevel) + "</li>\n";
-			} // sub table
-			else if (typeof (data) === "object" && data["type"] === "table") {
-				result += "\n" + objToString(data, nestedLevel + 1);
-				result += "\t".repeat(nestedLevel) + "</li>\n";
-			} //mixed data
-			else if (Array.isArray(data)) {
-				data.map((mixData, i) => {
-					if (typeof (mixData) === "string") {
-						if (i > 0) {
-							result += "\t".repeat(nestedLevel);
+		if (typeof listArray !== "undefined") {
+			listArray.map(data => {
+				// sub list
+				result += "\t".repeat(nestedLevel) + "<li>";
+				if (typeof (data) === "object" && data["type"] === "list") {
+					result += "\n" + objToString(data, nestedLevel + 1);
+					result += "\t".repeat(nestedLevel) + "</li>\n";
+				} // sub table
+				else if (typeof (data) === "object" && data["type"] === "table") {
+					result += "\n" + objToString(data, nestedLevel + 1);
+					result += "\t".repeat(nestedLevel) + "</li>\n";
+				} //mixed data
+				else if (Array.isArray(data)) {
+					data.map((mixData, i) => {
+						if (typeof (mixData) === "string") {
+							if (i > 0) {
+								result += "\t".repeat(nestedLevel);
+							}
+							result += mixData.replace(/\\\\/g, '\\') + "\n";
+						} else if (typeof (mixData) === "object" && mixData["type"] === "list") {
+							result += objToString(mixData, nestedLevel + 1) + "\n";
+						} else if (typeof (mixData) === "object" && mixData["type"] === "table") {
+							result += objToString(mixData, nestedLevel + 1) + "\n";
 						}
-						result += mixData.replace(/\\\\/g, '\\') + "\n";
-					} else if (typeof (mixData) === "object" && mixData["type"] === "list") {
-						result += objToString(mixData, nestedLevel + 1) + "\n";
-					} else if (typeof (mixData) === "object" && mixData["type"] === "table") {
-						result += objToString(mixData, nestedLevel + 1) + "\n";
-					}
-				});
-				result += "\t".repeat(nestedLevel) + "</li>\n";
-			} else {
-				result += data.replace(/\\\\/g, '\\') + "</li>\n";
-			}
-
-
-		});
+					});
+					result += "\t".repeat(nestedLevel) + "</li>\n";
+				} else {
+					result += data.replace(/\\\\/g, '\\') + "</li>\n";
+				}
+			});
+		}
 
 		return result + "\t".repeat(nestedLevel === 1 ? (nestedLevel - 1) : nestedLevel) + "</" + obj.data.tag + ">\n";
 
@@ -95,13 +97,16 @@ function objToString(obj, nestedLevel) {
 		let direction = obj.data.direction;
 
 		let result = "\t".repeat(nestedLevel) + "<table>\n";
-		tableArray.map(rowData => {
-			result += "\t".repeat(nestedLevel + 1) + "<tr>\n";
-			rowData.map(data => {
-				result += "\t".repeat(nestedLevel + 2) + "<td>" + data.toString().replace(/\\\\/g, '\\') + "</td>\n";
+
+		if (tableArray !== "undefined") {
+			tableArray.map(rowData => {
+				result += "\t".repeat(nestedLevel + 1) + "<tr>\n";
+				rowData.map(data => {
+					result += "\t".repeat(nestedLevel + 2) + "<td>" + data.toString().replace(/\\\\/g, '\\') + "</td>\n";
+				});
+				result += "\t".repeat(nestedLevel + 1) + "</tr>\n";
 			});
-			result += "\t".repeat(nestedLevel + 1) + "</tr>\n";
-		});
+		}
 
 		return result + "\t".repeat(nestedLevel) + "</table>\n";
 	} else {
@@ -136,13 +141,17 @@ class ParaEditor extends React.Component {
 		clearInterval(this.state.intervalId)
 	}
 
+	componentDidCatch(error, errorInfo) {
+		//  log the error
+		console.log(error, errorInfo);
+	}
+
 	async uploadingData() {
 		if (!_.isEmpty(this.props.uploadingQueue)) {
 			try {
 				this.setState({
 					uploading: true
 				});
-				console.log(this.props.uploadingQueue);
 
 				for (let key in this.props.uploadingQueue) {
 					if (!this.props.uploadingQueue.hasOwnProperty(key)) continue;
@@ -156,15 +165,15 @@ class ParaEditor extends React.Component {
 							}, key);
 
 							//TODO open auto save
-							await updatePara(request_body, key).then(data => {
-								if (!data || data.status !== 200) {
-									if (data.status === 400) {
-										message.error(data.data);
-									}
-									console.error("Update Para error", request_body, data);
-
-								}
-							});
+							// await updatePara(request_body, key).then(data => {
+							// 	if (!data || data.status !== 200) {
+							// 		if (data.status === 400) {
+							// 			message.error(data.data);
+							// 		}
+							// 		console.error("Update Para error", request_body, data);
+							//
+							// 	}
+							// });
 							this.props.popQueue(key);
 						}
 					}

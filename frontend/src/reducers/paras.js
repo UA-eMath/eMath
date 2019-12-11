@@ -8,7 +8,7 @@ const pageParas = {
 };
 
 function stringToObj(str) {
-	let listArray = str.split(/\\/g).join("\\\\");
+	let listArray = str.split(/\\/g).join("\\");
 	listArray = listArray
 		.replace(/"/g, '&quot;')
 		.replace(/\t/g, "")
@@ -22,7 +22,7 @@ function stringToObj(str) {
 	let doc = parser.parseFromString(listArray, "text/html").getElementsByTagName("body")[0].childNodes[0];
 	let wrapperTagName = doc.nodeName.toLowerCase();
 
-	if (wrapperTagName in ['ol', 'ul']) {
+	if (['ol', 'ul'].includes(wrapperTagName)) {
 		return {
 			"data": {
 				"tag": wrapperTagName,
@@ -30,7 +30,7 @@ function stringToObj(str) {
 			},
 			"type": "list"
 		}
-	} else if (wrapperTagName in ['table']) {
+	} else if (wrapperTagName ==='table') {
 		return {
 			"data": {
 				"tag": wrapperTagName,
@@ -80,14 +80,17 @@ function stringToObj(str) {
 			}
 			contentArray.push(rowArray);
 		}
+		return contentArray;
 	}
 
 	function listDomToJson(dom, contentArray) {
 		for (let i = 0; i < dom.childNodes.length; i++) {
 			let domChild = dom.childNodes[i];
 			let isNested = nodeExistenceChecker(domChild.childNodes);
+			console.log(domChild,isNested);
+
 			if (!isNested) {
-				contentArray.push(domChild.innerHTML)
+				contentArray.push(typeof domChild.innerHTML === "undefined" ? "" : domChild.innerHTML)
 			} else if (isNested === "ol" || isNested === "ul") {
 				contentArray.push({
 					"data": {
@@ -108,27 +111,30 @@ function stringToObj(str) {
 				let noneNodeString = "";
 				let nestedArray = [];
 				for (let j = 0; j < domChild.childNodes.length; j++) {
-					if (!(domChild.childNodes[j].nodeName in ["OL", "UL", "TABLE"])) {
+					console.log(domChild.childNodes[j].nodeName,nestedArray);
+					if (!(["OL", "UL", "TABLE"].includes(domChild.childNodes[j].nodeName))) {
 						noneNodeString += domChild.childNodes[j].innerHTML;
-					} else if (domChild.childNodes[j].nodeName in ["OL", "UL"]) {
+					} else if (["OL", "UL"].includes(domChild.childNodes[j].nodeName)) {
 						noneNodeString += '\n';
 						nestedArray.push(noneNodeString);
 						noneNodeString = "";
-						nestedArray.push(listDomToJson(domChild.childNodes[j], nestedArray))
+						nestedArray.concat(listDomToJson(domChild.childNodes[j], []))
 					} else {
 						noneNodeString += '\n';
 						nestedArray.push(noneNodeString);
 						noneNodeString = "";
-						nestedArray.push(tableDomToJson(domChild.childNodes[j], nestedArray))
+						nestedArray.concat(tableDomToJson(domChild.childNodes[j], []))
 					}
 				}
 				contentArray.push(nestedArray)
 			}
 		}
+		return contentArray
 	}
 
 	function nodeExistenceChecker(nodeList) {
 		for (let i = 0; i < nodeList.length; i++) {
+			console.log(nodeList[i].nodeName);
 			if (nodeList[i].nodeName === "OL" || nodeList[i].nodeName === "UL") {
 				if (i === 0) {
 					return nodeList[i].nodeName.toLowerCase();
@@ -181,7 +187,7 @@ const paras = (state = pageParas, action) => {
 
 				try {
 					target_para.content = stringToObj(action.para);
-					//console.log(target_para.content.data.content);
+					console.log(target_para.content);
 				} catch (e) {
 					console.log(e);
 				}

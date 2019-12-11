@@ -5,28 +5,28 @@ LIST CSS
 */
 
 /* Numbered lists like 1, 1.1, 2.2.1... */
-ol li {
-	display: block;
-}
+/*ol li {*/
+/*	display: block;*/
+/*}*/
 
-/* hide original list counter */
-ol > li:first-child {
-	counter-reset: item;
-}
+/*!* hide original list counter *!*/
+/*ol > li:first-child {*/
+/*	counter-reset: item;*/
+/*}*/
 
-/* reset counter */
-ol > li {
-	counter-increment: item;
-	position: relative;
-}
+/*!* reset counter *!*/
+/*ol > li {*/
+/*	counter-increment: item;*/
+/*	position: relative;*/
+/*}*/
 
-/* increment counter */
-ol > li:before {
-	content: counters(item, ".") ". ";
-	position: absolute;
-	margin-right: 100%;
-	right: 10px;
-}
+/*!* increment counter *!*/
+/*ol > li:before {*/
+/*	content: counters(item, ".") ". ";*/
+/*	position: absolute;*/
+/*	margin-right: 100%;*/
+/*	right: 10px;*/
+/*}*/
 
 /* print counter */
 ol > ol {
