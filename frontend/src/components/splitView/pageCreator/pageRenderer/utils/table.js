@@ -51,6 +51,23 @@ export function tableProcessor(tableContent, props) {
 											</div>
 										</td>
 									)
+								} else if (Array.isArray(tableData)) {
+									return (
+										<td key={id}>
+											{
+												tableData.map(mixData => {
+													if (typeof (mixData) === "string") {
+														return (tagParser(mixData, props))
+													} else if (typeof (mixData) === "object" && mixData["type"] === "list") {
+														return (listProcessor(mixData["data"], props))
+													} else if (typeof (mixData) === "object" && mixData["type"] === "table") {
+														return (tableProcessor(mixData["data"], props))
+													}
+													return null
+												})
+											}
+										</td>
+									)
 								}
 
 								if (direction === 'v' && (i === 0)) {
