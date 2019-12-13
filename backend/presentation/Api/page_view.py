@@ -10,6 +10,11 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 	def  list(self, request, *args, **kwargs):
 		queryset = self.get_queryset()
 
+		#empty page
+		if queryset ==  []:
+			return Response(self.serilalizeNestList(queryset))
+
+		#bad request
 		if not queryset:
 			return Response('Page number/level id is not provided',500)
 
@@ -65,6 +70,8 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 						paras.append(blockParas)
 
 			return paras
+
+		return paras
 
 
 	def mergeAndSort(self,block,paras):

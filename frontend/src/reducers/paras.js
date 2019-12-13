@@ -12,6 +12,7 @@ function stringToObj(str) {
 	listArray = listArray
 		.replace(/"/g, '&quot;')
 		.replace(/\t/g, "")
+		.replace(/ {4}/g, "")
 		.replace(/\n/g, "");
 
 	let parser = new DOMParser();
@@ -20,7 +21,11 @@ function stringToObj(str) {
 	//ol/ul, table, #text
 
 	let doc = parser.parseFromString(listArray, "text/html").getElementsByTagName("body")[0].childNodes[0];
-	let wrapperTagName = doc.nodeName.toLowerCase();
+
+	let wrapperTagName;
+	if(typeof doc !== "undefined"){
+		wrapperTagName = doc.nodeName.toLowerCase();
+	}
 
 	if (['ol', 'ul'].includes(wrapperTagName)) {
 		return {
@@ -39,13 +44,13 @@ function stringToObj(str) {
 			"type": "table"
 		}
 	} else {
-	return {
-		"data": {
-			"textAlign": "",
-			"content": listArray
-		},
-		"type": "text"
-	}
+		return {
+			"data": {
+				"textAlign": "",
+				"content": listArray
+			},
+			"type": "text"
+		}
 	}
 
 	function tableDomToJson(dom, contentArray) {
@@ -103,7 +108,7 @@ function stringToObj(str) {
 			console.log(domChild, isNested);
 
 			if (["ol", "ul"].includes(isNested)) {
-				console.log(["ol", "ul"].includes(domChild) ? domChild : domChild.childNodes[0]);
+				console.log(["OL", "UL"].includes(domChild.nodeName) ? domChild : domChild.childNodes[0]);
 				if (nodeString !== "") {
 					contentArray.push(nodeString += "\n");
 					nodeString = "";
@@ -111,7 +116,7 @@ function stringToObj(str) {
 				contentArray.push({
 					"data": {
 						"tag": isNested,
-						"content": listDomToJson(["ol", "ul"].includes(domChild) ? domChild : domChild.childNodes[0], [])
+						"content": listDomToJson(["OL", "UL"].includes(domChild.nodeName) ? domChild : domChild.childNodes[0], [])
 					},
 					"type": "list"
 				})
@@ -123,21 +128,26 @@ function stringToObj(str) {
 				contentArray.push({
 					"data": {
 						"direction": "",
-						"content": tableDomToJson(["table"].includes(domChild) ? domChild : domChild.childNodes[0], [])
+						"content": tableDomToJson(["TABLE"].includes(domChild.nodeName) ? domChild : domChild.childNodes[0], [])
 					},
 					"type": "table"
 				})
 			} else if (!isNested) {
+				console.log(111, nodeString, domChild.innerHTML);
 				if (nodeString !== "") {
 					contentArray.push(nodeString += "\n");
 					nodeString = "";
+				}
+				if (typeof domChild.innerHTML === "undefined") {
+					//#text
+					contentArray.push(domChild.textContent)
 				}
 				contentArray.push(domChild.innerHTML)
 
 			} else if (typeof isNested === "undefined") {
 				console.dir(domChild);
 				nodeString += domChild.innerHTML;
-				if(i === dom.childNodes.length-1 && nodeString !== ""){
+				if (i === dom.childNodes.length - 1 && nodeString !== "") {
 					contentArray.push(nodeString)
 				}
 
@@ -160,7 +170,7 @@ function stringToObj(str) {
 			let nestedNodeName = node.childNodes[0].nodeName.toLowerCase();
 			if (["ol", "ul", "table"].includes(nestedNodeName)) {
 				return nestedNodeName
-			} else if(nestedNodeName === '#text'){
+			} else if (nestedNodeName === '#text') {
 				return false
 			}
 		} else if (node.childNodes.length === 0) {
@@ -168,7 +178,7 @@ function stringToObj(str) {
 			return false
 		} else {
 			for (let i = 0; i < node.childNodes.length; i++) {
-				if(["OL","UL","TABLE"].includes(node.childNodes[i].nodeName)){
+				if (["OL", "UL", "TABLE"].includes(node.childNodes[i].nodeName)) {
 					return "mixdata"
 				}
 			}
