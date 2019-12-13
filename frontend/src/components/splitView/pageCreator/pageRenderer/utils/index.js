@@ -29,14 +29,14 @@ export function tagParser(para, props) {
 	// regexs to match tags in string
 	let regex = {
 		link: {
-			phrase: new RegExp("(<iLink.*?>.*?</iLink>)", "g"),
+			phrase: new RegExp("(<iLink.*?>.*?</iLink>)", "gi"),
 			id: new RegExp("id = '(.*?)'", "g"),
-			content: new RegExp("<iLink.*?>(.*?)</iLink>", "g")
+			content: new RegExp("<iLink.*?>(.*?)</iLink>", "gi")
 		},
 		latex: {
-			phrase: new RegExp("(<Math.*?>.*?</Math>)", "g"),
+			phrase: new RegExp("(<Math.*?>.*?</Math>)", "gi"),
 			inline: new RegExp("inline", 'g'),
-			content: new RegExp("<Math.*?>(.*?)</Math>", "g"),
+			content: new RegExp("<Math.*?>(.*?)</Math>", "gi"),
 		}
 	};
 

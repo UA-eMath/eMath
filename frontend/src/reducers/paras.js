@@ -39,13 +39,13 @@ function stringToObj(str) {
 			"type": "table"
 		}
 	} else {
-		return {
-			"data": {
-				"textAlign": "",
-				"content": listArray
-			},
-			"type": "text"
-		}
+	return {
+		"data": {
+			"textAlign": "",
+			"content": listArray
+		},
+		"type": "text"
+	}
 	}
 
 	function tableDomToJson(dom, contentArray) {
@@ -62,7 +62,7 @@ function stringToObj(str) {
 					rowArray.push({
 						"data": {
 							"tag": isNested,
-							"content": listDomToJson(["ol", "ul"].includes(tableData)?tableData:tableData.childNodes[0], [])
+							"content": listDomToJson(["ol", "ul"].includes(tableData) ? tableData : tableData.childNodes[0], [])
 						},
 						"type": "list"
 					})
@@ -70,7 +70,7 @@ function stringToObj(str) {
 					rowArray.push({
 						"data": {
 							"direction": "",
-							"content": tableDomToJson(["table"].includes(tableData)?tableData:tableData.childNodes[0], [])
+							"content": tableDomToJson(["table"].includes(tableData) ? tableData : tableData.childNodes[0], [])
 						},
 						"type": "table"
 					})
@@ -85,41 +85,63 @@ function stringToObj(str) {
 		return contentArray;
 	}
 
-{/*	<ol>*/}
-{/*<li>awdawd<ul><li>dwadaw</li></ul></li>*/}
-{/*<li><ul><li>dwadaw</li></ul></li>*/}
-{/*</ol>*/}
+	{/*	<ol>*/
+	}
+	{/*<li>awdawd<ul><li>dwadaw</li></ul></li>*/
+	}
+	{/*<li><ul><li>dwadaw</li></ul></li>*/
+	}
+	{/*</ol>*/
+	}
 
 	function listDomToJson(dom, contentArray) {
+		let nodeString = "";
 		for (let i = 0; i < dom.childNodes.length; i++) {
 			//li
 			let domChild = dom.childNodes[i];
 			let isNested = nodeExistenceChecker(domChild);
-			console.log(domChild,isNested);
+			console.log(domChild, isNested);
 
 			if (["ol", "ul"].includes(isNested)) {
-				console.log(["ol", "ul"].includes(domChild)?domChild:domChild.childNodes[0]);
+				console.log(["ol", "ul"].includes(domChild) ? domChild : domChild.childNodes[0]);
+				if (nodeString !== "") {
+					contentArray.push(nodeString += "\n");
+					nodeString = "";
+				}
 				contentArray.push({
 					"data": {
 						"tag": isNested,
-						"content": listDomToJson(["ol", "ul"].includes(domChild)?domChild:domChild.childNodes[0], [])
+						"content": listDomToJson(["ol", "ul"].includes(domChild) ? domChild : domChild.childNodes[0], [])
 					},
 					"type": "list"
 				})
 			} else if (['table'].includes(isNested)) {
+				if (nodeString !== "") {
+					contentArray.push(nodeString += "\n");
+					nodeString = "";
+				}
 				contentArray.push({
 					"data": {
 						"direction": "",
-						"content": tableDomToJson(["table"].includes(domChild)?domChild:domChild.childNodes[0], [])
+						"content": tableDomToJson(["table"].includes(domChild) ? domChild : domChild.childNodes[0], [])
 					},
 					"type": "table"
 				})
 			} else if (!isNested) {
-				contentArray.push(domChild.textContent)
-			}
-			else if (typeof isNested === "undefined") {
+				if (nodeString !== "") {
+					contentArray.push(nodeString += "\n");
+					nodeString = "";
+				}
+				contentArray.push(domChild.innerHTML)
+
+			} else if (typeof isNested === "undefined") {
 				console.dir(domChild);
-				contentArray.push(domChild.outerHTML)
+				nodeString += domChild.innerHTML;
+				if(i === dom.childNodes.length-1 && nodeString !== ""){
+					contentArray.push(nodeString)
+				}
+
+				//contentArray.push(domChild.outerHTML)
 			} else {
 				//mixdata
 				contentArray.push(listDomToJson(domChild, []))
@@ -130,19 +152,27 @@ function stringToObj(str) {
 	}
 
 	function nodeExistenceChecker(node) {
-		if (["ol", "ul","table"].includes(node.nodeName.toLowerCase())) {
+		console.dir(node);
+		if (["ol", "ul", "table"].includes(node.nodeName.toLowerCase())) {
 			return node.nodeName.toLowerCase()
 		}
 		if (node.childNodes.length === 1) {
 			let nestedNodeName = node.childNodes[0].nodeName.toLowerCase();
 			if (["ol", "ul", "table"].includes(nestedNodeName)) {
 				return nestedNodeName
+			} else if(nestedNodeName === '#text'){
+				return false
 			}
 		} else if (node.childNodes.length === 0) {
 			//text
 			return false
 		} else {
-			return "mixData"
+			for (let i = 0; i < node.childNodes.length; i++) {
+				if(["OL","UL","TABLE"].includes(node.childNodes[i].nodeName)){
+					return "mixdata"
+				}
+			}
+			return false
 		}
 	}
 }
