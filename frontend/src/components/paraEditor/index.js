@@ -61,31 +61,33 @@ function objToString(obj, nestedLevel) {
 		if (typeof listArray !== "undefined") {
 			listArray.map(data => {
 				// sub list
-				result += "\t".repeat(nestedLevel) + "<li>";
-				if (typeof (data) === "object" && data["type"] === "list") {
-					result += "\n" + objToString(data, nestedLevel + 1);
-					result += "\t".repeat(nestedLevel) + "</li>\n";
-				} // sub table
-				else if (typeof (data) === "object" && data["type"] === "table") {
-					result += "\n" + objToString(data, nestedLevel + 1);
-					result += "\t".repeat(nestedLevel) + "</li>\n";
-				} //mixed data
-				else if (Array.isArray(data)) {
-					data.map((mixData, i) => {
-						if (typeof (mixData) === "string") {
-							if (i > 0) {
-								result += "\t".repeat(nestedLevel);
+				if (typeof data !== "undefined") {
+					result += "\t".repeat(nestedLevel) + "<li>";
+					if (typeof (data) === "object" && data["type"] === "list") {
+						result += "\n" + objToString(data, nestedLevel + 1);
+						result += "\t".repeat(nestedLevel) + "</li>\n";
+					} // sub table
+					else if (typeof (data) === "object" && data["type"] === "table") {
+						result += "\n" + objToString(data, nestedLevel + 1);
+						result += "\t".repeat(nestedLevel) + "</li>\n";
+					} //mixed data
+					else if (Array.isArray(data)) {
+						data.map((mixData, i) => {
+							if (typeof (mixData) === "string") {
+								if (i > 0) {
+									result += "\t".repeat(nestedLevel);
+								}
+								result += mixData.replace(/\\\\/g, '\\') + "\n";
+							} else if (typeof (mixData) === "object" && mixData["type"] === "list") {
+								result += objToString(mixData, nestedLevel + 1) + "\n";
+							} else if (typeof (mixData) === "object" && mixData["type"] === "table") {
+								result += objToString(mixData, nestedLevel + 1) + "\n";
 							}
-							result += mixData.replace(/\\\\/g, '\\') + "\n";
-						} else if (typeof (mixData) === "object" && mixData["type"] === "list") {
-							result += objToString(mixData, nestedLevel + 1) + "\n";
-						} else if (typeof (mixData) === "object" && mixData["type"] === "table") {
-							result += objToString(mixData, nestedLevel + 1) + "\n";
-						}
-					});
-					result += "\t".repeat(nestedLevel) + "</li>\n";
-				} else {
-					result += data.replace(/\\\\/g, '\\') + "</li>\n";
+						});
+						result += "\t".repeat(nestedLevel) + "</li>\n";
+					} else {
+						result += data.replace(/\\\\/g, '\\') + "</li>\n";
+					}
 				}
 			});
 		}
