@@ -1,6 +1,7 @@
 import {listProcessor} from "./list";
 import {tagParser} from "./index";
 import React from 'react'
+import _ from "lodash"
 
 /*
 NOTE: A table can contain a list and a nest table
@@ -25,7 +26,7 @@ export function tableProcessor(tableContent, props) {
 	const direction = tableContent["direction"];
 	let tableData = tableContent["content"];
 	return (
-		<table>
+		<table key={_.uniqueId("table_")}>
 			<tbody>
 			{tableData.map((tableRow, i) => {
 				let rid = "row" + i.toString();

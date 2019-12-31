@@ -124,11 +124,18 @@ class ParaEditor extends React.Component {
 		this.state = {
 			uploading: false,
 			sideAlign: true,
-			focusArea: null,
 			intervalId: null,
+			focusedArea:null,
 		};
 
 		this.uploadingData = this.uploadingData.bind(this);
+		this.insertAtCursor = this.insertAtCursor.bind(this);
+
+		this.inputArea = [];
+
+		this.setTextInputRef = element => {
+			this.inputArea.push(element);
+		};
 	}
 
 	//save para periodically
@@ -263,6 +270,8 @@ class ParaEditor extends React.Component {
 
 	insertAtCursor = (tag, length) => {
 		let focusedTextarea = document.getElementById(this.state.focusArea);
+		console.log(focusedTextarea.value, focusedTextarea.selectionStart, focusedTextarea.selectionEnd);
+
 		if (focusedTextarea.value !== undefined) {
 			let prefix = (focusedTextarea.value).substring(0, focusedTextarea.selectionStart);
 			let suffix = (focusedTextarea.value).substring(focusedTextarea.selectionStart, focusedTextarea.value.length);
@@ -272,8 +281,9 @@ class ParaEditor extends React.Component {
 
 			focusedTextarea.selectionStart = prePos + length;
 			focusedTextarea.selectionEnd = focusedTextarea.selectionStart;
-			focusedTextarea.focus();
 		}
+		console.log(focusedTextarea.value, focusedTextarea.selectionStart, focusedTextarea.selectionEnd);
+
 	};
 
 	render() {
@@ -311,6 +321,7 @@ class ParaEditor extends React.Component {
 											{item.map((obj) => {
 												defaultValue = objToString(obj.content, 1);
 												return <TextArea
+													ref = {this.setTextInputRef}
 													id={obj.id}
 													defaultValue={defaultValue}
 													style={{
