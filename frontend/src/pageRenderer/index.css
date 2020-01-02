@@ -85,3 +85,13 @@ Link CSS
     box-decoration-break: clone;
     text-shadow: none;
 }
+
+/*
+
+Caption CSS
+
+*/
+.caption {
+	font-weight: bold;
+	padding-right: 1.00em;
+}

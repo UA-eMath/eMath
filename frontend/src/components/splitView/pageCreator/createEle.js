@@ -6,9 +6,8 @@ import TitleBar from '../../titleBar';
 import {connect} from "react-redux";
 import {closeWindow, minimizeWindow, onLayoutChange, openNewWindow} from "../../../actions";
 import getPage from "../../../requests/getPage";
-import contentProcessor from "./pageRenderer";
 import _ from "lodash";
-
+import paraRenderer from "../../../pageRenderer";
 
 const mapStateToProps = state => {
 	return {items: state.windows.items}
@@ -86,7 +85,8 @@ class CreateElement extends React.Component {
 					}}>
 						{
 							_.map(this.state.paraText, para => {
-								return contentProcessor(para, this.props)
+								console.log(para);
+								return paraRenderer(para, this.props)
 							})
 						}
 

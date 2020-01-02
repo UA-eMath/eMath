@@ -11,7 +11,7 @@ import {
 } from '../../actions'
 import {Input, message, Button, Icon, Tooltip, Row, Col, Modal} from 'antd';
 import _ from "lodash";
-import contentProcessor from './../splitView/pageCreator/pageRenderer/index'
+import paraRenderer from "../../pageRenderer";
 import {Scrollbars} from 'react-custom-scrollbars';
 import EditorToolBar from './editorBar'
 import postPara from "../../requests/postPara";
@@ -47,73 +47,8 @@ const mapDispatchToProps = dispatch => ({
 const {TextArea} = Input;
 const {confirm} = Modal;
 
-function objToString(obj, nestedLevel) {
-	if (obj.type === "text") {
-		let textString = obj.data.content;
-		textString = textString
-			.replace(/\\/g, '\\')
-			.replace(/&quot;/g, '"');
-		return textString
-	} else if (obj.type === "list") {
-		let listArray = obj.data.content;
-		// present text
-		let result = "\t".repeat(nestedLevel === 1 ? (nestedLevel - 1) : nestedLevel) + "<" + obj.data.tag + ">\n";
-		if (typeof listArray !== "undefined") {
-			listArray.map(data => {
-				// sub list
-				if (typeof data !== "undefined") {
-					result += "\t".repeat(nestedLevel) + "<li>";
-					if (typeof (data) === "object" && data["type"] === "list") {
-						result += "\n" + objToString(data, nestedLevel + 1);
-						result += "\t".repeat(nestedLevel) + "</li>\n";
-					} // sub table
-					else if (typeof (data) === "object" && data["type"] === "table") {
-						result += "\n" + objToString(data, nestedLevel + 1);
-						result += "\t".repeat(nestedLevel) + "</li>\n";
-					} //mixed data
-					else if (Array.isArray(data)) {
-						data.map((mixData, i) => {
-							if (typeof (mixData) === "string") {
-								if (i > 0) {
-									result += "\t".repeat(nestedLevel);
-								}
-								result += mixData.replace(/\\\\/g, '\\') + "\n";
-							} else if (typeof (mixData) === "object" && mixData["type"] === "list") {
-								result += objToString(mixData, nestedLevel + 1) + "\n";
-							} else if (typeof (mixData) === "object" && mixData["type"] === "table") {
-								result += objToString(mixData, nestedLevel + 1) + "\n";
-							}
-						});
-						result += "\t".repeat(nestedLevel) + "</li>\n";
-					} else {
-						result += data.replace(/\\\\/g, '\\') + "</li>\n";
-					}
-				}
-			});
-		}
+function objToString(obj) {
 
-		return result + "\t".repeat(nestedLevel === 1 ? (nestedLevel - 1) : nestedLevel) + "</" + obj.data.tag + ">\n";
-
-	} else if (obj.type === 'table') {
-		let tableArray = obj.data.content;
-		let direction = obj.data.direction;
-
-		let result = "\t".repeat(nestedLevel) + "<table>\n";
-
-		if (tableArray !== "undefined") {
-			tableArray.map(rowData => {
-				result += "\t".repeat(nestedLevel + 1) + "<tr>\n";
-				rowData.map(data => {
-					result += "\t".repeat(nestedLevel + 2) + "<td>" + data.toString().replace(/\\\\/g, '\\') + "</td>\n";
-				});
-				result += "\t".repeat(nestedLevel + 1) + "</tr>\n";
-			});
-		}
-
-		return result + "\t".repeat(nestedLevel) + "</table>\n";
-	} else {
-		return JSON.stringify(obj.data.content);
-	}
 }
 
 
@@ -125,7 +60,7 @@ class ParaEditor extends React.Component {
 			uploading: false,
 			sideAlign: true,
 			intervalId: null,
-			focusedArea:null,
+			focusedArea: null,
 		};
 
 		this.uploadingData = this.uploadingData.bind(this);
@@ -175,19 +110,18 @@ class ParaEditor extends React.Component {
 
 							let request_body = JSON.stringify({
 								"content": this.props.uploadingQueue[key]["content"],
-								"caption": this.props.uploadingQueue[key]["caption"],
 							}, key);
 
 							//TODO open auto save
-							// await updatePara(request_body, key).then(data => {
-							// 	if (!data || data.status !== 200) {
-							// 		if (data.status === 400) {
-							// 			message.error(data.data);
-							// 		}
-							// 		console.error("Update Para error", request_body, data);
-							//
-							// 	}
-							// });
+							await updatePara(request_body, key).then(data => {
+								if (!data || data.status !== 200) {
+									if (data.status === 400) {
+										message.error(data.data);
+									}
+									console.error("Update Para error", request_body, data);
+
+								}
+							});
 							this.props.popQueue(key);
 						}
 					}
@@ -225,14 +159,8 @@ class ParaEditor extends React.Component {
 		let request_body;
 		request_body = JSON.stringify({
 			"content": {
-				"data": {
-					"content": "",
-					"textAlign": "",
-				},
-				"type": "text"
+				"data": ""
 			},
-
-			"caption": "",
 			"para_parent": this.props.id
 		});
 
@@ -315,44 +243,24 @@ class ParaEditor extends React.Component {
 							{_.map(this.props.data, (item, i) => {
 								let defaultValue;
 								let textArea;
-								if (Array.isArray(item)) {
-									textArea =
-										<div>
-											{item.map((obj) => {
-												defaultValue = objToString(obj.content, 1);
-												return <TextArea
-													ref = {this.setTextInputRef}
-													id={obj.id}
-													defaultValue={defaultValue}
-													style={{
-														height: "100%",
-													}}
-													className="userInput"
-													onFocus={() => {
-														this.setState({focusArea: obj.id})
-													}}
-													onChange={(e) => this.setContent(e, obj.id)}
-													key={i}
-												/>;
-											})}
-										</div>;
 
-								} else {
-									defaultValue = objToString(item.content, 1);
-									textArea =
-										<TextArea
-											id={item.id}
-											defaultValue={defaultValue}
-											style={{
-												height: "100%",
-											}}
-											className="userInput"
-											onFocus={() => {
-												this.setState({focusArea: item.id})
-											}}
-											onChange={(e) => this.setContent(e, item.id)}
-										/>;
-								}
+								//TODO unescape here
+								defaultValue = item.content.data;
+								textArea =
+									<TextArea
+										ref={this.setTextInputRef}
+										id={item.id}
+										defaultValue={defaultValue}
+										style={{
+											height: "100%",
+										}}
+										className="userInput"
+										onFocus={() => {
+											this.setState({focusArea: item.id})
+										}}
+										onChange={(e) => this.setContent(e, item.id)}
+									/>;
+
 
 								let displayArea =
 									<MathJax.Provider
@@ -372,7 +280,8 @@ class ParaEditor extends React.Component {
 												height: "100%",
 												padding: "10px",
 											}}>
-											{contentProcessor(this.props.data[i], this.props.onWindowOpen)}
+											{/*TODO: need to handle open window activity*/}
+											{paraRenderer(this.props.data[i], this.props.onWindowOpen)}
 										</div>
 									</MathJax.Provider>;
 

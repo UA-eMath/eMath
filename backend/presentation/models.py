@@ -59,7 +59,7 @@ class Person(models.Model):
 
 
 def default_para_dict():
-	return {"type" : "", "data": ""}
+	return {"data" : ""}
 
 class Para(models.Model):
 	'''
@@ -78,7 +78,6 @@ class Para(models.Model):
 
 	content = JSONField(default=default_para_dict)
 	position = models.IntegerField(null=True, blank=True)
-	caption = models.CharField(max_length=100, null=True, blank=True)
 
 	para_parent = models.ForeignKey(
 		Level,

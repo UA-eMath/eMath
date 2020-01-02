@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from "lodash";
-import contentProcessor from '../index'
+import paraRenderer from "./index";
 
 //  A block of paras which are inside of a sub-level will be represented as an inner array.
 // For a para array, inner para will be like: [xxx,[xxx,xxx],xxx]
@@ -46,7 +46,7 @@ export function blockOfPara(dataArray, left_title, right_title, props) {
 				}}>
 				{
 					_.map(dataArray, para => {
-						return contentProcessor(para, props)
+						return paraRenderer(para, props)
 					})
 				}
 			</div>

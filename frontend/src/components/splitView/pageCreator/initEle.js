@@ -6,7 +6,7 @@ import {PreButton} from '../styles/preButton';
 import _ from "lodash";
 
 import getPage from "../../../requests/getPage";
-import contentProcessor from './pageRenderer/index'
+import paraRenderer from "../../../pageRenderer";
 
 export default function initElement(el) {
 
@@ -70,7 +70,7 @@ export default function initElement(el) {
 
 					{
 						_.map(this.state.paraText, para => {
-							return contentProcessor(para, this.props)
+							return paraRenderer(para, this.props)
 						})
 					}
 
