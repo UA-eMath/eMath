@@ -4,9 +4,8 @@ import XMLToReact from '@condenast/xml-to-react';
 import caption from "./caption";
 import iLink from "./iLink";
 import math from "./math";
-import * as utils from "../components/splitView/pageCreator/pageRenderer/utils";
 import {blockOfPara} from "./paraBlock";
-
+import "./index.css";
 export default function paraRenderer(para, props) {
 
 	/*
@@ -28,6 +27,7 @@ export default function paraRenderer(para, props) {
 		li: (attrs) => ({type: 'li', props: attrs}),
 		b: (attrs) => ({type: 'b', props: attrs}),
 		a: (attrs) => ({type: 'a', props: attrs}),
+		p:(attrs) =>({type:'p',props:attrs}),
 
 		table: (attrs) => ({type: 'table', props: attrs}),
 		tr: (attrs) => ({type: 'tr', props: attrs}),
@@ -42,7 +42,8 @@ export default function paraRenderer(para, props) {
 		return blockOfPara(para, left_title, right_title, props);
 	}
 
-	let reactTree = xmlToReact.convert(`<ParaWrap>${para.content.data}</ParaWrap>`);
+	let decodedData = decodeURI(para.content.data);
+	let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
 
 	return (
 		<div key={_.uniqueId("div_")}>

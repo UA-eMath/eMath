@@ -8,13 +8,9 @@ const pageParas = {
 };
 
 function escapeString(str) {
-	let listArray = str;
-	listArray = listArray
-		.replace(/\t/g, "\t")
-		.replace(/ /g, "\r")
-		.replace(/\n/g, "");
 
-	return listArray
+	// new line; tab; space;
+	return encodeURI(str)
 }
 
 

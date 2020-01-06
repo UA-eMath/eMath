@@ -20,6 +20,7 @@ import removePara from "../../requests/removePara";
 import MathJax from "../mathDisplay";
 import MathJaxConfig from "../../constants/MathJax_config";
 import "./style/index.css";
+import InputBox from "../InputBox";
 
 //this.props.data
 const mapStateToProps = state => {
@@ -46,10 +47,6 @@ const mapDispatchToProps = dispatch => ({
 
 const {TextArea} = Input;
 const {confirm} = Modal;
-
-function objToString(obj) {
-
-}
 
 
 class ParaEditor extends React.Component {
@@ -245,7 +242,7 @@ class ParaEditor extends React.Component {
 								let textArea;
 
 								//TODO unescape here
-								defaultValue = item.content.data;
+								defaultValue = decodeURI(item.content.data);
 								textArea =
 									<TextArea
 										ref={this.setTextInputRef}
