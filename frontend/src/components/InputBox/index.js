@@ -21,7 +21,7 @@ class InputBox extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			boxValue: this.props.boxValue,
+			boxValue: decodeURI(this.props.boxValue),
 			boxId: this.props.id,
 		};
 		this.inputEl = React.createRef();
@@ -30,6 +30,10 @@ class InputBox extends React.Component {
 	setContent = (e, id) => {
 		//undefined => content block
 		try {
+			this.setState({
+				boxValue:e.target.value,
+			});
+
 			this.props.paraOnChange(e.target.value, id);
 		} catch (err) {
 			message.warning('There might be an error in your content!');
@@ -37,23 +41,35 @@ class InputBox extends React.Component {
 	};
 
 	handleKeyDown(event){
-		console.log(this.inputEl.current);
+		console.log(event.target.selectionStart,event.target.selectionEnd);
 
 		if(event.keyCode === 9){
 			event.preventDefault();
+			let selectionStart = event.target.selectionStart;
+			let selectionEnd = event.target.selectionEnd;
+
+			let value = this.state.boxValue;
+			console.log(value);
+
+			value = value.substring(0,selectionStart) + "\t" + value.substring(selectionEnd);
+
+			this.setState({
+				boxValue:value,
+			},()=>{
+				this.inputEl.resizableTextArea.textArea.selectionStart =
+					this.inputEl.resizableTextArea.textArea.selectionEnd = selectionStart + 1
+			});
 
 		}
 	}
 
 	render() {
 
-		let defaultValue = decodeURI(this.state.boxValue);
-
 		return (
 			<TextArea
-				ref={this.inputEl}
+				ref={el => this.inputEl = el}
 				id={this.state.boxId}
-				defaultValue={defaultValue}
+				value={this.state.boxValue}
 				style={{
 					height: "100%",
 				}}
