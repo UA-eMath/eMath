@@ -8,7 +8,6 @@ const pageParas = {
 };
 
 function escapeString(str) {
-
 	// new line; tab; space;
 	return encodeURI(str)
 }

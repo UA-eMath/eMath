@@ -21,6 +21,7 @@ import MathJax from "../mathDisplay";
 import MathJaxConfig from "../../constants/MathJax_config";
 import "./style/index.css";
 import InputBox from "../InputBox";
+import DisplayArea from "../displayArea";
 
 //this.props.data
 const mapStateToProps = state => {
@@ -63,11 +64,6 @@ class ParaEditor extends React.Component {
 		this.uploadingData = this.uploadingData.bind(this);
 		this.insertAtCursor = this.insertAtCursor.bind(this);
 
-		this.inputArea = [];
-
-		this.setTextInputRef = element => {
-			this.inputArea.push(element);
-		};
 	}
 
 	//save para periodically
@@ -133,18 +129,6 @@ class ParaEditor extends React.Component {
 		}
 	};
 
-
-	setContent = (e, id) => {
-		// console.log(e.target.selectionStart);
-		// console.log(id);
-		//undefined => content block
-		try {
-			this.props.paraOnChange(e.target.value, id);
-		} catch (err) {
-			message.warning('There might be an error in your content!');
-		}
-	};
-
 	switchView = () => {
 		this.setState(prevState => ({
 			sideAlign: !prevState.sideAlign
@@ -170,7 +154,6 @@ class ParaEditor extends React.Component {
 			}
 		})
 	};
-
 
 	deletePara = (id) => {
 		confirm({
@@ -238,49 +221,6 @@ class ParaEditor extends React.Component {
 							}}
 						>
 							{_.map(this.props.data, (item, i) => {
-								let defaultValue;
-								let textArea;
-
-								//TODO unescape here
-								defaultValue = decodeURI(item.content.data);
-								textArea =
-									<TextArea
-										ref={this.setTextInputRef}
-										id={item.id}
-										defaultValue={defaultValue}
-										style={{
-											height: "100%",
-										}}
-										className="userInput"
-										onFocus={() => {
-											this.setState({focusArea: item.id})
-										}}
-										onChange={(e) => this.setContent(e, item.id)}
-									/>;
-
-
-								let displayArea =
-									<MathJax.Provider
-										{...MathJaxConfig}
-										onError={(MathJax, error) => {
-											console.warn(error);
-											console.log("Encountered a MathJax error, re-attempting a typeset!");
-											MathJax.Hub.Queue(
-												MathJax.Hub.Typeset()
-											);
-										}}
-									>
-										<div
-											style={{
-												background: "#FFFBE6",
-												display: "block",
-												height: "100%",
-												padding: "10px",
-											}}>
-											{/*TODO: need to handle open window activity*/}
-											{paraRenderer(this.props.data[i], this.props.onWindowOpen)}
-										</div>
-									</MathJax.Provider>;
 
 								let controlArea =
 									<div style={{
@@ -311,13 +251,13 @@ class ParaEditor extends React.Component {
 											<Col span={11} style={{
 												margin: "10px",
 											}}>
-												{textArea}
+												<InputBox id={item.id} boxValue ={item.content.data} setContent={()=>this.setContent()}/>
 											</Col>
 
 											<Col span={10} style={{
 												margin: "10px",
 											}}>
-												{displayArea}
+												<DisplayArea id={item.id}/>
 											</Col>
 
 											<Col span={1} style={{
@@ -337,8 +277,8 @@ class ParaEditor extends React.Component {
 												     margin: "10px"
 											     }}
 											>
-												{textArea}
-												{displayArea}
+												<InputBox id={item.id} boxValue ={item.content.data} setContent={this.setContent()}/>
+												<DisplayArea id={item.id}/>
 
 											</Col>
 

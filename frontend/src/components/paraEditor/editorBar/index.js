@@ -41,20 +41,6 @@ class EditorToolBar extends React.Component {
 	}
 
 	render() {
-		// const handlers = {
-		// 	BOLD: ()=>{
-		// 		console.log("dawda");
-		// 		this.props.tagInsertion('<b></b> ', 3)
-		// 	},
-		// 	ITALIC: event=>this.props.tagInsertion('<i></i> ', 3),
-		// 	INLINE_MATH: event=>this.props.tagInsertion('<Math inline></Math> ', 13),
-		// 	MATH: event=>this.props.tagInsertion('<Math inline></Math> ', 13),
-		// 	OL: event=>this.props.tagInsertion('<ol>\n<li></li>\n</ol> ', 13),
-		// 	UL: event=>this.props.tagInsertion('<ul>\n<li></li>\n</ul> ', 13),
-		// 	TABLE: event=>this.props.tagInsertion('<table>\n\t<tr>\n\t<td></td>></tr>\n</table> ', 13),
-		// 	TAB: event=>this.props.tagInsertion('\t', 1),
-		// };
-
 
 		return (
 			<div style={{
