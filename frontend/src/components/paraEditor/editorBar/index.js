@@ -23,18 +23,6 @@ const mapDispatchToProps = dispatch => ({
 
 const ButtonGroup = Button.Group;
 
-// const keyMap = {
-// // 	BOLD: "command+b",
-// // 	ITALIC: "",
-// // 	INLINE_MATH: "",
-// // 	MATH: "",
-// // 	OL: "",
-// // 	UL: "",
-// // 	TABLE: "",
-// // 	TAB: "",
-// // };
-
-
 class EditorToolBar extends React.Component {
 	constructor(props) {
 		super(props);

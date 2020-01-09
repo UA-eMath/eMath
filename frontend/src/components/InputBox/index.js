@@ -63,6 +63,11 @@ class InputBox extends React.Component {
 		}
 	}
 
+	// inline tool bar
+	onSelectionChange(event){
+		console.log(event.target)
+	}
+
 	render() {
 
 		return (
@@ -76,6 +81,7 @@ class InputBox extends React.Component {
 				className="userInput"
 				onChange={(e) => this.setContent(e, this.state.boxId)}
 				onKeyDown={this.handleKeyDown.bind(this)}
+				onSelect={this.onSelectionChange.bind(this)}
 			/>
 		)
 	}
