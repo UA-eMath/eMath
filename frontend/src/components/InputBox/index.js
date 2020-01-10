@@ -1,7 +1,8 @@
 import React from "react";
-import {Input, message} from 'antd';
+import {AutoComplete, Input, message} from 'antd';
 import {connect} from "react-redux";
 import {paraOnChange} from "../../actions";
+import dataSource from "./dataSource";
 
 const {TextArea} = Input;
 
@@ -31,7 +32,7 @@ class InputBox extends React.Component {
 		//undefined => content block
 		try {
 			this.setState({
-				boxValue:e.target.value,
+				boxValue: e.target.value,
 			});
 
 			this.props.paraOnChange(e.target.value, id);
@@ -40,10 +41,10 @@ class InputBox extends React.Component {
 		}
 	};
 
-	handleKeyDown(event){
-		console.log(event.target.selectionStart,event.target.selectionEnd);
+	handleKeyDown(event) {
+		console.log(event.target.selectionStart, event.target.selectionEnd);
 
-		if(event.keyCode === 9){
+		if (event.keyCode === 9) {
 			event.preventDefault();
 			let selectionStart = event.target.selectionStart;
 			let selectionEnd = event.target.selectionEnd;
@@ -51,11 +52,11 @@ class InputBox extends React.Component {
 			let value = this.state.boxValue;
 			console.log(value);
 
-			value = value.substring(0,selectionStart) + "\t" + value.substring(selectionEnd);
+			value = value.substring(0, selectionStart) + "\t" + value.substring(selectionEnd);
 
 			this.setState({
-				boxValue:value,
-			},()=>{
+				boxValue: value,
+			}, () => {
 				this.inputEl.resizableTextArea.textArea.selectionStart =
 					this.inputEl.resizableTextArea.textArea.selectionEnd = selectionStart + 1
 			});
@@ -64,13 +65,14 @@ class InputBox extends React.Component {
 	}
 
 	// inline tool bar
-	onSelectionChange(event){
+	onSelectionChange(event) {
 		console.log(event.target)
 	}
 
 	render() {
 
 		return (
+
 			<TextArea
 				ref={el => this.inputEl = el}
 				id={this.state.boxId}

@@ -30,6 +30,11 @@
   resolved "https://registry.yarnpkg.com/@ant-design/icons/-/icons-2.1.1.tgz#7b9c08dffd4f5d41db667d9dbe5e0107d0bd9a4a"
   integrity sha512-jCH+k2Vjlno4YWl6g535nHR09PwCEmTBKAG6VqF+rhkrSPRLfgpU2maagwbZPLjaHuU5Jd1DFQ2KJpQuI6uG8w==
 
+"@avcs/autosuggest@^1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@avcs/autosuggest/-/autosuggest-1.7.3.tgz#62da8a97866d5998bdd65e257f396aaa33c11f11"
+  integrity sha512-bU3w6W3Dl64wkRqxZuY0hD/2ZPAo65fq2hIqs/lB/n0hzZ2t5dCzeU9nr/ud85r3KAxY8apb3BtcIKyxXsdXAA==
+
 "@babel/code-frame@7.5.5", "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.5.5.tgz#bc0782f6d69f7b7d49531219699b988f669a8f9d"
