@@ -3,6 +3,7 @@ import {AutoComplete, Input, message} from 'antd';
 import {connect} from "react-redux";
 import {paraOnChange} from "../../actions";
 import dataSource from "./dataSource";
+import ParaToolBar from "../paraToolBar";
 
 const {TextArea} = Input;
 
@@ -24,6 +25,7 @@ class InputBox extends React.Component {
 		this.state = {
 			boxValue: decodeURI(this.props.boxValue),
 			boxId: this.props.id,
+			showParaToolBar: false,
 		};
 		this.inputEl = React.createRef();
 	}
@@ -40,6 +42,18 @@ class InputBox extends React.Component {
 			message.warning('There might be an error in your content!');
 		}
 	};
+
+	showToolBar() {
+		this.setState({
+			showParaToolBar: true
+		});
+	}
+
+	hideToolBar() {
+		this.setState({
+			showParaToolBar: false
+		});
+	}
 
 	handleKeyDown(event) {
 		console.log(event.target.selectionStart, event.target.selectionEnd);
@@ -69,22 +83,50 @@ class InputBox extends React.Component {
 		console.log(event.target)
 	}
 
+	insertAtCursor = (event, tag, length) => {
+		event.preventDefault();
+		this.inputEl.resizableTextArea.textArea.focus();
+		let focusedTextarea = this.inputEl.resizableTextArea.textArea;
+		let value = this.state.boxValue;
+		let selectionStart = focusedTextarea.selectionStart;
+		let selectionEnd = focusedTextarea.selectionEnd;
+
+		if (focusedTextarea.value !== undefined) {
+			let prefix = value.substring(0, selectionStart);
+			let suffix = value.substring(selectionEnd);
+
+			value = prefix + tag + suffix;
+
+			this.setState({
+				boxValue: value,
+			}, () => {
+				this.inputEl.resizableTextArea.textArea.selectionStart =
+					this.inputEl.resizableTextArea.textArea.selectionEnd = selectionStart + length;
+			});
+		}
+	};
+
 	render() {
-
 		return (
+			<span >
+				{this.state.showParaToolBar ?
+					<ParaToolBar showToolBar={this.showToolBar} tagInsertion={this.insertAtCursor}/> : <span/>}
 
-			<TextArea
-				ref={el => this.inputEl = el}
-				id={this.state.boxId}
-				value={this.state.boxValue}
-				style={{
-					height: "100%",
-				}}
-				className="userInput"
-				onChange={(e) => this.setContent(e, this.state.boxId)}
-				onKeyDown={this.handleKeyDown.bind(this)}
-				onSelect={this.onSelectionChange.bind(this)}
-			/>
+				<TextArea
+					ref={el => this.inputEl = el}
+					id={this.state.boxId}
+					value={this.state.boxValue}
+					style={{
+						height: "100%",
+					}}
+					className="userInput"
+					onChange={(e) => this.setContent(e, this.state.boxId)}
+					onKeyDown={this.handleKeyDown.bind(this)}
+					onBlur={() => this.hideToolBar()}
+			        onFocus={this.showToolBar.bind(this)}
+					onSelect={this.onSelectionChange.bind(this)}
+				/>
+			</span>
 		)
 	}
 }

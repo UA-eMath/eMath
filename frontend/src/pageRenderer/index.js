@@ -28,6 +28,7 @@ export default function paraRenderer(para, props) {
 		b: (attrs) => ({type: 'b', props: attrs}),
 		a: (attrs) => ({type: 'a', props: attrs}),
 		p:(attrs) =>({type:'p',props:attrs}),
+		i:(attrs) =>({type:'i',props:attrs}),
 
 		table: (attrs) => ({type: 'table', props: attrs}),
 		tr: (attrs) => ({type: 'tr', props: attrs}),

@@ -11,17 +11,15 @@ import {
 } from '../../actions'
 import {Input, message, Button, Icon, Tooltip, Row, Col, Modal} from 'antd';
 import _ from "lodash";
-import paraRenderer from "../../pageRenderer";
 import {Scrollbars} from 'react-custom-scrollbars';
-import EditorToolBar from './editorBar'
+import EditorToolBar from '../editorBar'
 import postPara from "../../requests/postPara";
 import updatePara from "../../requests/updatePara";
 import removePara from "../../requests/removePara";
-import MathJax from "../mathDisplay";
-import MathJaxConfig from "../../constants/MathJax_config";
 import "./style/index.css";
 import InputBox from "../InputBox";
 import DisplayArea from "../displayArea";
+import ParaControl from "../paraControl";
 
 //this.props.data
 const mapStateToProps = state => {
@@ -62,8 +60,6 @@ class ParaEditor extends React.Component {
 		};
 
 		this.uploadingData = this.uploadingData.bind(this);
-		this.insertAtCursor = this.insertAtCursor.bind(this);
-
 	}
 
 	//save para periodically
@@ -135,13 +131,14 @@ class ParaEditor extends React.Component {
 		}))
 	};
 
-	addPara = () => {
+	addPara = (position) => {
 		//this.props.id
 		let request_body;
 		request_body = JSON.stringify({
 			"content": {
 				"data": ""
 			},
+			"position":position,
 			"para_parent": this.props.id
 		});
 
@@ -176,24 +173,6 @@ class ParaEditor extends React.Component {
 		});
 	};
 
-	insertAtCursor = (tag, length) => {
-		let focusedTextarea = document.getElementById(this.state.focusArea);
-		console.log(focusedTextarea.value, focusedTextarea.selectionStart, focusedTextarea.selectionEnd);
-
-		if (focusedTextarea.value !== undefined) {
-			let prefix = (focusedTextarea.value).substring(0, focusedTextarea.selectionStart);
-			let suffix = (focusedTextarea.value).substring(focusedTextarea.selectionStart, focusedTextarea.value.length);
-
-			let prePos = focusedTextarea.selectionStart;
-			focusedTextarea.value = prefix + tag + suffix;
-
-			focusedTextarea.selectionStart = prePos + length;
-			focusedTextarea.selectionEnd = focusedTextarea.selectionStart;
-		}
-		console.log(focusedTextarea.value, focusedTextarea.selectionStart, focusedTextarea.selectionEnd);
-
-	};
-
 	render() {
 		return (
 			<div>
@@ -204,11 +183,13 @@ class ParaEditor extends React.Component {
 
 					<div>
 
-						<EditorToolBar switchView={this.switchView} tagInsertion={this.insertAtCursor}/>
-						<div style={{backgroud: "white"}}>
-							{<Button type="primary" icon="upload" loading={this.state.uploading}
-							         onClick={() => this.uploadingData()}/>}
-						</div>
+						<EditorToolBar
+							uploadingData = {this.uploadingData}
+							addPara = {this.addPara}
+							switchView={this.switchView}
+							uploading = {this.state.loading}
+						/>
+
 						<h3 align={"center"}>
 							{this.props.title}
 						</h3>
@@ -221,24 +202,6 @@ class ParaEditor extends React.Component {
 							}}
 						>
 							{_.map(this.props.data, (item, i) => {
-
-								let controlArea =
-									<div style={{
-										background: "white",
-										height: "100%",
-									}}>
-										<Button>
-											<Icon type="up"/>
-										</Button>
-
-										<Button type={"danger"} onClick={() => this.deletePara(item.id)}>
-											<Icon type="delete"/>
-										</Button>
-
-										<Button>
-											<Icon type="down"/>
-										</Button>
-									</div>;
 
 								if (this.state.sideAlign) {
 									return (
@@ -263,7 +226,8 @@ class ParaEditor extends React.Component {
 											<Col span={1} style={{
 												margin: "10px",
 											}}>
-												{controlArea}
+												<ParaControl  id={item.id}
+												              deletePara ={this.deletePara}/>
 											</Col>
 										</Row>
 									)
@@ -277,7 +241,10 @@ class ParaEditor extends React.Component {
 												     margin: "10px"
 											     }}
 											>
-												<InputBox id={item.id} boxValue ={item.content.data} setContent={this.setContent()}/>
+												<InputBox id={item.id}
+												          boxValue ={item.content.data}
+												          setContent={this.setContent()}/>
+
 												<DisplayArea id={item.id}/>
 
 											</Col>
@@ -287,26 +254,14 @@ class ParaEditor extends React.Component {
 												     margin: "10px"
 											     }}
 											>
-												{controlArea}
+												<ParaControl id={item.id}
+												             deletePara ={this.deletePara}/>
 											</Col>
 
 										</Row>
 									)
 								}
 							})}
-
-							<Tooltip placement="bottom" title={"Add one para"}>
-								<Button
-									onClick={this.addPara}
-									size={"large"}
-									style={{
-										width: "30vw",
-										justifyContent: "center",
-									}}
-								>
-									<Icon type="plus"/>
-								</Button>
-							</Tooltip>
 
 						</Scrollbars>
 
