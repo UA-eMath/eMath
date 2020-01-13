@@ -9,6 +9,8 @@ import {
 } from '../../actions'
 import AddSubLevel from "../paraEditor/addSubLevel";
 import LevelForm from "../levelEditor/editingModal/levelForm";
+import postLevel from "../../requests/postLevel";
+import updateLevel from "../../requests/updateLevel";
 
 
 const mapStateToProps = state => {
@@ -36,6 +38,7 @@ class EditorToolBar extends React.Component {
 	showModal = (state) => {
 		this.setState({
 			visible: true,
+			loading: false
 		});
 	};
 
@@ -44,9 +47,38 @@ class EditorToolBar extends React.Component {
 	};
 
 	addSubLevel = () => {
+		const {form} = this.formRef.props;
+
+		this.setState({loading: true});
+
+		form.validateFields((err, values) => {
+			if (err) {
+				return;
+			}
+
+			if (values.tocTitle === '' && values.title !== '') {
+				values.tocTitle = values.title;
+			}
+
+			let request_body;
 
 
+			//create new level under selected parent level
+			request_body = JSON.stringify({...values, parent: this.props.parent});
+			postLevel(request_body).then(data => {
+				if (!data || data.status !== 200) {
+					console.error("Submit failed", data);
+				}
+			});
+
+			form.resetFields();
+			this.setState({
+				visible: false,
+				loading: false
+			});
+		});
 	};
+
 
 	saveFormRef = formRef => {
 		this.formRef = formRef;
@@ -81,13 +113,12 @@ class EditorToolBar extends React.Component {
 
 					<Tooltip placement="bottom" title={"Add content block"}>
 						<Button
-							onClick={() => this.addSubLevel()}
+							onClick={() => this.showModal()}
 							style={{
 								width: '100px'
 							}}>
 							Add Level
 						</Button>
-
 
 						<AddSubLevel
 							wrappedComponentRef={this.saveFormRef}
@@ -95,9 +126,8 @@ class EditorToolBar extends React.Component {
 							onCancel={this.handleCancel}
 							onCreate={this.addSubLevel}
 							onDelete={this.handleDelete}
-							//loading={this.state.loading}
+							loading={this.state.loading}
 						/>
-
 					</Tooltip>
 
 					<Switch
@@ -115,7 +145,6 @@ class EditorToolBar extends React.Component {
 							        onClick={() => this.props.uploadingData()}/>
 						</Tooltip>
 					</div>
-
 
 				</ButtonGroup>
 

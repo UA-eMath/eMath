@@ -20,6 +20,7 @@ import "./style/index.css";
 import InputBox from "../InputBox";
 import DisplayArea from "../displayArea";
 import ParaControl from "../paraControl";
+import SubLevel from "./subLevel";
 
 //this.props.data
 const mapStateToProps = state => {
@@ -188,6 +189,7 @@ class ParaEditor extends React.Component {
 							addPara = {this.addPara}
 							switchView={this.switchView}
 							uploading = {this.state.loading}
+							parent = {this.props.id}
 						/>
 
 						<h3 align={"center"}>
@@ -202,6 +204,16 @@ class ParaEditor extends React.Component {
 							}}
 						>
 							{_.map(this.props.data, (item, i) => {
+								console.log(item);
+
+								if(Array.isArray(item)){
+										return <SubLevel
+													children={item}
+													alignment = {this.state.sideAlign}
+													setContent={()=>this.setContent()}
+													deletePara ={this.deletePara}
+										/>
+									}
 
 								if (this.state.sideAlign) {
 									return (
