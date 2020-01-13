@@ -49,9 +49,8 @@ function ParaToolBar(props) {
 				</Button>
 			</Tooltip>
 
-
 			<Tooltip placement="bottom" title={"Link"}>
-				<Button>
+				<Button onMouseDown={(e) => props.tagInsertion(e,'<iLink id=""></iLink> ', 13)}>
 					<Icon type="link"/>
 				</Button>
 			</Tooltip>

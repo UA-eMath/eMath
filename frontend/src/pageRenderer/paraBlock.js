@@ -52,6 +52,5 @@ export function blockOfPara(dataArray, left_title, right_title, props) {
 			</div>
 
 		</div>
-
 	)
 }

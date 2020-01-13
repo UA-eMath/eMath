@@ -12,7 +12,6 @@ function escapeString(str) {
 	return encodeURI(str)
 }
 
-
 const paras = (state = pageParas, action) => {
 	let temp_state = [];
 	let temp_queue = {};
@@ -37,12 +36,11 @@ const paras = (state = pageParas, action) => {
 			Object.assign(temp_state, state.paras);
 			Object.assign(temp_queue, state.uploadingQueue);
 
-			console.log(temp_queue,temp_state);
 			//editing
 			if (action.id !== null) {
 				//find and replace
 				let flat_state = temp_state.flat(Infinity);
-				let target_para = flat_state[temp_state.findIndex(i => i.id === action.id)];
+				let target_para = flat_state[flat_state.findIndex(i => i.id === action.id)];
 
 				try {
 					target_para.content.data = escapeString(action.para);
@@ -86,7 +84,6 @@ const paras = (state = pageParas, action) => {
 		default:
 			return state
 	}
-
 
 };
 

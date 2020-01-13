@@ -25,16 +25,15 @@ const AddSubLevel = Form.create({name: 'form_in_modal'})(
 					]}
 				>
 					<Form layout="vertical">
-						<Form.Item label="Title">
-							{getFieldDecorator('title', {
-								rules: [{required: true, message: 'Please input the title of collection!'}],
+						<Form.Item label="Left title">
+							{getFieldDecorator('tocTitle', {
 								initialValue: '',
 							})(<Input/>)}
 						</Form.Item>
 
-						<Form.Item label="Table of content Title" extra="Leave it empty if same as title">
-							{getFieldDecorator('tocTitle', {
-								initialValue: '',
+						<Form.Item label="Right" extra="You could put Latex code here.">
+							{getFieldDecorator('title', {
+								initialValue: '<Math inline="true"></Math>',
 							})(<Input/>)}
 						</Form.Item>
 

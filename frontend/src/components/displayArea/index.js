@@ -19,7 +19,7 @@ class DisplayArea extends React.Component {
 
 	render() {
 		let id = this.props.id;
-		let dataArray = this.props.data;
+		let dataArray = this.props.data.flat(Infinity);
 
 		let target_para = dataArray[dataArray.findIndex(el => el.id === id)];
 

@@ -14,5 +14,5 @@ export default function postLevel(level) {
 		.then(response => {
 			return response;
 		})
-		.catch(error => console.log(error))
+		.catch(error => console.log(error,level))
 }

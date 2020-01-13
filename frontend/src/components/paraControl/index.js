@@ -8,7 +8,6 @@ export default class ParaControl extends React.Component {
 	}
 
 	render() {
-		console.log(this.props)
 		return (
 			<div style={{
 				background: "white",

@@ -1,17 +1,15 @@
 import React from "react";
-import {Button, Checkbox, Form, Icon, Input, Modal, Switch, Tooltip} from 'antd';
-import {HotKeys} from "react-hotkeys";
+import {Button, Icon, Switch, Tooltip} from 'antd';
 
 import {connect} from 'react-redux';
 import {
+	fetchPage,
 	loadPage,
 	loadPageError,
 } from '../../actions'
 import AddSubLevel from "../paraEditor/addSubLevel";
-import LevelForm from "../levelEditor/editingModal/levelForm";
 import postLevel from "../../requests/postLevel";
-import updateLevel from "../../requests/updateLevel";
-
+import postPara from "../../requests/postPara";
 
 const mapStateToProps = state => {
 	return {
@@ -22,7 +20,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
 	loadPage: (id) => dispatch(loadPage(id)),
-	loadPageError: (error) => dispatch(loadPageError(error))
+	loadPageError: (error) => dispatch(loadPageError(error)),
+	fetchPage: (id, title) => dispatch(fetchPage(id, title)),
 });
 
 const ButtonGroup = Button.Group;
@@ -35,7 +34,7 @@ class EditorToolBar extends React.Component {
 		}
 	}
 
-	showModal = (state) => {
+	showModal = () => {
 		this.setState({
 			visible: true,
 			loading: false
@@ -56,19 +55,29 @@ class EditorToolBar extends React.Component {
 				return;
 			}
 
-			if (values.tocTitle === '' && values.title !== '') {
-				values.tocTitle = values.title;
-			}
-
 			let request_body;
-
-
 			//create new level under selected parent level
-			request_body = JSON.stringify({...values, parent: this.props.parent});
+			request_body = JSON.stringify({...values, isPage: false, parent: this.props.parent});
 			postLevel(request_body).then(data => {
 				if (!data || data.status !== 200) {
 					console.error("Submit failed", data);
+				} else {
+					return data.data.id;
 				}
+			}).then(res => {
+				request_body = JSON.stringify({
+					"content": {
+						"data": ""
+					},
+					"para_parent": res
+				});
+				postPara(request_body).then(data => {
+					if (!data || data.status !== 200) {
+						console.error("Failed to add para", data);
+					} else {
+						this.props.fetchPage(this.props.parent, this.props.parentTitle);
+					}
+				});
 			});
 
 			form.resetFields();

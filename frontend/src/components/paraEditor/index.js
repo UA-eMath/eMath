@@ -190,6 +190,7 @@ class ParaEditor extends React.Component {
 							switchView={this.switchView}
 							uploading = {this.state.loading}
 							parent = {this.props.id}
+							parentTitle = {this.props.title}
 						/>
 
 						<h3 align={"center"}>
@@ -210,7 +211,6 @@ class ParaEditor extends React.Component {
 										return <SubLevel
 													children={item}
 													alignment = {this.state.sideAlign}
-													setContent={()=>this.setContent()}
 													deletePara ={this.deletePara}
 										/>
 									}
@@ -226,7 +226,7 @@ class ParaEditor extends React.Component {
 											<Col span={11} style={{
 												margin: "10px",
 											}}>
-												<InputBox id={item.id} boxValue ={item.content.data} setContent={()=>this.setContent()}/>
+												<InputBox id={item.id} boxValue ={item.content.data}/>
 											</Col>
 
 											<Col span={10} style={{
@@ -254,8 +254,7 @@ class ParaEditor extends React.Component {
 											     }}
 											>
 												<InputBox id={item.id}
-												          boxValue ={item.content.data}
-												          setContent={this.setContent()}/>
+												          boxValue ={item.content.data}/>
 
 												<DisplayArea id={item.id}/>
 
