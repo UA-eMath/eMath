@@ -56,8 +56,6 @@ class InputBox extends React.Component {
 	}
 
 	handleKeyDown(event) {
-		console.log(event.target.selectionStart, event.target.selectionEnd);
-
 		if (event.keyCode === 9) {
 			event.preventDefault();
 			let selectionStart = event.target.selectionStart;

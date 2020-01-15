@@ -6,12 +6,12 @@ import iLink from "./iLink";
 import math from "./math";
 import {blockOfPara} from "./paraBlock";
 import "./index.css";
+
 export default function paraRenderer(para, props) {
 
 	/*
 	"content":{"data":""}
 	*/
-
 
 	const xmlToReact = new XMLToReact({
 
@@ -27,8 +27,8 @@ export default function paraRenderer(para, props) {
 		li: (attrs) => ({type: 'li', props: attrs}),
 		b: (attrs) => ({type: 'b', props: attrs}),
 		a: (attrs) => ({type: 'a', props: attrs}),
-		p:(attrs) =>({type:'p',props:attrs}),
-		i:(attrs) =>({type:'i',props:attrs}),
+		p: (attrs) => ({type: 'p', props: attrs}),
+		i: (attrs) => ({type: 'i', props: attrs}),
 
 		table: (attrs) => ({type: 'table', props: attrs}),
 		tr: (attrs) => ({type: 'tr', props: attrs}),
@@ -44,13 +44,23 @@ export default function paraRenderer(para, props) {
 	}
 
 	let decodedData = decodeURI(para.content.data);
-	let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
 
-	return (
-		<div key={_.uniqueId("div_")}>
-			{reactTree}
-		</div>
-	)
+	let xmlParser = new DOMParser();
+	let preDom = xmlParser.parseFromString(`<React.Fragment>${decodedData}</React.Fragment>`, "text/xml");
 
-
+	if (preDom.getElementsByTagName("parsererror").length > 0) {
+		let errorMessage = preDom.getElementsByTagName("parsererror")[0].innerText;
+		return (
+			<div key={_.uniqueId("error_")}>
+				{errorMessage}
+			</div>
+		)
+	} else {
+		let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
+		return (
+			<div key={_.uniqueId("div_")}>
+				{reactTree}
+			</div>
+		)
+	}
 }

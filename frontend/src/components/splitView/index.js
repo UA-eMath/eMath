@@ -17,9 +17,6 @@ import CreateElement from './pageCreator/createEle'
 import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle"
 
-import MathJaxConfig from '../../constants/MathJax_config'
-import MathJax from '../mathDisplay'
-
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const mapStateToProps = state => {
@@ -68,16 +65,6 @@ class SplitView extends React.Component {
 
 	render() {
 		return (
-			<MathJax.Provider
-				{...MathJaxConfig}
-				onError={(MathJax, error) => {
-					console.warn(error);
-					console.log("Encountered a MathJax error, re-attempting a typeset!");
-					MathJax.Hub.Queue(
-						MathJax.Hub.Typeset()
-					);
-				}}
-			>
 				<ResponsiveReactGridLayout
 					className="layout"
 					breakpoints={{lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0}}
@@ -99,9 +86,7 @@ class SplitView extends React.Component {
 							return (<CreateElement key={i} data-grid={el}/>)
 						}
 					})}
-
 				</ResponsiveReactGridLayout>
-			</MathJax.Provider>
 		);
 	}
 

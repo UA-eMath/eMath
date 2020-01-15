@@ -17,7 +17,6 @@ class SubLevel extends React.Component {
 		let right_title = children[0].para_parent.title;
 
 		let boxHeader;
-		console.log(left_title,right_title);
 		if (left_title || right_title) {
 			boxHeader =
 				<div

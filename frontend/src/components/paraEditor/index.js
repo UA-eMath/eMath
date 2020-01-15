@@ -139,7 +139,7 @@ class ParaEditor extends React.Component {
 			"content": {
 				"data": ""
 			},
-			"position":position,
+			"position": position,
 			"para_parent": this.props.id
 		});
 
@@ -185,12 +185,12 @@ class ParaEditor extends React.Component {
 					<div>
 
 						<EditorToolBar
-							uploadingData = {this.uploadingData}
-							addPara = {this.addPara}
+							uploadingData={this.uploadingData}
+							addPara={this.addPara}
 							switchView={this.switchView}
-							uploading = {this.state.loading}
-							parent = {this.props.id}
-							parentTitle = {this.props.title}
+							uploading={this.state.loading}
+							parent={this.props.id}
+							parentTitle={this.props.title}
 						/>
 
 						<h3 align={"center"}>
@@ -205,15 +205,14 @@ class ParaEditor extends React.Component {
 							}}
 						>
 							{_.map(this.props.data, (item, i) => {
-								console.log(item);
-
-								if(Array.isArray(item)){
-										return <SubLevel
-													children={item}
-													alignment = {this.state.sideAlign}
-													deletePara ={this.deletePara}
-										/>
-									}
+								if (Array.isArray(item)) {
+									return <SubLevel
+										key={_.uniqueId("subLevel_")}
+										children={item}
+										alignment={this.state.sideAlign}
+										deletePara={this.deletePara}
+									/>
+								}
 
 								if (this.state.sideAlign) {
 									return (
@@ -226,7 +225,7 @@ class ParaEditor extends React.Component {
 											<Col span={11} style={{
 												margin: "10px",
 											}}>
-												<InputBox id={item.id} boxValue ={item.content.data}/>
+												<InputBox id={item.id} boxValue={item.content.data}/>
 											</Col>
 
 											<Col span={10} style={{
@@ -238,8 +237,8 @@ class ParaEditor extends React.Component {
 											<Col span={1} style={{
 												margin: "10px",
 											}}>
-												<ParaControl  id={item.id}
-												              deletePara ={this.deletePara}/>
+												<ParaControl id={item.id}
+												             deletePara={this.deletePara}/>
 											</Col>
 										</Row>
 									)
@@ -254,7 +253,7 @@ class ParaEditor extends React.Component {
 											     }}
 											>
 												<InputBox id={item.id}
-												          boxValue ={item.content.data}/>
+												          boxValue={item.content.data}/>
 
 												<DisplayArea id={item.id}/>
 
@@ -266,7 +265,7 @@ class ParaEditor extends React.Component {
 											     }}
 											>
 												<ParaControl id={item.id}
-												             deletePara ={this.deletePara}/>
+												             deletePara={this.deletePara}/>
 											</Col>
 
 										</Row>
