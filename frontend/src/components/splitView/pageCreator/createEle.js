@@ -85,7 +85,6 @@ class CreateElement extends React.Component {
 					}}>
 						{
 							_.map(this.state.paraText, para => {
-								console.log(para);
 								return paraRenderer(para, this.props)
 							})
 						}

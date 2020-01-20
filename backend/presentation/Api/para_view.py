@@ -43,18 +43,7 @@ class ParaViewSet(viewsets.ModelViewSet):
 		children_para_list = parent.para_set.all().order_by('position')
 
 		#get last position.
-		last_position = None
-		if children_list.last():
-			last_position = children_list.last().position
-		if children_para_list.last():
-			if last_position == None:
-				last_position = children_para_list.last().position
-			else:
-				if children_para_list.last().position > last_position:
-					last_position = children_para_list.last().position
-
-		if last_position == None:
-			last_position = -1
+		last_position = len(children_list)+len(children_para_list)-1
 
 		if request_data.get('position') is None or request_data.get('position') == '':
 			request_data['position'] = last_position + 1
@@ -64,7 +53,7 @@ class ParaViewSet(viewsets.ModelViewSet):
 		elif int(request_data['position']) <= last_position:
 			cached_list = list(chain(children_list, children_para_list))
 			for child in cached_list:
-				if child.position >= last_position:
+				if child.position >= int(request_data['position']):
 					child.position += 1
 					child.save()
 

@@ -1,25 +1,43 @@
 import React from "react";
-import MathJax from "../components/mathDisplay";
+import {Node, Context} from "react-mathjax2"
 import _ from "lodash";
+import MathJaxConfig from "../constants/MathJax_config";
 
 export default function math(props) {
-	if (typeof props.inline !== undefined) {
-		return (
-			<MathJax.Node key={_.uniqueId('MJN_')} inline formula={props.children}/>
-		)
+	let node;
+
+	if (props.inline === "true") {
+		node = <Node key={_.uniqueId('MJN_')} inline>
+			{props.children}
+		</Node>
+
 	} else {
-		return (
-			<div
-				key={_.uniqueId('MJN_')}
-				style={{
-					height: '40px',
-					display: "flow-root",
-					width: "100%",
-					overflow: "visible",
-				}}
-			>
-				<MathJax.Node formula={props.children}/>
-			</div>
-		)
+		node = <div key={_.uniqueId('MJN_')}>
+			<Node>
+				{props.children}
+			</Node>
+		</div>;
 	}
+
+	return (
+		<span>
+		<Context
+			input='tex'
+			onLoad={() => console.log("Loaded MathJax script!")}
+			onError={(MathJax, error) => {
+				console.warn(error);
+				console.log("Encountered a MathJax error, re-attempting a typeset!");
+				MathJax.Hub.Queue(
+					MathJax.Hub.Typeset()
+				);
+			}}
+			script={MathJaxConfig.script}
+			option={MathJaxConfig.options}
+		>
+			{node}
+		</Context>
+			</span>
+	)
+
+
 }

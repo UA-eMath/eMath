@@ -33,8 +33,8 @@ export default function initElement(el) {
 				/>
 
 				<span style={{...styles.title}}>
-								{this.state.pageTitle}
-							</span>
+					{this.state.pageTitle}
+				</span>
 
 				<NextButton
 					className='ml-auto'
@@ -85,8 +85,7 @@ async function getNextPage(pageNum, setData) {
 		if (!nextPage || nextPage.status !== 200) {
 			console.error("No more pages", nextPage);
 		} else if (nextPage.data.length === 0) {
-
-			return null
+			return [""]
 		} else {
 			setData(nextPage.data)
 		}
@@ -101,7 +100,7 @@ async function getPrePage(pageNum, setData) {
 		if (!prePage || prePage.status !== 200) {
 			console.error("Fail to get pre page", prePage);
 		} else if (prePage.data.length === 0) {
-			return null
+			return [""]
 		} else {
 			setData(prePage.data)
 		}
