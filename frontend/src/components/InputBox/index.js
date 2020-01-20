@@ -4,9 +4,11 @@ import {connect} from "react-redux";
 import {paraOnChange} from "../../actions";
 import ParaToolBar from "../paraToolBar";
 import dataSource from "./dataSource";
-
+import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+import emoji from "@jukben/emoji-search";
+import "./index.css"
 const {TextArea} = Input;
-
+const Loading = ({data}) => <div>Loading</div>;
 
 const mapDispatchToProps = dispatch => ({
 	paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
@@ -28,6 +30,7 @@ class InputBox extends React.Component {
 			showParaToolBar: false,
 		};
 		this.inputEl = React.createRef();
+		this.textArea=React.createRef();
 	}
 
 	setContent = (e) => {
@@ -69,8 +72,8 @@ class InputBox extends React.Component {
 			this.setState({
 				boxValue: value,
 			}, () => {
-				this.inputEl.resizableTextArea.textArea.selectionStart =
-					this.inputEl.resizableTextArea.textArea.selectionEnd = selectionStart + 1
+				this.textArea.selectionStart =
+					this.textArea.selectionEnd = selectionStart + 1
 			});
 
 		}
@@ -82,8 +85,8 @@ class InputBox extends React.Component {
 
 	insertAtCursor = (event, tag, length) => {
 		event.preventDefault();
-		this.inputEl.resizableTextArea.textArea.focus();
-		let focusedTextarea = this.inputEl.resizableTextArea.textArea;
+		this.textArea.focus();
+		let focusedTextarea = this.textArea;
 		let value = this.state.boxValue;
 		let selectionStart = focusedTextarea.selectionStart;
 		let selectionEnd = focusedTextarea.selectionEnd;
@@ -97,8 +100,8 @@ class InputBox extends React.Component {
 			this.setState({
 				boxValue: value,
 			}, () => {
-				this.inputEl.resizableTextArea.textArea.selectionStart =
-					this.inputEl.resizableTextArea.textArea.selectionEnd = selectionStart + length;
+				this.textArea.selectionStart =
+					this.textArea.selectionEnd = selectionStart + length;
 			});
 		}
 	};
@@ -109,27 +112,59 @@ class InputBox extends React.Component {
 				{this.state.showParaToolBar ?
 					<ParaToolBar showToolBar={this.showToolBar} tagInsertion={this.insertAtCursor}/> : <span/>}
 
-				<AutoComplete
-					dataSource={dataSource}
+				<ReactTextareaAutocomplete
+					className="userInput"
+					loadingComponent={Loading}
+					value={this.state.boxValue}
 					style={{
+						fontSize: "14px",
+						lineHeight: "20px",
+						padding: 5
+					}}
+					ref={rta => {
+						this.inputEl = rta;
+					}}
+					innerRef={textarea => {
+						this.textArea = textarea;
+					}}
+					containerStyle={{
+						marginTop: 20,
 						width: "100%",
-						height:"100%"
-					}}>
-					<TextArea
-						ref={el => this.inputEl = el}
-						id={this.state.boxId}
-						value={this.state.boxValue}
-						style={{
-							height: "300",
-						}}
-						className="userInput"
-						onChange={(e) => this.setContent(e, this.state.boxId)}
-						onKeyDown={this.handleKeyDown.bind(this)}
-						onBlur={() => this.hideToolBar()}
-						onFocus={this.showToolBar.bind(this)}
-						onSelect={this.onSelectionChange.bind(this)}
-					/>
-				</AutoComplete>
+						height: 150,
+						margin: "20px auto"
+					}}
+					minChar={1}
+					trigger={dataSource}
+					movePopupAsYouType={true}
+					autocompletePostion={"bottom"}
+
+					onChange={(e) => this.setContent(e, this.state.boxId)}
+					onKeyDown={this.handleKeyDown.bind(this)}
+					onBlur={() => this.hideToolBar()}
+					onFocus={this.showToolBar.bind(this)}
+					onSelect={this.onSelectionChange.bind(this)}
+				/>
+				{/*<AutoComplete*/}
+				{/*	dataSource={dataSource}*/}
+				{/*	style={{*/}
+				{/*		width: "100%",*/}
+				{/*		height:"300"*/}
+				{/*	}}>*/}
+				{/*	<TextArea*/}
+				{/*		ref={el => this.inputEl = el}*/}
+				{/*		id={this.state.boxId}*/}
+				{/*		value={this.state.boxValue}*/}
+				{/*		style={{*/}
+				{/*			height: "300",*/}
+				{/*		}}*/}
+				{/*		className="userInput"*/}
+				{/*		onChange={(e) => this.setContent(e, this.state.boxId)}*/}
+				{/*		onKeyDown={this.handleKeyDown.bind(this)}*/}
+				{/*		onBlur={() => this.hideToolBar()}*/}
+				{/*		onFocus={this.showToolBar.bind(this)}*/}
+				{/*		onSelect={this.onSelectionChange.bind(this)}*/}
+				{/*	/>*/}
+				{/*</AutoComplete>*/}
 			</span>
 		)
 	}

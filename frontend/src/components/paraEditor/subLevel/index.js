@@ -5,9 +5,23 @@ import InputBox from "../../InputBox";
 import DisplayArea from "../../displayArea";
 import ParaControl from "../../paraControl";
 import removeLevel from "../../../requests/removeLevel";
+import {connect} from "react-redux";
+import {
+	fetchPage
+} from '../../../actions'
 
 const {TextArea} = Input;
 const {confirm} = Modal;
+
+const mapStateToProps = state => {
+	return {
+		title: state.paras.title,
+	}
+};
+
+const mapDispatchToProps = dispatch => ({
+	fetchPage: (id, title) => dispatch(fetchPage(id, title)),
+});
 
 class SubLevel extends React.Component {
 	constructor(props) {
@@ -37,6 +51,8 @@ class SubLevel extends React.Component {
 	};
 
 	render() {
+		console.log(this.props.id,this.props.title);
+
 		const {children, alignment, deletePara,} = this.props;
 
 		let left_title = children[0].para_parent.tocTitle;
@@ -164,4 +180,4 @@ class SubLevel extends React.Component {
 	}
 	}
 
-	export default SubLevel;
+	export default connect(mapStateToProps, mapDispatchToProps)(SubLevel);

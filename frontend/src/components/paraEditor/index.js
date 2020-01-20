@@ -240,6 +240,7 @@ class ParaEditor extends React.Component {
 										alignment={this.state.sideAlign}
 										deletePara={this.deletePara}
 										setFocusArea={this.setFocusArea}
+										id={this.props.id}
 									/>
 								}
 
