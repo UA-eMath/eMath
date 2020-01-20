@@ -7,7 +7,6 @@ import {
 	paraOnChange,
 	popQueue,
 	fetchPage,
-
 } from '../../actions'
 import {Input, message, Button, Icon, Tooltip, Row, Col, Modal} from 'antd';
 import _ from "lodash";
@@ -41,7 +40,6 @@ const mapDispatchToProps = dispatch => ({
 		dispatch(openNewWindow(pageId)),
 	paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
 	popQueue: (id) => dispatch(popQueue(id)),
-
 });
 
 
@@ -126,22 +124,51 @@ class ParaEditor extends React.Component {
 		}
 	};
 
+	setFocusArea = (boxId) => {
+		this.setState({
+			focusedArea: boxId,
+		})
+	};
+
 	switchView = () => {
 		this.setState(prevState => ({
 			sideAlign: !prevState.sideAlign
 		}))
 	};
 
-	addPara = (position) => {
+	getItemById(id) {
+		let flatState = this.props.data.flat(Infinity);
+		return flatState[flatState.findIndex(i => i.id === id)];
+	}
+
+	addPara = () => {
 		//this.props.id
 		let request_body;
+		let position = null;
+		let parentId = this.props.id;
+		if (this.state.focusedArea !== null) {
+			//behind on focused area
+			let focusedPara = this.getItemById(this.state.focusedArea);
+			console.log(focusedPara);
+			if (typeof focusedPara !== "undefined") {
+				//the position para want to be put
+				position = focusedPara.position + 1;
+				//check if inside a sub level
+				if (parentId !== focusedPara.para_parent.id) {
+					parentId = focusedPara.para_parent.id
+				}
+			}
+		}
+
 		request_body = JSON.stringify({
 			"content": {
 				"data": ""
 			},
 			"position": position,
-			"para_parent": this.props.id
+			"para_parent": parentId
 		});
+
+		console.log(request_body);
 
 		postPara(request_body).then(data => {
 			if (!data || data.status !== 200) {
@@ -191,6 +218,7 @@ class ParaEditor extends React.Component {
 							uploading={this.state.loading}
 							parent={this.props.id}
 							parentTitle={this.props.title}
+							focusedArea = {this.state.focusedArea}
 						/>
 
 						<h3 align={"center"}>
@@ -207,10 +235,11 @@ class ParaEditor extends React.Component {
 							{_.map(this.props.data, (item, i) => {
 								if (Array.isArray(item)) {
 									return <SubLevel
-										key={_.uniqueId("subLevel_")}
+										key={i}
 										children={item}
 										alignment={this.state.sideAlign}
 										deletePara={this.deletePara}
+										setFocusArea={this.setFocusArea}
 									/>
 								}
 
@@ -225,7 +254,9 @@ class ParaEditor extends React.Component {
 											<Col span={11} style={{
 												margin: "10px",
 											}}>
-												<InputBox id={item.id} boxValue={item.content.data}/>
+												<InputBox id={item.id}
+												          setFocusArea={this.setFocusArea}
+												          boxValue={item.content.data}/>
 											</Col>
 
 											<Col span={10} style={{
@@ -238,7 +269,7 @@ class ParaEditor extends React.Component {
 												margin: "10px",
 											}}>
 												<ParaControl id={item.id}
-												             deletePara={this.deletePara}/>
+												             delete={this.deletePara}/>
 											</Col>
 										</Row>
 									)
@@ -253,7 +284,9 @@ class ParaEditor extends React.Component {
 											     }}
 											>
 												<InputBox id={item.id}
-												          boxValue={item.content.data}/>
+												          boxValue={item.content.data}
+												          setFocusArea={this.setFocusArea}
+												/>
 
 												<DisplayArea id={item.id}/>
 
@@ -265,7 +298,7 @@ class ParaEditor extends React.Component {
 											     }}
 											>
 												<ParaControl id={item.id}
-												             deletePara={this.deletePara}/>
+												             delete={this.deletePara}/>
 											</Col>
 
 										</Row>

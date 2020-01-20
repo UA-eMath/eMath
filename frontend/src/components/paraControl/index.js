@@ -17,7 +17,7 @@ export default class ParaControl extends React.Component {
 					<Icon type="up"/>
 				</Button>
 
-				<Button type={"danger"} onClick={() => this.props.deletePara(this.props.id)}>
+				<Button type={"danger"} onClick={() => this.props.delete(this.props.id)}>
 					<Icon type="delete"/>
 				</Button>
 

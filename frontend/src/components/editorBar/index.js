@@ -13,7 +13,7 @@ import postPara from "../../requests/postPara";
 
 const mapStateToProps = state => {
 	return {
-		data: state.paras.data,
+		data: state.paras.paras,
 		status: state.paras.status
 	}
 };
@@ -45,6 +45,12 @@ class EditorToolBar extends React.Component {
 		this.setState({visible: false});
 	};
 
+	getItemById(id) {
+
+		let flatState = this.props.data.flat(Infinity);
+		return flatState[flatState.findIndex(i => i.id === id)];
+	}
+
 	addSubLevel = () => {
 		const {form} = this.formRef.props;
 
@@ -57,7 +63,30 @@ class EditorToolBar extends React.Component {
 
 			let request_body;
 			//create new level under selected parent level
-			request_body = JSON.stringify({...values, isPage: false, parent: this.props.parent});
+
+			let position = null;
+			let parentId = this.props.parent;
+			if (this.props.focusedArea !== null) {
+				//behind on focused area
+				let focusedPara = this.getItemById(this.props.focusedArea);
+				console.log(focusedPara);
+				if (typeof focusedPara !== "undefined") {
+					//the position para want to be put
+					position = focusedPara.position + 1;
+					//check if inside a sub level
+					if (parentId !== focusedPara.para_parent.id) {
+						parentId = focusedPara.para_parent.id
+					}
+				}
+			}
+
+			request_body = JSON.stringify({
+				...values,
+				isPage: false,
+				parent: parentId,
+				position: position
+			});
+
 			postLevel(request_body).then(data => {
 				if (!data || data.status !== 200) {
 					console.error("Submit failed", data);
@@ -95,7 +124,6 @@ class EditorToolBar extends React.Component {
 
 
 	render() {
-
 		return (
 			<div style={{
 				background: '#F3F3F3',

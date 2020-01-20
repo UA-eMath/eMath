@@ -2,8 +2,8 @@ import React from "react";
 import {AutoComplete, Input, message} from 'antd';
 import {connect} from "react-redux";
 import {paraOnChange} from "../../actions";
-import dataSource from "./dataSource";
 import ParaToolBar from "../paraToolBar";
+import dataSource from "./dataSource";
 
 const {TextArea} = Input;
 
@@ -30,20 +30,20 @@ class InputBox extends React.Component {
 		this.inputEl = React.createRef();
 	}
 
-	setContent = (e, id) => {
-		//undefined => content block
+	setContent = (e) => {
 		try {
 			this.setState({
-				boxValue: e.target.value,
+				boxValue: e.target.value
 			});
 
-			this.props.paraOnChange(e.target.value, id);
+			this.props.paraOnChange(e.target.value, this.state.boxId);
 		} catch (err) {
 			message.warning('There might be an error in your content!');
 		}
 	};
 
 	showToolBar() {
+		this.props.setFocusArea(this.state.boxId);
 		this.setState({
 			showParaToolBar: true
 		});
@@ -78,7 +78,6 @@ class InputBox extends React.Component {
 
 	// inline tool bar
 	onSelectionChange(event) {
-		console.log(event.target)
 	}
 
 	insertAtCursor = (event, tag, length) => {
@@ -106,24 +105,31 @@ class InputBox extends React.Component {
 
 	render() {
 		return (
-			<span >
+			<span>
 				{this.state.showParaToolBar ?
 					<ParaToolBar showToolBar={this.showToolBar} tagInsertion={this.insertAtCursor}/> : <span/>}
 
-				<TextArea
-					ref={el => this.inputEl = el}
-					id={this.state.boxId}
-					value={this.state.boxValue}
+				<AutoComplete
+					dataSource={dataSource}
 					style={{
-						height: "100%",
-					}}
-					className="userInput"
-					onChange={(e) => this.setContent(e, this.state.boxId)}
-					onKeyDown={this.handleKeyDown.bind(this)}
-					onBlur={() => this.hideToolBar()}
-			        onFocus={this.showToolBar.bind(this)}
-					onSelect={this.onSelectionChange.bind(this)}
-				/>
+						width: "100%",
+						height:"100%"
+					}}>
+					<TextArea
+						ref={el => this.inputEl = el}
+						id={this.state.boxId}
+						value={this.state.boxValue}
+						style={{
+							height: "300",
+						}}
+						className="userInput"
+						onChange={(e) => this.setContent(e, this.state.boxId)}
+						onKeyDown={this.handleKeyDown.bind(this)}
+						onBlur={() => this.hideToolBar()}
+						onFocus={this.showToolBar.bind(this)}
+						onSelect={this.onSelectionChange.bind(this)}
+					/>
+				</AutoComplete>
 			</span>
 		)
 	}

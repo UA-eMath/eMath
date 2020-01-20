@@ -1,4 +1,7 @@
-export const dataSource = [
+const dataSource = [
 	"<a></a>",
 
 ];
+
+
+export default dataSource;
