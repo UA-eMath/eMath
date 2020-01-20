@@ -19,12 +19,11 @@ export default class AuthoringLayout extends React.Component {
 	};
 
 	render() {
-		return (
+		const id = this.props.match.params.id;
 
+		return (
 			<div>
 				<TopNav/>
-
-
 				<SplitPane
 					split="vertical"
 					minSize={0}
@@ -34,7 +33,7 @@ export default class AuthoringLayout extends React.Component {
 						style={{
 							minHeight: "100vh",
 						}}>
-						<LevelEditor changePaneSize={this.changePaneSize}/>
+						<LevelEditor levelId ={id} changePaneSize={this.changePaneSize}/>
 					</div>
 
 					<div

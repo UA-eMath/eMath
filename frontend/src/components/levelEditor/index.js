@@ -55,12 +55,12 @@ class LevelEditor extends React.Component {
 
 	componentDidMount() {
 		//TODO change here
-		this.getTreeData(1);
+		this.getTreeData(this.props.levelId);
 	}
 
 	updateLevelTree() {
 		//TODO change here
-		this.getTreeData(1);
+		this.getTreeData(this.props.levelId);
 	}
 
 	getTreeData = (id) => {
@@ -202,6 +202,7 @@ class LevelEditor extends React.Component {
 
 	render() {
 		const {expandedKeys, autoExpandParent} = this.state;
+
 		return (
 			<div>
 				<Search style={{marginBottom: 8}} placeholder="Search" onChange={this.onChange}/>

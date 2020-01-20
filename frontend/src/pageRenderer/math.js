@@ -23,6 +23,7 @@ export default function math(props) {
 		<span>
 		<Context
 			input='tex'
+			delay={80}
 			onLoad={() => console.log("Loaded MathJax script!")}
 			onError={(MathJax, error) => {
 				console.warn(error);

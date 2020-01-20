@@ -21,14 +21,14 @@ export default class App extends React.Component {
 		return (
 			<Router>
 				<Route exact path="/" component={this.Home}/>
-				<Route path="/:title/:id" render={(props) => (
+				<Route path="/view/:title/:id" render={(props) => (
 					<div>
 						<TopNav {...this.props} {...props}/>
 						<SplitView {...this.props} {...props} />
 					</div>
 				)}/>
-				<Route path='/authoring/' render={() => (
-					<AuthoringLayout/>
+				<Route path='/authoring/:id/' render={(props) => (
+					<AuthoringLayout {...this.props} {...props}/>
 				)}/>
 			</Router>
 		)

@@ -1,6 +1,6 @@
 import React from 'react';
 import CardDeck from 'react-bootstrap/CardDeck';
-import {Card} from 'antd';
+import {Card, Icon} from 'antd';
 import "./index.css";
 import 'antd/dist/antd.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -13,14 +13,12 @@ export default class BookDisplay extends React.Component {
 		data: [],
 	};
 
-	//TODO Roots should not include individual Levels
 	componentDidMount() {
 		GetRoots().then(
 			data => {
 				if (!data || data.status !== 200) {
 					console.error("FETCH_TAGS_FAILED", data);
-				}
-				else {
+				} else {
 					console.log(data);
 					this.setState({
 						data: data.data
@@ -47,7 +45,6 @@ export default class BookDisplay extends React.Component {
 
 		for (let i = 0; i < data.length; i++) {
 			let itemToPush;
-
 
 			function renderTooltip(props) {
 				const {outOfBoundaries, scheduleUpdate, show, arrowProps, ...rest} = props;
@@ -91,14 +88,25 @@ export default class BookDisplay extends React.Component {
 							delay={{show: 250, hide: 400}}
 							overlay={renderTooltip}
 						>
-							<div onClick={() => {
-								window.location.href = '/' + data[i].title + '/' + data[i].id
-							}}>
+							<div>
 								<Card
 									hoverable
 									style={{width: 300, margin: 20}}
 									cover={<img alt="example"
-									            src="https://images-na.ssl-images-amazon.com/images/I/419zQEc-u4L._SX384_BO1,204,203,200_.jpg"/>}
+									            src="https://images-na.ssl-images-amazon.com/images/I/419zQEc-u4L._SX384_BO1,204,203,200_.jpg"
+									            onClick={() => {
+										            window.location.href = '/view/' + data[i].title + '/' + data[i].id
+									            }}/>}
+									actions={[
+										<Icon type="setting" key="setting"/>,
+										<Icon type="edit" key="edit" onClick={() => {
+											window.location.href = '/authoring/' + data[i].id
+										}}/>,
+										<Icon type="read" key="read" onClick={() => {
+											window.location.href = '/view/' + data[i].title + '/' + data[i].id
+										}}/>
+									]}
+
 								>
 									<Meta title={data[i].title}
 									      description={authors()}/>
@@ -106,11 +114,10 @@ export default class BookDisplay extends React.Component {
 							</div>
 						</OverlayTrigger>
 					</Col>
-				</Row>;
+					< /Row>;
+						cards.push(itemToPush);
+						}
+						return cards;
+						};
 
-			cards.push(itemToPush);
-		}
-		return cards;
-	};
-
-}
+						}
