@@ -1,10 +1,16 @@
 from itertools import chain
-from presentation.models import Level,Para
+from presentation.models import Level, Para
+
 
 def updateParaPosition(parent):
 	children_list = parent.get_children().order_by('position')
 	children_para_list = parent.para_set.all().order_by('position')
 	cached_list = list(chain(children_list, children_para_list))
+
+	#to avoid "memory loss", delete para's parent if it has no children
+	if len(cached_list) == 0:
+		parent.delete()
+
 	index = 0
 	for i in cached_list:
 		if i.position != index:
@@ -22,7 +28,7 @@ def updatePosition(child, target, position):
 		child.parent = target
 		child.save()
 		cached_list = list(chain(target.get_children().order_by('position')))
-		cached_list.insert(0,child)
+		cached_list.insert(0, child)
 
 	else:
 		parent = target.parent
@@ -30,16 +36,16 @@ def updatePosition(child, target, position):
 		cached_list = list(chain(children_list))
 		# cached_list = sorted(cached_list, key=lambda instance: instance.position)
 		try:
-			#move under same parent
+			# move under same parent
 			cached_list.remove(child)
 
 		except:
-			#child not found, change parent
+			# child not found, change parent
 			if position == -1:
 				child.move_to(target, "left")
 
 			elif position == 1:
-				child.move_to(target,'right' )
+				child.move_to(target, 'right')
 			pass
 
 		if position == -1:

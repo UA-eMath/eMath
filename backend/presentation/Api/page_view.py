@@ -31,36 +31,28 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 		return result
 
 	def get_queryset(self):
-		page_num = self.request.query_params.get('page',None)
 		level_id = self.request.query_params.get('id',None)
 
-		if page_num is not None and page_num != 0:
-			pages = Level.objects.filter(isPage=True,pageNum=page_num).first()
-		elif level_id is not None:
-			#TODO handle when id is root
-			pages = Level.objects.get(id=level_id)
-			if pages.is_root_node():
-				#TODO
-				pages = Level.objects.get(isPage=True,pageNum=1)
-			elif not pages.isPage:
+		if level_id is not None:
+			page = Level.objects.get(id=level_id)
+			if page.is_root_node():
+				page = page.get_children().filter(pageNum=1).first()
+			elif not page.isPage:
 				return None
-
 		else:
 			return None
 
-		if pages == None:
-			return None
+		if page == None:
+			return []
 
-		return self.getParas(pages)
+		return self.getParas(page)
 
 	def getParas(self,root):
-		# TODO
 		paras = []
 
 		while root.get_children() or root.para_set.all():
 			#insert Level object inside para list
 			mergedList = self.mergeAndSort(root.get_children(),root.para_set.all())
-
 			#recursive insertion
 			for obj in mergedList:
 				if obj.__class__.__name__ == 'Para':
