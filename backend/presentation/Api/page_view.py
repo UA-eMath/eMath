@@ -32,19 +32,29 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 
 	def get_queryset(self):
 		level_id = self.request.query_params.get('id',None)
+		page_num = self.request.query_params.get('page', None)
+		root = self.request.query_params.get('root', None)
 
-		if level_id is not None:
+		#next/pre page
+		if page_num is not None and page_num != 0:
+			root_level = Level.objects.get(id = root)
+			if root_level is not None:
+				page = root_level.get_root().get_descendants().filter(isPage=True, pageNum=page_num).first()
+		#fist page/ open window
+		elif level_id is not None:
 			page = Level.objects.get(id=level_id)
+
 			if page.is_root_node():
 				page = page.get_children().filter(pageNum=1).first()
-			elif not page.isPage:
+				print(page)
+
+			if not page.isPage:
 				return None
 		else:
 			return None
 
 		if page == None:
 			return []
-
 		return self.getParas(page)
 
 	def getParas(self,root):

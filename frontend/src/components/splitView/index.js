@@ -50,44 +50,43 @@ class SplitView extends React.Component {
 
 	async componentDidMount() {
 		let id = this.props.match.params['id'];
-		console.log(id);
-		let page = null;
-		const pageContent = await getPage({id: id, page: page});
-		console.log(pageContent);
+		const pageContent = await getPage({id: id});
 
 		if (typeof pageContent !== 'undefined' && pageContent.data.length > 0) {
 			this.setState({
 				pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
 				paraText: pageContent.data,
-				pageNum: 1
+				pageNum: 1,
+				id: id
 			});
 		}
 	}
 
 	render() {
 		return (
-				<ResponsiveReactGridLayout
-					className="layout"
-					breakpoints={{lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0}}
-					cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
-					rowHeight={100}
-					compactType='horizontal'
-					draggableHandle='.windowHeader'
-					color='#42b0f4'
-					onLayoutChange={()=>{this.props.onLayoutChange(this.props.items)}}
-					onBreakpointChange={() => this.onBreakpointChange}
-					key={_.uniqueId()}
-				>
-					{_.map(this.props.items, el => {
-						if (el.i === '0') {
-							return (this.initElement(el))
-						}
-						else {
-							const i = el.add ? "+" : el.i;
-							return (<CreateElement key={i} data-grid={el}/>)
-						}
-					})}
-				</ResponsiveReactGridLayout>
+			<ResponsiveReactGridLayout
+				className="layout"
+				breakpoints={{lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0}}
+				cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
+				rowHeight={100}
+				compactType='horizontal'
+				draggableHandle='.windowHeader'
+				color='#42b0f4'
+				onLayoutChange={() => {
+					this.props.onLayoutChange(this.props.items)
+				}}
+				onBreakpointChange={() => this.onBreakpointChange}
+				key={_.uniqueId()}
+			>
+				{_.map(this.props.items, el => {
+					if (el.i === '0') {
+						return (this.initElement(el))
+					} else {
+						const i = el.add ? "+" : el.i;
+						return (<CreateElement key={i} data-grid={el}/>)
+					}
+				})}
+			</ResponsiveReactGridLayout>
 		);
 	}
 

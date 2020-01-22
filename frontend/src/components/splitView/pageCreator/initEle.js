@@ -17,7 +17,7 @@ export default function initElement(el) {
 			<div style={{...styles.titleBar}}>
 				<PreButton
 					onClick={() => {
-						getPrePage(this.state.pageNum,
+						getPrePage(this.state.id,this.state.pageNum,
 							(prePageData) => {
 								if (prePageData) {
 									let num = this.state.pageNum - 1;
@@ -40,7 +40,7 @@ export default function initElement(el) {
 					className='ml-auto'
 					onClick={
 						() => {
-							getNextPage(this.state.pageNum,
+							getNextPage(this.state.id,this.state.pageNum,
 								(nextPageData) => {
 									let num = this.state.pageNum + 1;
 									if (nextPageData) {
@@ -80,8 +80,8 @@ export default function initElement(el) {
 	)
 }
 
-async function getNextPage(pageNum, setData) {
-	await getPage({page: pageNum + 1}).then(nextPage => {
+async function getNextPage(id,pageNum, setData) {
+	await getPage({root:id,page: pageNum + 1}).then(nextPage => {
 		if (!nextPage || nextPage.status !== 200) {
 			console.error("No more pages", nextPage);
 		} else if (nextPage.data.length === 0) {
@@ -92,11 +92,11 @@ async function getNextPage(pageNum, setData) {
 	})
 }
 
-async function getPrePage(pageNum, setData) {
+async function getPrePage(id,pageNum, setData) {
 	if (pageNum - 1 <= 0) {
 		return null
 	}
-	await getPage({page: pageNum - 1}).then(prePage => {
+	await getPage({root:id,page: pageNum - 1}).then(prePage => {
 		if (!prePage || prePage.status !== 200) {
 			console.error("Fail to get pre page", prePage);
 		} else if (prePage.data.length === 0) {
