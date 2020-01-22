@@ -1,14 +1,13 @@
 import React from "react";
-import {AutoComplete, Input, message} from 'antd';
+import {Icon, message} from 'antd';
 import {connect} from "react-redux";
 import {paraOnChange} from "../../actions";
 import ParaToolBar from "../paraToolBar";
 import dataSource from "./dataSource";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
-import emoji from "@jukben/emoji-search";
 import "./index.css"
-const {TextArea} = Input;
-const Loading = ({data}) => <div>Loading</div>;
+
+const Loading = ({data}) => <div><Icon type="loading" /></div>;
 
 const mapDispatchToProps = dispatch => ({
 	paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
@@ -106,6 +105,14 @@ class InputBox extends React.Component {
 		}
 	};
 
+	onItemSelected=(currentTrigger) =>{
+		let item = currentTrigger.item.char;
+		let moveDistance = item.length - item.lastIndexOf("/")+1;
+		let pos = this.inputEl.getCaretPosition();
+		console.log(11);
+		this.inputEl.setCaretPosition(pos-moveDistance)
+	};
+
 	render() {
 		return (
 			<span>
@@ -133,38 +140,17 @@ class InputBox extends React.Component {
 						height: 150,
 						margin: "20px auto"
 					}}
-					minChar={1}
+					minChar={0}
 					trigger={dataSource}
 					movePopupAsYouType={true}
-					autocompletePostion={"bottom"}
-
+					onItemSelected={this.onItemSelected}
 					onChange={(e) => this.setContent(e, this.state.boxId)}
 					onKeyDown={this.handleKeyDown.bind(this)}
 					onBlur={() => this.hideToolBar()}
 					onFocus={this.showToolBar.bind(this)}
-					onSelect={this.onSelectionChange.bind(this)}
+					//onSelect={this.onSelectionChange.bind(this)}
 				/>
-				{/*<AutoComplete*/}
-				{/*	dataSource={dataSource}*/}
-				{/*	style={{*/}
-				{/*		width: "100%",*/}
-				{/*		height:"300"*/}
-				{/*	}}>*/}
-				{/*	<TextArea*/}
-				{/*		ref={el => this.inputEl = el}*/}
-				{/*		id={this.state.boxId}*/}
-				{/*		value={this.state.boxValue}*/}
-				{/*		style={{*/}
-				{/*			height: "300",*/}
-				{/*		}}*/}
-				{/*		className="userInput"*/}
-				{/*		onChange={(e) => this.setContent(e, this.state.boxId)}*/}
-				{/*		onKeyDown={this.handleKeyDown.bind(this)}*/}
-				{/*		onBlur={() => this.hideToolBar()}*/}
-				{/*		onFocus={this.showToolBar.bind(this)}*/}
-				{/*		onSelect={this.onSelectionChange.bind(this)}*/}
-				{/*	/>*/}
-				{/*</AutoComplete>*/}
+
 			</span>
 		)
 	}
