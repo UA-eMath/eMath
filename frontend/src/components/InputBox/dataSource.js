@@ -1,4 +1,3 @@
-import emoji from "@jukben/emoji-search";
 import React from "react";
 
 const Item = ({entity: {name, char}}) => <div>{`${name}: ${char}`}</div>;

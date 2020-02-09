@@ -8,7 +8,7 @@ import {
 	popQueue,
 	fetchPage,
 } from '../../actions'
-import {Input, message, Button, Icon, Tooltip, Row, Col, Modal} from 'antd';
+import { message, Row, Col, Modal} from 'antd';
 import _ from "lodash";
 import {Scrollbars} from 'react-custom-scrollbars';
 import EditorToolBar from '../editorBar'
@@ -42,7 +42,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-const {TextArea} = Input;
 const {confirm} = Modal;
 
 

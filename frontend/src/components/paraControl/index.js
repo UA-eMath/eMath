@@ -3,9 +3,6 @@ import {Button, Icon} from "antd";
 
 
 export default class ParaControl extends React.Component {
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
 		return (

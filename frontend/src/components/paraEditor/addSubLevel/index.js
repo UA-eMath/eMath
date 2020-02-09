@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Button, Modal, Input, Checkbox, Icon} from "antd";
+import {Form, Button, Modal, Input} from "antd";
 
 const AddSubLevel = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {

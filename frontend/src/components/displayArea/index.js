@@ -1,7 +1,7 @@
 import React from "react";
 import paraRenderer from "../../pageRenderer";
 import {connect} from "react-redux";
-import {openNewWindow, paraOnChange} from "../../actions";
+import {openNewWindow} from "../../actions";
 
 const mapDispatchToProps = dispatch => ({
 	onWindowOpen: (pageId) =>

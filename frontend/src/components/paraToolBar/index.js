@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Button, Icon, Switch, Tooltip} from 'antd';
+import React from "react";
+import {Button, Icon, Tooltip} from 'antd';
 
 const ButtonGroup = Button.Group;
 

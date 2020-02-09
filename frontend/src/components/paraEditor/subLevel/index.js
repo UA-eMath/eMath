@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash"
-import {Button, Col, Icon, Input, Modal, Row} from "antd";
+import {Button, Col, Icon, Modal, Row} from "antd";
 import InputBox from "../../InputBox";
 import DisplayArea from "../../displayArea";
 import ParaControl from "../../paraControl";
@@ -10,7 +10,6 @@ import {
 	fetchPage
 } from '../../../actions'
 
-const {TextArea} = Input;
 const {confirm} = Modal;
 
 const mapStateToProps = state => {
@@ -24,9 +23,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class SubLevel extends React.Component {
-	constructor(props) {
-		super(props);
-	}
 
 	deleteLevel = (id) => {
 		confirm({
@@ -100,7 +96,7 @@ class SubLevel extends React.Component {
 						</div>
 						<div className="controlDiv">
 							<ParaControl id={item.id}
-							             delete={this.deletePara}/>
+							             delete={deletePara}/>
 						</div>
 
 					</div>
