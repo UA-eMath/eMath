@@ -4,22 +4,15 @@ import {Button, Icon, Switch, Tooltip} from 'antd';
 const ButtonGroup = Button.Group;
 
 
-// class ParaToolBar extends React.Component{
-// 	constructor() {
-// 		super(props);
-// 	}
-//
-// }
-
 
 function ParaToolBar(props) {
 
 	return (
 		<ButtonGroup style={{
-			position: "",
-			zIndex:10000,
+			position:"absolute",
+			top: "-35px",
 		}}>
-			<Tooltip placement="toptop" title={"Caption"}>
+			<Tooltip placement="top" title={"Caption"}>
 				<Button onMouseDown={(e) => props.tagInsertion(e,'<caption></caption> ', 9)}>
 					Cap
 				</Button>

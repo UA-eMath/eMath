@@ -1,9 +1,32 @@
 .userInput {
 	font-size: 15px;
+	height: 300px;
+
 }
 
 .userInput:focus {
 	outline: none !important;
 	border: 5px solid deepskyblue;
 	box-shadow: 0 0 10px #719ECE;
+}
+
+.paraWrapper {
+	display: flex;
+	margin: 10px 0 0 0;
+}
+
+.inputDiv {
+	display: inline-block;
+	overflow: visible;
+	position: relative;
+	flex: 1;
+}
+
+.displayDiv {
+	margin: 0 5px 0 5px;
+	flex: 1;
+}
+
+.controlDiv {
+
 }

@@ -12,4 +12,4 @@ class Toc_serializer(serializers.ModelSerializer):
 	children = RecursiveField(many=True)
 	class Meta:
 		model = Level
-		fields = ('title','tocTitle','id','children','isPage','parent','position')
+		fields = ('title','tocTitle','id','children','isPage','parent','pageNum','position')

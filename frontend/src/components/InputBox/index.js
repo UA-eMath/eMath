@@ -7,7 +7,7 @@ import dataSource from "./dataSource";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import "./index.css"
 
-const Loading = ({data}) => <div><Icon type="loading" /></div>;
+const Loading = ({data}) => <div><Icon type="loading"/></div>;
 
 const mapDispatchToProps = dispatch => ({
 	paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
@@ -24,28 +24,26 @@ class InputBox extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			boxValue: decodeURI(this.props.boxValue),
-			boxId: this.props.id,
 			showParaToolBar: false,
 		};
 		this.inputEl = React.createRef();
-		this.textArea=React.createRef();
+		this.textArea = React.createRef();
 	}
 
 	setContent = (e) => {
-		try {
-			this.setState({
-				boxValue: e.target.value
-			});
-
-			this.props.paraOnChange(e.target.value, this.state.boxId);
-		} catch (err) {
-			message.warning('There might be an error in your content!');
+		if (e.target.value !== this.props.boxValue) {
+			try {
+				this.props.paraOnChange(e.target.value, this.props.id);
+			} catch (err) {
+				console.log(err);
+				message.warning('There might be an error in your content!');
+			}
 		}
+
 	};
 
 	showToolBar() {
-		this.props.setFocusArea(this.state.boxId);
+		this.props.setFocusArea(this.props.id);
 		this.setState({
 			showParaToolBar: true
 		});
@@ -58,22 +56,21 @@ class InputBox extends React.Component {
 	}
 
 	handleKeyDown(event) {
+		//insert tab
 		if (event.keyCode === 9) {
 			event.preventDefault();
 			let selectionStart = event.target.selectionStart;
 			let selectionEnd = event.target.selectionEnd;
 
-			let value = this.state.boxValue;
-			console.log(value);
+			let value = decodeURI(this.props.boxValue);
 
 			value = value.substring(0, selectionStart) + "\t" + value.substring(selectionEnd);
 
-			this.setState({
-				boxValue: value,
-			}, () => {
-				this.textArea.selectionStart =
+			this.props.paraOnChange(value, this.props.id);
+
+			this.textArea.selectionStart =
 					this.textArea.selectionEnd = selectionStart + 1
-			});
+
 
 		}
 	}
@@ -86,7 +83,7 @@ class InputBox extends React.Component {
 		event.preventDefault();
 		this.textArea.focus();
 		let focusedTextarea = this.textArea;
-		let value = this.state.boxValue;
+		let value = decodeURI(this.props.boxValue);
 		let selectionStart = focusedTextarea.selectionStart;
 		let selectionEnd = focusedTextarea.selectionEnd;
 
@@ -96,37 +93,39 @@ class InputBox extends React.Component {
 
 			value = prefix + tag + suffix;
 
-			this.setState({
-				boxValue: value,
-			}, () => {
+			this.props.paraOnChange(value, this.props.id);
+
+			this.setState({}, () => {
 				this.textArea.selectionStart =
 					this.textArea.selectionEnd = selectionStart + length;
 			});
 		}
 	};
 
-	onItemSelected=(currentTrigger) =>{
+	onItemSelected = (currentTrigger) => {
 		let item = currentTrigger.item.char;
-		let moveDistance = item.length - item.lastIndexOf("/")+1;
+		let moveDistance = item.length - item.lastIndexOf("/") + 1;
 		let pos = this.inputEl.getCaretPosition();
-		console.log(11);
-		this.inputEl.setCaretPosition(pos-moveDistance)
+		this.inputEl.setCaretPosition(pos - moveDistance)
 	};
 
 	render() {
+
 		return (
-			<span>
+			<span style={{overflow: "visible"}}>
 				{this.state.showParaToolBar ?
 					<ParaToolBar showToolBar={this.showToolBar} tagInsertion={this.insertAtCursor}/> : <span/>}
 
 				<ReactTextareaAutocomplete
 					className="userInput"
 					loadingComponent={Loading}
-					value={this.state.boxValue}
+					value={decodeURI(this.props.boxValue)}
 					style={{
 						fontSize: "14px",
 						lineHeight: "20px",
-						padding: 5
+						padding: 5,
+						position: "absolute",
+						bottom: 0,
 					}}
 					ref={rta => {
 						this.inputEl = rta;
@@ -135,16 +134,15 @@ class InputBox extends React.Component {
 						this.textArea = textarea;
 					}}
 					containerStyle={{
-						marginTop: 20,
+						top: 0,
 						width: "100%",
-						height: 150,
-						margin: "20px auto"
+						height: "200px",
 					}}
 					minChar={0}
 					trigger={dataSource}
 					movePopupAsYouType={true}
 					onItemSelected={this.onItemSelected}
-					onChange={(e) => this.setContent(e, this.state.boxId)}
+					onChange={(e) => this.setContent(e, this.props.id)}
 					onKeyDown={this.handleKeyDown.bind(this)}
 					onBlur={() => this.hideToolBar()}
 					onFocus={this.showToolBar.bind(this)}

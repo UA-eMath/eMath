@@ -21,7 +21,6 @@ import DisplayArea from "../displayArea";
 import ParaControl from "../paraControl";
 import SubLevel from "./subLevel";
 
-//this.props.data
 const mapStateToProps = state => {
 	return {
 		data: state.paras.paras,
@@ -100,7 +99,6 @@ class ParaEditor extends React.Component {
 								"content": this.props.uploadingQueue[key]["content"],
 							}, key);
 
-							//TODO open auto save
 							await updatePara(request_body, key).then(data => {
 								if (!data || data.status !== 200) {
 									if (data.status === 400) {
@@ -149,7 +147,6 @@ class ParaEditor extends React.Component {
 		if (this.state.focusedArea !== null) {
 			//behind on focused area
 			let focusedPara = this.getItemById(this.state.focusedArea);
-			console.log(focusedPara);
 			if (typeof focusedPara !== "undefined") {
 				//the position para want to be put
 				position = focusedPara.position + 1;
@@ -218,94 +215,95 @@ class ParaEditor extends React.Component {
 							uploading={this.state.loading}
 							parent={this.props.id}
 							parentTitle={this.props.title}
-							focusedArea = {this.state.focusedArea}
+							focusedArea={this.state.focusedArea}
 						/>
 
-						<h3 align={"center"}>
+						<h3 align={"center"}
+							style={{
+								margin:"10px 0 -25px 0",
+
+							}}>
 							{this.props.title}
 						</h3>
 						<Scrollbars
 							style={{
 								width: '83vw',
 								height: "80vh",
-								paddingBottom: '20px',
+								paddingBottom: '100px',
 								margin: '10px',
+								marginTop: '20px'
 							}}
 						>
-							{_.map(this.props.data, (item, i) => {
-								if (Array.isArray(item)) {
-									return <SubLevel
-										key={i}
-										children={item}
-										alignment={this.state.sideAlign}
-										deletePara={this.deletePara}
-										setFocusArea={this.setFocusArea}
-										id={this.props.id}
-									/>
-								}
+							<div style={{marginTop:"35px"}}>
 
-								if (this.state.sideAlign) {
-									return (
-										<Row
-											key={item.id}
-											style={{
-												display: "flex"
-											}}
-										>
-											<Col span={11} style={{
-												margin: "10px",
-											}}>
-												<InputBox id={item.id}
-												          setFocusArea={this.setFocusArea}
-												          boxValue={item.content.data}/>
-											</Col>
+								{_.map(this.props.data, (item, i) => {
+									if (Array.isArray(item)) {
+										return <SubLevel
+											key={i}
+											children={item}
+											alignment={this.state.sideAlign}
+											deletePara={this.deletePara}
+											setFocusArea={this.setFocusArea.bind(this)}
+											id={this.props.id}
+											style={{margin: "40px 0 0 0"}}
+										/>
+									}
 
-											<Col span={10} style={{
-												margin: "10px",
-											}}>
-												<DisplayArea id={item.id}/>
-											</Col>
-
-											<Col span={1} style={{
-												margin: "10px",
-											}}>
-												<ParaControl id={item.id}
-												             delete={this.deletePara}/>
-											</Col>
-										</Row>
-									)
-								} else {
-									return (
-										<Row
-											key={item.id}
-										>
-											<Col span={21}
-											     style={{
-												     margin: "10px"
-											     }}
+									if (this.state.sideAlign) {
+										return (
+											<div
+												className="paraWrapper"
+												key={item.id}
 											>
-												<InputBox id={item.id}
-												          boxValue={item.content.data}
-												          setFocusArea={this.setFocusArea}
-												/>
+												<div className="inputDiv">
+													<InputBox id={item.id}
+													          setFocusArea={this.setFocusArea.bind(this)}
+													          boxValue={item.content.data}/>
+												</div>
+												<div className="displayDiv"
+												>
+													<DisplayArea id={item.id}/>
+												</div>
+												<div className="controlDiv">
+													<ParaControl id={item.id}
+													             delete={this.deletePara}/>
+												</div>
 
-												<DisplayArea id={item.id}/>
-
-											</Col>
-
-											<Col span={1}
-											     style={{
-												     margin: "10px"
-											     }}
+											</div>
+										)
+									} else {
+										return (
+											<Row
+												key={item.id}
 											>
-												<ParaControl id={item.id}
-												             delete={this.deletePara}/>
-											</Col>
+												<Col span={21}
+												     style={{
+													     margin: "10px"
+												     }}
+												>
+													<InputBox id={item.id}
+													          boxValue={item.content.data}
+													          setFocusArea={this.setFocusArea}
+													/>
 
-										</Row>
-									)
-								}
-							})}
+													<DisplayArea id={item.id}/>
+
+												</Col>
+
+												<Col span={1}
+												     style={{
+													     margin: "10px"
+												     }}
+												>
+													<ParaControl id={item.id}
+													             delete={this.deletePara}/>
+												</Col>
+
+											</Row>
+										)
+									}
+								})}
+							</div>
 
 						</Scrollbars>
 

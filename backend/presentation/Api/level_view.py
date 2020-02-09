@@ -80,6 +80,12 @@ class LevelViewset(viewsets.ModelViewSet):
 			#child : dragged node id
 		if request.data.get("position") != None:
 			child = Level.objects.get(pk=self.kwargs["pk"])
+
+			#update position of appendix is prohibited
+			if child.position == -1:
+				return Response(data="Please don't move this branch",status=400)
+
+
 			target = Level.objects.get(pk= request.data.get('target'))
 			position = int(request.data.get('position'))
 
@@ -98,8 +104,7 @@ class LevelViewset(viewsets.ModelViewSet):
 		return response
 
 	def _updatePageNumber(self,root):
-		#TODO change here
-		page_number = -1
+		page_number = 1
 		def _recursivelyUpdatePageNum(root,page_number):
 			# base
 			if root.isPage:
@@ -109,6 +114,7 @@ class LevelViewset(viewsets.ModelViewSet):
 
 			if root.position >=0:
 				for child in root.get_children().order_by("position"):
+					#skip appendix(position : -1)
 					if child.position>=0:
 						page_number = _recursivelyUpdatePageNum(child,page_number)
 

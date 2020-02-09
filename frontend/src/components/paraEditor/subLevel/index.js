@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash"
-import {Col, Input, Modal, Row} from "antd";
+import {Button, Col, Icon, Input, Modal, Row} from "antd";
 import InputBox from "../../InputBox";
 import DisplayArea from "../../displayArea";
 import ParaControl from "../../paraControl";
@@ -51,8 +51,6 @@ class SubLevel extends React.Component {
 	};
 
 	render() {
-		console.log(this.props.id,this.props.title);
-
 		const {children, alignment, deletePara,} = this.props;
 
 		let left_title = children[0].para_parent.tocTitle;
@@ -87,33 +85,25 @@ class SubLevel extends React.Component {
 		let content = _.map(children, item => {
 			if (alignment) {
 				return (
-					<Row
+					<div
+						className="paraWrapper"
 						key={item.id}
-						style={{
-							display: "flex"
-						}}
 					>
-						<Col span={11} style={{
-							margin: "10px",
-						}}>
+						<div className="inputDiv">
 							<InputBox id={item.id}
-							          boxValue={item.content.data}
-							          setFocusArea={this.props.setFocusArea}/>
-						</Col>
-
-						<Col span={10} style={{
-							margin: "10px",
-						}}>
+							          setFocusArea={this.props.setFocusArea}
+							          boxValue={item.content.data}/>
+						</div>
+						<div className="displayDiv"
+						>
 							<DisplayArea id={item.id}/>
-						</Col>
-
-						<Col span={1} style={{
-							margin: "10px",
-						}}>
+						</div>
+						<div className="controlDiv">
 							<ParaControl id={item.id}
-							             delete={deletePara}/>
-						</Col>
-					</Row>
+							             delete={this.deletePara}/>
+						</div>
+
+					</div>
 				)
 			} else {
 				return (
@@ -149,9 +139,21 @@ class SubLevel extends React.Component {
 
 		});
 
-		let subLevelControl = <ParaControl id={children[0].para_parent.id}
-		                                   delete={this.deleteLevel}/>;
+		let subLevelControl = <div style={{
+				height: "100%",
+			}}>
+					<Button>
+						<Icon type="up"/>
+					</Button>
 
+					<Button type={"danger"} onClick={() =>this.deleteLevel(children[0].para_parent.id)}>
+						<Icon type="delete"/>
+					</Button>
+
+					<Button>
+						<Icon type="down"/>
+					</Button>
+			</div>;
 
 		return (
 
@@ -159,14 +161,14 @@ class SubLevel extends React.Component {
 				background: '#fdf5e8',
 				borderRadius: '2px',
 				boxShadow: '0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.35)',
-				marginBottom: '10px',
+				margin: '10px 0',
 				paddingBottom: "30px",
 			}}>
 				<Row>
-					<Col span={15}>
+					<Col span={18}>
 						{boxHeader}
 					</Col>
-					<Col span={7}>
+					<Col span={4}>
 						{subLevelControl}
 					</Col>
 				</Row>
@@ -176,8 +178,8 @@ class SubLevel extends React.Component {
 
 
 			</div>
-	)
+		)
 	}
-	}
+}
 
-	export default connect(mapStateToProps, mapDispatchToProps)(SubLevel);
+export default connect(mapStateToProps, mapDispatchToProps)(SubLevel);
