@@ -1,16 +1,20 @@
 import React, {useState, useEffect, createRef} from 'react';
 import CardDeck from 'react-bootstrap/CardDeck';
-import {Button, Card, Icon, Tooltip, FormComponentProps } from 'antd';
+import {Button, Card, Icon, Tooltip, FormComponentProps} from 'antd';
 import "./index.css";
 import 'antd/dist/antd.css';
 import GetRoots from '../../requests/GetRoots';
-import AddBook from "../displayArea/addBookModal";
+import AddBook from "./addBookModal";
+import BookSetting from "./bookSetting";
 
-export default function BookDisplay() {
+export default function BookDisplay(props) {
 
 	const [data, setData] = useState([]);
 	const [visible, setVisible] = useState(false);
 	const [loading, setLoading] = useState(false);
+
+	const [editingVisible, setEditingVisible] = useState(false);
+	const [editingLoading, setEditingLoading] = useState(false);
 
 	const {Meta} = Card;
 
@@ -25,6 +29,7 @@ export default function BookDisplay() {
 			}
 		)
 	}, []);
+
 
 	return (
 		<React.Fragment>
@@ -43,8 +48,8 @@ export default function BookDisplay() {
 										            window.location.href = '/view/' + book.title + '/' + book.id
 									            }}/>}
 									actions={[
-										<Icon type="setting" key="setting"/>,
-										<Icon type="edit" key="edit" onClick={() => {
+										<Icon type="setting" key="setting" onClick={()=>setEditingVisible(true)}/>,
+										< Icon type="edit" key="edit" onClick={() => {
 											window.location.href = '/authoring/' + book.id
 										}}/>,
 										<Icon type="read" key="read" onClick={() => {
@@ -54,6 +59,16 @@ export default function BookDisplay() {
 								>
 									<Meta title={book.title}
 									      description={authorList}/>
+
+									<BookSetting
+										visible={editingVisible}
+										onCancel={() => setEditingVisible(false)}
+										loading={editingLoading}
+										setVisible={setEditingVisible}
+										setLoading={setEditingLoading}
+										book={book}
+									/>
+
 								</Card>
 							</div>
 						</Tooltip>
@@ -70,11 +85,11 @@ export default function BookDisplay() {
 			/>
 
 			<AddBook
-			         visible={visible}
-			         onCancel={() => setVisible(false)}
-			         loading={loading}
-			         setVisible = {setVisible}
-			         setLoading = {setLoading}
+				visible={visible}
+				onCancel={() => setVisible(false)}
+				loading={loading}
+				setVisible={setVisible}
+				setLoading={setLoading}
 			/>
 		</React.Fragment>
 	)
