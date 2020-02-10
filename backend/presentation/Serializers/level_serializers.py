@@ -14,7 +14,10 @@ class LevelSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 	def create(self,validated_data):
-		level_parent = validated_data.pop('parent')
+		try:
+			level_parent = validated_data.pop('parent')
+		except:
+			return Level.objects.create(**validated_data)
 
 		newLevel = Level.objects.create(parent=level_parent,**validated_data)
 
