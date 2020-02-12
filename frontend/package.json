@@ -17,6 +17,7 @@
     "html-react-parser": "^0.9.1",
     "jquery": "^3.4.1",
     "load-script": "^1.0.0",
+    "moment": "^2.24.0",
     "popper.js": "^1.15.0",
     "query-string": "^6.8.1",
     "react": "^16.8.6",

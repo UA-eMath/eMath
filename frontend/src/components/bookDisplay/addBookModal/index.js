@@ -1,13 +1,13 @@
 import {Button, Modal, DatePicker, Form, Input} from "antd";
-
 import React from 'react';
 import postBook from "../../../requests/postBook";
+import moment from "moment";
 
 const AddBook = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
 
 		onCreate = () => {
-			const {form, setLoading, setVisible,fetchRoots} = this.props;
+			const {form, setLoading, setVisible, fetchRoots} = this.props;
 
 			setLoading(true);
 
@@ -29,10 +29,11 @@ const AddBook = Form.create({name: 'form_in_modal'})(
 					if (!data || data.status !== 200) {
 						console.error("Submit failed", data);
 					} else {
-						return data.data.id;
+						console.log(data.data)
 					}
-				}).then(()=>
-					{fetchRoots();}
+				}).then(() => {
+						fetchRoots();
+					}
 				);
 
 				form.resetFields();
@@ -44,23 +45,19 @@ const AddBook = Form.create({name: 'form_in_modal'})(
 
 		render() {
 			const {visible, onCancel, form, loading} = this.props;
-
 			const {getFieldDecorator} = form;
 
-			console.log(this.props);
 			return (
 				<Modal
 					visible={visible}
 					title={"Create a new book"}
-					okText="Create"
-					onCancel={onCancel}
-					onOk={this.onCreate}
+
 					footer={[
 						<Button key="back" onClick={onCancel}>
 							Cancel
 						</Button>,
-						<Button key="submit" type="primary" onClick={this.onCreate} loading={loading}>
-							Submit
+						<Button key="submit" type="primary" onClick={() => this.onCreate()} loading={loading}>
+							Create
 						</Button>,
 					]}
 				>
@@ -72,16 +69,21 @@ const AddBook = Form.create({name: 'form_in_modal'})(
 						</Form.Item>
 
 						<Form.Item label="Table of content Title" extra="Leave it empty if same as title">
-							{getFieldDecorator('tocTitle')(<Input/>)}
+							{getFieldDecorator('tocTitle', {
+								defaultValue: ""
+							})(<Input/>)}
 						</Form.Item>
 
 						<Form.Item label="HTML Title" extra="Leave it empty if same as title">
-							{getFieldDecorator('html_title')(<Input/>)}
+							{getFieldDecorator('html_title', {
+								defaultValue: ""
+							})(<Input/>)}
 						</Form.Item>
 
 						<Form.Item label="Date">
 							{getFieldDecorator('date', {
 								rules: [{type: 'object'}],
+								initialValue: moment()
 							})(<DatePicker/>)}
 						</Form.Item>
 

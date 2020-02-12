@@ -3,12 +3,42 @@ import {Button, Modal, DatePicker, Form, Input, message} from "antd";
 import React from 'react';
 import updateLevel from "../../../requests/updateLevel";
 import updateBook from "../../../requests/updateBook";
+import removeBook from "../../../requests/removeBook";
+import moment from "moment";
+const {confirm} = Modal;
 
 const BookSetting = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
 
+		onDelete = (bookId) => {
+			const {setLoading, setVisible, fetchRoots} = this.props;
+
+			setLoading(true);
+			confirm({
+				title: 'Are you sure delete this Book?',
+				okText: 'Yes',
+				okType: 'danger',
+				cancelText: 'No',
+				onOk: () => {
+					removeBook(bookId).then(data => {
+						if (data.status !== 204) {
+							console.error("Delete error", data);
+						} else {
+							console.log(data);
+						}
+					}).then(()=>{
+						fetchRoots();
+					});
+				},
+
+			});
+
+			setVisible(false);
+			setLoading(false);
+		};
+
 		onUpdate = (nodeId, bookId) => {
-			const {form, setLoading, setVisible,fetchRoots} = this.props;
+			const {form, setLoading, setVisible, fetchRoots} = this.props;
 
 			setLoading(true);
 
@@ -47,12 +77,11 @@ const BookSetting = Form.create({name: 'form_in_modal'})(
 							console.error("Update error", root_request_body, data);
 						}
 					});
-				}).then(()=>
-					{fetchRoots();}
+				}).then(() => {
+						fetchRoots();
+					}
 				);
-
-
-
+				
 				form.resetFields();
 				setVisible(false);
 				setLoading(false);
@@ -105,9 +134,11 @@ const BookSetting = Form.create({name: 'form_in_modal'})(
 						<Form.Item label="Date">
 							{getFieldDecorator('date', {
 								rules: [{type: 'object'}],
-								// initialValue: moment(book.root.date)
+								initialValue: moment(book.root.date)
 							})(<DatePicker/>)}
 						</Form.Item>
+						<Button type="danger" onClick={() => this.onDelete(book.id, book.root.id)}>Danger</Button>
+						<br/>
 
 						//TODO add contributor
 
