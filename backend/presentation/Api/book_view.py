@@ -7,10 +7,13 @@ from presentation.Serializers.level_serializers import LevelSerializer
 from datetime import date
 
 class RootLevelViewSets(viewsets.ModelViewSet):
-	rootLevel_serializer = RootLevelSerializer
+	serializer_class = RootLevelSerializer
 	level_serializer = LevelSerializer
 
-	#queryset = RootLevel.objects.all()
+	queryset = RootLevel.objects.all()
+
+	def update(self, request, *args, **kwargs):
+		return super().update(request, *args, **kwargs)
 
 	def create(self, request, *args, **kwargs):
 		request_data = request.data.copy()
@@ -25,7 +28,7 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 			request_data["date"] = date.today()
 
 
-		root_level_serializer = self.rootLevel_serializer(data=request_data)
+		root_level_serializer = self.serializer_class(data=request_data)
 		root_level_serializer.is_valid(raise_exception=True)
 
 		root_level = root_level_serializer.save()

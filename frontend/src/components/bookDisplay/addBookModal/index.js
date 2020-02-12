@@ -7,7 +7,7 @@ const AddBook = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
 
 		onCreate = () => {
-			const {form, setLoading, setVisible} = this.props;
+			const {form, setLoading, setVisible,fetchRoots} = this.props;
 
 			setLoading(true);
 
@@ -31,7 +31,9 @@ const AddBook = Form.create({name: 'form_in_modal'})(
 					} else {
 						return data.data.id;
 					}
-				});
+				}).then(()=>
+					{fetchRoots();}
+				);
 
 				form.resetFields();
 				setVisible(false);

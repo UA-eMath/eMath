@@ -7,8 +7,8 @@ import updateBook from "../../../requests/updateBook";
 const BookSetting = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
 
-		onUpdate = (nodeId,bookId) => {
-			const {form, setLoading, setVisible} = this.props;
+		onUpdate = (nodeId, bookId) => {
+			const {form, setLoading, setVisible,fetchRoots} = this.props;
 
 			setLoading(true);
 
@@ -19,16 +19,10 @@ const BookSetting = Form.create({name: 'form_in_modal'})(
 
 				let node_request_body;
 				let root_request_body;
-				//create new book
 
 				node_request_body = JSON.stringify({
 					title: values["title"],
 					tocTitle: values["tocTitle"],
-				});
-
-				root_request_body = JSON.stringify({
-					title: values["html_title"],
-					date: values['date'].format('YYYY-MM-DD'),
 				});
 
 
@@ -39,16 +33,24 @@ const BookSetting = Form.create({name: 'form_in_modal'})(
 						}
 						console.error("Update error", node_request_body, data);
 					}
-				});
+				}).then(res => {
+					root_request_body = JSON.stringify({
+						...values,
+						title: values["html_title"],
+					});
 
-				updateBook(root_request_body, bookId).then(data => {
-					if (!data || data.status !== 200) {
-						if (data.status === 400) {
-							message.error(data.data);
+					updateBook(root_request_body, bookId).then(data => {
+						if (!data || data.status !== 200) {
+							if (data.status === 400) {
+								message.error(data.data);
+							}
+							console.error("Update error", root_request_body, data);
 						}
-						console.error("Update error", root_request_body, data);
-					}
-				});
+					});
+				}).then(()=>
+					{fetchRoots();}
+				);
+
 
 
 				form.resetFields();
@@ -63,19 +65,19 @@ const BookSetting = Form.create({name: 'form_in_modal'})(
 
 			const {getFieldDecorator} = form;
 
-			console.log(this.props);
 			return (
 				<Modal
 					visible={visible}
-					title={"Edit book info"}
+					title={"Edit book info" + book.id}
 					okText="Create"
 					onCancel={onCancel}
-					onOk={()=>this.onUpdate(book.id,book.root.id)}
+					onOk={() => this.onUpdate(book.id, book.root.id)}
 					footer={[
 						<Button key="back" onClick={onCancel}>
 							Cancel
 						</Button>,
-						<Button key="submit" type="primary" onClick={()=>this.onUpdate(book.id,book.root.id)} loading={loading}>
+						<Button key="submit" type="primary" onClick={() => this.onUpdate(book.id, book.root.id)}
+						        loading={loading}>
 							Submit
 						</Button>,
 					]}
@@ -84,19 +86,19 @@ const BookSetting = Form.create({name: 'form_in_modal'})(
 						<Form.Item label="Title">
 							{getFieldDecorator('title', {
 								rules: [{required: true, message: 'Please input the title of collection!'}],
-								initialValue: book.title,
+								initialValue: book.title || "",
 							})(<Input/>)}
 						</Form.Item>
 
 						<Form.Item label="Table of content Title" extra="Leave it empty if same as title">
 							{getFieldDecorator('tocTitle', {
-								initialValue: book.tocTitle,
+								initialValue: book.tocTitle || "",
 							})(<Input/>)}
 						</Form.Item>
 
 						<Form.Item label="HTML Title" extra="Leave it empty if same as title">
 							{getFieldDecorator('html_title', {
-								initialValue: book.root.html_title,
+								initialValue: book.root.html_title || "",
 							})(<Input/>)}
 						</Form.Item>
 

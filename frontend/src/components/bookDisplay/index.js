@@ -15,21 +15,30 @@ export default function BookDisplay(props) {
 
 	const [editingVisible, setEditingVisible] = useState(false);
 	const [editingLoading, setEditingLoading] = useState(false);
-
+	const [book, setBook] = useState({root: {}});
 	const {Meta} = Card;
 
 	useEffect(() => {
+		fetchRoots()
+	}, []);
+
+	const fetchRoots = () => {
 		GetRoots().then(
 			data => {
 				if (!data || data.status !== 200) {
 					console.error("FETCH_TAGS_FAILED", data);
 				} else {
 					setData(data.data);
+					console.log(data.data)
 				}
 			}
 		)
-	}, []);
+	};
 
+	const openBookSetting = (book) => {
+		setBook(book);
+		setEditingVisible(true);
+	};
 
 	return (
 		<React.Fragment>
@@ -48,7 +57,7 @@ export default function BookDisplay(props) {
 										            window.location.href = '/view/' + book.title + '/' + book.id
 									            }}/>}
 									actions={[
-										<Icon type="setting" key="setting" onClick={()=>setEditingVisible(true)}/>,
+										<Icon type="setting" key="setting" onClick={() => openBookSetting(book)}/>,
 										< Icon type="edit" key="edit" onClick={() => {
 											window.location.href = '/authoring/' + book.id
 										}}/>,
@@ -59,16 +68,6 @@ export default function BookDisplay(props) {
 								>
 									<Meta title={book.title}
 									      description={authorList}/>
-
-									<BookSetting
-										visible={editingVisible}
-										onCancel={() => setEditingVisible(false)}
-										loading={editingLoading}
-										setVisible={setEditingVisible}
-										setLoading={setEditingLoading}
-										book={book}
-									/>
-
 								</Card>
 							</div>
 						</Tooltip>
@@ -76,6 +75,16 @@ export default function BookDisplay(props) {
 				})}
 
 			</CardDeck>
+			<BookSetting
+				visible={editingVisible}
+				onCancel={() => setEditingVisible(false)}
+				loading={editingLoading}
+				setVisible={setEditingVisible}
+				setLoading={setEditingLoading}
+				book={book}
+				fetchRoots={()=>fetchRoots()}
+			/>
+
 			<Button icon={"plus"}
 			        shape="circle"
 			        size={"large"}
@@ -90,6 +99,7 @@ export default function BookDisplay(props) {
 				loading={loading}
 				setVisible={setVisible}
 				setLoading={setLoading}
+				fetchRoots={()=>fetchRoots()}
 			/>
 		</React.Fragment>
 	)
