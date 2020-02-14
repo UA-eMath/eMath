@@ -1,5 +1,6 @@
 import React from 'react'
-import {Form, Button, Modal, Input, Checkbox, Icon} from "antd";
+import {Form, Button, Modal, Input, Checkbox, Icon, message} from "antd";
+import updateBook from "../../../requests/updateBook";
 
 const LevelForm = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
@@ -25,7 +26,41 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 			this.props.onCancel();
 		};
 
+
+		onAdd = () => {
+			const {modifyState, form, parent, onCancel} = this.props;
+
+			form.validateFields((err, values) => {
+				if (err) {
+					return;
+				}
+
+				let request_body;
+
+				request_body = JSON.stringify({
+					add: modifyState,
+					path: values["path"],
+					referredId: parent.id
+
+				});
+
+				updateBook(request_body, parent.id).then(data => {
+					if (!data || data.status !== 200) {
+						if (data.status === 400) {
+							message.error(data.data);
+						}
+						console.error("Update error", request_body, data);
+					}
+				});
+
+				onCancel();
+
+			});
+		};
+
 		render() {
+			console.log(this.props);
+
 			const {visible, onCancel, onCreate, form, parent, modifyState, loading, onDelete} = this.props;
 			const {getFieldDecorator} = form;
 			let title;
@@ -33,7 +68,7 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 				title = "Create a new branch under " + parent.tocTitle
 			} else if (modifyState === "Edit") {
 				title = "Edit " + parent.tocTitle
-			} else {
+			} else if (modifyState === "Remove") {
 				return (
 					<Modal
 						visible={visible}
@@ -69,6 +104,29 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 							</Form.Item>
 						</Form>
 
+					</Modal>
+				)
+			} else {
+				return (
+					<Modal
+						visible={visible}
+						title={"Enter Path of " + modifyState}
+						footer={[
+							<Button key="back" onClick={onCancel}>
+								Cancel
+							</Button>,
+							<Button key="submit" type="primary" onClick={() => this.onAdd()} loading={loading}>
+								Submit
+							</Button>,
+						]}
+					>
+						<Form layout="vertical">
+							<Form.Item>
+								{getFieldDecorator('path', {
+									initialValue: ''
+								})(<Input/>)}
+							</Form.Item>
+						</Form>
 					</Modal>
 				)
 			}

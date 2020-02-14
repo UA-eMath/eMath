@@ -93,11 +93,13 @@ class LevelEditor extends React.Component {
 		const expandedKeys = dataList.filter(item => {
 			return item.tocTitle !== null
 		}).map(item => {
-			if (item.tocTitle.indexOf(value) > -1) {
+			if (item.tocTitle.toLowerCase().indexOf(value.toLowerCase()) > -1) {
 				return getParentKey(item.id, this.state.treeData);
 			}
 			return null;
-		}).filter((item, i, self) => item && self.indexOf(item) === i);
+		}).filter((item, i, self) => item && self.indexOf(item) === i).map(item=>{
+			return item.toString();
+		});
 		this.setState({
 			expandedKeys,
 			searchValue: value,

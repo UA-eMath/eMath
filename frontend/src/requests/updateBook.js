@@ -1,9 +1,16 @@
 import axios from 'axios'
 import url from './Urls'
 
-export default function updateBook(book,id) {
+export default function updateBook(book,id='') {
+	let URL;
+	if(id !== ''){
+		 URL = url.domain + ':' + url.port+ "/book/" + id.toString() + "/";
+	} else {
+		URL =  url.domain + ':' + url.port+ "/book/";
+	}
+
 	return axios
-		.patch(url.domain + ':' + url.port+ "/book/" + id.toString() + "/",
+		.patch(URL,
 			book,
 			{
 				 headers: {

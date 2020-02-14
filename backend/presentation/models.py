@@ -9,6 +9,10 @@ dell1234
 
 
 # Create your models here.
+
+def default_dict():
+	return {"treeData" : []}
+
 class RootLevel(models.Model):
 
 	html_title = models.CharField(max_length=100, null=True, blank=True)
@@ -16,6 +20,11 @@ class RootLevel(models.Model):
 	contributor = models.ForeignKey('Person', related_name="contributors", null=True, blank=True,
 	                                on_delete=models.SET_NULL)
 	date = models.DateField(null=True, blank=True)
+
+	glossary = JSONField(default=default_dict)
+	symbol_index = JSONField(default=default_dict)
+	author_index = JSONField(default=default_dict)
+
 
 class Level(MPTTModel):
 	'''

@@ -19,9 +19,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	fetchPage:(id,title)=>dispatch(fetchPage(id,title)),
+	fetchPage: (id, title) => dispatch(fetchPage(id, title)),
 });
 
+const {SubMenu} = Menu;
 
 class EditingModal extends React.Component {
 
@@ -72,8 +73,7 @@ class EditingModal extends React.Component {
 				postLevel(request_body).then(data => {
 					if (!data || data.status !== 200) {
 						console.error("Submit failed", data);
-					}
-					else {
+					} else {
 						this.props.updateTree();
 					}
 				})
@@ -83,8 +83,7 @@ class EditingModal extends React.Component {
 				updateLevel(request_body, this.props.parent.id).then(data => {
 					if (!data || data.status !== 200) {
 						console.error("Update error", data);
-					}
-					else {
+					} else {
 						this.props.updateTree();
 					}
 				})
@@ -106,8 +105,7 @@ class EditingModal extends React.Component {
 		removeLevel(this.props.parent.id).then(data => {
 			if (data.status !== 204) {
 				console.error("Delete error", data);
-			}
-			else {
+			} else {
 				this.props.updateTree();
 			}
 		});
@@ -129,6 +127,21 @@ class EditingModal extends React.Component {
 				<Menu.Item key="2" onClick={() => {
 					this.showModal('Remove')
 				}}>Remove</Menu.Item>
+				<SubMenu key={"3"} title={"Add to ..."}>
+					<Menu.Item key="3-1" onClick={() => {
+						this.showModal('Glossary')
+					}}>Glossary</Menu.Item>
+
+					<Menu.Item key="3-2" onClick={() => {
+						this.showModal('Symbol Index')
+					}}>Symbol Index</Menu.Item>
+
+					<Menu.Item key="3-3" onClick={() => {
+						this.showModal('Author Index')
+					}}>Author Index</Menu.Item>
+
+				</SubMenu>
+
 			</Menu>
 		) : (
 			<Menu>
@@ -146,15 +159,16 @@ class EditingModal extends React.Component {
 
 		return (
 			<span
-				onDoubleClick={()=>{
-					if(this.props.parent.isPage){
-						this.props.fetchPage(this.props.parent.id,this.props.parent.title);
+				onDoubleClick={() => {
+					if (this.props.parent.isPage) {
+						this.props.fetchPage(this.props.parent.id, this.props.parent.title);
 						this.props.changePaneSize(300);
 					}
-			}}>
+				}}>
 
 				<Dropdown overlay={menu} trigger={['contextMenu']}>
-					<span style={{userSelect: 'none'}}>{this.props.parent.id +this.props.parent.title + this.props.parent.position.toString()}</span>
+					<span
+						style={{userSelect: 'none'}}>{this.props.parent.id + this.props.parent.title + this.props.parent.position.toString()}</span>
 				</Dropdown>
 				<LevelForm
 					wrappedComponentRef={this.saveFormRef}
@@ -173,4 +187,4 @@ class EditingModal extends React.Component {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(EditingModal)
+export default connect(mapStateToProps, mapDispatchToProps)(EditingModal)
