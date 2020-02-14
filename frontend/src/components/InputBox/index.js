@@ -80,25 +80,27 @@ class InputBox extends React.Component {
 	}
 
 	insertAtCursor = (event, tag, length) => {
-		event.preventDefault();
-		this.textArea.focus();
-		let focusedTextarea = this.textArea;
-		let value = decodeURI(this.props.boxValue);
-		let selectionStart = focusedTextarea.selectionStart;
-		let selectionEnd = focusedTextarea.selectionEnd;
+		if(typeof event != "undefined") {
+			event.preventDefault();
+			this.textArea.focus();
+			let focusedTextarea = this.textArea;
+			let value = decodeURI(this.props.boxValue);
+			let selectionStart = focusedTextarea.selectionStart;
+			let selectionEnd = focusedTextarea.selectionEnd;
 
-		if (focusedTextarea.value !== undefined) {
-			let prefix = value.substring(0, selectionStart);
-			let suffix = value.substring(selectionEnd);
+			if (focusedTextarea.value !== undefined) {
+				let prefix = value.substring(0, selectionStart);
+				let suffix = value.substring(selectionEnd);
 
-			value = prefix + tag + suffix;
+				value = prefix + tag + suffix;
 
-			this.props.paraOnChange(value, this.props.id);
+				this.props.paraOnChange(value, this.props.id);
 
-			this.setState({}, () => {
-				this.textArea.selectionStart =
-					this.textArea.selectionEnd = selectionStart + length;
-			});
+				this.setState({}, () => {
+					this.textArea.selectionStart =
+						this.textArea.selectionEnd = selectionStart + length;
+				});
+			}
 		}
 	};
 
@@ -136,7 +138,7 @@ class InputBox extends React.Component {
 					containerStyle={{
 						top: 0,
 						width: "100%",
-						height: "200px",
+						//height: "200px",
 					}}
 					minChar={0}
 					trigger={dataSource}

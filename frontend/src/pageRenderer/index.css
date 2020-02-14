@@ -38,11 +38,11 @@ ul > ul {
 }
 
 ul.a {
-  list-style-type: circle;
+	list-style-type: circle;
 }
 
 ul.b {
-  list-style-type: square;
+	list-style-type: square;
 }
 
 /*
@@ -57,7 +57,7 @@ table, th, td {
 	margin-right: auto;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	width:80%;
+	width: 80%;
 }
 
 th {
@@ -77,13 +77,13 @@ Link CSS
 */
 
 .textLink:hover {
-    background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#e52e71));
-    background: linear-gradient(to right,#ff8a00,#e52e71);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-    text-shadow: none;
+	background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#e52e71));
+	background: linear-gradient(to right, #ff8a00, #e52e71);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+	text-shadow: none;
 }
 
 /*
@@ -94,4 +94,11 @@ Caption CSS
 .caption {
 	font-weight: bold;
 	padding-right: 1.00em;
+}
+
+.image {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 300px;
 }

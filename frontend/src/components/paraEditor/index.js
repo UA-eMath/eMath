@@ -138,7 +138,7 @@ class ParaEditor extends React.Component {
 		return flatState[flatState.findIndex(i => i.id === id)];
 	}
 
-	addPara = () => {
+	addPara = (data="") => {
 		//this.props.id
 		let request_body;
 		let position = null;
@@ -158,13 +158,11 @@ class ParaEditor extends React.Component {
 
 		request_body = JSON.stringify({
 			"content": {
-				"data": ""
+				"data": data
 			},
 			"position": position,
 			"para_parent": parentId
 		});
-
-		console.log(request_body);
 
 		postPara(request_body).then(data => {
 			if (!data || data.status !== 200) {

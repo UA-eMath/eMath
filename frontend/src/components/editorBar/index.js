@@ -10,6 +10,7 @@ import {
 import AddSubLevel from "../paraEditor/addSubLevel";
 import postLevel from "../../requests/postLevel";
 import postPara from "../../requests/postPara";
+import AddImage from "./addImage";
 
 const mapStateToProps = state => {
 	return {
@@ -31,13 +32,14 @@ class EditorToolBar extends React.Component {
 		super(props);
 		this.state = {
 			visible: false,
+			imageVisible: false
 		}
 	}
 
 	showModal = () => {
 		this.setState({
 			visible: true,
-			loading: false
+			loading: false,
 		});
 	};
 
@@ -122,6 +124,17 @@ class EditorToolBar extends React.Component {
 		this.formRef = formRef;
 	};
 
+	addImage = () => {
+		this.setState({
+			imageVisible: true,
+		})
+	};
+
+	hideImageModel = () =>{
+		this.setState({
+			imageVisible: false,
+		})
+	};
 
 	render() {
 		return (
@@ -133,7 +146,7 @@ class EditorToolBar extends React.Component {
 
 					<Tooltip placement="bottom" title={"Image"}>
 						<Button>
-							<Icon type="file-image"/>
+							<Icon type="file-image" onClick={this.addImage}/>
 						</Button>
 					</Tooltip>
 
@@ -166,6 +179,18 @@ class EditorToolBar extends React.Component {
 							loading={this.state.loading}
 						/>
 					</Tooltip>
+
+					<Tooltip placement="top" title={"Image"}>
+						<Button onClick={() => this.addImage()}>
+							<Icon type="file-image"/>
+						</Button>
+					</Tooltip>
+
+					<AddImage
+						visible={this.state.imageVisible}
+						hideImageModel={this.hideImageModel}
+						addPara={this.props.addPara}
+					/>
 
 					<Switch
 						checkedChildren="LR"

@@ -81,7 +81,7 @@ const BookSetting = Form.create({name: 'form_in_modal'})(
 						fetchRoots();
 					}
 				);
-				
+
 				form.resetFields();
 				setVisible(false);
 				setLoading(false);

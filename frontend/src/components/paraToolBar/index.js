@@ -3,8 +3,6 @@ import {Button, Icon, Tooltip} from 'antd';
 
 const ButtonGroup = Button.Group;
 
-
-
 function ParaToolBar(props) {
 
 	return (
@@ -66,6 +64,13 @@ function ParaToolBar(props) {
 					<Icon type="table"/>
 				</Button>
 			</Tooltip>
+
+			<Tooltip placement="top" title={"Image"}>
+				<Button onMouseDown={(e) =>props.tagInsertion(e,'<img src=""/> \n', 10)}>
+					<Icon type="file-image"/>
+				</Button>
+			</Tooltip>
+
 		</ButtonGroup>
 
 	);
