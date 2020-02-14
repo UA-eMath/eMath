@@ -36,7 +36,7 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 
 			getattr(root_level,col_to_append)["treeData"].append({
 				"title" : request_data.get("path"),
-				"tovTitle":request_data.get("path"),
+				"tocTitle":request_data.get("path"),
 				"id":referred_id,
 				"children":[]
 			})
