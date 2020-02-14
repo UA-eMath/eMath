@@ -1,7 +1,7 @@
 import React from 'react'
-import fetchTocTree from "./treeData";
+import fetchTocTree, {fetchGlossaryTree} from "./treeData";
 import {Tree} from 'antd';
-import {Drawer, Tabs, Icon,Button} from 'antd';
+import {Drawer, Tabs, Icon, Button} from 'antd';
 import 'antd/dist/antd.css';
 import {connect} from "react-redux";
 import {openNewWindow} from "../../../actions";
@@ -34,6 +34,9 @@ class MenuDrawer extends React.Component {
 
 	state = {
 		treeData: [],
+		glossary: [],
+		symbolIndex: [],
+		authorIndex: [],
 		visible: false
 	};
 
@@ -46,6 +49,14 @@ class MenuDrawer extends React.Component {
 				}
 			);
 		});
+
+		fetchGlossaryTree(id, "glossary", (data) => {
+			this.setState(
+				{
+					glossary: data
+				}
+			);
+		})
 	}
 
 	render() {
@@ -63,7 +74,9 @@ class MenuDrawer extends React.Component {
 					style={{fontSize: '25px'}}
 				>
 
-					<Button style={{float:'right'}} type="normal" onClick={()=>{this.onClose()}}>
+					<Button style={{float: 'right'}} type="normal" onClick={() => {
+						this.onClose()
+					}}>
 						<Icon type="right"/>
 					</Button>
 
@@ -84,13 +97,19 @@ class MenuDrawer extends React.Component {
 								style={styles.Tree}
 								defaultExpandAll={true}
 							>
-								{this.renderTreeNodes(this.state.treeData.slice(0,1))}
+								{this.renderTreeNodes(this.state.treeData.slice(0, 1))}
 							</Tree>
 
 						</TabPane>
 
 						<TabPane tab="Glossary" key="3">
-							Content of Tab Pane 2
+							<Tree
+								switcherIcon={<Icon type="down"/>}
+								style={styles.Tree}
+								defaultExpandAll={true}
+							>
+								{this.renderIndexNodes(this.state.glossary)}
+							</Tree>
 						</TabPane>
 						<TabPane tab="Symbol Index" key="4">
 							Content of Tab Pane 3
@@ -120,6 +139,33 @@ class MenuDrawer extends React.Component {
 		this.setState({
 			visible: false,
 		});
+	};
+
+	renderIndexNodes = (data) => {
+		return data.map(item => {
+
+				if (item.children) {
+					return (
+						<TreeNode
+							title={
+								<a onClick={() => {
+									this.props.onWindowOpen(item.id);
+									this.onClose()
+								}}>
+									{item.tocTitle}
+
+								</a>
+							}
+							key={item.id}
+							dataRef={item}
+							selectable={false}>
+							{this.renderIndexNodes(item.children)}
+						</TreeNode>
+					)
+				} else
+					return <TreeNode key={item.key} {...item} selectable={false}/>;
+			}
+		)
 	};
 
 

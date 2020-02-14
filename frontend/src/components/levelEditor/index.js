@@ -1,7 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import {Tree, Input,Icon,message} from 'antd';
-import getToc from "../../requests/getToc";
+import getToc from "../../requests/getTree";
 import EditingModal from './editingModal';
 import updateLevel from '../../requests/updateLevel';
 

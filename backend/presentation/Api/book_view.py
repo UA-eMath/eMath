@@ -13,6 +13,19 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 
 	queryset = RootLevel.objects.all()
 
+	def retrieve(self, request, *args, **kwargs):
+
+		tree_type = self.request.query_params.get("type")
+
+		if tree_type:
+			root_level = Level.objects.get(pk=kwargs.get("pk")).get_root().root
+			tree = getattr(root_level,tree_type)
+			return Response(data=tree,status=200)
+
+		else:
+			return super().retrieve(request,*args,**kwargs)
+
+
 	def update(self, request, *args, **kwargs):
 		request_data = request.data.copy()
 		index_to_col = {"Glossary": "glossary", "Symbol Index": "symbol_index", "Author Index": "author_index"}
@@ -22,8 +35,9 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 			root_level = Level.objects.get(pk=referred_id).get_root().root
 
 			getattr(root_level,col_to_append)["treeData"].append({
-				"title":request_data.get("path"),
-				"key":referred_id,
+				"title" : request_data.get("path"),
+				"tovTitle":request_data.get("path"),
+				"id":referred_id,
 				"children":[]
 			})
 
