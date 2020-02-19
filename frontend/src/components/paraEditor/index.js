@@ -20,7 +20,6 @@ import InputBox from "../InputBox";
 import DisplayArea from "../displayArea";
 import ParaControl from "../paraControl";
 import SubLevel from "./subLevel";
-import ModalService from "../modalService";
 
 const mapStateToProps = state => {
 	return {
@@ -36,8 +35,8 @@ const mapDispatchToProps = dispatch => ({
 	fetchPage: (id, title) => dispatch(fetchPage(id, title)),
 	loadPage: (id) => dispatch(loadPage(id)),
 	loadPageError: (error) => dispatch(loadPageError(error)),
-	onWindowOpen: (pageId) =>
-		dispatch(openNewWindow(pageId)),
+	onWindowOpen: (pageId,isPage) =>
+		dispatch(openNewWindow(pageId,isPage)),
 	paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
 	popQueue: (id) => dispatch(popQueue(id)),
 });

@@ -38,10 +38,9 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 				"title" : request_data.get("path"),
 				"tocTitle":request_data.get("path"),
 				"id":referred_id,
-				"levelParent":Para.objects.get(pk=referred_id).para_parent,
+				"levelParent":Para.objects.get(pk=referred_id).para_parent.pk,
 				"children":[]
 			})
-
 			root_level.save()
 			return Response(data=getattr(root_level,col_to_append)["treeData"],status=200)
 		else:

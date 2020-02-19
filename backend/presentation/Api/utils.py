@@ -53,7 +53,6 @@ def updatePosition(child, target, position):
 		elif position == 1:
 			cached_list.insert(cached_list.index(target) + 1, child)
 
-	print(cached_list)
 	index = 0
 	for i in cached_list:
 		if i.position != index:
@@ -67,3 +66,43 @@ def updatePosition(child, target, position):
 
 	Level.objects.rebuild()
 	return
+
+
+def getParas(root):
+	paras = []
+
+	while root.get_children() or root.para_set.all():
+		# insert Level object inside para list
+		mergedList = mergeAndSort(root.get_children(), root.para_set.all())
+		# recursive insertion
+		for obj in mergedList:
+			if obj.__class__.__name__ == 'Para':
+				paras.append(obj)
+			else:
+				blockParas = getParas(obj)
+				if blockParas != []:
+					paras.append(blockParas)
+
+		return paras
+
+	return paras
+
+
+def mergeAndSort(block, paras):
+	res = []
+	i = 0
+	j = 0
+	while i < len(block) and j < len(paras):
+		if block[i].position < paras[j].position:
+			res.append(block[i])
+			i += 1
+		else:
+			res.append(paras[j])
+			j += 1
+
+	for item in block[i:]:
+		res.append(item)
+
+	for item in paras[j:]:
+		res.append(item)
+	return res

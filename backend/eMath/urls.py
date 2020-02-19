@@ -27,6 +27,7 @@ router.register(r'content',getPageViewSet,'Content')
 router.register(r'para',ParaViewSet,'Para')
 router.register(r'Level',LevelViewset,'Level')
 router.register(r'book',RootLevelViewSets,'RootLevels')
+router.register(r'nextLevel',getNextLevelViewSet,'NextLevel')
 
 urlpatterns = [
 	url('', include(router.urls)),

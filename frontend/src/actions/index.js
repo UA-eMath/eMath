@@ -1,9 +1,10 @@
 import * as types from '../constants/ActionTypes'
 import getPage from "../requests/getPage";
 
-export const openNewWindow = (pageId) => ({
+export const openNewWindow = (pageId,isPage) => ({
 	type: types.OPEN_NEW_WINDOW,
-	pageId
+	pageId,
+	isPage,
 });
 
 

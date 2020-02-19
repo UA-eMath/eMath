@@ -25,8 +25,8 @@ const styles = {
 };
 
 const mapDispatchToProps = dispatch => ({
-	onWindowOpen: (pageId) =>
-		dispatch(openNewWindow(pageId)),
+	onWindowOpen: (pageId,isPage) =>
+		dispatch(openNewWindow(pageId,isPage)),
 });
 
 
@@ -149,7 +149,7 @@ class MenuDrawer extends React.Component {
 						<TreeNode
 							title={
 								<a onClick={() => {
-									this.props.onWindowOpen(item.id);
+									this.props.onWindowOpen(item.id,false);
 									this.onClose()
 								}}>
 									{item.tocTitle}
@@ -179,7 +179,7 @@ class MenuDrawer extends React.Component {
 						<TreeNode
 							title={
 								<a onClick={() => {
-									this.props.onWindowOpen(item.id);
+									this.props.onWindowOpen(item.id,true);
 									this.onClose()
 								}}>
 									{item.tocTitle}

@@ -25,8 +25,8 @@ const mapStateToProps = state => {
 
 
 const mapDispatchToProps = dispatch => ({
-	onWindowOpen: (pageId) =>
-		dispatch(openNewWindow(pageId)),
+	onWindowOpen: (pageId,isPage) =>
+		dispatch(openNewWindow(pageId,isPage)),
 	onCloseWindow: (id) =>
 		dispatch(closeWindow(id)),
 	minimizeWindow: (id) =>

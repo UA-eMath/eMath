@@ -6,16 +6,21 @@ import TitleBar from '../../titleBar';
 import {connect} from "react-redux";
 import {closeWindow, minimizeWindow, onLayoutChange, openNewWindow} from "../../../actions";
 import getPage from "../../../requests/getPage";
+import getPara from "../../../requests/getPara";
 import _ from "lodash";
 import paraRenderer from "../../../pageRenderer";
+import {Tabs} from 'antd';
+import getNextLevel from "../../../requests/getNextLevel";
+
+const {TabPane} = Tabs;
 
 const mapStateToProps = state => {
 	return {items: state.windows.items}
 };
 
 const mapDispatchToProps = dispatch => ({
-	onWindowOpen: (pageId) =>
-		dispatch(openNewWindow(pageId)),
+	onWindowOpen: (pageId,isPage) =>
+		dispatch(openNewWindow(pageId,isPage)),
 	onCloseWindow: (id) =>
 		dispatch(closeWindow(id)),
 	minimizeWindow: (id, title, pageId) =>
@@ -31,15 +36,32 @@ class CreateElement extends React.Component {
 		this.state = {
 			paraText: [],
 			pageTitle: null,
+			context: null
 		};
 	}
 
 	async componentDidMount() {
 		//this.props['data-grid'] stores this window's information
-		let pageId = this.props['data-grid'].pageId;
-		const pageContent = await getPage({id: pageId, page: null});
+		let pageContent;
+		let context;
 
-		console.log(pageContent);
+		let id = this.props['data-grid'].pageId;
+		if (this.props['data-grid'].isPage) {
+			pageContent = await getPage({id: id, page: null});
+		} else {
+			pageContent = await getPara({id: id});
+			pageContent.data = [pageContent.data];
+			context = await getNextLevel({id:id});
+		}
+
+		console.log(pageContent,context);
+
+		if (typeof (context) !== 'undefined' && context.data.context.length !== 0 ) {
+			this.setState({
+				context:context.data.context
+			});
+		}
+
 		if (typeof (pageContent) !== 'undefined' && pageContent.data.length !== 0) {
 			this.setState({
 				pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
@@ -83,11 +105,22 @@ class CreateElement extends React.Component {
 						margin: '1em .9em',
 						padding: '.25em 1.25em .1em'
 					}}>
-						{
-							_.map(this.state.paraText, para => {
-								return paraRenderer(para, this.props)
-							})
-						}
+						<Tabs defaultActiveKey={"1"}>
+							<TabPane tab={"Reference"} key={"1"}>
+								{
+									_.map(this.state.paraText, para => {
+										return paraRenderer(para, this.props)
+									})
+								}
+							</TabPane>
+							<TabPane tab={"Context"} key={"2"}>
+								{
+									_.map(this.state.context, para => {
+										return paraRenderer(para, this.props)
+									})
+								}
+							</TabPane>
+						</Tabs>
 
 					</div>
 
