@@ -20,6 +20,7 @@ import InputBox from "../InputBox";
 import DisplayArea from "../displayArea";
 import ParaControl from "../paraControl";
 import SubLevel from "./subLevel";
+import ModalService from "../modalService";
 
 const mapStateToProps = state => {
 	return {

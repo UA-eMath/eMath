@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
-from presentation.models import Level, RootLevel
+from presentation.models import Level, RootLevel,Para
 from presentation.Serializers.rootLevel_serializer import RootLevelSerializer
 from presentation.Serializers.level_serializers import LevelSerializer
 
@@ -32,12 +32,13 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 		if request_data.get("add"):
 			referred_id = request_data.get("referredId")
 			col_to_append = index_to_col.get(request_data.get("add"))
-			root_level = Level.objects.get(pk=referred_id).get_root().root
+			root_level = Para.objects.get(pk=referred_id).para_parent.get_root().root
 
 			getattr(root_level,col_to_append)["treeData"].append({
 				"title" : request_data.get("path"),
 				"tocTitle":request_data.get("path"),
 				"id":referred_id,
+				"levelParent":Para.objects.get(pk=referred_id).para_parent,
 				"children":[]
 			})
 

@@ -22,8 +22,6 @@ const mapDispatchToProps = dispatch => ({
 	fetchPage: (id, title) => dispatch(fetchPage(id, title)),
 });
 
-const {SubMenu} = Menu;
-
 class EditingModal extends React.Component {
 
 	constructor(props) {
@@ -127,20 +125,6 @@ class EditingModal extends React.Component {
 				<Menu.Item key="2" onClick={() => {
 					this.showModal('Remove')
 				}}>Remove</Menu.Item>
-				<SubMenu key={"3"} title={"Add to ..."}>
-					<Menu.Item key="3-1" onClick={() => {
-						this.showModal('Glossary')
-					}}>Glossary</Menu.Item>
-
-					<Menu.Item key="3-2" onClick={() => {
-						this.showModal('Symbol Index')
-					}}>Symbol Index</Menu.Item>
-
-					<Menu.Item key="3-3" onClick={() => {
-						this.showModal('Author Index')
-					}}>Author Index</Menu.Item>
-
-				</SubMenu>
 
 			</Menu>
 		) : (

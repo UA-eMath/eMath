@@ -128,6 +128,7 @@ class InputBox extends React.Component {
 						padding: 5,
 						position: "absolute",
 						bottom: 0,
+						resize: "none",
 					}}
 					ref={rta => {
 						this.inputEl = rta;
