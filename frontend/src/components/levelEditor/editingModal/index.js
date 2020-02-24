@@ -125,6 +125,9 @@ class EditingModal extends React.Component {
 				<Menu.Item key="2" onClick={() => {
 					this.showModal('Remove')
 				}}>Remove</Menu.Item>
+				<Menu.Item key="3" onClick={() => {
+					console.log("copy linkable tag")
+				}}>Get linkable tag</Menu.Item>
 
 			</Menu>
 		) : (

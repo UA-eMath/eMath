@@ -55,7 +55,7 @@ export default class ParaControl extends React.Component {
 
 				<Dropdown overlay={menu}>
 					<Button>
-						Add to...<Icon type="down"/>
+						<Icon type="link" />
 					</Button>
 				</Dropdown>
 				<AddIndex

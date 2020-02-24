@@ -34,13 +34,19 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 			col_to_append = index_to_col.get(request_data.get("add"))
 			root_level = Para.objects.get(pk=referred_id).para_parent.get_root().root
 
-			getattr(root_level,col_to_append)["treeData"].append({
+			tree_data = getattr(root_level,col_to_append)["treeData"]
+
+			tree_data.append({
 				"title" : request_data.get("path"),
 				"tocTitle":request_data.get("path"),
 				"id":referred_id,
 				"levelParent":Para.objects.get(pk=referred_id).para_parent.pk,
 				"children":[]
 			})
+
+			tree_data = sorted(tree_data, key = lambda i:i["tocTitle"])
+
+			getattr(root_level, col_to_append)["treeData"] = tree_data
 			root_level.save()
 			return Response(data=getattr(root_level,col_to_append)["treeData"],status=200)
 		else:

@@ -17,7 +17,6 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 					add: title,
 					path: values["path"],
 					referredId: id
-
 				});
 
 				updateBook(request_body, id).then(data => {

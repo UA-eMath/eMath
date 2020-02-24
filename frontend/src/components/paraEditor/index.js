@@ -199,8 +199,8 @@ class ParaEditor extends React.Component {
 		return (
 			<div>
 				{(this.props.status === null) ? (
-					<div style={{display: 'flex', justifyContent: 'center', marginTop: '35%', background: '#FFF933'}}>
-						<p style={{fontSize: '25px'}}> Double click a page to edit.</p>
+					<div style={{display: 'flex', justifyContent: 'center'}}>
+						<p style={{fontSize: '25px', lineHeight:'600px'}}> Double click a page to edit.</p>
 					</div>) : (
 
 					<div>
