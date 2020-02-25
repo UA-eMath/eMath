@@ -93,6 +93,14 @@ class LevelViewset(viewsets.ModelViewSet):
 			if target.isPage == True and position == 0:
 				return Response(data='You cannot move a branch under a page.',status=400)
 
+			#cannnot move a sub level inside level editor
+			level = child.parent
+			while not level.is_root_node():
+				if level.isPage:
+					return Response(data='You cannot move a content block at toc tree', status=400)
+				level = level.parent
+			##
+
 			updatePosition(child,target,position)
 
 			response = Response(child.position)

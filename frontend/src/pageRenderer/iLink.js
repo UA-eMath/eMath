@@ -1,9 +1,16 @@
 import React from "react";
 import _ from "lodash";
+import {openNewWindow} from "../actions";
+import {connect} from "react-redux";
 
+const mapDispatchToProps = dispatch => ({
+	onWindowOpen: (pageId,isPage) =>
+		dispatch(openNewWindow(pageId,isPage)),
+});
 
-export default function iLink(props) {
-	console.log(11);
+function iLink(props) {
+	console.log(props);
+
 	return (
 		<a className='textLink'
 		        onClick={() => props.onWindowOpen(props.id,true)}
@@ -14,3 +21,5 @@ export default function iLink(props) {
 	)
 
 }
+
+export default connect(null,mapDispatchToProps)(iLink);

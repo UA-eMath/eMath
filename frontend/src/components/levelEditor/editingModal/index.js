@@ -67,7 +67,7 @@ class EditingModal extends React.Component {
 
 			if (this.state.modifyState === 'New') {
 				//create new level under selected parent level
-				request_body = JSON.stringify({...values, parent: this.props.parent.id});
+				request_body = JSON.stringify({...values, parent: this.props.item.id});
 				postLevel(request_body).then(data => {
 					if (!data || data.status !== 200) {
 						console.error("Submit failed", data);
@@ -100,7 +100,7 @@ class EditingModal extends React.Component {
 		const {form} = this.formRef.props;
 		this.setState({loading: true});
 
-		removeLevel(this.props.parent.id).then(data => {
+		removeLevel(this.props.item.id).then(data => {
 			if (data.status !== 204) {
 				console.error("Delete error", data);
 			} else {
@@ -140,13 +140,11 @@ class EditingModal extends React.Component {
 					this.showModal('Remove')
 				}}>Remove</Menu.Item>
 				<Menu.Item key="3" onClick={() => {
-					console.log("copy linkable tag")
+					//does not support safari browser
+					navigator.clipboard.writeText('<iLink id="' + item.id.toString() + '"></iLink>');
 				}}>Get linkable tag</Menu.Item>
 			</Menu>
 		);
-
-		//let tag = item
-		console.log(this.props.parent);
 
 		return (
 			<span
@@ -162,9 +160,9 @@ class EditingModal extends React.Component {
 						style={{userSelect: 'none'}}>
 						<SubLevelTag title={item.tocTitle}/>
 						{item.id + item.title + item.position.toString()}
-
 					</span>
 				</Dropdown>
+
 				<LevelForm
 					wrappedComponentRef={this.saveFormRef}
 					visible={this.state.visible}

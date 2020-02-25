@@ -19,8 +19,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	onWindowOpen: (pageId,isPage) =>
-		dispatch(openNewWindow(pageId,isPage)),
 	onCloseWindow: (id) =>
 		dispatch(closeWindow(id)),
 	minimizeWindow: (id, title, pageId) =>
@@ -51,14 +49,12 @@ class CreateElement extends React.Component {
 		} else {
 			pageContent = await getPara({id: id});
 			pageContent.data = [pageContent.data];
-			context = await getNextLevel({id:id});
+			context = await getNextLevel({id: id});
 		}
 
-		console.log(pageContent,context);
-
-		if (typeof (context) !== 'undefined' && context.data.context.length !== 0 ) {
+		if (typeof (context) !== 'undefined' && context.data.context.length !== 0) {
 			this.setState({
-				context:context.data.context
+				context: context.data.context
 			});
 		}
 
@@ -78,6 +74,16 @@ class CreateElement extends React.Component {
 	render() {
 		let i = this.props['data-grid'].i;
 		const {minimizeWindow, onWindowOpen, onCloseWindow, onLayoutChange, ...rest} = this.props;
+		const {context, pageTitle, paraText} = this.state;
+
+		let contextPane = context === null ? null : <TabPane tab={"Context"} key={"2"}>
+			{
+				_.map(context, para => {
+					return paraRenderer(para, this.props)
+				})
+			}
+		</TabPane>;
+
 		return (
 			<div {...rest}
 			     className={`wrapper ${this.props.className}`}
@@ -85,19 +91,18 @@ class CreateElement extends React.Component {
 			>
 				<TitleBar
 					className='windowHeader'
-					title={this.state.pageTitle}
+					title={pageTitle}
 					controls
 					background={this.props.color}
 					onCloseClick={() => {
-						this.props.onCloseWindow(i)
+						onCloseWindow(i)
 					}}
 					onMinimizeClick={() => {
-						this.props.minimizeWindow(i, this.state.pageTitle, this.props['data-grid'].pageId)
+						minimizeWindow(i, pageTitle, this.props['data-grid'].pageId)
 					}}
 				/>
 				<Scrollbars>
 					{this.props.children}
-					{/*content will not show if put scrollbars inside a div*/}
 					<div style={{
 						background: '#F7F7EE',
 						borderRadius: '2px',
@@ -108,18 +113,12 @@ class CreateElement extends React.Component {
 						<Tabs defaultActiveKey={"1"}>
 							<TabPane tab={"Reference"} key={"1"}>
 								{
-									_.map(this.state.paraText, para => {
-										return paraRenderer(para, this.props)
+									_.map(paraText, para => {
+										return paraRenderer(para)
 									})
 								}
 							</TabPane>
-							<TabPane tab={"Context"} key={"2"}>
-								{
-									_.map(this.state.context, para => {
-										return paraRenderer(para, this.props)
-									})
-								}
-							</TabPane>
+							{contextPane}
 						</Tabs>
 
 					</div>

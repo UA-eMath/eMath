@@ -1,5 +1,6 @@
 import React from 'react'
 import {Form, Button, Modal, Input} from "antd";
+import CaptionOptions from "./SubLevelCaptionOptions";
 
 const AddSubLevel = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
@@ -12,7 +13,6 @@ const AddSubLevel = Form.create({name: 'form_in_modal'})(
 				<Modal
 					visible={visible}
 					title={"Add a content block"}
-					okText="Create"
 					onCancel={onCancel}
 					onOk={onCreate}
 					footer={[
@@ -26,9 +26,7 @@ const AddSubLevel = Form.create({name: 'form_in_modal'})(
 				>
 					<Form layout="vertical">
 						<Form.Item label="Caption">
-							{getFieldDecorator('tocTitle', {
-								initialValue: '',
-							})(<Input/>)}
+							<CaptionOptions form={form}/>
 						</Form.Item>
 
 						<Form.Item label="Title" extra="You could put Latex code here.">

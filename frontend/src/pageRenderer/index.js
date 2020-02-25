@@ -7,7 +7,7 @@ import math from "./math";
 import {blockOfPara} from "./paraBlock";
 import "./index.css";
 
-export default function paraRenderer(para, props) {
+export default function paraRenderer(para) {
 
 	/*
 	"content":{"data":""}
@@ -17,7 +17,7 @@ export default function paraRenderer(para, props) {
 
 		//Custom tag
 		caption: (attrs) => ({type: caption, props: attrs}),
-		iLink: (attrs) => ({type: iLink, props: {...attrs, ...props}}),
+		iLink: (attrs) => ({type: iLink, props: {...attrs}}),
 		Math: (attrs) => ({type: math, props: attrs}),
 		ParaWrap: (attrs) => ({type: React.Fragment, props: attrs}),
 
@@ -41,7 +41,7 @@ export default function paraRenderer(para, props) {
 		let left_title = para[0].para_parent.tocTitle;
 		let right_title = xmlToReact.convert(`<span>${para[0].para_parent.title}</span>>`);
 
-		return blockOfPara(para, left_title, right_title, props);
+		return blockOfPara(para, left_title, right_title);
 	}
 
 	let decodedData = decodeURI(para.content.data);

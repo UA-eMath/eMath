@@ -164,7 +164,6 @@ class MenuDrawer extends React.Component {
 									this.onClose()
 								}}>
 									{item.tocTitle}
-
 								</a>
 							}
 							key={item.id}

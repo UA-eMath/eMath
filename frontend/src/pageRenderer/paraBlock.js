@@ -5,7 +5,7 @@ import paraRenderer from "./index";
 //  A block of paras which are inside of a sub-level will be represented as an inner array.
 // For a para array, inner para will be like: [xxx,[xxx,xxx],xxx]
 
-export function blockOfPara(dataArray, left_title, right_title, props) {
+export function blockOfPara(dataArray, left_title, right_title) {
 	let boxHeader;
 
 	if (left_title || right_title) {
@@ -46,7 +46,7 @@ export function blockOfPara(dataArray, left_title, right_title, props) {
 				}}>
 				{
 					_.map(dataArray, para => {
-						return paraRenderer(para, props)
+						return paraRenderer(para)
 					})
 				}
 			</div>

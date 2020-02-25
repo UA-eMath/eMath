@@ -70,7 +70,7 @@ export default function initElement(el) {
 
 					{
 						_.map(this.state.paraText, para => {
-							return paraRenderer(para, this.props)
+							return paraRenderer(para)
 						})
 					}
 

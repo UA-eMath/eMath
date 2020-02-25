@@ -35,8 +35,6 @@ const mapDispatchToProps = dispatch => ({
 	fetchPage: (id, title) => dispatch(fetchPage(id, title)),
 	loadPage: (id) => dispatch(loadPage(id)),
 	loadPageError: (error) => dispatch(loadPageError(error)),
-	onWindowOpen: (pageId,isPage) =>
-		dispatch(openNewWindow(pageId,isPage)),
 	paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
 	popQueue: (id) => dispatch(popQueue(id)),
 });
@@ -257,8 +255,7 @@ class ParaEditor extends React.Component {
 													          setFocusArea={this.setFocusArea.bind(this)}
 													          boxValue={item.content.data}/>
 												</div>
-												<div className="displayDiv"
-												>
+												<div className="displayDiv">
 													<DisplayArea id={item.id}/>
 												</div>
 												<div className="controlDiv">

@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Icon, Dropdown, Menu, } from "antd";
-import AddIndex from "../paraEditor/addIndex";
+import AddIndex from "./addIndex";
 
 export default class ParaControl extends React.Component {
 	state = {

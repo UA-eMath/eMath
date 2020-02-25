@@ -30,9 +30,9 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 			const {getFieldDecorator} = form;
 			let title;
 			if (modifyState === "New") {
-				title = "Create a new branch under " + parent.tocTitle
+				title = "Creating new table of content item under: " + parent.tocTitle
 			} else if (modifyState === "Edit") {
-				title = "Edit " + parent.tocTitle
+				title = "Editing table of content item " + parent.tocTitle
 			} else if (modifyState === "Remove") {
 				return (
 					<Modal
@@ -45,7 +45,7 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 							<Button key="delete" type={"danger"} disabled={this.state.deleteButton} onClick={onDelete}
 							        block={true}>
 
-								I understand the consequences, delete this branch
+								I understand the consequences, delete this entry
 							</Button>
 						]}
 					>
@@ -53,11 +53,11 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 							<Icon type="warning" theme="filled"/>
 							{"  This action cannot be undone. This will permanently delete the "}
 							<b> {parent.tocTitle} </b>
-							{" branch and all the content belongs to it."}
+							{" entry and all the content belongs to it."}
 						</p>
 
 						<p>
-							Please type in the name of the branch to confirm.
+							Please type in the name of the entry to confirm.
 						</p>
 
 
@@ -77,6 +77,7 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 				<Modal
 					visible={visible}
 					title={title}
+					onCancel={this.cancelInput}
 					footer={[
 						<Button key="back" onClick={onCancel}>
 							Cancel
@@ -87,20 +88,20 @@ const LevelForm = Form.create({name: 'form_in_modal'})(
 					]}
 				>
 					<Form layout="vertical">
-						<Form.Item label="Title">
+						<Form.Item label="Header" extra="Headers for part, chapter, section, or subsection">
 							{getFieldDecorator('title', {
-								rules: [{required: true, message: 'Please input the title of collection!'}],
+								rules: [{required: true, message: 'Please input the Header of collection!'}],
 								initialValue: modifyState === "New" ? '' : parent.title,
 							})(<Input/>)}
 						</Form.Item>
 
-						<Form.Item label="Table of content Title" extra="Leave it empty if same as title">
+						<Form.Item label="Table of content Title" extra="Header/title as it should appear in the table of contents or the topic tree. Leave it empty if same as title">
 							{getFieldDecorator('tocTitle', {
 								initialValue: modifyState === "New" ? '' : parent.tocTitle,
 							})(<Input/>)}
 						</Form.Item>
 
-						<Form.Item extra={"You will not be able to create a new branch under a page."}>
+						<Form.Item extra={"You will not be able to create a new entry under a page."}>
 							{getFieldDecorator('isPage', {
 								valuePropName: 'checked',
 								initialValue: modifyState === "New" ? false : parent.isPage,

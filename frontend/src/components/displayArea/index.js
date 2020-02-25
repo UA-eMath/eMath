@@ -1,12 +1,6 @@
 import React from "react";
 import paraRenderer from "../../pageRenderer";
 import {connect} from "react-redux";
-import {openNewWindow} from "../../actions";
-
-const mapDispatchToProps = dispatch => ({
-	onWindowOpen: (pageId) =>
-		dispatch(openNewWindow(pageId)),
-});
 
 const mapStateToProps = state => {
 	return {
@@ -31,11 +25,10 @@ class DisplayArea extends React.Component {
 					padding: "10px",
 				}}>
 				{/*TODO: need to handle open window activity*/}
-				{paraRenderer(target_para, this.props.onWindowOpen)}
+				{paraRenderer(target_para)}
 			</div>
 		)
 	}
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(DisplayArea);
+export default connect(mapStateToProps)(DisplayArea);
