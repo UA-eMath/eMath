@@ -1,6 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import {Tree, Input,Icon,message} from 'antd';
+import {Tree, Input, Icon, message, Tag} from 'antd';
 import getToc from "../../requests/getTree";
 import EditingModal from './editingModal';
 import updateLevel from '../../requests/updateLevel';
@@ -97,7 +97,7 @@ class LevelEditor extends React.Component {
 				return getParentKey(item.id, this.state.treeData);
 			}
 			return null;
-		}).filter((item, i, self) => item && self.indexOf(item) === i).map(item=>{
+		}).filter((item, i, self) => item && self.indexOf(item) === i).map(item => {
 			return item.toString();
 		});
 		this.setState({
@@ -107,7 +107,7 @@ class LevelEditor extends React.Component {
 		});
 	};
 
-	renderTreeNodes = data =>
+	renderTreeNodes = (data,isSub = false) =>
 		data.filter(item => {
 			return item.tocTitle !== null
 		}).sort(function (a, b) {
@@ -128,25 +128,47 @@ class LevelEditor extends React.Component {
 				);
 
 			if (item.children) {
+				//page
 				if (item.isPage === true) {
 					return (
-						<TreeNode icon = { <Icon type="file" /> }
+						<TreeNode icon={<Icon type="file"/>}
 						          key={item.id}
 						          title={<EditingModal
-							          parent={item}
+							          item={item}
 							          title={title}
+							          insertable = {false}
+							          updateTree={this.updateLevelTree}
+							          changePaneSize={this.props.changePaneSize}
+						          />}
+						>
+							{this.renderTreeNodes(item.children,true)}
+						</TreeNode>
+					)
+				}
+				//sub Levels
+				else if(isSub){
+					return (
+						<TreeNode key={item.id}
+						          title={<EditingModal
+							          item={item}
+							          title={title}
+							          insertable = {false}
 							          updateTree={this.updateLevelTree}
 							          changePaneSize = {this.props.changePaneSize}
 						          />}
-						/>
+						>
+							{this.renderTreeNodes(item.children,true)}
+						</TreeNode>
 					)
 				}
+				//branch/root
 				return (
-					<TreeNode icon = {item.parent === null ? <Icon type="book" /> : <Icon type="branches" />}
+					<TreeNode icon={item.parent === null ? <Icon type="book"/> : <Icon type="branches"/>}
 					          key={item.id}
 					          title={<EditingModal
-						          parent={item}
+						          item={item}
 						          title={title}
+						          insertable = {true}
 						          updateTree={this.updateLevelTree}/>
 					          }>
 						{this.renderTreeNodes(item.children)}
@@ -189,7 +211,7 @@ class LevelEditor extends React.Component {
 
 		updateLevel(request_body, node_been_dragged_key).then(data => {
 			if (!data || data.status !== 200) {
-				if (data.status === 400){
+				if (data.status === 400) {
 					message.error(data.data);
 				}
 				console.error("Update error", request_body, data);

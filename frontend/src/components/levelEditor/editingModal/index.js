@@ -1,10 +1,10 @@
 import React from 'react'
-import {Menu, Dropdown} from 'antd';
+import {Menu, Dropdown, Tag} from 'antd';
 import postLevel from '../../../requests/postLevel';
 import updateLevel from '../../../requests/updateLevel';
 import removeLevel from '../../../requests/removeLevel';
 import LevelForm from './levelForm';
-
+import SubLevelTag from "./subLevelTag";
 import {connect} from "react-redux";
 import {
 	fetchPage,
@@ -117,20 +117,9 @@ class EditingModal extends React.Component {
 	};
 
 	render() {
-		const menu = this.props.parent.isPage ? (
-			<Menu>
-				<Menu.Item key="1" onClick={() => {
-					this.showModal('Edit')
-				}}>Edit</Menu.Item>
-				<Menu.Item key="2" onClick={() => {
-					this.showModal('Remove')
-				}}>Remove</Menu.Item>
-				<Menu.Item key="3" onClick={() => {
-					console.log("copy linkable tag")
-				}}>Get linkable tag</Menu.Item>
+		const {item, fetchPage, changePaneSize, insertable} = this.props;
 
-			</Menu>
-		) : (
+		const menu = insertable ? (
 			<Menu>
 				<Menu.Item key="1" onClick={() => {
 					this.showModal('New')
@@ -142,20 +131,39 @@ class EditingModal extends React.Component {
 					this.showModal('Remove')
 				}}>Remove</Menu.Item>
 			</Menu>
+		) : (
+			<Menu>
+				<Menu.Item key="1" onClick={() => {
+					this.showModal('Edit')
+				}}>Edit</Menu.Item>
+				<Menu.Item key="2" onClick={() => {
+					this.showModal('Remove')
+				}}>Remove</Menu.Item>
+				<Menu.Item key="3" onClick={() => {
+					console.log("copy linkable tag")
+				}}>Get linkable tag</Menu.Item>
+			</Menu>
 		);
+
+		//let tag = item
+		console.log(this.props.parent);
 
 		return (
 			<span
 				onDoubleClick={() => {
-					if (this.props.parent.isPage) {
-						this.props.fetchPage(this.props.parent.id, this.props.parent.title);
-						this.props.changePaneSize(300);
+					if (item.isPage) {
+						fetchPage(item.id, item.title);
+						changePaneSize(300);
 					}
 				}}>
 
 				<Dropdown overlay={menu} trigger={['contextMenu']}>
 					<span
-						style={{userSelect: 'none'}}>{this.props.parent.id + this.props.parent.title + this.props.parent.position.toString()}</span>
+						style={{userSelect: 'none'}}>
+						<SubLevelTag title={item.tocTitle}/>
+						{item.id + item.title + item.position.toString()}
+
+					</span>
 				</Dropdown>
 				<LevelForm
 					wrappedComponentRef={this.saveFormRef}
@@ -164,7 +172,7 @@ class EditingModal extends React.Component {
 					onCreate={this.handleCreate}
 					onDelete={this.handleDelete}
 					modifyState={this.state.modifyState}
-					parent={this.props.parent}
+					parent={item}
 					loading={this.state.loading}
 				/>
 

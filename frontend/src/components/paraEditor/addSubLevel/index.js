@@ -11,7 +11,7 @@ const AddSubLevel = Form.create({name: 'form_in_modal'})(
 			return (
 				<Modal
 					visible={visible}
-					title={"Add sub-level"}
+					title={"Add a content block"}
 					okText="Create"
 					onCancel={onCancel}
 					onOk={onCreate}
@@ -25,13 +25,13 @@ const AddSubLevel = Form.create({name: 'form_in_modal'})(
 					]}
 				>
 					<Form layout="vertical">
-						<Form.Item label="Left title">
+						<Form.Item label="Caption">
 							{getFieldDecorator('tocTitle', {
 								initialValue: '',
 							})(<Input/>)}
 						</Form.Item>
 
-						<Form.Item label="Right" extra="You could put Latex code here.">
+						<Form.Item label="Title" extra="You could put Latex code here.">
 							{getFieldDecorator('title', {
 								initialValue: '<Math inline="true"></Math>',
 							})(<Input/>)}
