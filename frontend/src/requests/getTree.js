@@ -17,7 +17,7 @@ export default function GetToc(params = {}) {
 		.catch(error => console.log(error))
 }
 
-export function getGlossary(id, type) {
+export function getIndexTree(id, type) {
 	return axios
 		.get(url.domain + ':' + url.port + "/book/" + id + "?type=" + type,
 			{

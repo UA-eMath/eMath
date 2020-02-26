@@ -19,8 +19,7 @@ const initState_windows = {
 const windows = (state = initState_windows, action) => {
 	switch (action.type) {
 		case 'OPEN_NEW_WINDOW':
-			if (typeof action.pageId !== "undefined") {
-				console.log(action);
+			if (typeof action.pageId !== "undefined" && action.pageId !== null) {
 				return Object.assign({}, state, {
 					items: state.items.concat({
 						i: "n" + state.newCounter,

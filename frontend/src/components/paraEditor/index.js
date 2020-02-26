@@ -260,7 +260,9 @@ class ParaEditor extends React.Component {
 												</div>
 												<div className="controlDiv">
 													<ParaControl id={item.id}
-													             delete={this.deletePara}/>
+													             delete={this.deletePara}
+													             parentId = {this.props.id}
+													/>
 												</div>
 
 											</div>
@@ -290,7 +292,9 @@ class ParaEditor extends React.Component {
 												     }}
 												>
 													<ParaControl id={item.id}
-													             delete={this.deletePara}/>
+													             delete={this.deletePara}
+													             parentId = {this.props.id}
+													/>
 												</Col>
 
 											</Row>

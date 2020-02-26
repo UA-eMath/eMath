@@ -65,6 +65,7 @@ class ParaViewSet(viewsets.ModelViewSet):
 
 	# DELETE http://localhost:8000/para/**/
 	def destroy(self, request,*args, **kwargs):
+		#delete glossary entry as well
 		try:
 			para = Para.objects.get(pk=self.kwargs["pk"])
 

@@ -96,7 +96,9 @@ class SubLevel extends React.Component {
 						</div>
 						<div className="controlDiv">
 							<ParaControl id={item.id}
-							             delete={deletePara}/>
+							             delete={deletePara}
+							             parentId={item.para_parent.id}
+							/>
 						</div>
 
 					</div>
@@ -126,7 +128,9 @@ class SubLevel extends React.Component {
 						     }}
 						>
 							<ParaControl id={item.id}
-							             delete={this.deletePara}/>
+							             delete={this.deletePara}
+							             parentId={item.para_parent.id}
+							/>
 						</Col>
 
 					</Row>
@@ -136,20 +140,20 @@ class SubLevel extends React.Component {
 		});
 
 		let subLevelControl = <div style={{
-				height: "100%",
-			}}>
-					<Button>
-						<Icon type="up"/>
-					</Button>
+			height: "100%",
+		}}>
+			<Button>
+				<Icon type="up"/>
+			</Button>
 
-					<Button type={"danger"} onClick={() =>this.deleteLevel(children[0].para_parent.id)}>
-						<Icon type="delete"/>
-					</Button>
+			<Button type={"danger"} onClick={() => this.deleteLevel(children[0].para_parent.id)}>
+				<Icon type="delete"/>
+			</Button>
 
-					<Button>
-						<Icon type="down"/>
-					</Button>
-			</div>;
+			<Button>
+				<Icon type="down"/>
+			</Button>
+		</div>;
 
 		return (
 

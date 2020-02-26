@@ -25,9 +25,9 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 		else:
 			return super().retrieve(request,*args,**kwargs)
 
-
 	def update(self, request, *args, **kwargs):
 		request_data = request.data.copy()
+
 		index_to_col = {"Glossary": "glossary", "Symbol Index": "symbol_index", "Author Index": "author_index"}
 		if request_data.get("add"):
 			referred_id = request_data.get("referredId")
@@ -36,15 +36,48 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 
 			tree_data = getattr(root_level,col_to_append)["treeData"]
 
-			tree_data.append({
-				"title" : request_data.get("path"),
-				"tocTitle":request_data.get("path"),
-				"id":referred_id,
-				"levelParent":Para.objects.get(pk=referred_id).para_parent.pk,
-				"children":[]
-			})
+			path = request_data.get("path").split("!")
+
+			def addToTree(node,path):
+				if len(path) == 1:
+					return node.append({
+						"title": path[0],
+						"tocTitle": path[0],
+						"id": referred_id,
+						"value": referred_id,
+						"levelParent": Para.objects.get(pk=referred_id).para_parent.pk,
+						"children": []
+					})
+
+				next_node = next((i for i in node if i['title'] == path[0]),False)
+				#found
+				if next_node:
+					addToTree(next_node["children"],path[1:])
+				else:
+					next_node = {
+						"title": path[0],
+						"tocTitle": path[0],
+						"id": None,
+						"value": path[0],
+						"levelParent": None,
+						"children": []
+					}
+					node.append(next_node)
+					addToTree(next_node["children"], path[1:])
+
+			addToTree(tree_data,path)
+
+			# tree_data.append({
+			# 	"title" : request_data.get("path"),
+			# 	"tocTitle":request_data.get("path"),
+			# 	"id":referred_id,
+			# 	"value":referred_id,
+			# 	"levelParent":Para.objects.get(pk=referred_id).para_parent.pk,
+			# 	"children":[]
+			# })
 
 			tree_data = sorted(tree_data, key = lambda i:i["tocTitle"])
+			print(tree_data)
 
 			getattr(root_level, col_to_append)["treeData"] = tree_data
 			root_level.save()

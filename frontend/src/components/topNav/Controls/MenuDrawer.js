@@ -5,6 +5,7 @@ import {Drawer, Tabs, Icon, Button} from 'antd';
 import 'antd/dist/antd.css';
 import {connect} from "react-redux";
 import {openNewWindow} from "../../../actions";
+import {getIndexTree} from "../../../requests/getTree";
 
 const {TreeNode} = Tree;
 const {TabPane} = Tabs;
@@ -25,8 +26,8 @@ const styles = {
 };
 
 const mapDispatchToProps = dispatch => ({
-	onWindowOpen: (pageId,isPage) =>
-		dispatch(openNewWindow(pageId,isPage)),
+	onWindowOpen: (pageId, isPage) =>
+		dispatch(openNewWindow(pageId, isPage)),
 });
 
 
@@ -51,39 +52,45 @@ class MenuDrawer extends React.Component {
 			);
 		});
 
-		fetchGlossaryTree(id, "glossary", (data) => {
-			this.setState(
-				{
-					glossary: data
+		getIndexTree(id, "glossary").then(
+			data => {
+				if (!data || data.status !== 200) {
+					console.error("FETCH_Glossary_FAILED", data);
+				} else {
+					this.setState(
+						{
+							glossary: data.data.treeData
+						}
+					);
 				}
-			);
-		})
+			}
+		);
 	}
 
 	render() {
-		let {glossary,symbolIndex,authorIndex,bibliography} = this.state;
+		let {glossary, symbolIndex, authorIndex, bibliography} = this.state;
 
 		let glossaryPane = glossary === null ? null : <TabPane tab="Glossary" key="3">
-							<Tree
-								switcherIcon={<Icon type="down"/>}
-								style={styles.Tree}
-								defaultExpandAll={true}
-							>
-								{this.renderIndexNodes(this.state.glossary)}
-							</Tree>
-						</TabPane>;
+			<Tree
+				switcherIcon={<Icon type="down"/>}
+				style={styles.Tree}
+				defaultExpandAll={true}
+			>
+				{this.renderIndexNodes(this.state.glossary)}
+			</Tree>
+		</TabPane>;
 
 		let symbolPane = symbolIndex === null ? null : <TabPane tab="Symbols" key="4">
-							Content of Tab Pane 3
-						</TabPane>;
+			Content of Tab Pane 3
+		</TabPane>;
 
-		let authorIndPane = authorIndex  === null ? null :  <TabPane tab="A-Ind" key="6">
-							Content of Tab Pane 3
-						</TabPane>;
+		let authorIndPane = authorIndex === null ? null : <TabPane tab="A-Ind" key="6">
+			Content of Tab Pane 3
+		</TabPane>;
 
 		let refsPane = bibliography === null ? null : <TabPane tab="Refs" key="5">
-							Content of Tab Pane 3
-						</TabPane>;
+			Content of Tab Pane 3
+		</TabPane>;
 
 		return (
 			<div style={styles.DivPos}>
@@ -160,7 +167,7 @@ class MenuDrawer extends React.Component {
 						<TreeNode
 							title={
 								<a onClick={() => {
-									this.props.onWindowOpen(item.id,false);
+									this.props.onWindowOpen(item.id, false);
 									this.onClose()
 								}}>
 									{item.tocTitle}
@@ -189,7 +196,7 @@ class MenuDrawer extends React.Component {
 						<TreeNode
 							title={
 								<a onClick={() => {
-									this.props.onWindowOpen(item.id,true);
+									this.props.onWindowOpen(item.id, true);
 									this.onClose()
 								}}>
 									{item.tocTitle}
