@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from presentation.models import Para,Level
+from presentation.models import Para
 from presentation.Serializers.level_serializers import LevelReferSerializer
 
 class ParaReadSerializers(serializers.ModelSerializer):

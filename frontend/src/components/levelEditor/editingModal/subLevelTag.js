@@ -9,14 +9,14 @@ function SubLevelTag(props) {
 	switch (title) {
 		//
 		case "Definition":
-			return <Tag color="green">Def.</Tag>;
+			return <Tag color="green">Def</Tag>;
 
 		//
 		case "Theorem":
-			return <Tag color="red">Thm.</Tag>;
+			return <Tag color="red">Thm</Tag>;
 
 		case "Proposition":
-			return <Tag color="volcano">Prop.</Tag>;
+			return <Tag color="volcano">Prop</Tag>;
 
 		case "Corollary":
 			return <Tag color="orange">Corollary</Tag>;
@@ -26,34 +26,31 @@ function SubLevelTag(props) {
 
 		//
 		case "Notation":
-			return <Tag color="blue">Note.</Tag>;
+			return <Tag color="blue">Notation</Tag>;
 
 		case "Terminology":
-			return <Tag color="cyan">Terml.</Tag>;
+			return <Tag color="cyan">Terminology</Tag>;
 
 		//
 		case "Convention":
-			return <Tag color="blue">Convt.</Tag>;
+			return <Tag color="blue">Convention</Tag>;
 
 		case "Comment":
-			return <Tag color="blue">Cmt.</Tag>;
+			return <Tag color="blue">Comment</Tag>;
 
 		case "Remark":
-			return <Tag color="blue">Rmk.</Tag>;
+			return <Tag color="blue">Remark</Tag>;
 
+		//
 		case "Example":
-			return <Tag color="blue">Eg.</Tag>;
+			return <Tag color="blue">Example</Tag>;
+
+		case "Exercise":
+			return <Tag color="blue">Exercise</Tag>;
 
 		default:
 			return null
 	}
-
-
-
-
-	console.log(title);
-
-	return <Tag color="red">red</Tag>
 }
 
 export default SubLevelTag
