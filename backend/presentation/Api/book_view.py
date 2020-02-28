@@ -67,15 +67,6 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 
 			addToTree(tree_data,path)
 
-			# tree_data.append({
-			# 	"title" : request_data.get("path"),
-			# 	"tocTitle":request_data.get("path"),
-			# 	"id":referred_id,
-			# 	"value":referred_id,
-			# 	"levelParent":Para.objects.get(pk=referred_id).para_parent.pk,
-			# 	"children":[]
-			# })
-
 			tree_data = sorted(tree_data, key = lambda i:i["tocTitle"])
 			print(tree_data)
 

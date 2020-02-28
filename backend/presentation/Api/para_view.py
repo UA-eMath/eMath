@@ -65,8 +65,7 @@ class ParaViewSet(viewsets.ModelViewSet):
 
 	# DELETE http://localhost:8000/para/**/
 	def destroy(self, request,*args, **kwargs):
-		#delete glossary entry as well
-		#
+
 		try:
 			para = Para.objects.get(pk=self.kwargs["pk"])
 
@@ -74,11 +73,30 @@ class ParaViewSet(viewsets.ModelViewSet):
 			return Response("Para id(" + self.kwargs["pk"] + ") is not found", 404)
 
 		parent = para.para_parent
+
+		# delete glossary entry as well
+		#1. get root level
+		root_level = parent.get_root().root
+		#2. check Glossary
+		glossary = root_level.glossary.get("treeData")
+
 		para.delete()
 
 		updateParaPosition(parent)
 
 		return Response("Para is successfully deleted.", 204)
+
+	def findAndRemove(self,indexItemArray,key):
+		for i,item in enumerate(indexItemArray):
+			if item.get("id") == key:
+				del indexItemArray[i]
+
+			if item.get["children"]:
+
+
+
+
+
 
 	# PUT http://localhost:8000/para/**/
 	# PATCH http://localhost:8000/para/**/
