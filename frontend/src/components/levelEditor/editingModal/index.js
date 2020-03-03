@@ -101,7 +101,7 @@ class EditingModal extends React.Component {
 		this.setState({loading: true});
 
 		removeLevel(this.props.item.id).then(data => {
-			if (data.status !== 204) {
+			if (data.status !== 200) {
 				console.error("Delete error", data);
 			} else {
 				this.props.updateTree();

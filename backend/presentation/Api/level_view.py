@@ -69,7 +69,7 @@ class LevelViewset(viewsets.ModelViewSet):
 		#updatePosition(parent_level);
 		self._updatePageNumber(root)
 
-		return Response("Level is successfully deleted.", 204)
+		return Response("Level is successfully deleted.", 200)
 
 	#PUT http://localhost:8000/Level/**/
 	#PATCH http://localhost:8000/Level/**/

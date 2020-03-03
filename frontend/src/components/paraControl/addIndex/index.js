@@ -1,13 +1,40 @@
 import {Button, Form, Input, Modal, message, TreeSelect} from "antd";
 import React from 'react';
-import updateBook from "../../../requests/updateBook";
+import updateIndexTree from "../../../requests/updateIndexTree";
+import {getIndexItem} from "../../../requests/getTree";
+import removeIndexItem from "../../../requests/removeIndexItem";
 
 const AddIndex = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
 
 		state = {
-			selectedValue: null
+			selectedValue: null,
+			prevIndexItem: ''
 		};
+
+		componentDidUpdate(prevProps, prevState, snapshot) {
+			//this.props.id
+			if (prevProps.title !== this.props.title) {
+				console.log(this.props.id);
+
+				getIndexItem(this.props.id, this.props.title).then(
+					data => {
+						if (!data || data.status !== 200) {
+							console.error("FETCH_Glossary_FAILED", data);
+						} else {
+							console.log(data.data);
+							this.setState(
+								{
+									prevIndexItem: data.data
+								}
+							);
+						}
+					}
+				);
+			}
+
+		}
+
 
 		getPath = (value) => {
 			const path = [];
@@ -23,7 +50,7 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 			let path = this.getPath(value);
 			this.props.form.setFieldsValue({
 				path: path.join("!"),
-				parent:value
+				parent: value
 			});
 		};
 
@@ -42,7 +69,7 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 					referredId: id
 				});
 
-				updateBook(request_body, id).then(data => {
+				updateIndexTree(request_body, id).then(data => {
 					if (!data || data.status !== 200) {
 						if (data.status === 400) {
 							message.error(data.data);
@@ -56,9 +83,25 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 			});
 		};
 
+		removeIndexItem = () => {
+			removeIndexItem(this.props.id,this.props.title,this.state.prevIndexItem).then(data => {
+					if (!data || data.status !== 200) {
+						if (data.status === 400) {
+							message.error(data.data);
+						}
+						console.error("Update error", data);
+					}
+				});
+
+			this.setState({prevIndexItem: ""});
+			this.props.toggleModal()
+		};
+
 		render() {
 			const {title, visible, toggleModal, form, indexTree} = this.props;
 			const {getFieldDecorator} = form;
+
+			console.log(this.props);
 
 			let itemSelection = <TreeSelect
 				style={{width: '100%'}}
@@ -75,6 +118,9 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 					title={"Enter " + title + " item"}
 					onCancel={toggleModal}
 					footer={[
+						<Button key={"remove"} onClick={() => this.removeIndexItem()} disabled={this.state.prevIndexItem===''}>
+							Remove
+						</Button>,
 						<Button key="back" onClick={toggleModal}>
 							Cancel
 						</Button>,
@@ -87,13 +133,13 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 						<Form.Item
 							extra={"Use ! as separator to build a tree structure. e.g. : addition!matrices!associativity property"}>
 							{getFieldDecorator('path', {
-								initialValue: '',
+								initialValue: this.state.prevIndexItem,
 							})(<Input/>)}
 						</Form.Item>
 
 						<Form.Item extra={"You could select parent of new item from existing tree."}>
-							{getFieldDecorator('parent',{
-								initialValue : ''
+							{getFieldDecorator('parent', {
+								initialValue: ''
 							})
 							(itemSelection)
 							}

@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon, Dropdown, Menu, } from "antd";
+import {Button, Icon, Dropdown, Menu,} from "antd";
 import AddIndex from "./addIndex";
 import {getIndexTree} from "../../requests/getTree";
 
@@ -9,13 +9,13 @@ export default class ParaControl extends React.Component {
 	state = {
 		visible: false,
 		title: '',
+		indexTree: null,
 	};
 
 	showModal = (title) => {
 		this.setState({
 			visible: true,
 			title: title,
-			indexTree : null,
 		})
 	};
 
@@ -24,35 +24,36 @@ export default class ParaControl extends React.Component {
 	};
 
 	loops = (list, parent) => {
-			return (list || []).map(({children, value,title}) => {
-				const node = (valueMap[value] = {
-					parent,
-					value,
-					title,
-				});
-				node.children = this.loops(children, node);
-				return node;
+		return (list || []).map(({children, value, title}) => {
+			const node = (valueMap[value] = {
+				parent,
+				value,
+				title,
 			});
-		};
+			node.children = this.loops(children, node);
+			return node;
+		});
+	};
 
-	fetchIndexTree = (type) =>{
+	fetchIndexTree = (type) => {
 		getIndexTree(this.props.parentId, type).then(
-				data => {
-					if (!data || data.status !== 200) {
-						console.error("FETCH_Glossary_FAILED", data);
-					} else {
-						this.setState({
-								indexTree: data.data.treeData
-							});
-						this.loops(this.state.indexTree);
-						console.log(valueMap);
-					}
+			data => {
+				if (!data || data.status !== 200) {
+					console.error("FETCH_Glossary_FAILED", data);
+				} else {
+					this.setState({
+						indexTree: data.data,
+					});
+					this.loops(this.state.indexTree);
+					console.log(valueMap);
 				}
+			}
 		);
 	};
 
 	render() {
 		const {visible, title} = this.state;
+		console.log(this.props.id);
 
 		const menu = <Menu>
 			<Menu.Item key="1" onClick={() => {
@@ -90,16 +91,16 @@ export default class ParaControl extends React.Component {
 
 				<Dropdown overlay={menu}>
 					<Button>
-						<Icon type="link" />
+						<Icon type="link"/>
 					</Button>
 				</Dropdown>
 				<AddIndex
-						title={title}
-						visible={visible}
-						id={this.props.id}
-						toggleModal={this.toggleModal}
-						indexTree = {this.state.indexTree}
-						valueMap = {valueMap}
+					title={title}
+					visible={visible}
+					id={this.props.id}
+					toggleModal={this.toggleModal}
+					indexTree={this.state.indexTree}
+					valueMap={valueMap}
 				/>
 
 

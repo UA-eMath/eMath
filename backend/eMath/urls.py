@@ -28,6 +28,7 @@ router.register(r'para',ParaViewSet,'Para')
 router.register(r'Level',LevelViewset,'Level')
 router.register(r'book',RootLevelViewSets,'RootLevels')
 router.register(r'nextLevel',getNextLevelViewSet,'NextLevel')
+router.register(r'indexItem',IndexItemViewSets,"IndexItem")
 
 urlpatterns = [
 	url('', include(router.urls)),

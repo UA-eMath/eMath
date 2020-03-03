@@ -21,7 +21,7 @@ const BookSetting = Form.create({name: 'form_in_modal'})(
 				cancelText: 'No',
 				onOk: () => {
 					removeBook(bookId).then(data => {
-						if (data.status !== 204) {
+						if (data.status !== 200) {
 							console.error("Delete error", data);
 						} else {
 							console.log(data);
@@ -66,12 +66,14 @@ const BookSetting = Form.create({name: 'form_in_modal'})(
 				}).then(res => {
 					root_request_body = JSON.stringify({
 						...values,
+						date: values['date'].format('YYYY-MM-DD'),
 						title: values["html_title"],
 					});
-
+					console.log(root_request_body);
 					updateBook(root_request_body, bookId).then(data => {
 						if (!data || data.status !== 200) {
 							if (data.status === 400) {
+								console.log(data.data);
 								message.error(data.data);
 							}
 							console.error("Update error", root_request_body, data);

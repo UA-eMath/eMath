@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from presentation.Api.utils import *
 
+
 class ParaViewSet(viewsets.ModelViewSet):
 	serializer_class = ParaSerializers
 	queryset = Para.objects.all()
@@ -16,14 +17,14 @@ class ParaViewSet(viewsets.ModelViewSet):
 		return Response(ParaReadSerializers(self.queryset, many=True).data)
 
 	# GET http://localhost:8000/para/**/
-	def retrieve(self, request,*args, **kwargs):
+	def retrieve(self, request, *args, **kwargs):
 
 		para = get_object_or_404(self.queryset, pk=self.kwargs["pk"])
 		return Response(ParaReadSerializers(para).data)
 
 	# POST http://localhost:8000/para/
 	# with body
-	def create(self, request,*args, **kwargs):
+	def create(self, request, *args, **kwargs):
 		request_data = request.data.copy()
 		try:
 			id = request.data['para_parent']
@@ -42,8 +43,8 @@ class ParaViewSet(viewsets.ModelViewSet):
 		children_list = parent.get_children().order_by('position')
 		children_para_list = parent.para_set.all().order_by('position')
 
-		#get last position.
-		last_position = len(children_list)+len(children_para_list)-1
+		# get last position.
+		last_position = len(children_list) + len(children_para_list) - 1
 
 		if request_data.get('position') is None or request_data.get('position') == '':
 			request_data['position'] = last_position + 1
@@ -64,10 +65,11 @@ class ParaViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data, 200)
 
 	# DELETE http://localhost:8000/para/**/
-	def destroy(self, request,*args, **kwargs):
+	def destroy(self, request, *args, **kwargs):
 
 		try:
-			para = Para.objects.get(pk=self.kwargs["pk"])
+			id = int(self.kwargs["pk"])
+			para = Para.objects.get(pk=id)
 
 		except ObjectDoesNotExist:
 			return Response("Para id(" + self.kwargs["pk"] + ") is not found", 404)
@@ -75,28 +77,31 @@ class ParaViewSet(viewsets.ModelViewSet):
 		parent = para.para_parent
 
 		# delete glossary entry as well
-		#1. get root level
+		# 1. get root level
 		root_level = parent.get_root().root
-		#2. check Glossary
+		# 2. check/remove Glossary/symbol index/author index
 		glossary = root_level.glossary.get("treeData")
+		for key in list(glossary):
+			if glossary[key] == id:
+				del glossary[key]
+
+		symbol_index = root_level.symbol_index.get("treeData")
+		for key in list(symbol_index):
+			if symbol_index[key] == id:
+				del symbol_index[key]
+
+		author_index = root_level.author_index.get("treeData")
+		for key in list(author_index):
+			if author_index[key] == id:
+				del author_index[key]
+
+		root_level.save()
 
 		para.delete()
 
 		updateParaPosition(parent)
 
-		return Response("Para is successfully deleted.", 204)
-
-	def findAndRemove(self,indexItemArray,key):
-		for i,item in enumerate(indexItemArray):
-			if item.get("id") == key:
-				del indexItemArray[i]
-
-			if item.get["children"]:
-
-
-
-
-
+		return Response("Para is successfully deleted.",200)
 
 	# PUT http://localhost:8000/para/**/
 	# PATCH http://localhost:8000/para/**/
@@ -109,4 +114,3 @@ class ParaViewSet(viewsets.ModelViewSet):
 
 		response.data = {'status': 'successfully update'}
 		return response
-

@@ -57,9 +57,10 @@ class MenuDrawer extends React.Component {
 				if (!data || data.status !== 200) {
 					console.error("FETCH_Glossary_FAILED", data);
 				} else {
+					console.log(data.data);
 					this.setState(
 						{
-							glossary: data.data.treeData
+							glossary: data.data
 						}
 					);
 				}
@@ -173,7 +174,7 @@ class MenuDrawer extends React.Component {
 									{item.tocTitle}
 								</a>
 							}
-							key={item.id}
+							key={item.tocTitle + item.id}
 							dataRef={item}
 							selectable={false}>
 							{this.renderIndexNodes(item.children)}

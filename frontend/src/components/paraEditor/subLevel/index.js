@@ -32,7 +32,7 @@ class SubLevel extends React.Component {
 			cancelText: 'No',
 			onOk: () => {
 				removeLevel(id).then(data => {
-					if (data.status !== 204) {
+					if (data.status !== 200) {
 						console.error("Delete error", data);
 					} else {
 						console.log(data);
