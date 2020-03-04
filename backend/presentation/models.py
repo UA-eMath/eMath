@@ -11,7 +11,7 @@ dell1234
 # Create your models here.
 
 def default_dict():
-	return {"treeData" : []}
+	return {"treeData" : {}}
 
 class RootLevel(models.Model):
 

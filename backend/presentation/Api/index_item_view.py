@@ -45,18 +45,18 @@ class IndexItemViewSets(viewsets.ModelViewSet):
 	def retrieve(self, request, *args, **kwargs):
 		index_type = self.request.query_params.get("type")
 		if index_type:
-			if self.request.query_params.get("single"):
-				# find path by key
+			if self.request.query_params.get("byPara"):
+				# find path by para id
 				root_level = Para.objects.get(pk=kwargs.get("pk")).para_parent.get_root().root
 				col_to_append = index_to_col.get(index_type)
 				indexItem = getattr(root_level, col_to_append).get("treeData")
 
-				try:
-					pathList = list(indexItem.keys())[list(indexItem.values()).index(int(kwargs.get("pk")))]
-					return Response(data=pathList, status=200)
+				pathList = []
+				for path in indexItem:
+					if indexItem[path] == int(kwargs.get("pk")):
+						pathList.append(path)
 
-				except:
-					return Response(data="", status=200)
+				return Response(data=pathList, status=200)
 
 			root_level = Level.objects.get(pk=kwargs.get("pk")).get_root().root
 			indexItem = getattr(root_level, index_type).get("treeData")

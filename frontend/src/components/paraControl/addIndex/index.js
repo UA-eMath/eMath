@@ -1,40 +1,34 @@
-import {Button, Form, Input, Modal, message, TreeSelect} from "antd";
+import {Button, Form, Input, Modal, message, TreeSelect, Icon, List} from "antd";
 import React from 'react';
 import updateIndexTree from "../../../requests/updateIndexTree";
-import {getIndexItem} from "../../../requests/getTree";
+import {getIndexItems} from "../../../requests/getTree";
 import removeIndexItem from "../../../requests/removeIndexItem";
+import _ from "lodash";
 
 const AddIndex = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
 
 		state = {
 			selectedValue: null,
-			prevIndexItem: ''
+			indexItemList: []
 		};
 
-		componentDidUpdate(prevProps, prevState, snapshot) {
-			//this.props.id
-			if (prevProps.title !== this.props.title) {
-				console.log(this.props.id);
 
-				getIndexItem(this.props.id, this.props.title).then(
+		componentDidUpdate(prevProps, prevState, snapshot) {
+			if (prevProps.title !== this.props.title) {
+				//get index item list
+				getIndexItems(this.props.id, this.props.title).then(
 					data => {
 						if (!data || data.status !== 200) {
-							console.error("FETCH_Glossary_FAILED", data);
+							console.error("FETCH_index_item_FAILED", data);
 						} else {
 							console.log(data.data);
-							this.setState(
-								{
-									prevIndexItem: data.data
-								}
-							);
+							this.setState({indexItemList: data.data});
 						}
 					}
 				);
 			}
-
 		}
-
 
 		getPath = (value) => {
 			const path = [];
@@ -76,16 +70,23 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 						}
 						console.error("Update error", request_body, data);
 					}
+				}).then(res => {
+					getIndexItems(this.props.id, this.props.title).then(
+						data => {
+							if (!data || data.status !== 200) {
+								console.error("FETCH_index_item_FAILED", data);
+							} else {
+								console.log(data.data);
+								this.setState({indexItemList: data.data});
+							}
+						}
+					);
 				});
-
-				this.setState({prevIndexItem: values["path"]});
-				toggleModal();
-
 			});
 		};
 
-		removeIndexItem = () => {
-			removeIndexItem(this.props.id, this.props.title, this.state.prevIndexItem).then(data => {
+		removeIndexItem = (indexItem) => {
+			removeIndexItem(this.props.id, this.props.title, indexItem).then(data => {
 				if (!data || data.status !== 200) {
 					if (data.status === 400) {
 						message.error(data.data);
@@ -93,31 +94,30 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 					console.error("Update error", data);
 				}
 			}).then((res) => {
-				getIndexItem(this.props.id, this.props.title).then(
+				getIndexItems(this.props.id, this.props.title).then(
 					data => {
 						if (!data || data.status !== 200) {
 							console.error("FETCH_Glossary_FAILED", data);
 						} else {
 							console.log(data.data);
-							this.setState(
-								{
-									prevIndexItem: data.data
-								}
-							);
+							this.setState({indexItemList: data.data});
 						}
 					}
 				);
 			});
+		};
+
+		handleCancel = () => {
+			//update DB
 
 			this.props.toggleModal()
 		};
 
 		render() {
-			const {title, visible, toggleModal, form, indexTree} = this.props;
+			const {title, visible, form, indexTree} = this.props;
 			const {getFieldDecorator} = form;
 
-			console.log(this.props);
-
+			console.log(indexTree);
 			let itemSelection = <TreeSelect
 				style={{width: '100%'}}
 				dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
@@ -127,39 +127,53 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 				onChange={this.onChange}
 			/>;
 
+
 			return (
 				<Modal
 					visible={visible}
 					title={"Enter " + title + " item"}
-					onCancel={toggleModal}
+					onCancel={this.handleCancel}
 					footer={[
-						<Button key={"remove"} onClick={() => this.removeIndexItem()}
-						        disabled={this.state.prevIndexItem === ''}>
-							Remove
-						</Button>,
-						<Button key="back" onClick={toggleModal}>
+						<Button key="back" onClick={this.handleCancel}>
 							Cancel
-						</Button>,
-						<Button key="submit" type="primary" onClick={() => this.onAdd()}>
-							Submit
 						</Button>,
 					]}
 				>
-					<Form layout="vertical">
-						<Form.Item
-							extra={"Use ! as separator to build a tree structure. e.g. : addition!matrices!associativity property"}>
-							{getFieldDecorator('path', {
-								initialValue: this.state.prevIndexItem,
-							})(<Input/>)}
-						</Form.Item>
+					<List
+						bordered
+						dataSource={this.state.indexItemList}
+						renderItem={item => (
+							<List.Item
+								actions={[<Button
+									type="danger"
+									ghost
+									onClick={() => this.removeIndexItem(item)}>-</Button>]}
+							>
+								{item}
+							</List.Item>
+						)}/>
 
-						<Form.Item extra={"You could select parent of new item from existing tree."}>
-							{getFieldDecorator('parent', {
-								initialValue: ''
-							})
-							(itemSelection)
-							}
-						</Form.Item>
+					<Form layout="vertical">
+						<span style={{display: "flex"}}>
+							<span>
+								<Form.Item>
+								{getFieldDecorator("path", {
+									initialValue: '',
+								})(<Input/>)}
+							</Form.Item>
+
+							<Form.Item extra={"You could select parent of new item from existing tree."}>
+								{getFieldDecorator('parent', {
+									initialValue: '',
+								})(itemSelection)}
+							</Form.Item>
+
+							</span>
+
+							<Button onClick={this.onAdd}>Valid</Button>
+
+						</span>
+
 
 					</Form>
 				</Modal>
@@ -169,3 +183,11 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 );
 
 export default AddIndex;
+
+
+
+
+
+
+
+

@@ -17,6 +17,7 @@ export default function GetToc(params = {}) {
 }
 
 export function getIndexTree(id, type) {
+	//level id
 	return axios
 		.get(url.domain + ':' + url.port + "/indexItem/" + id + "?type=" + type,
 			{
@@ -30,9 +31,10 @@ export function getIndexTree(id, type) {
 		.catch(error => console.log(error))
 }
 
-export function getIndexItem(id,type) {
+export function getIndexItems(id, type) {
+	//para id
 	return axios
-		.get(url.domain + ':' + url.port + "/indexItem/" + id + "?type=" + type + "&single=true",
+		.get(url.domain + ':' + url.port + "/indexItem/" + id + "?type=" + type + "&byPara=true",
 			{
 				headers: {
 					"Content-Type": "application/json"

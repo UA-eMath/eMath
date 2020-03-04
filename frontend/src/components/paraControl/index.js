@@ -45,7 +45,6 @@ export default class ParaControl extends React.Component {
 						indexTree: data.data,
 					});
 					this.loops(this.state.indexTree);
-					console.log(valueMap);
 				}
 			}
 		);
@@ -53,7 +52,6 @@ export default class ParaControl extends React.Component {
 
 	render() {
 		const {visible, title} = this.state;
-		console.log(this.props.id);
 
 		const menu = <Menu>
 			<Menu.Item key="1" onClick={() => {
