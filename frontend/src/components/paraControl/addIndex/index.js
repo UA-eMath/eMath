@@ -3,7 +3,6 @@ import React from 'react';
 import updateIndexTree from "../../../requests/updateIndexTree";
 import {getIndexItems} from "../../../requests/getTree";
 import removeIndexItem from "../../../requests/removeIndexItem";
-import _ from "lodash";
 
 const AddIndex = Form.create({name: 'form_in_modal'})(
 	class extends React.Component {
@@ -55,6 +54,11 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 					return;
 				}
 
+				if (typeof this.state.indexItemList.find(ele=>ele === values["path"]) !=="undefined"){
+					//already created
+					return message.error( title + " item already exists.")
+				}
+
 				let request_body;
 
 				request_body = JSON.stringify({
@@ -80,7 +84,9 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 								this.setState({indexItemList: data.data});
 							}
 						}
-					);
+					).then(res => {
+						this.props.getNewIndexTree(this.props.title)
+					});
 				});
 			});
 		};
@@ -103,7 +109,9 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 							this.setState({indexItemList: data.data});
 						}
 					}
-				);
+				).then(res => {
+					this.props.getNewIndexTree(this.props.title)
+				});
 			});
 		};
 
@@ -117,17 +125,19 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 			const {title, visible, form, indexTree} = this.props;
 			const {getFieldDecorator} = form;
 
-			console.log(indexTree);
 			let itemSelection = <TreeSelect
 				style={{width: '100%'}}
 				dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
 				treeData={indexTree}
-				placeholder="Please select"
+				placeholder="Select parent of new item from existing tree."
 				treeDefaultExpandAll
 				onChange={this.onChange}
 			/>;
 
-
+			const layout = {
+				labelCol: {span: 5},
+				wrapperCol: {span: 19},
+			};
 			return (
 				<Modal
 					visible={visible}
@@ -135,7 +145,7 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 					onCancel={this.handleCancel}
 					footer={[
 						<Button key="back" onClick={this.handleCancel}>
-							Cancel
+							Close
 						</Button>,
 					]}
 				>
@@ -153,24 +163,38 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 							</List.Item>
 						)}/>
 
-					<Form layout="vertical">
-						<span style={{display: "flex"}}>
-							<span>
-								<Form.Item>
+					<Form {...layout}>
+						<span style={{
+							display: "table",
+							marginTop: "50px",
+							textAlign: "center",
+							border: "1px solid grey",
+							borderStyle: "dashed",
+							width: "100%"
+						}}>
+							<span style={{
+								display: "table-cell",
+								verticalAlign: "middle",
+								padding: "30px 10px 0px"
+							}}>
+								<Form.Item  label={"Index item:"}>
 								{getFieldDecorator("path", {
 									initialValue: '',
 								})(<Input/>)}
 							</Form.Item>
 
-							<Form.Item extra={"You could select parent of new item from existing tree."}>
-								{getFieldDecorator('parent', {
-									initialValue: '',
-								})(itemSelection)}
+							<Form.Item  label="Select">
+								{getFieldDecorator('parent', {})(itemSelection)}
 							</Form.Item>
 
 							</span>
 
-							<Button onClick={this.onAdd}>Valid</Button>
+							<span style={{
+								display: "table-cell",
+								verticalAlign: "middle"
+							}}>
+								<Button onClick={this.onAdd}>Valid</Button>
+							</span>
 
 						</span>
 

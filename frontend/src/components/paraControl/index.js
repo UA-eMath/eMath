@@ -56,17 +56,17 @@ export default class ParaControl extends React.Component {
 		const menu = <Menu>
 			<Menu.Item key="1" onClick={() => {
 				this.showModal('Glossary');
-				this.fetchIndexTree('glossary');
+				this.fetchIndexTree('Glossary');
 			}}>Glossary</Menu.Item>
 
 			<Menu.Item key="2" onClick={() => {
 				this.showModal('Symbol Index');
-				this.fetchIndexTree('symbol_index');
+				this.fetchIndexTree('Symbol Index');
 			}}>Symbol Index</Menu.Item>
 
 			<Menu.Item key="3" onClick={() => {
 				this.showModal('Author Index');
-				this.fetchIndexTree('author_index');
+				this.fetchIndexTree('Author Index');
 			}}>Author Index</Menu.Item>
 		</Menu>;
 
@@ -99,8 +99,8 @@ export default class ParaControl extends React.Component {
 					toggleModal={this.toggleModal}
 					indexTree={this.state.indexTree}
 					valueMap={valueMap}
+					getNewIndexTree = {(type)=>this.fetchIndexTree(type)}
 				/>
-
 
 				<div>
 					<Button>

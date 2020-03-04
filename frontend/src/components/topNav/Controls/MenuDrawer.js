@@ -35,34 +35,44 @@ class MenuDrawer extends React.Component {
 
 	state = {
 		treeData: [],
-		glossary: null,
-		symbolIndex: null,
-		authorIndex: null,
-		bibliography: null,
+		glossary: [],
+		symbolIndex: [],
+		authorIndex: [],
+		bibliography: [],
 		visible: false
 	};
 
 	componentDidMount() {
 		let id = this.props.props.params.id;
 		fetchTocTree(id, (data) => {
-			this.setState(
-				{
-					treeData: data
-				}
-			);
+			this.setState({treeData: data});
 		});
 
-		getIndexTree(id, "glossary").then(
+		getIndexTree(id, "Glossary").then(
 			data => {
 				if (!data || data.status !== 200) {
 					console.error("FETCH_Glossary_FAILED", data);
 				} else {
 					console.log(data.data);
-					this.setState(
-						{
-							glossary: data.data
-						}
-					);
+					this.setState({glossary: data.data});
+				}
+			}
+		);
+		getIndexTree(id, "Symbol Index").then(
+			data => {
+				if (!data || data.status !== 200) {
+					console.error("FETCH_Glossary_FAILED", data);
+				} else {
+					this.setState({symbolIndex: data.data});
+				}
+			}
+		);
+		getIndexTree(id, "Author Index").then(
+			data => {
+				if (!data || data.status !== 200) {
+					console.error("FETCH_Glossary_FAILED", data);
+				} else {
+					this.setState({authorIndex: data.data});
 				}
 			}
 		);
@@ -71,25 +81,40 @@ class MenuDrawer extends React.Component {
 	render() {
 		let {glossary, symbolIndex, authorIndex, bibliography} = this.state;
 
-		let glossaryPane = glossary === null ? null : <TabPane tab="Glossary" key="3">
+		console.log(this.state);
+
+		let glossaryPane = glossary.length === 0 ? null : <TabPane tab="Glossary" key="3">
 			<Tree
 				switcherIcon={<Icon type="down"/>}
 				style={styles.Tree}
 				defaultExpandAll={true}
 			>
-				{this.renderIndexNodes(this.state.glossary)}
+				{this.renderIndexNodes(glossary)}
 			</Tree>
 		</TabPane>;
 
-		let symbolPane = symbolIndex === null ? null : <TabPane tab="Symbols" key="4">
-			Content of Tab Pane 3
+		let symbolPane = symbolIndex.length === 0 ? null : <TabPane tab="Symbols" key="4">
+			<Tree
+				switcherIcon={<Icon type="down"/>}
+				style={styles.Tree}
+				defaultExpandAll={true}
+			>
+				{this.renderIndexNodes(symbolIndex)}
+			</Tree>
+
 		</TabPane>;
 
-		let authorIndPane = authorIndex === null ? null : <TabPane tab="A-Ind" key="6">
-			Content of Tab Pane 3
+		let authorIndPane = authorIndex.length === 0 ? null : <TabPane tab="A-Ind" key="6">
+			<Tree
+				switcherIcon={<Icon type="down"/>}
+				style={styles.Tree}
+				defaultExpandAll={true}
+			>
+				{this.renderIndexNodes(authorIndex)}
+			</Tree>
 		</TabPane>;
 
-		let refsPane = bibliography === null ? null : <TabPane tab="Refs" key="5">
+		let refsPane = bibliography.length === 0 ? null : <TabPane tab="Refs" key="5">
 			Content of Tab Pane 3
 		</TabPane>;
 

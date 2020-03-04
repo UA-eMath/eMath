@@ -13,7 +13,7 @@ def addToTree(node, path, id):
 			"title": path[0],
 			"tocTitle": path[0],
 			"id": id,
-			"value": id,
+			"value": path[0],
 			"levelParent": Para.objects.get(pk=id).para_parent.pk,
 			"children": []
 		})
@@ -44,11 +44,12 @@ class IndexItemViewSets(viewsets.ModelViewSet):
 	# get one book's index item tree
 	def retrieve(self, request, *args, **kwargs):
 		index_type = self.request.query_params.get("type")
+		col_to_append = index_to_col.get(index_type)
+
 		if index_type:
 			if self.request.query_params.get("byPara"):
 				# find path by para id
 				root_level = Para.objects.get(pk=kwargs.get("pk")).para_parent.get_root().root
-				col_to_append = index_to_col.get(index_type)
 				indexItem = getattr(root_level, col_to_append).get("treeData")
 
 				pathList = []
@@ -59,7 +60,7 @@ class IndexItemViewSets(viewsets.ModelViewSet):
 				return Response(data=pathList, status=200)
 
 			root_level = Level.objects.get(pk=kwargs.get("pk")).get_root().root
-			indexItem = getattr(root_level, index_type).get("treeData")
+			indexItem = getattr(root_level, col_to_append).get("treeData")
 			index_item_tree = []
 			# e.g. {path:id, id:a!b!c!d}
 			for path in indexItem:
