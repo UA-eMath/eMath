@@ -78,22 +78,37 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 					}
 				});
 
+				this.setState({prevIndexItem: values["path"]});
 				toggleModal();
 
 			});
 		};
 
 		removeIndexItem = () => {
-			removeIndexItem(this.props.id,this.props.title,this.state.prevIndexItem).then(data => {
-					if (!data || data.status !== 200) {
-						if (data.status === 400) {
-							message.error(data.data);
-						}
-						console.error("Update error", data);
+			removeIndexItem(this.props.id, this.props.title, this.state.prevIndexItem).then(data => {
+				if (!data || data.status !== 200) {
+					if (data.status === 400) {
+						message.error(data.data);
 					}
-				});
+					console.error("Update error", data);
+				}
+			}).then((res) => {
+				getIndexItem(this.props.id, this.props.title).then(
+					data => {
+						if (!data || data.status !== 200) {
+							console.error("FETCH_Glossary_FAILED", data);
+						} else {
+							console.log(data.data);
+							this.setState(
+								{
+									prevIndexItem: data.data
+								}
+							);
+						}
+					}
+				);
+			});
 
-			this.setState({prevIndexItem: ""});
 			this.props.toggleModal()
 		};
 
@@ -118,7 +133,8 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 					title={"Enter " + title + " item"}
 					onCancel={toggleModal}
 					footer={[
-						<Button key={"remove"} onClick={() => this.removeIndexItem()} disabled={this.state.prevIndexItem===''}>
+						<Button key={"remove"} onClick={() => this.removeIndexItem()}
+						        disabled={this.state.prevIndexItem === ''}>
 							Remove
 						</Button>,
 						<Button key="back" onClick={toggleModal}>
