@@ -116,8 +116,6 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 		};
 
 		handleCancel = () => {
-			//update DB
-
 			this.props.toggleModal()
 		};
 
@@ -126,6 +124,7 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 			const {getFieldDecorator} = form;
 
 			let itemSelection = <TreeSelect
+				showSearch
 				style={{width: '100%'}}
 				dropdownStyle={{maxHeight: 400, overflow: 'auto'}}
 				treeData={indexTree}
