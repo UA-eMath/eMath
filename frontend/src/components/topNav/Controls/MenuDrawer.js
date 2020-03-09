@@ -1,5 +1,5 @@
 import React from 'react'
-import fetchTocTree, {fetchGlossaryTree} from "./treeData";
+import fetchTocTree from "./treeData";
 import {Tree} from 'antd';
 import {Drawer, Tabs, Icon, Button} from 'antd';
 import 'antd/dist/antd.css';
@@ -35,7 +35,7 @@ class MenuDrawer extends React.Component {
 
 	state = {
 		treeData: [],
-		glossary: [],
+		indexItem: [],
 		symbolIndex: [],
 		authorIndex: [],
 		bibliography: [],
@@ -48,20 +48,20 @@ class MenuDrawer extends React.Component {
 			this.setState({treeData: data});
 		});
 
-		getIndexTree(id, "Glossary").then(
+		getIndexTree(id, "Index Item").then(
 			data => {
 				if (!data || data.status !== 200) {
-					console.error("FETCH_Glossary_FAILED", data);
+					console.error("FETCH_IndexItem_FAILED", data);
 				} else {
 					console.log(data.data);
-					this.setState({glossary: data.data});
+					this.setState({indexItem: data.data});
 				}
 			}
 		);
 		getIndexTree(id, "Symbol Index").then(
 			data => {
 				if (!data || data.status !== 200) {
-					console.error("FETCH_Glossary_FAILED", data);
+					console.error("FETCH_Symbol_Index_FAILED", data);
 				} else {
 					this.setState({symbolIndex: data.data});
 				}
@@ -70,7 +70,7 @@ class MenuDrawer extends React.Component {
 		getIndexTree(id, "Author Index").then(
 			data => {
 				if (!data || data.status !== 200) {
-					console.error("FETCH_Glossary_FAILED", data);
+					console.error("FETCH_Author_Index_FAILED", data);
 				} else {
 					this.setState({authorIndex: data.data});
 				}
@@ -79,17 +79,17 @@ class MenuDrawer extends React.Component {
 	}
 
 	render() {
-		let {glossary, symbolIndex, authorIndex, bibliography} = this.state;
+		let {indexItem, symbolIndex, authorIndex, bibliography} = this.state;
 
 		console.log(this.state);
 
-		let glossaryPane = glossary.length === 0 ? null : <TabPane tab="Glossary" key="3">
+		let indexItemPane = indexItem.length === 0 ? null : <TabPane tab="Index Item" key="3">
 			<Tree
 				switcherIcon={<Icon type="down"/>}
 				style={styles.Tree}
 				defaultExpandAll={true}
 			>
-				{this.renderIndexNodes(glossary)}
+				{this.renderIndexNodes(indexItem)}
 			</Tree>
 		</TabPane>;
 
@@ -160,7 +160,7 @@ class MenuDrawer extends React.Component {
 
 						</TabPane>
 
-						{glossaryPane}
+						{indexItemPane}
 						{symbolPane}
 						{refsPane}
 						{authorIndPane}

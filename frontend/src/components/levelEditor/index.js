@@ -4,6 +4,7 @@ import {Tree, Input, Icon, message} from 'antd';
 import getToc from "../../requests/getTree";
 import EditingModal from './editingModal';
 import updateLevel from '../../requests/updateLevel';
+import paraRenderer from "../../pageRenderer";
 
 const {TreeNode} = Tree;
 const {Search} = Input;
@@ -116,15 +117,16 @@ class LevelEditor extends React.Component {
 			const index = item.tocTitle.indexOf(this.state.searchValue);
 			const beforeStr = item.tocTitle.substr(0, index);
 			const afterStr = item.tocTitle.substr(index + this.state.searchValue.length);
+
 			const title =
 				index > -1 ? (
 					<span>
 	                        {beforeStr}
-						<span style={{color: '#f50'}}>{this.state.searchValue}</span>
+						<span style={{color: '#f50'}}>{paraRenderer(this.state.searchValue)}</span>
 						{afterStr}
                         </span>
 				) : (
-					<span>{item.tocTitle}</span>
+					<span>{paraRenderer(item.tocTitle)}</span>
 				);
 
 			if (item.children) {
@@ -147,6 +149,7 @@ class LevelEditor extends React.Component {
 				}
 				//sub Levels
 				else if(isSub){
+					console.log(typeof title);
 					return (
 						<TreeNode key={item.id}
 						          title={<EditingModal

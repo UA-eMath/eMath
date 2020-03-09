@@ -175,9 +175,9 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 							<span style={{
 								display: "table-cell",
 								verticalAlign: "middle",
-								padding: "30px 10px 0px"
+								padding: "20px 5px 0px"
 							}}>
-								<Form.Item  label={"Index item:"}>
+								<Form.Item  label={"Item"}>
 								{getFieldDecorator("path", {
 									initialValue: '',
 								})(<Input/>)}
@@ -193,7 +193,7 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 								display: "table-cell",
 								verticalAlign: "middle"
 							}}>
-								<Button onClick={this.onAdd}>Valid</Button>
+								<Button onClick={this.onAdd}>Add</Button>
 							</span>
 
 						</span>

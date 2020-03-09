@@ -76,14 +76,14 @@ class ParaViewSet(viewsets.ModelViewSet):
 
 		parent = para.para_parent
 
-		# delete glossary entry as well
+		# delete index_item entry as well
 		# 1. get root level
 		root_level = parent.get_root().root
-		# 2. check/remove Glossary/symbol index/author index
-		glossary = root_level.glossary.get("treeData")
-		for key in list(glossary):
-			if glossary[key] == id:
-				del glossary[key]
+		# 2. check/remove index_item/symbol index/author index
+		index_item = root_level.index_item.get("treeData")
+		for key in list(index_item):
+			if index_item[key] == id:
+				del index_item[key]
 
 		symbol_index = root_level.symbol_index.get("treeData")
 		for key in list(symbol_index):

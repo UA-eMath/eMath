@@ -4,7 +4,7 @@ from presentation.models import Level, RootLevel, Para
 from presentation.Serializers.rootLevel_serializer import RootLevelSerializer
 from presentation.Serializers.level_serializers import LevelSerializer
 
-index_to_col = {"Glossary": "glossary", "Symbol Index": "symbol_index", "Author Index": "author_index"}
+index_to_col = {"Index Item": "index_item", "Symbol Index": "symbol_index", "Author Index": "author_index"}
 
 
 def addToTree(node, path, id):

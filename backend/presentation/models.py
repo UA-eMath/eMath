@@ -21,7 +21,7 @@ class RootLevel(models.Model):
 	                                on_delete=models.SET_NULL)
 	date = models.DateField(null=True, blank=True)
 
-	glossary = JSONField(default=default_dict)
+	index_item = JSONField(default=default_dict)
 	symbol_index = JSONField(default=default_dict)
 	author_index = JSONField(default=default_dict)
 

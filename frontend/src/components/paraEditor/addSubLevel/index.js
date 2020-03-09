@@ -25,11 +25,11 @@ const AddSubLevel = Form.create({name: 'form_in_modal'})(
 					]}
 				>
 					<Form layout="vertical">
-						<Form.Item label="Caption">
+						<Form.Item label="Type">
 							<CaptionOptions form={form}/>
 						</Form.Item>
 
-						<Form.Item label="Title" extra="You could put Latex code here.">
+						<Form.Item label="Caption" extra="You could put Latex code here.">
 							{getFieldDecorator('title', {
 								initialValue: '<Math inline="true"></Math>',
 							})(<Input/>)}

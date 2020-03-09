@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import {
 	fetchPage
 } from '../../../actions'
+import paraRenderer from "../../../pageRenderer";
 
 const {confirm} = Modal;
 
@@ -50,7 +51,7 @@ class SubLevel extends React.Component {
 		const {children, alignment, deletePara,} = this.props;
 
 		let left_title = children[0].para_parent.tocTitle;
-		let right_title = children[0].para_parent.title;
+		let right_title = children[0].para_parent.title === null ? "" :paraRenderer(children[0].para_parent.title);
 
 		let boxHeader;
 		if (left_title || right_title) {
@@ -79,6 +80,7 @@ class SubLevel extends React.Component {
 		}
 
 		let content = _.map(children, item => {
+			console.log(item);
 			if (alignment) {
 				return (
 					<div

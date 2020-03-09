@@ -44,7 +44,14 @@ export default function paraRenderer(para) {
 		return blockOfPara(para, left_title, right_title);
 	}
 
-	let decodedData = decodeURI(para.content.data);
+	let decodedData;
+	//render a plain string
+	if (typeof para === 'string'){
+		decodedData = para
+	} else {
+		decodedData = decodeURI(para.content.data);
+	}
+
 
 	let xmlParser = new DOMParser();
 	let preDom = xmlParser.parseFromString(`<React.Fragment>${decodedData}</React.Fragment>`, "text/xml");
@@ -52,16 +59,16 @@ export default function paraRenderer(para) {
 	if (preDom.getElementsByTagName("parsererror").length > 0) {
 		let errorMessage = preDom.getElementsByTagName("parsererror")[0].innerText;
 		return (
-			<div key={_.uniqueId("error_")}>
-				{errorMessage}
-			</div>
+			<p style={{color:"red"}} key={_.uniqueId("error_")}>
+				{errorMessage.replace("This page contains the following errors","This paragraph contains the following errors")}
+			</p>
 		)
 	} else {
 		let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
 		return (
-			<div key={_.uniqueId("div_")}>
+			<React.Fragment key={_.uniqueId("div_")}>
 				{reactTree}
-			</div>
+			</React.Fragment>
 		)
 	}
 }

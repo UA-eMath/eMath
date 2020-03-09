@@ -229,7 +229,7 @@ class ParaEditor extends React.Component {
 								marginTop: '20px'
 							}}
 						>
-							<div style={{marginTop:"35px"}}>
+							<div style={{margin:"35px 30px 0 0"}}>
 
 								{_.map(this.props.data, (item, i) => {
 									if (Array.isArray(item)) {

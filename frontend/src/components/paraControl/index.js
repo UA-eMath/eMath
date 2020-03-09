@@ -39,7 +39,7 @@ export default class ParaControl extends React.Component {
 		getIndexTree(this.props.parentId, type).then(
 			data => {
 				if (!data || data.status !== 200) {
-					console.error("FETCH_Glossary_FAILED", data);
+					console.error("FETCH_TREE_FAILED", data);
 				} else {
 					this.setState({
 						indexTree: data.data,
@@ -55,9 +55,9 @@ export default class ParaControl extends React.Component {
 
 		const menu = <Menu>
 			<Menu.Item key="1" onClick={() => {
-				this.showModal('Glossary');
-				this.fetchIndexTree('Glossary');
-			}}>Glossary</Menu.Item>
+				this.showModal('Index Item');
+				this.fetchIndexTree('Index Item');
+			}}>Index Item</Menu.Item>
 
 			<Menu.Item key="2" onClick={() => {
 				this.showModal('Symbol Index');
