@@ -32,7 +32,7 @@ export default function math(props) {
 					MathJax.Hub.Typeset()
 				);
 			}}
-			script={MathJaxConfig.script}
+			//script={MathJaxConfig.script}
 			option={MathJaxConfig.options}
 		>
 			{node}
