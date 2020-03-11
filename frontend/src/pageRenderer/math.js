@@ -19,6 +19,8 @@ export default function math(props) {
 		</div>;
 	}
 
+	console.log(props.children);
+
 	return (
 		<span>
 		<Context
@@ -32,8 +34,8 @@ export default function math(props) {
 					MathJax.Hub.Typeset()
 				);
 			}}
-			//script={MathJaxConfig.script}
-			option={MathJaxConfig.options}
+			script={MathJaxConfig.script}
+			options={MathJaxConfig.options}
 		>
 			{node}
 		</Context>

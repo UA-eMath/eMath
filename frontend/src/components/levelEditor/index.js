@@ -149,7 +149,6 @@ class LevelEditor extends React.Component {
 				}
 				//sub Levels
 				else if(isSub){
-					console.log(typeof title);
 					return (
 						<TreeNode key={item.id}
 						          title={<EditingModal
