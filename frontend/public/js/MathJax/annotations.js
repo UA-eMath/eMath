@@ -104,6 +104,9 @@ MathJax.Hub.Register.StartupHook("TeX Jax Ready", async () => {
             // expand
             const annotation = this.SubstituteArgs(params, annotations[type]).replace(/\\#/g, "#");
 
+            console.log(annotation);
+
+
             mml.Append(MML.annotation(annotation).With({name: type, isToken: true}));
           }
 

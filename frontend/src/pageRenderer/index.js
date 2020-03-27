@@ -29,7 +29,7 @@ export default function paraRenderer(para) {
 		a: (attrs) => ({type: 'a', props: attrs}),
 		p: (attrs) => ({type: 'p', props: attrs}),
 		i: (attrs) => ({type: 'i', props: attrs}),
-		img:(attrs) =>({type:'img',props:{...attrs,className:"image"}}),
+		img: (attrs) => ({type: 'img', props: {...attrs, className: "image"}}),
 
 		table: (attrs) => ({type: 'table', props: attrs}),
 		tr: (attrs) => ({type: 'tr', props: attrs}),
@@ -46,20 +46,19 @@ export default function paraRenderer(para) {
 
 	let decodedData;
 	//render a plain string
-	if (typeof para === 'string'){
+	if (typeof para === 'string') {
 		decodedData = para
 	} else {
 		decodedData = decodeURI(para.content.data);
 	}
 
 	let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
-	console.log(decodedData,reactTree);
 
-		return (
-			<React.Fragment key={_.uniqueId("div_")}>
-				{reactTree}
-			</React.Fragment>
-		)
+	return (
+		<React.Fragment key={_.uniqueId("div_")}>
+			{reactTree}
+		</React.Fragment>
+	)
 
 	// let xmlParser = new DOMParser();
 	// let preDom = xmlParser.parseFromString(`<React.Fragment>${decodedData}</React.Fragment>`, "text/xml");
