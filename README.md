@@ -29,7 +29,7 @@ The project has two major components:
    CREATE USER username WITH PASSWORD 'password'; (should be same as in django setting "backend/eMath/settings.py")
    GRANT ALL PRIVILEGES ON DATABASE emathdb TO username;
    ```
-   *exit
+   * exit
    `\q` then `exit`
    
 3. Backend(Django):
@@ -81,7 +81,7 @@ The project has two major components:
      ```
      
      
-     ### Run
+     #### Run
      
      ```
      yarn start
