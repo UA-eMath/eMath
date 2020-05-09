@@ -57,12 +57,16 @@ The project has two major components:
      
      #### apply database:
      ```
-     python manage.py makemigration
+     python manage.py makemigrations
      python manage.py migrate
      ```
      
      #### run
      python manage.py runserver 
+     
+     #### Django admin site
+     create a admin account:
+     python manage.py createsuperuser
      
 4. Frontend(React):
 
