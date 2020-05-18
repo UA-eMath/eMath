@@ -32,6 +32,9 @@ The project has two major components:
    * exit
    `\q` then `exit`
    
+   * (optional) to get some sample data, 
+    run `psql emathdb < emathdb.sql` to restore data from sql file.
+   
 3. Backend(Django):
      #### Prerequisites:
      
