@@ -2,16 +2,23 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.postgres.fields import JSONField
 
+from .constant.basic_command import tex_commands
 '''
 yaozhilu
 dell1234
 '''
 
 
+def default_dict():
+	return {"treeData": {}}
+
+
+def basic_command():
+	return tex_commands
+
+
 # Create your models here.
 
-def default_dict():
-	return {"treeData" : {}}
 
 class RootLevel(models.Model):
 
@@ -24,7 +31,7 @@ class RootLevel(models.Model):
 	index_item = JSONField(default=default_dict)
 	symbol_index = JSONField(default=default_dict)
 	author_index = JSONField(default=default_dict)
-
+	tex_command = JSONField(default=basic_command)
 
 class Level(MPTTModel):
 	'''
