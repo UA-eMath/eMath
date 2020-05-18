@@ -1,5 +1,4 @@
 import React from "react";
-// import {Node, Context} from "react-mathjax2"
 import {Node,Context} from "./../components/react-mathjax"
 
 import _ from "lodash";
@@ -36,8 +35,6 @@ export default function math(props) {
 			}}
 			loading = {<Icon type="loading" />}
 			didFinishTypeset={() => {
-
-				//console.log(this.props.MathJax.Extension);
 
 			}}
 			onError={(MathJax, error) => {
