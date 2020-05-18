@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.11 (Ubuntu 10.11-1.pgdg18.04+1)
--- Dumped by pg_dump version 10.11 (Ubuntu 10.11-1.pgdg18.04+1)
+-- Dumped from database version 10.13 (Ubuntu 10.13-1.pgdg18.04+1)
+-- Dumped by pg_dump version 10.13 (Ubuntu 10.13-1.pgdg18.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -544,7 +544,10 @@ CREATE TABLE public.presentation_rootlevel (
     html_title character varying(100),
     date date,
     author_id integer,
-    contributor_id integer
+    contributor_id integer,
+    author_index jsonb NOT NULL,
+    index_item jsonb NOT NULL,
+    symbol_index jsonb NOT NULL
 );
 
 
@@ -751,7 +754,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$150000$M3DfqSGuBH0S$SF8i22UAMV53UsOSO7Ur0W9ki+fgGhMbQlTX1bOZBOg=	2019-12-31 13:34:23.432564-07	t	yaozhilu			luyaozhiusing@gmail.com	t	t	2019-07-12 12:46:48.917551-06
+1	pbkdf2_sha256$150000$M3DfqSGuBH0S$SF8i22UAMV53UsOSO7Ur0W9ki+fgGhMbQlTX1bOZBOg=	2020-05-18 11:03:11.350553-06	t	yaozhilu			luyaozhiusing@gmail.com	t	t	2019-07-12 12:46:48.917551-06
 \.
 
 
@@ -1234,6 +1237,39 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 456	2019-12-31 17:21:57.386197-07	65	Para object (65)	2	[{"changed": {"fields": ["content"]}}]	9	1
 457	2019-12-31 17:22:17.110793-07	58	Para object (58)	2	[{"changed": {"fields": ["content"]}}]	9	1
 458	2019-12-31 17:22:31.931776-07	106	Para object (106)	2	[{"changed": {"fields": ["content"]}}]	9	1
+459	2020-01-19 14:22:57.572-07	70	Level object (70)	3		7	1
+460	2020-01-21 12:28:26.311208-07	7	Person object (7)	1	[{"added": {}}]	8	1
+461	2020-01-21 12:28:29.706829-07	2	RootLevel object (2)	1	[{"added": {}}]	13	1
+462	2020-01-21 12:48:37.423731-07	74	Level object (74)	1	[{"added": {}}]	7	1
+463	2020-01-21 13:22:36.759334-07	75	Level object (75)	1	[{"added": {}}]	7	1
+464	2020-01-21 13:24:09.698485-07	74	Level object (74)	2	[{"changed": {"fields": ["title", "tocTitle"]}}]	7	1
+465	2020-01-21 14:34:16.913755-07	71	Level object (71)	3		7	1
+466	2020-01-21 14:34:28.702652-07	73	Level object (73)	3		7	1
+467	2020-02-06 21:21:37.497023-07	28	Level object (28)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+468	2020-02-08 17:01:59.860608-07	28	Level object (28)	2	[{"changed": {"fields": ["position", "pageNum"]}}]	7	1
+469	2020-02-08 18:19:48.903351-07	77	Level object (77)	2	[{"changed": {"fields": ["pageNum"]}}]	7	1
+470	2020-02-08 18:23:22.431587-07	79	Level object (79)	2	[{"changed": {"fields": ["position"]}}]	7	1
+471	2020-02-09 16:28:19.921026-07	9	RootLevel object (9)	3		13	1
+472	2020-02-09 16:28:19.929524-07	8	RootLevel object (8)	3		13	1
+473	2020-02-09 16:28:19.932625-07	7	RootLevel object (7)	3		13	1
+474	2020-02-09 16:28:19.935497-07	6	RootLevel object (6)	3		13	1
+475	2020-02-09 16:28:19.938464-07	5	RootLevel object (5)	3		13	1
+476	2020-02-09 16:28:19.941314-07	4	RootLevel object (4)	3		13	1
+477	2020-02-09 16:28:19.94381-07	3	RootLevel object (3)	3		13	1
+478	2020-02-09 20:41:13.257067-07	86	Level object (86)	3		7	1
+479	2020-02-09 20:41:28.616883-07	11	RootLevel object (11)	3		13	1
+480	2020-02-13 22:03:12.838965-07	12	RootLevel object (12)	2	[{"changed": {"fields": ["glossary", "symbol_index", "author_index"]}}]	13	1
+481	2020-02-13 22:03:24.138958-07	10	RootLevel object (10)	2	[{"changed": {"fields": ["glossary", "symbol_index", "author_index"]}}]	13	1
+482	2020-02-13 22:03:30.844405-07	2	RootLevel object (2)	2	[{"changed": {"fields": ["glossary", "symbol_index", "author_index"]}}]	13	1
+483	2020-02-13 22:03:36.362565-07	1	RootLevel object (1)	2	[{"changed": {"fields": ["glossary", "symbol_index", "author_index"]}}]	13	1
+484	2020-02-14 11:34:50.959562-07	1	RootLevel object (1)	2	[{"changed": {"fields": ["glossary"]}}]	13	1
+485	2020-02-14 11:43:12.467695-07	1	RootLevel object (1)	2	[{"changed": {"fields": ["glossary"]}}]	13	1
+486	2020-03-03 21:26:19.465707-07	1	RootLevel object (1)	2	[{"changed": {"fields": ["glossary", "symbol_index", "author_index"]}}]	13	1
+487	2020-03-03 21:26:25.658588-07	2	RootLevel object (2)	2	[{"changed": {"fields": ["glossary", "symbol_index", "author_index"]}}]	13	1
+488	2020-03-03 21:26:33.035777-07	10	RootLevel object (10)	2	[{"changed": {"fields": ["glossary", "symbol_index", "author_index"]}}]	13	1
+489	2020-03-03 21:26:39.738676-07	10	RootLevel object (10)	2	[]	13	1
+490	2020-03-03 21:26:45.213401-07	12	RootLevel object (12)	2	[{"changed": {"fields": ["glossary", "symbol_index", "author_index"]}}]	13	1
+491	2020-03-03 22:53:16.436515-07	1	RootLevel object (1)	2	[{"changed": {"fields": ["glossary"]}}]	13	1
 \.
 
 
@@ -1302,6 +1338,14 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 37	presentation	0009_auto_20191106_1405	2019-11-06 14:05:52.255231-07
 38	presentation	0010_auto_20191107_1119	2019-11-07 11:20:06.296679-07
 39	presentation	0011_auto_20191231_1334	2019-12-31 13:34:09.607887-07
+40	presentation	0012_auto_20200106_1150	2020-01-10 12:04:28.571747-07
+41	presentation	0013_auto_20200106_1205	2020-01-10 12:04:28.582014-07
+42	presentation	0014_auto_20200110_1204	2020-01-10 12:04:28.589924-07
+43	presentation	0015_auto_20200213_2140	2020-02-13 21:40:39.265459-07
+44	presentation	0016_auto_20200213_2140	2020-02-13 21:40:39.293533-07
+45	presentation	0017_auto_20200213_2202	2020-02-13 22:02:39.601302-07
+46	presentation	0018_auto_20200309_1108	2020-03-11 09:45:30.179625-06
+47	presentation	0019_auto_20200311_0945	2020-03-11 09:45:30.189752-06
 \.
 
 
@@ -1319,6 +1363,10 @@ rk5gh5myimthodbmb55yxqybb1wvt707	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE
 9yeuunbujvno55mdq7ytb9rpa02cpznn	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2019-11-04 15:14:42.981999-07
 548wvndpdaj6ph138h513xbs5p5i9tse	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2019-11-19 13:08:36.252864-07
 4ol9d0u57xt3z3u48ag0zps5wwla8mor	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2020-01-14 13:34:23.434463-07
+0zoiwamn74lqmxgad2ae4iv2okjz1l0u	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2020-01-30 11:39:06.128684-07
+c4bjd64qkfelp3nfvi1nksdg4fvlwjdw	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2020-02-20 18:03:32.297937-07
+01klxv7k08qvdjltd06lp0pur2rpjm4w	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2020-03-13 13:29:05.046102-06
+0tpaci8c83lh77117iw3sn5d3clgfwn3	OWY4ZDAyY2JjZWJkYWI1Y2Q0YWU4OTM5ZjY1MzY5MzY0YjE1MWQ2ZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNzRhMjNhZDM2ZjU0ZmViNmYzNjg5MTFlYWRlMTc0OTJjMzg3MGU1In0=	2020-06-01 11:03:11.354854-06
 \.
 
 
@@ -1335,26 +1383,36 @@ COPY public.presentation_externallink (id, content, url, target, parent_e_id_id)
 --
 
 COPY public.presentation_level (id, "position", "isPage", title, "tocTitle", unit_type, lft, rght, tree_id, level, parent_id, "pageNum", root_id) FROM stdin;
-50	1	f	Product of   ℝm and ℝn	Definition	definition	21	22	1	4	33	\N	\N
-51	2	f	<Math inline>\\mathbb{R}^m\\times \\mathbb{R}^n = \\mathbb{R}^{m+n}</Math>	Proposition	Proposition	23	24	1	4	33	\N	\N
-5	1	f	Higher Dimensions and the Vector Space ℝn	Higher Dimensions and the Vector Space ℝn	chapter	15	30	1	2	2	\N	\N
-29	7	f	\N	\N	text	4	5	1	3	21	\N	\N
-27	7	f	\N	\N	text	8	9	1	3	22	\N	\N
-28	0	f	Appendix	Appendix	part	2	11	1	1	1	\N	\N
-2	2	f	The Vector Space ℝn	The Vector Space ℝn	Part	14	31	1	1	1	0	\N
-67	0	f	node1	node1	\N	33	36	1	2	3	\N	\N
-68	1	f	node2	node2	\N	37	38	1	2	3	\N	\N
-1	0	f	Linear Algebra in Rn	Linear Algebra in Rn	Book	1	40	1	0	\N	\N	1
-3	3	f	Determinants and a Second Encounter with Spaces and Linear Maps	Determinants and a Second Encounter with Spaces and Linear Maps	part	32	39	1	1	1	\N	\N
-21	0	t	Double the Pennies	Double the Pennies	eg	3	6	1	2	28	-1	\N
-22	1	t	Brake Distance Depends in a Quadratic Way on Speed	Brake Distance Depends in a Quadratic Way on Speed	eg	7	10	1	2	28	0	\N
-4	1	t	Linear Algebra in ℝn	Introduction	intro	12	13	1	1	1	1	\N
-31	0	t	Higher Dimensions and the Vector Space ℝn -- Introduction	Introduction	section	16	17	1	3	5	2	\N
-32	1	t	The Space ℝn: Points and Coordinates	Points and Coordinates	section	18	19	1	3	5	3	\N
-33	2	t	Cartesian Products of Subsets of n-Space	Cartesian Products of Subsets of n-Space	section	20	25	1	3	5	4	\N
-36	3	t	Equations in Several Variables	Equations in Several Variables	section	26	27	1	3	5	5	\N
-46	4	t	Distance between Points	Distance between Points	section	28	29	1	3	5	6	\N
-69	0	t	test	test	\N	34	35	1	3	67	7	\N
+27	7	f	\N	\N	text	4	5	2	3	22	\N	\N
+29	7	f	\N	\N	text	8	9	2	3	21	\N	\N
+28	-1	f	Appendix	Appendix	part	2	11	2	1	1	\N	\N
+50	1	f	Product of   ℝm and ℝn	Definition	definition	21	22	2	4	33	\N	\N
+51	2	f	<Math inline>\\mathbb{R}^m\\times \\mathbb{R}^n = \\mathbb{R}^{m+n}</Math>	Proposition	Proposition	23	24	2	4	33	\N	\N
+5	1	f	Higher Dimensions and the Vector Space ℝn	Higher Dimensions and the Vector Space ℝn	chapter	15	30	2	2	2	\N	\N
+2	2	f	The Vector Space ℝn	The Vector Space ℝn	Part	14	31	2	1	1	0	\N
+67	0	f	node1	node1	\N	33	36	2	2	3	\N	\N
+68	1	f	node2	node2	\N	37	38	2	2	3	\N	\N
+3	3	f	Determinants and a Second Encounter with Spaces and Linear Maps	Determinants and a Second Encounter with Spaces and Linear Maps	part	32	39	2	1	1	\N	\N
+79	-1	f	Appendix	Appendix	\N	2	3	1	1	74	\N	\N
+88	4	f	aadd	aaa	\N	1	4	5	0	\N	\N	12
+96	4	f	test	test	\N	1	4	6	0	\N	\N	16
+97	-1	f	Repository of Singleton	Repository of Singleton	\N	2	3	6	1	96	\N	\N
+85	-1	f	Appendix	Appendix	\N	2	3	3	1	84	\N	\N
+89	-1	f	Appendix	Appendix	\N	2	3	5	1	88	\N	\N
+84	2	f	Test creating new book11	Test creating new book	\N	1	4	3	0	\N	\N	10
+22	0	t	Brake Distance Depends in a Quadratic Way on Speed	Brake Distance Depends in a Quadratic Way on Speed	eg	3	6	2	2	28	0	\N
+21	1	t	Double the Pennies	Double the Pennies	eg	7	10	2	2	28	-1	\N
+4	1	t	Linear Algebra in ℝn	Introduction	intro	12	13	2	1	1	1	\N
+31	0	t	Higher Dimensions and the Vector Space ℝn -- Introduction	Introduction	section	16	17	2	3	5	2	\N
+32	1	t	The Space ℝn: Points and Coordinates	Points and Coordinates	section	18	19	2	3	5	3	\N
+33	2	t	Cartesian Products of Subsets of n-Space	Cartesian Products of Subsets of n-Space	section	20	25	2	3	5	4	\N
+36	3	t	Equations in Several Variables	Equations in Several Variables	section	26	27	2	3	5	5	\N
+46	4	t	Distance between Points	Distance between Points	section	28	29	2	3	5	6	\N
+69	0	t	test	test	\N	34	35	2	3	67	7	\N
+1	0	f	Linear Algebra in Rn	Linear Algebra in Rn	Book	1	40	2	0	\N	\N	1
+76	1	f	rdv	sfes	\N	4	7	1	1	74	\N	\N
+74	0	f	Preserved Book	Preserved Book	\N	1	8	1	0	\N	\N	2
+77	0	t	sef	fsese	\N	5	6	1	2	76	1	\N
 \.
 
 
@@ -1363,44 +1421,49 @@ COPY public.presentation_level (id, "position", "isPage", title, "tocTitle", uni
 --
 
 COPY public.presentation_para (id, content, "position", para_parent_id) FROM stdin;
+144	{"data": "fssfsfsfs"}	0	77
+93	{"data": "!!!!!!!!!!this%20is%20a%20list!!!!!!!!!.%20A%20single%20point%20is%20a%200-dimensional%20space,%20as%20it%20permits%20no%20motion%20inside%20of%20it%20at%20all.%20A%20line%20or%20a%20curve%20are%201-dimensional%20spaces:%20inside%20of%20it,%20at%20each%20of%20its%20points,%20there%20is%20exactly%20one%20direction%20of%20motion.%20It%20could%20be%20called%20%3CiLink%3Eforward-backward%3C/iLink%3E.%20A%20plane%20or%20a%20surface%20are%202-dimensional%20spaces:%20inside%20of%20it,%20at%20each%20of%20its%20points,%20there%20are%20exactly%20two%20independent%20directions%20of%20motion.%20These%20could%20be%20called%20%3CiLink%3Eforward-backward%20and%20left-right.%3C/iLink%3E%20Every%20other%20direction%20of%20motion%20can%20be%20combined%20from%20these%20two.%20The%20space%20surrounding%20us%20is%203-dimensional:%20inside%20of%20it,%20at%20each%20of%20its%20points,%20there%20are%20exactly%20three%20independent%20directions%20of%20motion.%20These%20could%20be%20called%20forward-backward,%20left-right,%20and%20up-down.%20Every%20other%20direction%20of%20motion%20can%20be%20combined%20from%20these%20three."}	2	31
+94	{"data": "In%20popular%20literature%20some%20mystery%20surrounds%20the%20concept%20of%204-dimensional%20and%20even%20higher%20dimensional%20spaces.%20Let%20us%20say%20for%20now:%20such%20spaces%20exist.%20Once%20we%20learn%20how%20to%20identify%20them,%20we%20find%20them%20all%20around%20us,%20and%20we%20use%20them%20all%20the%20time.%20%E2%80%93%20So%20why%20are%20they%20mysterious?%20They%20are%20pushed%20into%20mystery%20because%20they%20are%20%3CiLink%3E%20not%20accessible%20to%20our%20visual%20sense%3C/iLink%3E!"}	3	31
 102	{"data": "The (cartesian) product of ℝm and ℝn is ℝm×ℝn, defined as the set of all ordered (m+n)-tuples of the form"}	0	50
 99	{"data": "Here we introduce our work environment: for each of the numbers n, with n one of 0,1,2,…, a space, denoted ℝn. It consists of all ordered n-tuples of real numbers."}	0	32
 100	{"data": "To get started, let's recall the set <iLink>ℝ of real numbers.</iLink> Geometrically, real numbers correspond to the points on a line, a 1-dimensional object. Similarly, you have already seen how a pair of real numbers corresponds to a point in a plane, a 2-dimensional object, and a triple of three numbers may be used to describe the location of a point in space surrounding us, which has dimension 3. Here we take these associations a big step forward: we introduce spaces of arbitrarily many dimensions, and these spaces will form our primary work environment. The key constituent in any of these spaces is an ordered n-tuple of numbers, which we think of as a point:"}	1	32
 105	{"data": "<iLink>Proof</iLink><iLink>link2</iLink><iLink>link3</iLink>"}	2	51
 101	{"data": "We justify the notation ℝn by relating it to the set theoretic product operation to the effect that ℝn=ℝ×⋯×ℝ←n→. For now, this section merely serves to present the set theoretic perspective underlying the formation of the space ℝn. It may be skipped on a first reading."}	3	33
-94	{"data": "In popular literature some mystery surrounds the concept of 4-dimensional and even higher dimensional spaces. Let us say for now: such spaces exist. Once we learn how to identify them, we find them all around us, and we use them all the time. – So why are they mysterious? They are pushed into mystery because they are <iLink> not accessible to our visual sense</iLink>!"}	3	31
 55	{"data": "Such examples demonstrate how easy it is to comprehend linear relationships and to work with them. In contrast, non-linear relationships can be counter-intuitive and much harder to work with. – For an example of the counter intuitive nature of non linear relationships I'll offer you a deal:"}	3	4
 56	{"data": "I give you $100 today, if over the next 14 days you agree to give me 1 penny today, 2 pennies tomorrow, and on each day double the number of pennies of the day before. –<iLink id = '21'> Does this sound like a good deal to you?</iLink>"}	4	4
 57	{"data": "So far for a first encounter with ‘linear’ vs. ‘nonlinear’. In this introductory ebook on Linear Algebra we will encounter"}	5	4
 58	{"data": "<ol><li>Vector spaces: the envirodnment within which linear processes can be described</li><li>Systems of linear equations, and methods for solving them</li><li>Matrices as a vast extension of the system of real numbers</li><li>Linear transformations andd their relationship to matrices</li><li>Determinants and their relationship to oriented volume</li></ol>"}	6	4
 53	{"data": "Let%20us%20begin%20with%20a%20first%20impression%20of%20the%20distinction%20between%20%E2%80%98linear%E2%80%99%20and%20%E2%80%98non-linear%E2%80%99%20processes"}	1	4
+147	{"data": "%3CMath%3E%0A%5Cbegin%7Bxy%7D%0A%5Cxymatrix%20%7B%0AU%20%5Car@/_/%5Bddr%5D_y%20%5Car@%7B.%3E%7D%5Bdr%5D%7C%7B%5Clangle%20x,y%20%5Crangle%7D%20%5Car@/%5E/%5Bdrr%5D%5Ex%20%5C%5C%0A%20&%20X%20%5Ctimes_Z%20Y%20%5Car%5Bd%5D%5Eq%20%5Car%5Br%5D_p%20&%20X%20%5Car%5Bd%5D_f%20%5C%5C%0A%20&%20Y%20%5Car%5Br%5D%5Eg%20&%20Z%0A%7D%0A%5Cend%7Bxy%7D%0A%3C/Math%3E%20"}	2	69
 104	{"data": "For all m,n≥1, <Math inline>\\\\mathbb{R}^m\\\\times \\\\mathbb{R}^n = \\\\mathbb{R}^{m+n}</Math>."}	0	51
-91	{"data": "In this chapter we will introduce our work environment: for each integer n≥0 a ‘straight’ and ‘endless’ space, denoted ℝn. The integer n is the dimension the space. A point in ℝn is given by n numbers x1,…,xn, written in order as (x1,…,xn). We will study in detail how to use such points to describe objects like lines and planes in ℝn. We will learn how to move such objects around and how to change their shape. We will learn general rules on how to compute with such points."}	0	31
+92	{"data": "Let%20us%20take%20an%20intuitive%20look%20at%20%3Cb%3Ethe%20dimension%20concept%3C/b%3E%20For%20a%20natural%20number%20n,%20a%20space%20is%20called%20n-dimensional%20if,%20at%20each%20of%20its%20points,%20it%20permits%20exactly%20n%20independent%20directions%20of%20motion%20which%20can%20be%20combined%20to%20reach%20any%20nearby%20point.%20For%20example,"}	1	31
 75	{"data": "Beware of debt: interest is compounded, and this leads to exponential growth of debt if no payments are being made – The same kind of ‘gotcha’ as the example above."}	0	29
-68	{"data": "So, what was this deal again? – Your prof offers you $100 today if you agree to pay 1 penny today, 2 pennies tomorrow, 4 pennies the following day, etc. for the next 14 days."}	0	21
+72	{"data": "This%20is%20an%20example%20of%20exponential%20growth,%20a%20%E2%80%98gotcha%E2%80%99%20in%20many%20ways:"}	4	21
 66	{"data": "assume that brake distance depends linearly on speed. – Question: Given that it takes .5m to bring the car to a full stop from an initial speed of 10km/h, what would the brake distance be from an initial speed of 80km/h?"}	0	27
-59	{"data": "The distance which a car travels while brakes are being applied during an emergency breaking maneuver depends upon the initial speed and a number of environmental conditions such as road, tires, brake force, etc. Let us assume that these environmental conditions remain unchanged throughout while the following data were collected."}	0	22
-92	{"data": "Let us take an intuitive look at <b>the dimension concept</b> For a natural number n, a space is called n-dimensional if, at each of its points, it permits exactly n independent directions of motion which can be combined to reach any nearby point. For example,"}	1	31
-69	{"data": "On the surface this sounds like a great deal: collect $100 while only having to pay a few pennies back for each of the next 14 days. But before committing to such a deal, perhaps it is better to work out carefully what actually happens here."}	1	21
+63	{"data": "We%20may%20summarize%20this%20observation%20as%20follows:%20if%20the%20brake%20distance%20at%20speed%20s%5Bkm/h%5D%20equals%20d%5Bm%5D,%20then"}	4	22
+95	{"data": "Let%20us%20now%20outline%20the%20essence%20of%20this%20introductory%20chapter%20to%20the%20vector%20space%20%E2%84%9Dn."}	4	31
+73	{"data": "number%20of%20pennies%20paid%20on%20day%20k%20=%20%3CMath%20inline%20=%20'true'%3E%202%5Ek%20%3C/Math%3E%20"}	5	21
 67	{"data": "100km/h = 8⋅10km/h. So the brake distance should be 8⋅(0.5)=4m – a big difference from the truthful 30m in the above table."}	1	27
-60	{"data": "Speed [km/h] Brake Distance [m] table!!!!!!"}	1	22
 103	{"data": "<Math>({\\\\color{red} x_1,\\\\dots, x_m},{\\\\color{blue} y_1,\\\\dots, y_n})\\\\quad \\\\text{with}\\\\quad ({\\\\color{red} x_1,\\\\dots, x_m})\\\\ \\\\text{in}\\\\ \\\\mathbb{R}{m}\\\\quad \\\\text{and}\\\\quad ({\\\\color{blue} y_1,\\\\dots, y_n})\\\\ \\\\text{in}\\\\ \\\\mathbb{R}{n}</Math>"}	2	50
-93	{"data": "!!!!!!!!!!this is a list!!!!!!!!!. A single point is a 0-dimensional space, as it permits no motion inside of it at all. A line or a curve are 1-dimensional spaces: inside of it, at each of its points, there is exactly one direction of motion. It could be called <iLink>forward-backward</iLink>. A plane or a surface are 2-dimensional spaces: inside of it, at each of its points, there are exactly two independent directions of motion. These could be called <iLink>forward-backward and left-right.</iLink> Every other direction of motion can be combined from these two. The space surrounding us is 3-dimensional: inside of it, at each of its points, there are exactly three independent directions of motion. These could be called forward-backward, left-right, and up-down. Every other direction of motion can be combined from these three."}	2	31
-61	{"data": "Now let us observe the following:"}	2	22
-71	{"data": "Oooopss! – Those numbers of pennies start out small. But they sure grow rapidly! So you see that, on the 14-th day alone, you’d pay your prof back everything (s)he gave you, plus you'd be handing over an additional $63.84."}	3	21
-62	{"data": "!!!!!THIS IS A LIST!!!!While a speed of 20km/h is 2⋅10km/h, the brake distance went up by a factor of <Math inline>4=2^2</Math>. !! While a speed of 30km/h is 3⋅10km/h, the brake distance went up by a factor of <Math inline>9=3^2</Math>. !!While a speed of 40km/h is 4⋅10km/h, the brake distance went up by a factor of <Math inline>16=4^2</Math>.!!!etc."}	3	22
-95	{"data": "Let us now outline the essence of this introductory chapter to the vector space ℝn."}	4	31
-72	{"data": "This is an example of exponential growth, a ‘gotcha’ in many ways:"}	4	21
-63	{"data": "We may summarize this observation as follows: if the brake distance at speed s[km/h] equals d[m], then"}	4	22
-73	{"data": "number of pennies paid on day k = <Math inline = 'true'> 2^k </Math> "}	5	21
-64	{"data": "the brake distance at speed <Math inline>(k\\\\cdot s)</Math>[km/h] equals <Math inline = 'true'>(k^2 \\\\cdot d)</Math>[m]."}	5	22
-74	{"data": "For another impression of ‘exponential growth’, work out what happens if you let the penny doubling return scheme run for 21 days instead of for 14."}	6	21
-65	{"data": "Thus the brake distance is in a square, or a quadratic, relationship with the initial speed."}	6	22
+59	{"data": "The%20distance%20which%20a%20car%20travels%20while%20brakes%20are%20being%20applied%20during%20an%20emergency%20breaking%20maneuver%20depends%20upon%20the%20initial%20speed%20and%20a%20number%20of%20environmental%20conditions%20such%20as%20road,%20tires,%20brake%20force,%20etc.%20Let%20us%20assume%20that%20these%20environmental%20conditions%20remain%20unchanged%20throughout%20while%20the%20following%20data%20were%20collected."}	0	22
+74	{"data": "For%20another%20impression%20of%20%E2%80%98exponential%20growth%E2%80%99,%20work%20out%20what%20happens%20if%20you%20let%20the%20penny%20doubling%20return%20scheme%20run%20for%2021%20days%20instead%20of%20for%2014."}	6	21
+64	{"data": "the%20brake%20distance%20at%20speed%20%3CMath%20inline%3E(k%5Ccdot%20s)%3C/Math%3E%5Bkm/h%5D%20equals%20%3CMath%20inline%20=%20'true'%3E(k%5E2%20%5Ccdot%20d)%3C/Math%3E%5Bm%5D."}	5	22
+65	{"data": "Thus%20the%20brake%20distance%20is%20in%20a%20square,%20or%20a%20quadratic,%20relationship%20with%20the%20initial%20speed."}	6	22
+91	{"data": "In%20this%20chapter%20we%20will%20introduce%20our%20work%20environment:%20for%20each%20integer%20n%E2%89%A50%20a%20%E2%80%98straight%E2%80%99%20and%20%E2%80%98endless%E2%80%99%20space,%20denoted%20%E2%84%9Dn.%20The%20integer%20n%20is%20the%20dimension%20the%20space.%20A%20point%20in%20%E2%84%9Dn%20is%20given%20by%20n%20numbers%20x1,%E2%80%A6,xn,%20written%20in%20order%20as%20(x1,%E2%80%A6,xn).%20We%20will%20study%20in%20detail%20how%20to%20use%20such%20points%20to%20describe%20objects%20like%20lines%20and%20planes%20in%20%E2%84%9Dn.%20We%20will%20learn%20how%20to%20move%20such%20objects%20around%20and%20how%20to%20change%20their%20shape.%20We%20will%20learn%20general%20rules%20on%20how%20to%20compute%20with%20such%20points."}	0	31
+69	{"data": "On%20the%20surface%20this%20sounds%20like%20a%20great%20deal:%20collect%20$100%20while%20only%20having%20to%20pay%20a%20few%20pennies%20back%20for%20each%20of%20the%20next%2014%20days.%20But%20before%20committing%20to%20such%20a%20deal,%20perhaps%20it%20is%20better%20to%20work%20out%20carefully%20what%20actually%20happens%20here."}	1	21
+60	{"data": "Speed%20%5Bkm/h%5D%20Brake%20Distance%20%5Bm%5D%20table!!!!!!"}	1	22
+61	{"data": "Now%20let%20us%20observe%20the%20following:"}	2	22
+62	{"data": "!!!!!THIS%20IS%20A%20LIST!!!!While%20a%20speed%20of%2020km/h%20is%202%E2%8B%8510km/h,%20the%20brake%20distance%20went%20up%20by%20a%20factor%20of%20%3CMath%20inline%3E4=2%5E2%3C/Math%3E.%20!!%20While%20a%20speed%20of%2030km/h%20is%203%E2%8B%8510km/h,%20the%20brake%20distance%20went%20up%20by%20a%20factor%20of%20%3CMath%20inline%3E9=3%5E2%3C/Math%3E.%20!!While%20a%20speed%20of%2040km/h%20is%204%E2%8B%8510km/h,%20the%20brake%20distance%20went%20up%20by%20a%20factor%20of%20%3CMath%20inline%3E16=4%5E2%3C/Math%3E.!!!etc."}	3	22
+145	{"data": "fssfssf"}	1	77
+68	{"data": "So,%20what%20was%20this%20deal%20again?%20%E2%80%93%20Your%20prof%20offers%20you%20$100%20today%20if%20you%20agree%20to%20pay%201%20penny%20today,%202%20pennies%20tomorrow,%204%20pennies%20the%20following%20day,%20etc.%20for%20the%20next%2014%20days."}	0	21
+71	{"data": "Oooopss!%20%E2%80%93%20Those%20numbers%20of%20pennies%20start%20out%20small.%20But%20they%20sure%20grow%20rapidly!%20So%20you%20see%20that,%20on%20the%2014-th%20day%20alone,%20you%E2%80%99d%20pay%20your%20prof%20back%20everything%20(s)he%20gave%20you,%20plus%20you'd%20be%20handing%20over%20an%20additional%20$63.84."}	3	21
 52	{"data": "This ebook covers basic topics of linear algebra. It deals with vector spaces, their subspaces and linear transformations between them. We emphasize a geometric/visual view of the subject which makes it particularly useful for science and engineering students. Beyond our immediate concerns, we also provide a good foundations for multivariable differential calculus and its applications, in particular certain aspects of differential equations and differential geometry. – Background knowledge assumed of a reader is very modest: basic algebra and knowledge of trigonometric functions."}	0	4
-98	{"data": "One fundamental concern of mathematics is the study of equations and their solutions. Here we introduce equations in n variables (also: unknowns), and we explain how such equations can be used to define certain objects in ℝn."}	4	36
-70	{"data": "days and pennies table !!!!!!!"}	2	21
-96	{"data": " !!!THIS IS A LIST!!!! We begin by introducing the concept of <iLink>n-tuple of numbers</iLink>. The collection of all n-tuples is the <iLink>space ℝn</iLink>. We then use the product operation on sets to see that <Math inline>\\\\StPrdct{ \\\\RNrSpc{m} }{ \\\\RNrSpc{n} } = \\\\RNrSpc{m+n}</Math> !!! We introduce a notion of distance between two points P and Q in ℝn. <iLink>It is based on the Theorem of Pythagoras.</iLink> !!! To be able to make a transition from one point P to another Q, we introduce the arrow <Math inline>\\\\Arrow{P}{Q}</Math>. It has the point P at its tail and the point Q at its tip. The length of <Math inline>\\\\Arrow{P}{Q}</Math> is the distance between P and Q. !!! An arrow is determined by its tail point, its direction, and its length. A vector consists of all arrows of given direction and length. It is sometimes convenient to think of a vector as an arrow that is allowed to ‘float freely’ while not changing its length nor its direction. We may <iLink>describe a vector</iLink> using a coordinate n-tuple. Thus a coordinate n-tuple now serves two purposes: (a) locate a point and, (b) describe a vector. We explain how these two purposes are related. !!! Next we explain how two vectors can be <iLink>added</iLink>, and how a <iLink>vector is multiplied by a number</iLink>. These operations extend the rules for adding and multiplying numbers to vectors. !!! A vector is determined by its direction and its length. By virtue of these properties vectors lend themselves to modeling any real life quantity that is determined by its direction and its magnitude. Here are some examples:<ol> <li>Shifting (translating) an object from one place to another (without rotating it in the process) moves each point of the object in the same direction by the same distance. Therefore, we may use a vector to describe this translation.</li><li>A ‘force’ is determined by the direction in which it acts and its magnitude. Therefore, we may use a vector to represent this force.</li><li>The ‘velocity’ of a moving object is given by the direction of the motion and its speed. Therefore, we may use a vector to represent this velocity.</ol> As an application, we offer an introduction to linear motions, that is a point shaped particle moving along a line with constant speed."}	5	31
-106	{"data": "awdda"}	7	4
+98	{"data": "One%20fundamental%20concern%20of%20mathematics%20is%20the%20study%20of%20equations%20and%20their%20solutions.%20Here%20we%20introduce%20equations%20in%20n%20variables%20(also:%20unknowns),%20and%20we%20explain%20how%20such%20equations%20can%20be%20used%20to%20define%20certain%20objects%20in%20%E2%84%9Dn."}	4	36
+136	{"data": "%3CMath%20inline=%22true%22%3E%5Cnewcommand%7B%5CMtrx%7D%5B1%5D%7B#1%7D%3C/Math%3E%0A%3CMath%20inline=%22true%22%3E%5CAnnotate%5Btext%5D%7B%5CMtrx%7D%7Bmatrix%20#1%7D%3C/Math%3E%0A%3CMath%20inline=%22true%22%3E%5CMtrx%7BA%7D%3C/Math%3E%20%0A%20"}	3	69
+96	{"data": "%20!!!THIS%20IS%20A%20LIST!!!!%20We%20begin%20by%20introducing%20the%20concept%20of%20%3CiLink%3En-tuple%20of%20numbers%3C/iLink%3E.%20The%20collection%20of%20all%20n-tuples%20is%20the%20%3CiLink%3Espace%20%E2%84%9Dn%3C/iLink%3E.%20We%20then%20use%20the%20product%20operation%20on%20sets%20to%20see%20that%20%3CMath%20inline%3E%5CStPrdct%7B%20%5CRNrSpc%7Bm%7D%20%7D%7B%20%5CRNrSpc%7Bn%7D%20%7D%20=%20%5CRNrSpc%7Bm+n%7D%3C/Math%3E%20!!!%20We%20introduce%20a%20notion%20of%20distance%20between%20two%20points%20P%20and%20Q%20in%20%E2%84%9Dn.%20%3CiLink%3EIt%20is%20based%20on%20the%20Theorem%20of%20Pythagoras.%3C/iLink%3E%20!!!%20To%20be%20able%20to%20make%20a%20transition%20from%20one%20point%20P%20to%20another%20Q,%20we%20introduce%20the%20arrow%20%3CMath%20inline%3E%5CArrow%7BP%7D%7BQ%7D%3C/Math%3E.%20It%20has%20the%20point%20P%20at%20its%20tail%20and%20the%20point%20Q%20at%20its%20tip.%20The%20length%20of%20%3CMath%20inline%3E%5CArrow%7BP%7D%7BQ%7D%3C/Math%3E%20is%20the%20distance%20between%20P%20and%20Q.%20!!!%20An%20arrow%20is%20determined%20by%20its%20tail%20point,%20its%20direction,%20and%20its%20length.%20A%20vector%20consists%20of%20all%20arrows%20of%20given%20direction%20and%20length.%20It%20is%20sometimes%20convenient%20to%20think%20of%20a%20vector%20as%20an%20arrow%20that%20is%20allowed%20to%20%E2%80%98float%20freely%E2%80%99%20while%20not%20changing%20its%20length%20nor%20its%20direction.%20We%20may%20%3CiLink%3Edescribe%20a%20vector%3C/iLink%3E%20using%20a%20coordinate%20n-tuple.%20Thus%20a%20coordinate%20n-tuple%20now%20serves%20two%20purposes:%20(a)%20locate%20a%20point%20and,%20(b)%20describe%20a%20vector.%20We%20explain%20how%20these%20two%20purposes%20are%20related.%20!!!%20Next%20we%20explain%20how%20two%20vectors%20can%20be%20%3CiLink%3Eadded%3C/iLink%3E,%20and%20how%20a%20%3CiLink%3Evector%20is%20multiplied%20by%20a%20number%3C/iLink%3E.%20These%20operations%20extend%20the%20rules%20for%20adding%20and%20multiplying%20numbers%20to%20vectors.%20!!!%20A%20vector%20is%20determined%20by%20its%20direction%20and%20its%20length.%20By%20virtue%20of%20these%20properties%20vectors%20lend%20themselves%20to%20modeling%20any%20real%20life%20quantity%20that%20is%20determined%20by%20its%20direction%20and%20its%20magnitude.%20Here%20are%20some%20examples:%3Col%3E%20%3Cli%3EShifting%20(translating)%20an%20object%20from%20one%20place%20to%20another%20(without%20rotating%20it%20in%20the%20process)%20moves%20each%20point%20of%20the%20object%20in%20the%20same%20direction%20by%20the%20same%20distance.%20Therefore,%20we%20may%20use%20a%20vector%20to%20describe%20this%20translation.%3C/li%3E%3Cli%3EA%20%E2%80%98force%E2%80%99%20is%20determined%20by%20the%20direction%20in%20which%20it%20acts%20and%20its%20magnitude.%20Therefore,%20we%20may%20use%20a%20vector%20to%20represent%20this%20force.%3C/li%3E%3Cli%3EThe%20%E2%80%98velocity%E2%80%99%20of%20a%20moving%20object%20is%20given%20by%20the%20direction%20of%20the%20motion%20and%20its%20speed.%20Therefore,%20we%20may%20use%20a%20vector%20to%20represent%20this%20velocity.%3C/ol%3E%20As%20an%20application,%20we%20offer%20an%20introduction%20to%20linear%20motions,%20that%20is%20a%20point%20shaped%20particle%20moving%20along%20a%20line%20with%20constant%20speed."}	5	31
+70	{"data": "days%20and%20pennies%20table%20!!!!!!!%20awddad"}	2	21
+130	{"data": "130%3Ci%3Eefesf%3C/i%3E%20"}	4	69
+106	{"data": "awddaawda"}	7	4
 54	{"data": "%3Cul%3E%0A%3Cli%3ESuppose%20you%20are%20traveling%20at%20constant%20speed%20of%2080km/h.%20After%20one%20hour%20you%20will%20have%20covered%20a%20distance%20of%2080km.%20After%202%20hours%20you%20will%20have%20covered%20a%20distance%20of%20160km;%20after%203%20hours%20a%0Adistance%20of%20240km,%20etc.%20%E2%80%93%20Thus%20%E2%80%98time%0Atraveled%E2%80%99%20and%20%E2%80%98distance%20covered%E2%80%99%20are%20in%20a%20linear%20relationship%20%3CMath%3E%5Ctext%7Bdistance%20traveled%20in%20$k$%20hours%7D=k%5Ccdot%5Ctext%7B(distance%20traveled%20in%20$1$%20hour)%7D%3C/Math%3E%3C/li%3E%0A%0A%3Cli%3E%20Suppose%20each%20day%20you%20put%20a%20marble%20into%20some%20bag.%20Then%20you%20know%20that%20after%201%20day%20you%20will%20have%201%20marble,%20after%202%20days%20you%20will%20have%20two%20marbles;%20after%203%20days%20you%20will%20have%203%20marbles%20in%20the%20bag,%20etc.%20%E2%80%93%20This%20is%20an%20example%20of%20a%20linear%20relationship:%20%3CMath%3E%5Ctext%7Bno.of%20marbles%20after%20$k$%20days%20%7D=k%5Ccdot%5Ctext%7B(no.of%20marbles%20after%20$1$%20day)%7D%3C/Math%3E%3C/li%3E%0A%0A%3Cli%3EWhen%20driving%20a%20car,%20let%E2%80%99s%20make%20a%20table%20which%20records%20the%20distance%20it%20takes%20to%20brake%20the%20vehicle%20to%20a%20full%20stop%20from%20a%20given%20speed.%20%E2%80%93%20Such%20a%20table%20%3CiLink%20id=%2222%22%3E%20reveals%20a%20quadratic%20relationship%20%3C/iLink%3Ebetween%20speed%20and%20brake%20distance%20to%20a%20full%20stop.%3C/li%3E%0AIn%20a%20cell%20growth%20experiment%20you%20might%20encounter%20a%20table%20like%20the%20following%0A%3Ctable%3E%0A%3Ctr%3E%3Ctd%3EDay%3C/td%3E%3Ctd%3E1%3C/td%3E%3Ctd%3E2%3C/td%3E%3Ctd%3E3%3C/td%3E%3Ctd%3E4%3C/td%3E%3Ctd%3E5%3C/td%3E%3Ctd%3E6%3C/td%3E%3Ctd%3E7%3C/td%3E%3C/tr%3E%0A%3Ctr%3E%3Ctd%3ECell%0AMass%3C/td%3E%3Ctd%3Em%3C/td%3E%3Ctd%3E2m%3C/td%3E%3Ctd%3E4m%3C/td%3E%3Ctd%3E8m%3C/td%3E%3Ctd%3E16m%3C/td%3E%3Ctd%3E32m%3C/td%3E%3Ctd%3E64m%3C/td%3E%0A%3C/tr%3E%0A%3C/table%3EThis%20corresponds%20to%20a%20substance%20which%20doubles%20itself%20every%20day.%20Thus%20%E2%80%98number%20of%20days%20passed%E2%80%99%20and%20%E2%80%98cell%20mass%E2%80%99%20are%20not%20in%20a%20linear%20relationship%20but%20rather%20in%20an%20exponential%20relationship:%20%3Cp%3Ecell%20mass%0Aon%20day%20k%20=%3CMath%3E2%5E%7Bk-1%7D%5Ccdot%3C/Math%3E(cell%20mass%20on%20day%201)%0A%3C/p%3E%0A%0A%3C/ul%3E"}	2	4
 \.
 
@@ -1416,6 +1479,7 @@ COPY public.presentation_person (id, first_name, middle_name, last_name) FROM st
 4	fn4	\N	ln4
 5	fn5	\N	ln5
 6	fn6	\N	ln6
+7	George	\N	Peschke
 \.
 
 
@@ -1423,8 +1487,12 @@ COPY public.presentation_person (id, first_name, middle_name, last_name) FROM st
 -- Data for Name: presentation_rootlevel; Type: TABLE DATA; Schema: public; Owner: yaozhilu
 --
 
-COPY public.presentation_rootlevel (id, html_title, date, author_id, contributor_id) FROM stdin;
-1	Linear Algebra in Euclidean Space	2019-11-06	1	2
+COPY public.presentation_rootlevel (id, html_title, date, author_id, contributor_id, author_index, index_item, symbol_index) FROM stdin;
+12	aaa	2020-02-09	\N	\N	{"treeData": {}}	{"treeData": {}}	{"treeData": {}}
+16	test	2020-05-18	\N	\N	{"treeData": {}}	{"treeData": {}}	{"treeData": {}}
+2	Preserved Book	2020-01-21	7	\N	{"treeData": {}}	{"treeData": {}}	{"treeData": {}}
+10	Test creating new book	2020-02-09	\N	\N	{"treeData": {}}	{"treeData": {}}	{"treeData": {}}
+1	Linear Algebra in Euclidean Space	2019-11-06	1	2	{"treeData": {}}	{"treeData": {"node1!node2": 130, "1st para in 22": 130}}	{"treeData": {"dawad": 130}}
 \.
 
 
@@ -1481,28 +1549,28 @@ SELECT pg_catalog.setval('public.database_externallink_id_seq', 1, false);
 -- Name: database_level_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
 --
 
-SELECT pg_catalog.setval('public.database_level_id_seq', 69, true);
+SELECT pg_catalog.setval('public.database_level_id_seq', 97, true);
 
 
 --
 -- Name: database_para_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
 --
 
-SELECT pg_catalog.setval('public.database_para_id_seq', 106, true);
+SELECT pg_catalog.setval('public.database_para_id_seq', 147, true);
 
 
 --
 -- Name: database_person_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
 --
 
-SELECT pg_catalog.setval('public.database_person_id_seq', 6, true);
+SELECT pg_catalog.setval('public.database_person_id_seq', 7, true);
 
 
 --
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 458, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 491, true);
 
 
 --
@@ -1516,14 +1584,14 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 13, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: emath
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 39, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 47, true);
 
 
 --
 -- Name: presentation_rootlevel_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yaozhilu
 --
 
-SELECT pg_catalog.setval('public.presentation_rootlevel_id_seq', 1, true);
+SELECT pg_catalog.setval('public.presentation_rootlevel_id_seq', 16, true);
 
 
 --
