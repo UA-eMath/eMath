@@ -6,7 +6,6 @@ import updateBook from "../../requests/updateBook";
 import removeBook from "../../requests/removeBook";
 import moment from "moment";
 
-
 class BookSetting extends React.Component {
 
 	onDelete = (bookId) => {
@@ -31,8 +30,8 @@ class BookSetting extends React.Component {
 	onUpdate = (nodeId, bookId) => {
 
 		this.props.form.validateFields((err, values) => {
-			if (!err) {
-				console.log('Received values of form: ', values);
+			if (err) {
+				console.error(err);
 			}
 
 			let node_request_body;
