@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import SplitView from './components/splitView'
 import BookDisplay from "./components/bookDisplay";
 import AuthoringLayout from './components/authoringLayout'
+import SetupPage from "./components/setupPage"
 
 export default class App extends React.Component {
 
@@ -29,6 +30,10 @@ export default class App extends React.Component {
 				)}/>
 				<Route path='/authoring/:id/' render={(props) => (
 					<AuthoringLayout {...this.props} {...props}/>
+				)}/>
+
+				<Route path='/setup/:id/' render={(props) => (
+					<SetupPage {...this.props} {...props}/>
 				)}/>
 			</Router>
 		)

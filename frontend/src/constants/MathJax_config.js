@@ -11,7 +11,7 @@ const MathJaxConfig = {
 			styles: {".MathJax_Preview": {visibility: "hidden"}}
 		},
 		tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]},
-		TeX: {extensions: ["[Extra]/annotations.js", "[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js"]}
+		TeX: {extensions: ["[Extra]/annotations.js", "[Extra]/xypic.js", "AMSmath.js", "AMSsymbols.js","action.js"]}
 	}
 };
 

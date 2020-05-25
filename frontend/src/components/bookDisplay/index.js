@@ -1,11 +1,10 @@
-import React, {useState, useEffect, createRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import CardDeck from 'react-bootstrap/CardDeck';
-import {Button, Card, Icon, Tooltip, FormComponentProps} from 'antd';
+import {Button, Card, Icon, Tooltip} from 'antd';
 import "./index.css";
 import 'antd/dist/antd.css';
 import GetRoots from '../../requests/GetRoots';
 import AddBook from "./addBookModal";
-import BookSetting from "./bookSetting";
 
 export default function BookDisplay(props) {
 
@@ -13,9 +12,6 @@ export default function BookDisplay(props) {
 	const [visible, setVisible] = useState(false);
 	const [loading, setLoading] = useState(false);
 
-	const [editingVisible, setEditingVisible] = useState(false);
-	const [editingLoading, setEditingLoading] = useState(false);
-	const [book, setBook] = useState({root: {}});
 	const {Meta} = Card;
 
 	useEffect(() => {
@@ -29,15 +25,9 @@ export default function BookDisplay(props) {
 					console.error("FETCH_TAGS_FAILED", data);
 				} else {
 					setData(data.data);
-					console.log(data.data)
 				}
 			}
 		)
-	};
-
-	const openBookSetting = (book) => {
-		setBook(book);
-		setEditingVisible(true);
 	};
 
 	return (
@@ -57,7 +47,9 @@ export default function BookDisplay(props) {
 										            window.location.href = '/view/' + book.title + '/' + book.id
 									            }}/>}
 									actions={[
-										<Icon type="setting" key="setting" onClick={() => openBookSetting(book)}/>,
+										<Icon type="setting" key="setting" onClick={() => {
+											window.location.href = '/setup/' + book.id
+										}}/>,
 										< Icon type="edit" key="edit" onClick={() => {
 											window.location.href = '/authoring/' + book.id
 										}}/>,
@@ -73,17 +65,7 @@ export default function BookDisplay(props) {
 						</Tooltip>
 					)
 				})}
-
 			</CardDeck>
-			<BookSetting
-				visible={editingVisible}
-				onCancel={() => setEditingVisible(false)}
-				loading={editingLoading}
-				setVisible={setEditingVisible}
-				setLoading={setEditingLoading}
-				book={book}
-				fetchRoots={()=>fetchRoots()}
-			/>
 
 			<Button icon={"plus"}
 			        shape="circle"

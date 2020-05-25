@@ -5,9 +5,6 @@ import LevelEditor from './../../components/levelEditor'
 import ParaEditor from './../../components/paraEditor'
 import SplitPane from "react-split-pane"
 import './index.css'
-import {Tabs} from 'antd';
-
-const {TabPane} = Tabs;
 
 export default class AuthoringLayout extends React.Component {
 
