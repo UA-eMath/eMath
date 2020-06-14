@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from presentation.models import RootLevel,Level
+from presentation.models import Level
 
 
 class NodeSerializer(serializers.ModelSerializer):

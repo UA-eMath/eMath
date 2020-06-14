@@ -4,6 +4,7 @@ from presentation.models import Level, RootLevel
 from presentation.Serializers.rootLevel_serializer import RootLevelSerializer
 from presentation.Serializers.level_serializers import LevelSerializer
 
+
 class texCommandViewSets(viewsets.ModelViewSet):
 	serializer_class = RootLevelSerializer
 	level_serializer = LevelSerializer
@@ -11,9 +12,7 @@ class texCommandViewSets(viewsets.ModelViewSet):
 	queryset = RootLevel.objects.all()
 
 	def retrieve(self, request, *args, **kwargs):
-
 		book = Level.objects.get(pk=kwargs.get("pk")).get_root().root
-		commands = getattr(book,'tex_command')
+		commands = getattr(book, 'tex_command')
 
-		return Response(data=commands,status=200)
-	
+		return Response(data=commands, status=200)

@@ -32,6 +32,7 @@ router.register(r'indexItem', IndexItemViewSets, "IndexItem")
 router.register(r'texCommand', texCommandViewSets, "texCommand")
 
 urlpatterns = [
+	url(r'^uploadTex/(?P<pk>.+)/$', UploadTexCommand.as_view()),
 	url('', include(router.urls)),
 	path('admin/', admin.site.urls),
 ]
