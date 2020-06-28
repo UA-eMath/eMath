@@ -38,6 +38,7 @@ class UploadTexCommand(views.APIView):
 
 			]}
 
+ 
 		book = Level.objects.get(pk=kwargs.get("pk")).get_root().root
 		commands = getattr(book, 'tex_command')
 
