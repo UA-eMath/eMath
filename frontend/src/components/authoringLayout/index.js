@@ -36,9 +36,9 @@ export default class AuthoringLayout extends React.Component {
 						<LevelEditor levelId ={id} changePaneSize={this.changePaneSize}/>
 					</div>
 
-					<div
+					<div 
 						style={{
-							background: '#aaaa00',
+							background: '#C4C4C4',
 							minHeight: "100vh",
 						}}
 					>

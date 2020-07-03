@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-06-29 16:21:37
+ * @LastEditTime: 2020-07-03 15:01:27
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /eMath/frontend/src/App.js
+ */ 
 import React from 'react';
 import TopNav from './components/topNav';
 import {BrowserRouter as Router, Route} from "react-router-dom";
@@ -5,6 +13,10 @@ import SplitView from './components/splitView'
 import BookDisplay from "./components/bookDisplay";
 import AuthoringLayout from './components/authoringLayout'
 import SetupPage from "./components/setupPage"
+import Footer from './components/footer';
+
+
+
 
 export default class App extends React.Component {
 
@@ -13,6 +25,7 @@ export default class App extends React.Component {
 			<div>
 				<TopNav/>
 				<BookDisplay/>
+				<Footer/>
 			</div>
 		)
 	};

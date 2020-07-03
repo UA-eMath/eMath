@@ -51,7 +51,7 @@ const AddBook = Form.create({name: 'form_in_modal'})(
 				<Modal
 					visible={visible}
 					title={"Create a new book"}
-
+					onCancel={onCancel}
 					footer={[
 						<Button key="back" onClick={onCancel}>
 							Cancel

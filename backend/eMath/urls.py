@@ -1,3 +1,11 @@
+'''
+@Author: your name
+@Date: 2020-06-29 16:21:37
+@LastEditTime: 2020-06-30 10:39:05
+@LastEditors: Please set LastEditors
+@Description: In User Settings Edit
+@FilePath: /eMath/backend/eMath/urls.py
+'''
 """eMath URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -13,6 +21,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+#前后端分离  
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import include, url

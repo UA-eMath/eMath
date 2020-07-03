@@ -23,6 +23,7 @@ def basic_command():
 class RootLevel(models.Model):
 
 	html_title = models.CharField(max_length=100, null=True, blank=True)
+	#在下面有class person 自己定义的表格
 	author = models.ForeignKey('Person', related_name="author", null=True, blank=True, on_delete=models.SET_NULL)
 	contributor = models.ForeignKey('Person', related_name="contributors", null=True, blank=True,
 	                                on_delete=models.SET_NULL)
