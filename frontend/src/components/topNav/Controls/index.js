@@ -21,7 +21,7 @@ export default class Controls extends React.Component {
 	render() {
 		return (
 
-			<Navbar bg="green" variant="dark">
+			<Navbar bg="dark" variant="dark">
 				<SubordinateDrawer className='mr-auto'/>
 				<Nav style={styles.logoDiv}>
 					<div style={{margin: 'auto'}}>
