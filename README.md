@@ -26,8 +26,8 @@ The project has two major components:
    enter postgresql shell: `sudo -i -u postgres` then `psql`
    ```
    CREATE DATABASE emathdb;
-   CREATE USER username WITH PASSWORD 'password'; (should be same as in django setting "backend/eMath/settings.py")
-   GRANT ALL PRIVILEGES ON DATABASE emathdb TO username;
+   CREATE USER yaozhilu WITH PASSWORD dell1234;
+   GRANT ALL PRIVILEGES ON DATABASE emathdb TO yaozhilu;
    ```
    * exit
    `\q` then `exit`
