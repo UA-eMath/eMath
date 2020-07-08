@@ -154,22 +154,17 @@ class EditorToolBar extends React.Component {
 					<Tooltip placement="bottom" title={"Add one paragraph"}>
 						<Button
 							onClick={() => this.props.addPara()}
-							style={{
-								width: '100px'
-							}}>
-							Add Para
+							>
+							ADD Paragraph
 						</Button>
 					</Tooltip>
 
 					<Tooltip placement="bottom" title={"Add content block"}>
 						<Button
 							onClick={() => this.showModal()}
-							style={{
-								width: '100px'
-							}}>
+							>
 							Add Level
 						</Button>
-
 						<AddSubLevel
 							wrappedComponentRef={this.saveFormRef}
 							visible={this.state.visible}
@@ -181,16 +176,17 @@ class EditorToolBar extends React.Component {
 					</Tooltip>
 
 					<Tooltip placement="top" title={"Image"}>
+						
 						<Button onClick={() => this.addImage()}>
 							<Icon type="file-image"/>
 						</Button>
-					</Tooltip>
 
-					<AddImage
-						visible={this.state.imageVisible}
-						hideImageModel={this.hideImageModel}
-						addPara={this.props.addPara}
-					/>
+						<AddImage
+							visible={this.state.imageVisible}
+							hideImageModel={this.hideImageModel}
+							addPara={this.props.addPara}
+						/>
+					</Tooltip>
 
 					<Switch
 						checkedChildren="LR"
@@ -198,17 +194,14 @@ class EditorToolBar extends React.Component {
 						defaultChecked
 						onChange={this.props.switchView}
 					/>
-
-					<div style={{backgroud: "white"}}>
-						<Tooltip placement="bottom" title={"Save"}>
-							<Button type="primary"
-							        icon="upload"
-							        loading={this.props.uploading}
-							        onClick={() => this.props.uploadingData()}/>
-						</Tooltip>
-					</div>
-
 				</ButtonGroup>
+				
+					<Tooltip placement="bottom" title={"Save"}>
+						<Button type="primary"
+								icon="upload"
+								loading={this.props.uploading}
+								onClick={() => this.props.uploadingData()}/>
+					</Tooltip>
 
 			</div>
 

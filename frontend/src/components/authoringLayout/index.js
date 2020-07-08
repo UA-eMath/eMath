@@ -38,7 +38,7 @@ export default class AuthoringLayout extends React.Component {
 
 					<div
 						style={{
-							background: '#aaaa00',
+							background: '#C4C4C4',
 							minHeight: "100vh",
 						}}
 					>

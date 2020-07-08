@@ -50,7 +50,7 @@ export default function BookDisplay(props) {
 										<Icon type="setting" key="setting" onClick={() => {
 											window.location.href = '/setup/' + book.id
 										}}/>,
-										< Icon type="edit" key="edit" onClick={() => {
+										<Icon type="edit" key="edit" onClick={() => {
 											window.location.href = '/authoring/' + book.id
 										}}/>,
 										<Icon type="read" key="read" onClick={() => {

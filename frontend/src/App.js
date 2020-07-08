@@ -5,6 +5,7 @@ import SplitView from './components/splitView'
 import BookDisplay from "./components/bookDisplay";
 import AuthoringLayout from './components/authoringLayout'
 import SetupPage from "./components/setupPage"
+import Footer from './components/footer';
 
 export default class App extends React.Component {
 
@@ -13,6 +14,7 @@ export default class App extends React.Component {
 			<div>
 				<TopNav/>
 				<BookDisplay/>
+				<Footer/>
 			</div>
 		)
 	};

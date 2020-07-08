@@ -30,6 +30,7 @@ const AddImage = Form.create({name: 'form_in_modal'})(
 				<Modal
 					visible={visible}
 					title={"Input URL"}
+					onCancel={hideImageModel}
 					footer={[
 						<Button key="back" onClick={hideImageModel}>
 							Cancel
