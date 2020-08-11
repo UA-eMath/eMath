@@ -6,5 +6,5 @@ tex_commands = {
 	# 	{"tex": r"\newcommand{\Fld}[1]{\mathbb{#1}}", "note": "Field symbol set in mathbb"}
 	# ]
 
-    {"Sum": r"\newcommand{\Sum}[2]{#1\oplus #2}", "note": "#1 + #2"}
+    "Sum": { "command": r"\newcommand{\Sum}[2]{#1\oplus #2}", "note": "#1 + #2"}
 }
