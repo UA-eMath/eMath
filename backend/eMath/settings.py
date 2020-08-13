@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'eMath.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME":"",
-        "USER":"",
-        "PASSWORD": "",
+        "NAME": "emathdb",
+        "USER": "haotianzhu",
+        "PASSWORD": "123456",
         "HOST": "localhost",
         "PORT": "5432",
     }
