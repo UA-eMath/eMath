@@ -22,7 +22,6 @@ class DisplayArea extends React.Component {
 					background: "#FFFBE6",
 					display: "block",
 					height: "100%",
-					padding: "10px",
 				}}>
 				{/*TODO: need to handle open window activity*/}
 				{paraRenderer(target_para)}

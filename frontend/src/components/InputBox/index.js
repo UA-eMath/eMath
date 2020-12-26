@@ -112,6 +112,17 @@ class InputBox extends React.Component {
 	};
 
 	render() {
+		let inputAreaContainerStyle = {}
+		if (this.props.TBview) {
+			inputAreaContainerStyle = {
+				height: "200px",
+				width: "100%",
+			}
+		} else {
+			inputAreaContainerStyle = {
+				width: "100%",
+			}
+		}
 
 		return (
 			<span style={{overflow: "visible"}}>
@@ -136,11 +147,7 @@ class InputBox extends React.Component {
 					innerRef={textarea => {
 						this.textArea = textarea;
 					}}
-					containerStyle={{
-						top: 0,
-						width: "100%",
-						//height: "200px",
-					}}
+					containerStyle={inputAreaContainerStyle}
 					minChar={0}
 					trigger={dataSource}
 					movePopupAsYouType={true}
