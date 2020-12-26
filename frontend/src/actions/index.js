@@ -16,29 +16,30 @@ export const closeWindow = id => ({
 export function onLayoutChange(layout) {
   return {
     type: types.ON_LAYOUT_CHANGE,
-	layout: layout,
+		layout: layout,
   };
 }
 
-export function minimizeWindow(id,title,pageId) {
+export function minimizeWindow(id,title,pageId,isPage) {
 		return function (dispatch) {
 			dispatch(closeWindow(id));
-			dispatch(addSubs(id,title,pageId));
+			dispatch(addSubs(id,title,pageId,isPage));
 		}
 }
 
-export function openSubWindow(id,pageId) {
+export function openSubWindow(id,pageId,isPage) {
 		return function (dispatch) {
-			dispatch(openNewWindow(pageId));
+			dispatch(openNewWindow(pageId, isPage));
 			dispatch(closeSubs(id))
 		}
 }
 
-export const addSubs = (id,title,pageId)=> ({
+export const addSubs = (id,title,pageId,isPage)=> ({
 	type: types.ADD_SUBS,
 	title,
 	id,
-	pageId
+	pageId,
+	isPage,
 });
 
 export const closeSubs = id => ({
