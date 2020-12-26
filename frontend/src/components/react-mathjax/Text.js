@@ -13,7 +13,7 @@ class Text extends React.Component {
   refreshMathJax() {
     const { MathJax } = this.context;
     if (!MathJax) {
-      throw Error("Could not find MathJax while attempting typeset! Probably MathJax script hasn't been loaded or MathJax.Context is not in the hierarchy")
+      throw Error("Could not find MathJax while attempting typeset! Probably MathJax script hasn't been loaded or MathJax. Context is not in the hierarchy")
     }
 
     MathJax.Hub.Queue(

@@ -39,7 +39,7 @@ export default function paraRenderer(para) {
 
 	if (Array.isArray(para)) {
 		let left_title = para[0].para_parent.tocTitle;
-		let right_title = xmlToReact.convert(`<span>${para[0].para_parent.title}</span>>`);
+		let right_title = xmlToReact.convert(`<span>${para[0].para_parent.title}</span>`);
 
 		return blockOfPara(para, left_title, right_title);
 	}
