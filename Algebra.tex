@@ -1,0 +1,216 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%    Commands file for AMSLATEX
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Sum}[2]{#1\oplus #2}											% #1 + #2
+\newcommand{\SSum}[3]{#1\oplus #2\oplus #3}						% #1 + #2 + #3
+\newcommand{\FamSum}[2]{\bigoplus_{#1} #2}						% sum over #1 of family #2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	Groups
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\DhdrlGrp}[1]{D_{#1}}						% Dihedral group order 2(#1)
+%
+%\newcommand{\SGrps}[1]{\text{\it SGrps}(#1)}    % subgroups of #1
+\newcommand{\NSGrps}[1]{\text{\it NSGrps}(#1)}  % normal subgroups of #1
+\newcommand{\Cmmttr}[2]{\left[#1,#2\right]}	% Commutator  [ #1 , #2 ]
+\newcommand{\CmmtGrp}[2]{\Gamma^{#1}#2}			% Commutator subgroup of order #1 in #2
+\newcommand{\cmmtGrp}[1]{\Gamma^{#1}}				% Commutator subgroup functor of order #1
+\newcommand{\Cnjgtn}[1]{\gamma_{#1}}				% Conjugation map to inner automorphism group
+\newcommand{\Ablnz}[1]{#1_{\text{\it ab}}}	% Abelianization of group #1	(deprecated)
+\newcommand{\Ablnztn}{\text{\it ab}}        % Abelianization functor
+\newcommand{\AblnztnOf}[1]{\text{\it ab}\left(#1\right)}	 % Abelianization of #1
+\newcommand{\AbCore}[1]{\mathsf{Ab}(#1)}		% AbCore of #1
+\newcommand{\AbCoreOf}[1]{\text{\it Ab}(#1)}   % AbCore of #1
+\newcommand{\Nlptfy}[2]{N^{#1}#2}						% Nilpotification of order #1 applied to #2
+\newcommand{\nlptfy}[1]{N^{#1}}							% Nilpotification functor
+\newcommand{\NlptUnt}[2]{\nu^{#1}_{#2}}			% Nilpotification unit of order #1 applied to #2
+\newcommand{\CntrGrp}[1]{\zeta #1}					% Center of #1
+% Group constructs
+\newcommand{\FrGrp}[1]{F(#1)}						% free group on set #1
+\newcommand{\FrGrpf}[1]{F_{#1}}					% free grp on #1 generators
+\newcommand{\FrPrdct}[2]{#1 * #2}				% free product #1 * #2
+\newcommand{\FamFrPrdct}[2]{*_{#1} #2}	% free product: *_{#1}#2
+\newcommand{\CrssEff}[2]{\text{\it cr}(#1,#2)}	% cross effect of #1 and #2
+\newcommand{\SDPr}[1][]{\rtimes_{#1}}						% Semidirect product over #1
+\newcommand{\SDrctPr}[3]{#2\rtimes_{#1}#3}			% Semidirect prdct #2 SPrdct_{#1} #3
+%
+\newcommand{\YCExtGrp}[2]{\text{\it YExt}\left( #1,#2\right)}			% YExt(#1,#2) central grp extensions
+\newcommand{\YExtGrp}[3]{\text{\it YExt}_{#1}\left( #2,#3\right)}	% YExt_#1(#2,#3) grp extensions
+%%%%%%%%%%%%%%%%
+\newcommand{\FrMod}[2]{{#1}[#2]}    		% free #1-module over set #2
+\newcommand{\FrZMod}[1]{{\ZNr}[#1]}			% free abelian group over set #1
+\newcommand{\GrGrp}[1]{\text{\it Gr}(#1)}		% Grothendieck group of #1
+\newcommand{\PicGrp}[1]{\text{\it Pic}(#1)}	% Picard Group
+\newcommand{\StbrgGrp}[1]{\text{\it St}(#1)}	% Steinberg Group
+\newcommand{\StbrgMdl}[1]{\text{\it St}(#1)}	% Steinberg module
+\newcommand{\ElmMtrx}[2]{e_{#1}(#2)}				% Elementary Matrix
+\newcommand{\ElmGrp}[2][]{E_{#1}(#2)}				% Grp of elm-matrices, [size #1], ring #2
+\newcommand{\SngMtrx}[2]{s_{#1}(#2)}				% Singleton Matrix
+\newcommand{\StbrgES}[2]{\varepsilon_{#1}(#2)}	% Steinberg Elementary Symbol
+\newcommand{\StbrgSS}[2]{\sigma_{#1}(#2)}				% Steinberg Singleton Symbol
+%
+\newcommand{\EndoRng}[2]{\text{\it End}_{#1}(#2)}			% Endo-ring of #2 over #1
+\newcommand{\GrpRng}[2]{#1\left[#2\right]}						% grp over #1 of group #2
+\newcommand{\ZGrpRng}[1]{{\mathbb Z}\left[#1\right]}	% Z-group ring of group #1
+\newcommand{\ZAugIdl}[1]{I\left[#1\right]}						% Augmentation ideal of #1 over Z
+\newcommand{\AugIdl}[2]{I_{#1}\left[#2\right]}				% augmentation idl over ring #1 of grp #2
+\newcommand{\Drvtn}[2]{\text{\it Der}(#1,#2)}					% Derivations #1 -> #2
+%
+\newcommand{\GalGrp}[1]{\text{\it Gal}(#1)}	% Galois group of #1
+\newcommand{\AutGrpRel}[2]{\text{\it Aut}_{#1}(#2)}	% Automorphism group of #2 over #1
+\newcommand{\IntFlds}[2]{\text{\it Flds}(#1,#2)}		% fields between #1 and #2
+\newcommand{\IntNFlds}[2]{\text{\it NFlds}(#1,#2)}	% normal fields between #1 and #2
+\newcommand{\FixSet}[1]{\text{\it Fix}(#1)}     % fix set of #1
+%
+\newcommand{\LAlg}[1]{\EuFrak{#1}}					% Symbol for Lie Algebra
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	Algebra
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Fld}[1]{\mathbb{#1}}	% Field symbol set in mathbb
+\newcommand{\Dimnsn}[2]{\text{\it dim}_{#1}(#2)}	% dimension of #2 over #1
+\newcommand{\Annhltr}[1]{\text{\it ann}(#1)}			% annihilator
+%
+\newcommand{\WeylGrp}{W}													% Weyl group
+\newcommand{\WeylGrpOf}[1]{W\left(#1\right)}			% Weyl group of
+\newcommand{\WeylGrpOfIn}[2]{W_{#2}\left(#1\right)}			% Weyl group of #1 in #2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	Homological Algebra
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\KrnlPr}[1]{\mathit{Eq}\left(#1\right)}			% kernel pair of #1	(appears in categories)
+\newcommand{\Hmlgy}[2]{H_{#1}#2}												% Homology
+\newcommand{\HmlgyCoeffs}[3]{H_{#1}\left(#2;#3\right)}	% Homology with coefficients
+\newcommand{\HmlgyKer}[2]{H^{k}_{#1}#2}									% Kernel construction of homology
+\newcommand{\HmlgyCoKer}[2]{H^{c}_{#1}#2}								% CoKernel construction of homology
+\newcommand{\ChnCat}{\mathit{chn}}											% Cat modeling chain complexes
+\newcommand{\ChnCmplxs}{\mathcal{C}\mathit{hn}}					% Chain complexes
+\newcommand{\CatChnCmplxsIn}[1]{\mathcal{C}\mathit{hn}(#1)}		% Chain complexes
+\newcommand{\ChnCmplxsPls}{\mathcal{C}\mathit{hn}_{+}}	% Chain complexes, >=0
+\newcommand{\CatChnCmplxsPlsIn}[1]{\mathcal{C}\mathit{hn}(#1)}	% category of chn cmplxs in #1
+\newcommand{\CatChnChnCmplxsPlsIn}[1]{\text{\it CC}#1}	% category of double chn cmplxs in #1
+\newcommand{\LChnCmplxsPls}[1]{#1\text{\it -$\cal C$hn}_{+}}	% Chain complexes, >=0
+\newcommand{\CChnCmplxs}{\text{\it $\cal CC$hn}}				% CoChain complexes
+\newcommand{\LChn}[1]{#1\text{\it -$\cal C$hn}}					% Cat of ch cmplxs left #1-modules
+\newcommand{\RChn}[1]{\text{\it $\cal C$hn-}#1}					% Cat of ch cmplxs right #1-modules
+\newcommand{\BChn}[2]{#1\text{\it -$\cal C$hn-}#2}			% Cat of ch cmplxs bi-#1-#2-modules
+\newcommand{\hoChnCmplxs}{\text{\it ho$\cal C$hn}}			% Cat of chain complexes
+\newcommand{\hoLChn}[1]{#1\text{\it -ho$\cal C$hn}}			% Cat of ch cmplxs left #1-modules
+\newcommand{\hoRChn}[1]{\text{\it ho$\cal C$hn-}#1}			% Cat of ch cmplxs right #1-modules
+\newcommand{\CChn}{\text{\it $\cal CC$hn}}							% Cat of cochain complexes
+\newcommand{\LCChn}[1]{#1\text{\it -$\cal CC$hn}}				% Cat of coch cmplxs left #1-modules
+\newcommand{\RCChn}[1]{\text{\it $\cal CC$hn-}#1}				% Cat of coch cmplxs right #1-modules
+\newcommand{\hoCChn}{\text{\it ho$\cal CC$hn}}					% Cat of cochain complexes
+\newcommand{\hoLCChn}[1]{#1\text{\it -ho$\cal CC$hn}}		% Cat of coch cmplxs left #1-modules
+\newcommand{\hoRCChn}[1]{\text{\it ho$\cal C$hn-}#1}		% Cat of coch cmplxs right #1-modules
+\newcommand{\LESCat}[1]{\text{\it LES}(#1)}							% Cat of LESs in #1
+\newcommand{\LESMap}[1]{#1}															% Morphism of LESs
+\newcommand{\MLESCat}[1]{\text{\it $\EuScript{Y}$LES}(#1)}						% Yoneda cat of marked LESs in #1
+\newcommand{\MLESMap}[1]{\langle #1\rangle}							% Morphism of marked long exact sequences
+%
+\newcommand{\DGAbs}{\text{\it DG}\AbGrps}								% DGA's (chain complexes)
+%
+\newcommand{\ChnIntrvl}[1]{\mathbb{I}_{#1}}									% unit interval complex over #1
+\newcommand{\ChnCyl}[1]{\mathit{cyl}(#1)}										% cylinder complex over #1
+\newcommand{\ChnCylAt}[2]{\mathit{cyl}_{#2}(#1)}						% cylinder complex over #1
+\newcommand{\ChnCone}[1]{\mathit{cone}(#1)}									% cone complex over #1
+\newcommand{\ChnConeAt}[2]{\mathit{cone}_{#2}(#1)}					% cone complex over #1
+\newcommand{\ChnConeV}[2]{\mathit{cone}^{#2}(#1)}						% cone complex over #1
+\newcommand{\ChnConeAtV}[3]{\mathit{cone}^{#3}_{#2}(#1)}		% cone complex over #1
+\newcommand{\ChnSspnsn}[1]{\Sigma #1}												% Suspension complex of #1
+\newcommand{\ChnPi}[2]{\left[ #1,#2\right]}									% Chain homotopy classes #1 --> #2
+\newcommand{\EiMacCpx}[2]{K(#1,#2)}													% Eilenberg-Mac Lane complex
+\newcommand{\TotAChnCpx}{\mathit{Tot}^{\oplus}}							% Additive Tot functor
+\newcommand{\TotAChnCpxOf}[1]{\mathit{Tot}^{\oplus}(#1)}		% Additive Tot(chain cpx #1)
+\newcommand{\TotAChnCpxOfAt}[2]{\mathit{Tot}^{\oplus}_{#2}(#1)}		% Additive Tot(chain cpx #1) in position #2
+\newcommand{\TotPChnCpx}{\mathit{Tot}^{\Pi}}								% Product Tot functor
+\newcommand{\TotPChnCpxOf}[1]{\mathit{Tot}^{\Pi}(#1)}				% Product Tot(chain cpx #1)
+\newcommand{\TotPChnCpxOfAt}[2]{\mathit{Tot}^{\Pi}_{#2}(#1)}	% Product Tot(chain cpx #1) in position #2
+\newcommand{\HorFilt}[3][]{\text{\it Hor\hspace{1pt}}^{#2}({#3})_{#1}}		% Hor^#2(#3)_#1
+\newcommand{\TotHorFilt}[2]{#1^{\overset{#2}{\to}} }					% #1^{horizontal #2}
+\newcommand{\VerFilt}[3][]{\text{\it Ver\hspace{2pt}}^{#2}({#3})_{#1}}		% Ver^#2(#3)_#1
+\newcommand{\TotVerFilt}[2]{#1^{\uparrow #2} }								% #1^{horizontal #2}
+%
+\newcommand{\LDrvd}[3]{L_{#2}#1(#3)}													% #1-derived #2 applied to #3
+\newcommand{\LDrvdOfDim}[2]{L_{#2}#1}													% Lft-drvd of #1, dim #2
+\newcommand{\LDrvdOfDimAt}[3]{L_{#2}#1\left(#3\right)}				% Lft-drvd of #1, dim #2; object #3
+\newcommand{\RDrvd}[3]{R^{#2}#1(#3)}													% #1-right derived of #2 applied to #3
+\newcommand{\LDrvdC}[3]{L^{#2}#1(#3)}													% #1-derived #2 applied to #3
+\newcommand{\RDrvdC}[3]{R_{#2}#1(#3)}													% #1-right derived of #2 applied to #3
+\newcommand{\Ext}[3]{\mathit{Ext}^{#1}\left(#2,#3\right)}			% Ext^{#1}(#2,#3)
+\newcommand{\ExtOver}[4]{\mathit{Ext}^{#1}_{#2}\left(#3,#4\right)}		% Ext^{#1}_{#2}(#3,#4)
+\newcommand{\ExtAbGrps}[2]{\mathit{Ext}\left(#1,#2\right)}		% Ext(#1,#2) in abelian groups
+\newcommand{\ExtFnctr}[4]{\text{\it Ext}_{#1}^{#2}(#3,#4)}		% Ext-functor
+\newcommand{\YExt}[4][]{\text{\it YExt}^{#1}_{#2}(#3,#4)}   	% Yoneda module extensions: length #1
+\newcommand{\YGrpExt}[2]{\text{\it YExt}(#1,#2)}    					% Yoneda group extensions
+\newcommand{\Tens}[1][]{\otimes_{#1}} 												% Tensor product over #1
+\newcommand{\Tensor}[2]{#1 \otimes #2}
+\newcommand{\TensorOver}[3]{#1 \otimes_{#3} #2}
+\newcommand{\AbTor}[2]{\text{\it Tor}\left( #1 , #2 \right)}	%
+\newcommand{\Tor}[3]{\text{\it Tor}_{#1}\left(#2 , #3\right)} % Tor
+\newcommand{\TorOver}[4]{\text{\it Tor}_{#1}^{#2}\left(#3 , #4\right)} % Tor
+\newcommand{\TorAbGrps}[2]{\text{\it Tor}\left( #1 , #2 \right)}	%
+\newcommand{\TorFnctr}[4][]{\text{\it Tor}^{#1}_{#2}(#3,#4)}	% Tor-functor (deprecated)
+%
+\newcommand{\GrpHmlgy}[3]{H_{#1}(#2;#3)}						% H_{#1}(#2;#3)
+\newcommand{\GrpHmlgyDimOf}[2]{H_{#1}#2}
+\newcommand{\GrpHmlgyDimOfCoeffs}[3]{H_{#1}\left(#2;#3\right)}
+\newcommand{\GrpCHmlgy}[3]{H^{#1}(#2;#3)}						% H^{#1}(#2;#3)
+\newcommand{\GrpCHmlgyDimOf}[2]{H^{#1}#2}
+\newcommand{\GrpCHmlgyDimOfCoeffs}[3]{H^{#1}\left(#2;#3\right)}
+\newcommand{\TateHmlgy}[3]{\hat{H}_{#1}(#2;#3)}			% Tate Homology
+%
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	Commutative Algebra
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\PrjSpc}[2]{#1\hskip -.25em P^{#2}}		% Proj. space over #1, dimension #2
+\newcommand{\prjspc}[2]{P^{#1}\left(#2\right)}		% Proj. space dimension #1 of #2
+\newcommand{\GrssmnSpc}[2]{G_{#1}\left(#2\right)} % Grassmann space of dim-#1 subspaces in #2
+\newcommand{\PIdlSpec}[1]{\text{\it Spec}(#1)}		% Spectrum of ring #1
+\newcommand{\RngShf}[1]{{\cal O}_{#1}}		% ring sheaf on space #1
+\newcommand{\StrcShf}[1]{{\cal O}_{#1}}   % Structure sheaf of #1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	Multilinear Algebra
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\AltAlg}[2][]{A_{#1}\left(#2\right)}				% Altern algebra of module #2, [gradation #1]
+\newcommand{\AltAlgi}[2][]{\alpha_{#1}\left(#2\right)}	% Internal Altern alg module #2, [gradation #1]
+\newcommand{\TenAlg}[2][]{T_{#1}\left(#2\right)}				% Tensor alg of module #2, [gradation #1]
+\DeclareMathOperator{\Altntr}{Alt}			% Alternator on a graded algebra
+\DeclareMathOperator{\AltntrV}{alt}			% Alternator on graded alg of the dual of an inner prod spc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	Localization and Colocalization
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\LOrtho}[1]{{}^{\bot}{#1}}					% left orthogonal complement
+\newcommand{\ROrtho}[1]{{#1}^{\bot}}						% right orthogonal complement
+\newcommand{\RflctvCat}[1]{\EuScript{#1}}				% Reflective subcat
+\newcommand{\Lclz}[2][]{\eta^{#1}_{#2}}					% Localization of #2
+\newcommand{\CLclz}[2][]{\varepsilon^{#1}_{#2}}	% Colocalization of #2
+\newcommand{\TrsnCat}[1][]{\EuScript{T}_{#1}}		% Torsion category ass. to #1
+\newcommand{\TTrsnCat}[1][]{\tilde{\EuScript{T}}_{#1}}% Torsion category ass. to #1, with L=0=L_1
+\newcommand{\TrsnFrCat}[1][]{\EuScript{F}_{#1}}	% Torsion free category ass. to #1
+\newcommand{\CTrsnCat}[1][]{\EuScript{C}_{#1}}	% Cotorsion category ass. to #1
+\newcommand{\TrsnPr}[2]{(\EuScript{#1},\EuScript{#2})}	% torsion pair (#1,#2)
+\newcommand{\TTFCat}{\EuScript{C}}						% TTF class of a TTF-triple
+\newcommand{\TTF}{(\EuScript{T},\EuScript{C},\EuScript{F})}	% TTF-triple
+\newcommand{\Trsn}[1]{\tau{#1}}								% torsion in #1
+\newcommand{\TTrsn}[1]{\tilde{\tau}{#1}}			% universal lift of torsion in #1
+\newcommand{\TrsnFr}[1]{\varphi{#1}}					% torsion free in #1
+%
+\newcommand{\TrsnSbGrpAt}[1]{T_{#1}}					% torsion subgroup at prime(s) #1
+\newcommand{\TrsnSbGrpAtOf}[2]{T_{#1}#2}			% torsion subgroup at prime(s) #1 of #2
+\newcommand{\NullObjAt}[1]{\tau_{#1}}					% subobject nullified by #1
+\newcommand{\NullObjAtOf}[2]{\tau_{#1}#2}			% subobject of #2 nullified by #1
+%
+\newcommand{\Nilptfctn}[1]{N^{#1}}                            % Nilpotification functor of order #1
+\newcommand{\NilptfctnOf}[2]{N^{#1}\left(#2\right)}	      		% Nilpotification of order #1 of object #2
+\newcommand{\NilptfctnKrnl}[1]{\alpha^{#1}}               	  % Nilpotification functor of order #1
+\newcommand{\NilptfctnKrnlOf}[2]{\alpha^{#1}\left(#2\right)}	% Nilpotification of order #1 of object #2
+\newcommand{\NilCmpltn}{\hat{N}}                              % nilpotent completion
+\newcommand{\NilCmpltnOf}[1]{\hat{N}\left( #1\right)}  				% nilpotent completion of #1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	Deprecated
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Chn}{\text{\it $\cal C$hn}}							% Cat of chain complexes (deprecated)
+\newcommand{\hoChn}{\text{\it ho$\cal C$hn}}					% homotopy Cat of chain complexes (deprecated)
