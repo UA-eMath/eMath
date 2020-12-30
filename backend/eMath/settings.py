@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +26,7 @@ SECRET_KEY = 'kjxogc8bp6tzq8u&_5dq*rff1ji^uc51=0@we*s0k3v*e2+9^z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['142.244.163.57','localhost']
+ALLOWED_HOSTS = ['142.244.163.57', 'localhost']
 
 
 # Application definition
@@ -37,11 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'presentation.apps.DatabaseConfig',
+    'presentation.apps.DatabaseConfig',
     'rest_framework',
     'mptt',
     'corsheaders'
-
 ]
 
 MIDDLEWARE = [
@@ -60,8 +60,7 @@ ROOT_URLCONF = 'eMath.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,8 +128,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#Frontend hosting port
+# Frontend hosting port
 CORS_ORIGIN_WHITELIST = (
-         'http://localhost:3000',
-         'http://142.244.163.57:4000'
-     )
+    'http://localhost:3000',
+    'http://142.244.163.57:4000'
+)
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'content-disposition',
+]
