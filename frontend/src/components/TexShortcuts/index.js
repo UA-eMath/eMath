@@ -17,6 +17,7 @@ const { Dragger } = Upload;
 const { TabPane } = Tabs;
 
 export default class TexShortcuts extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -27,10 +28,15 @@ export default class TexShortcuts extends React.Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true;
     const texCommandFromDB = await getTexCommand(this.props.book.id);
-    if (typeof texCommandFromDB !== "undefined") {
+    if (typeof texCommandFromDB !== "undefined" && this._isMounted) {
       this.setState({ texCommands: texCommandFromDB.data });
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   handleChange = (info) => {

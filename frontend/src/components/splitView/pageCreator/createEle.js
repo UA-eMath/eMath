@@ -30,6 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class CreateElement extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -40,6 +41,7 @@ class CreateElement extends React.Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true;
     //this.props['data-grid'] stores this window's information
     let pageContent;
     let context;
@@ -70,6 +72,10 @@ class CreateElement extends React.Component {
         paraText: null,
       });
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

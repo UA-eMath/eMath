@@ -42,6 +42,7 @@ const mapDispatchToProps = (dispatch) => ({
 const { confirm } = Modal;
 
 class ParaEditor extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -57,13 +58,17 @@ class ParaEditor extends React.Component {
 
   //save para periodically
   async componentDidMount() {
+    this._isMounted = true;
     const id = setInterval(this.uploadingData, 10000);
-    this.setState({
-      intervalId: id,
-    });
+    if (this._isMounted) {
+      this.setState({
+        intervalId: id,
+      });
+    }
   }
 
   componentWillUnmount() {
+    this._isMounted = false;
     clearInterval(this.state.intervalId);
   }
 
@@ -243,7 +248,7 @@ class ParaEditor extends React.Component {
                       />
                     );
                   }
-									
+
                   if (this.state.sideAlign) {
                     return (
                       <div className="paraWrapper" key={item.id}>
@@ -251,7 +256,7 @@ class ParaEditor extends React.Component {
                           <InputBox
                             id={item.id}
                             setFocusArea={this.setFocusArea.bind(this)}
-														boxValue={item.content.data}
+                            boxValue={item.content.data}
                           />
                         </div>
                         <div className="displayDiv">
@@ -264,7 +269,7 @@ class ParaEditor extends React.Component {
                             parentId={this.props.id}
                           />
                         </div>
-											</div>
+                      </div>
                     );
                   } else {
                     return (
@@ -278,7 +283,7 @@ class ParaEditor extends React.Component {
                           <InputBox
                             id={item.id}
                             boxValue={item.content.data}
-														setFocusArea={this.setFocusArea}
+                            setFocusArea={this.setFocusArea}
                           />
 
                           <DisplayArea id={item.id} />
