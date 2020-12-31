@@ -1,6 +1,5 @@
 import React from "react";
 import { Node, Context } from "./../components/react-mathjax";
-
 import _ from "lodash";
 import MathJaxConfig from "../constants/MathJax_config";
 import { Icon } from "antd";
@@ -22,16 +21,12 @@ export default function math(props) {
     );
   }
 
-  console.log(props);
-
   return (
     <span>
       <Context
         input="tex"
         delay={100}
-        onLoad={() => {
-          console.log("Loaded MathJax script!");
-        }}
+        onLoad={() => {}}
         loading={<Icon type="loading" />}
         didFinishTypeset={() => {}}
         onError={(MathJax, error) => {
