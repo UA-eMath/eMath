@@ -17,11 +17,10 @@ const tagArray = [
   { name: "Table Row", char: "<tr></tr>" },
 ];
 
-// put tex shortcuts here
-const texCommandArray = [{ name: "Sum", char: "\\Sum {a}{b}" }];
+export const texCommandArray = []; //{ name: "\Sum", char: "#1 + #2" }
 
 const dataSource = {
-	// autocomplete tags
+  // autocomplete tags
   "<": {
     dataProvider: (token) =>
       tagArray
@@ -39,7 +38,7 @@ const dataSource = {
       caretPosition: "next",
     }),
   },
-	// autocomplete tex commands
+  // autocomplete tex commands
   "\\": {
     dataProvider: (token) =>
       texCommandArray
@@ -53,7 +52,7 @@ const dataSource = {
         .map(({ name, char }) => ({ name, char })),
     component: Item,
     output: (item, trigger) => ({
-      text: item.char,
+      text: item.name,
       caretPosition: "next",
     }),
   },
