@@ -5,7 +5,6 @@ from presentation.models import Level, RootLevel
 from presentation.Serializers.rootLevel_serializer import RootLevelSerializer
 from presentation.Serializers.level_serializers import LevelSerializer
 from presentation.Api.utils import parseTexCommandFromFile
-
 '''
 Api request:
 		PUT http://localhost:8000/uploadTex/[book id]/
@@ -16,7 +15,7 @@ Api request:
 
 
 class UploadTexCommand(views.APIView):
-    parser_classes = (FileUploadParser,)
+    parser_classes = (FileUploadParser, )
     serializer_class = RootLevelSerializer
     level_serializer = LevelSerializer
 
@@ -28,10 +27,7 @@ class UploadTexCommand(views.APIView):
             tex += chunk_string
         # parse file into {"tex":"\newcommand","note",""}
         tex_array = parseTexCommandFromFile(tex)
-				
-        tex_to_be_added = {
-            file_obj.name: tex_array
-        }
+        tex_to_be_added = {file_obj.name: tex_array}
         book = Level.objects.get(pk=kwargs.get("pk")).get_root().root
         commands = getattr(book, 'tex_command')
 

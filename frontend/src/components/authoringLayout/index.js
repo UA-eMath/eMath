@@ -8,6 +8,7 @@ import "./index.css";
 import getTexCommand from "../../requests/getTexCommand";
 import { texCommandArray } from "../InputBox/dataSource";
 import { Node, Context } from "../react-mathjax";
+import MathJaxConfig from "../../constants/MathJax_config";
 
 export default class AuthoringLayout extends React.Component {
   _isMounted = false;
@@ -25,8 +26,12 @@ export default class AuthoringLayout extends React.Component {
       let items = [];
       let num = 0;
       for (const filename in commands) {
-        for (const [index, value] of commands[filename].entries()) {
-          items.push(<Node>{value["tex"]}</Node>);
+        for (const value of commands[filename]) {
+          items.push(
+            <div key={num}>
+              <Node>{value["tex"]}</Node>
+            </div>
+          );
           texCommandArray.push(this.regexMatch(value["tex"], value["note"]));
           num = num + 1;
         }
@@ -78,11 +83,23 @@ export default class AuthoringLayout extends React.Component {
           </div>
         </SplitPane>
         {/* render tex commands */}
-        <Context input="tex">
-          <div style={{ display: "none" }}>
-            {this.state.texCommandsInMathTag}
-          </div>
-        </Context>
+        <div>
+          <Context
+            input="tex"
+            onLoad={() => console.log("Loaded MathJax script!")}
+            onError={(MathJax, error) => {
+              console.warn(error);
+              console.log(
+                "Encountered a MathJax error, re-attempting a typeset!"
+              );
+              MathJax.Hub.Queue(MathJax.Hub.Typeset());
+            }}
+            script={MathJaxConfig.script}
+            options={MathJaxConfig.options}
+          >
+            <div>{this.state.texCommandsInMathTag}</div>
+          </Context>
+        </div>
       </div>
     );
   }
