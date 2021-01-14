@@ -1,6 +1,5 @@
 from itertools import chain
 from presentation.models import Level, Para
-import re
 
 
 def updateParaPosition(parent):
@@ -108,22 +107,3 @@ def mergeAndSort(block, paras):
     for item in paras[j:]:
         res.append(item)
     return res
-
-
-def parseTexCommandFromFile(file_content):
-    new_command = r"(\\newcommand\{\\.*\})(\[[0-9]?\])+(.*)(\%.*)"
-    pattern = re.compile(new_command)
-    matched_commands = []
-    tex = file_content.splitlines()
-    for line in tex:
-        matchObj = re.search(pattern, line)
-        if matchObj:
-            command = matchObj.group(0)
-            tex = re.compile(
-                r"(\\newcommand\{\\.*\})(\[[0-9]?\])+\{(.*)\}")
-            comment = re.compile(r"\%.*")
-            matchTex = re.search(tex, command).group(0)
-            matchComment = re.search(comment, command).group(0)
-            matched_commands.append(
-                {"tex": matchTex, "note": matchComment[1:]})
-    return matched_commands
