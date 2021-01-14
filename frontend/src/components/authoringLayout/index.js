@@ -83,7 +83,7 @@ export default class AuthoringLayout extends React.Component {
           </div>
         </SplitPane>
         {/* render tex commands */}
-        <div>
+        <div style={{ display: "none" }}>
           <Context
             input="tex"
             onLoad={() => console.log("Loaded MathJax script!")}

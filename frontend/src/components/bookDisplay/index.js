@@ -3,7 +3,7 @@ import CardDeck from "react-bootstrap/CardDeck";
 import { Button, Card, Icon, Tooltip } from "antd";
 import "./index.css";
 import "antd/dist/antd.css";
-import getRoots from "../../requests/getRoots";
+import getRoots from "../../requests/GetRoots";
 import AddBook from "./addBookModal";
 
 export default function BookDisplay(props) {
