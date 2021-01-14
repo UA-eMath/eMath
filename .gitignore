@@ -106,3 +106,6 @@ venv.bak/
 /frontend/src/layouts/SplitView/redundent.js
 /backend/presentation/migrations/
 .idea
+
+#vscode
+.vscode

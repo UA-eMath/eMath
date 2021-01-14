@@ -1,12 +1,11 @@
 import axios from "axios";
 import url from "./Urls";
 
-export default function getRoots(params = {}) {
-  const { rootId } = params;
-  const root = rootId ? "/root/" + rootId : "/root/";
+export default function getTexCommand(bookId) {
+  let Url = url.domain + ":" + url.port + "/texCommand/" + bookId;
 
   return axios
-    .get(url.domain + ":" + url.port + root, {
+    .get(Url, {
       headers: {
         "Content-Type": "application/json",
       },

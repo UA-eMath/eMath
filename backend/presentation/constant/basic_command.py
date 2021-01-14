@@ -1,3 +1,4 @@
+# \newcommand{\cmd}[args]{content}
 tex_commands = {
 	"basicCommand": [
 		{"tex": r"\newcommand{\Sum}[2]{#1\oplus #2}", "note": "#1 + #2"},

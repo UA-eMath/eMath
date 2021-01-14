@@ -12,7 +12,8 @@ const subordinates = (state = initState_subs, action)=>{
 				subs: state.subs.concat({
 					i: action.id,
 					title:action.title,
-					pageId:action.pageId
+					pageId:action.pageId,
+					isPage: action.isPage,
 				})
 			});
 

@@ -12,7 +12,6 @@
 
 .paraWrapper {
 	display: flex;
-	margin: 10px 0 0 0;
 }
 
 .inputDiv {
@@ -20,13 +19,14 @@
 	overflow: visible;
 	position: relative;
 	flex: 1;
+	margin: 10px 5px;
 }
 
 .displayDiv {
-	margin: 0 5px 0 5px;
+	margin: 10px 5px;
 	flex: 1;
 }
 
 .controlDiv {
-
+	margin: auto;
 }

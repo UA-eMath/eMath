@@ -27,7 +27,6 @@ class RootLevel(models.Model):
 	contributor = models.ForeignKey('Person', related_name="contributors", null=True, blank=True,
 	                                on_delete=models.SET_NULL)
 	date = models.DateField(null=True, blank=True)
-
 	index_item = JSONField(default=default_dict)
 	symbol_index = JSONField(default=default_dict)
 	author_index = JSONField(default=default_dict)
