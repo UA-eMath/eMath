@@ -3,7 +3,7 @@ import "antd/dist/antd.css";
 import TopNav from "./../../components/topNav";
 import { Layout, Tabs } from "antd";
 import BookSetting from "../bookSetting";
-import getRoots from "../../requests/getRoots";
+import getRoots from "../../requests/GetRoots";
 import TexShortcuts from "../TexShortcuts";
 
 const { TabPane } = Tabs;
