@@ -24,12 +24,10 @@ export default class AuthoringLayout extends React.Component {
       const commands = texCommandFromDB.data;
       // put commands into <Math></Math>
       let items = [];
-      let num = 0;
       for (const filename in commands) {
         for (const value of commands[filename]) {
           items.push(<Node>{value["tex"]}</Node>);
           texCommandArray.push(this.regexMatch(value["tex"], value["note"]));
-          num = num + 1;
         }
       }
       if (this._isMounted) {
