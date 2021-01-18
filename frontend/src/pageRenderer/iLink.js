@@ -11,9 +11,10 @@ function iLink(props) {
   console.log(props);
 
   return (
+    // todo href
     <a
-			className="textLink"
-			href
+      className="textLink"
+      href
       onClick={() => props.onWindowOpen(props.id, true)}
       style={{ color: "#297DB5" }}
       key={_.uniqueId("iLink")}

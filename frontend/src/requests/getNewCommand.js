@@ -1,8 +1,8 @@
 import axios from "axios";
 import url from "./Urls";
 
-export default function getTexCommand(bookId) {
-  let Url = url.domain + ":" + url.port + "/texCommand/" + bookId;
+export default function getNewCommand(bookId) {
+  let Url = url.domain + ":" + url.port + "/newCommand/" + bookId;
 
   return axios
     .get(Url, {

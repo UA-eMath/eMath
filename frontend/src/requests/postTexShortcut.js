@@ -2,7 +2,7 @@ import { message } from "antd";
 import axios from "axios";
 import url from "./Urls";
 
-export default function postTexCommand(file, bookId) {
+export default function postTexShortcut(file, bookId) {
   return axios
     .put(
       url.domain + ":" + url.port + "/uploadTex/" + bookId.toString() + "/",

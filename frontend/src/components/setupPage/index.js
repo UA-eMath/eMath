@@ -4,7 +4,8 @@ import TopNav from "./../../components/topNav";
 import { Layout, Tabs } from "antd";
 import BookSetting from "../bookSetting";
 import getRoots from "../../requests/GetRoots";
-import TexShortcuts from "../TexShortcuts";
+import TexShortcut from "../TexShortcut";
+import NewCommand from "../NewCommand";
 
 const { TabPane } = Tabs;
 
@@ -36,11 +37,11 @@ export default function SetupPage(props) {
           <TabPane tab={"Book information"} key={1}>
             <BookSetting book={book} />
           </TabPane>
-          <TabPane tab={"Content completion"} key={2}>
-            Content completion
+          <TabPane tab={"Tex shortcut"} key={2}>
+            <TexShortcut book={book} />
           </TabPane>
-          <TabPane tab={"Tex shortcut"} key={3}>
-            <TexShortcuts book={book} />
+          <TabPane tab={"New command"} key={3}>
+            <NewCommand book={book} />
           </TabPane>
         </Tabs>
       </Content>
