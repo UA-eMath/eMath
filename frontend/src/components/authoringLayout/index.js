@@ -5,7 +5,7 @@ import LevelEditor from "./../../components/levelEditor";
 import ParaEditor from "./../../components/paraEditor";
 import SplitPane from "react-split-pane";
 import "./index.css";
-import getTexCommand from "../../requests/getTexCommand";
+import getNewCommand from "../../requests/getNewCommand";
 import { texCommandArray } from "../InputBox/dataSource";
 import { Node, Context } from "../react-mathjax";
 import MathJaxConfig from "../../constants/MathJax_config";
@@ -19,7 +19,7 @@ export default class AuthoringLayout extends React.Component {
 
   async componentDidMount() {
     this._isMounted = true;
-    const texCommandFromDB = await getTexCommand(this.props.match.params.id);
+    const texCommandFromDB = await getNewCommand(this.props.match.params.id);
     if (typeof texCommandFromDB !== "undefined") {
       const commands = texCommandFromDB.data;
       // put commands into <Math></Math>
@@ -27,11 +27,7 @@ export default class AuthoringLayout extends React.Component {
       let num = 0;
       for (const filename in commands) {
         for (const value of commands[filename]) {
-          items.push(
-            <div key={num}>
-              <Node>{value["tex"]}</Node>
-            </div>
-          );
+          items.push(<Node>{value["tex"]}</Node>);
           texCommandArray.push(this.regexMatch(value["tex"], value["note"]));
           num = num + 1;
         }
@@ -64,6 +60,30 @@ export default class AuthoringLayout extends React.Component {
     return (
       <div>
         <TopNav />
+        {/* render tex commands */}
+        <div style={{ display: "none" }}>
+          {this.state.texCommandsInMathTag.map((value, index) => {
+            return (
+              <div key={index}>
+                <Context
+                  input="tex"
+                  onLoad={() => console.log("Loaded MathJax script!")}
+                  onError={(MathJax, error) => {
+                    console.warn(error);
+                    console.log(
+                      "Encountered a MathJax error, re-attempting a typeset!"
+                    );
+                    MathJax.Hub.Queue(MathJax.Hub.Typeset());
+                  }}
+                  script={MathJaxConfig.script}
+                  options={MathJaxConfig.options}
+                >
+                  {value}
+                </Context>
+              </div>
+            );
+          })}
+        </div>
         <SplitPane split="vertical" minSize={0} size={this.state.paneSize}>
           <div
             style={{
@@ -82,24 +102,6 @@ export default class AuthoringLayout extends React.Component {
             <ParaEditor />
           </div>
         </SplitPane>
-        {/* render tex commands */}
-        <div style={{ display: "none" }}>
-          <Context
-            input="tex"
-            onLoad={() => console.log("Loaded MathJax script!")}
-            onError={(MathJax, error) => {
-              console.warn(error);
-              console.log(
-                "Encountered a MathJax error, re-attempting a typeset!"
-              );
-              MathJax.Hub.Queue(MathJax.Hub.Typeset());
-            }}
-            script={MathJaxConfig.script}
-            options={MathJaxConfig.options}
-          >
-            <div>{this.state.texCommandsInMathTag}</div>
-          </Context>
-        </div>
       </div>
     );
   }
