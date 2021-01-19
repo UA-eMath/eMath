@@ -29,10 +29,12 @@ router.register(r'Level', LevelViewset, 'Level')
 router.register(r'book', RootLevelViewSets, 'RootLevels')
 router.register(r'nextLevel', getNextLevelViewSet, 'NextLevel')
 router.register(r'indexItem', IndexItemViewSets, "IndexItem")
-router.register(r'texCommand', texCommandViewSets, "texCommand")
+router.register(r'newCommand', newCommandViewSets, "newCommand")
+router.register(r'texShortcut', texShorcutViewSets, "texShortcut")
 
 urlpatterns = [
-	url(r'^uploadTex/(?P<pk>.+)/$', UploadTexCommand.as_view()),
-	url('', include(router.urls)),
-	path('admin/', admin.site.urls),
+    url(r'^uploadNewCommand/(?P<pk>.+)/$', UploadNewCommand.as_view()),
+    url(r'^uploadTex/(?P<pk>.+)/$', UploadTexShortcut.as_view()),
+    url('', include(router.urls)),
+    path('admin/', admin.site.urls),
 ]

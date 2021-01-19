@@ -10,13 +10,13 @@ import {
   Row,
   Col,
 } from "antd";
-import postTexCommand from "../../requests/postTexCommand";
-import getTexCommand from "../../requests/getTexCommand";
+import postTexShortcut from "../../requests/postTexShortcut";
+import getTexShortcut from "../../requests/getTexShortcut";
 
 const { Dragger } = Upload;
 const { TabPane } = Tabs;
 
-export default class TexShortcuts extends React.Component {
+export default class TexShortcut extends React.Component {
   _isMounted = false;
   constructor(props) {
     super(props);
@@ -29,7 +29,7 @@ export default class TexShortcuts extends React.Component {
 
   async componentDidMount() {
     this._isMounted = true;
-    const texCommandFromDB = await getTexCommand(this.props.book.id);
+    const texCommandFromDB = await getTexShortcut(this.props.book.id);
     if (typeof texCommandFromDB !== "undefined" && this._isMounted) {
       this.setState({ texCommands: texCommandFromDB.data });
     }
@@ -49,7 +49,7 @@ export default class TexShortcuts extends React.Component {
   beforeUpload = (file) => {
     const isTexFile = file.type === "text/plain" || file.type === "";
     if (!isTexFile) {
-      message.error("You can only upload .tex/.txt file!");
+      message.error("You can only upload .cwl/.txt file!");
     }
     return false;
   };
@@ -60,7 +60,7 @@ export default class TexShortcuts extends React.Component {
     for (const filename in commands) {
       items.push(<Divider key={num}>{filename}</Divider>);
       num = num + 1;
-      for (const [index, value] of commands[filename].entries()) {
+      for (const value of commands[filename]) {
         items.push(
           <List key={num}>
             <Row>
@@ -97,7 +97,7 @@ export default class TexShortcuts extends React.Component {
           <TabPane tab="Available Tex Shortcuts" key="1">
             <div style={{ margin: "10px" }}>{texCommandItems}</div>
           </TabPane>
-          <TabPane tab="Upload Tex Shortcuts" key="2">
+          <TabPane tab="Upload Shortcuts File" key="2">
             <div style={{ margin: "10px" }}>
               <Dragger {...props}>
                 <p className="ant-upload-drag-icon">
@@ -107,7 +107,7 @@ export default class TexShortcuts extends React.Component {
                   Click or drag file to this area to upload
                 </p>
                 <p className="ant-upload-hint">
-                  Support for .tex or .txt file. If upload more than one file,
+                  Support for .cwl or .txt file. If upload more than one file,
                   only save the most recent one.
                 </p>
               </Dragger>
@@ -116,7 +116,7 @@ export default class TexShortcuts extends React.Component {
                   key="save"
                   type="primary"
                   onClick={() => {
-                    postTexCommand(uploadFile, book.id);
+                    postTexShortcut(uploadFile, book.id);
                     this.setState({ uploadFile: null });
                   }}
                   disabled={uploadFile === null}
