@@ -31,10 +31,13 @@ router.register(r'nextLevel', getNextLevelViewSet, 'NextLevel')
 router.register(r'indexItem', IndexItemViewSets, "IndexItem")
 router.register(r'newCommand', newCommandViewSets, "newCommand")
 router.register(r'texShortcut', texShorcutViewSets, "texShortcut")
+router.register(r'newCommandUpdate', NewCommandUpdateViewSets,
+                "newCommandUpdate")
 
 urlpatterns = [
     url(r'^uploadNewCommand/(?P<pk>.+)/$', UploadNewCommand.as_view()),
     url(r'^uploadTex/(?P<pk>.+)/$', UploadTexShortcut.as_view()),
+    url(r'^newCommandUpdate/(?P<pk>.+)/$', NewCommandUpdate.as_view()),
     url('', include(router.urls)),
     path('admin/', admin.site.urls),
 ]

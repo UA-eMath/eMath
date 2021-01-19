@@ -12,6 +12,7 @@ import {
 } from "antd";
 import postNewCommand from "../../requests/postNewCommand";
 import getNewCommand from "../../requests/getNewCommand";
+import EditNewCommand from "../editNewCommand";
 
 const { Dragger } = Upload;
 const { TabPane } = Tabs;
@@ -54,13 +55,42 @@ export default class NewCommand extends React.Component {
     return false;
   };
 
+  showEditModal = () => {
+    if (this._isMounted) {
+      this.setState({ isModalVisible: true });
+    }
+  };
+
+  editModalOk = () => {
+    if (this._isMounted) {
+      this.setState({ isModalVisible: false });
+    }
+  };
+
+  editModalCancel = () => {
+    if (this._isMounted) {
+      this.setState({ isModalVisible: false });
+    }
+  };
+
   renderTexCommands = (commands) => {
     let items = [];
     let num = 0;
     for (const filename in commands) {
-      items.push(<Divider key={num}>{filename}</Divider>);
+      items.push(
+        <Divider key={num}>
+          {filename}
+          {/* click the button to show up the textarea */}
+          <EditNewCommand
+            book={this.props.book}
+            filename={filename}
+            content={commands[filename]}
+          />
+        </Divider>
+      );
       num = num + 1;
-      for (const [index, value] of commands[filename].entries()) {
+      for (const value of commands[filename]) {
+        console.log(value);
         items.push(
           <List key={num}>
             <Row>
@@ -94,9 +124,11 @@ export default class NewCommand extends React.Component {
     return (
       <div style={{ margin: "10px" }}>
         <Tabs defaultActiveKey="1">
+          {/* view new commands */}
           <TabPane tab="Available New Commands" key="1">
             <div style={{ margin: "10px" }}>{texCommandItems}</div>
           </TabPane>
+          {/* upload file */}
           <TabPane tab="Upload Commands File" key="2">
             <div style={{ margin: "10px" }}>
               <Dragger {...props}>

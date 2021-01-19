@@ -29,11 +29,13 @@ def parseNewCommandFromFile(file_content):
 
 
 class UploadNewCommand(views.APIView):
-    parser_classes = (FileUploadParser, )
+    parser_classes = [
+        FileUploadParser,
+    ]
     serializer_class = RootLevelSerializer
     level_serializer = LevelSerializer
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         tex = ""
         file_obj = request.data['file']
         for chunk in file_obj.chunks():
