@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Modal, Input } from "antd";
+import putNewCommand from "../../requests/putNewCommand";
 
 const { TextArea } = Input;
 
@@ -8,6 +9,7 @@ export default class EditNewCommand extends React.Component {
     super(props);
     this.state = {
       isModalVisible: false,
+      textAreaValue: JSON.stringify(this.props.content),
     };
   }
 
@@ -15,10 +17,9 @@ export default class EditNewCommand extends React.Component {
     this.setState({ isModalVisible: true });
   };
 
-  editModalOk = () => {
-    // save commands
-    //todo
-
+  editModalOk = (filename, content, bookId) => {
+    // to JSON
+    putNewCommand({ [filename]: JSON.parse(content) }, bookId);
     this.setState({ isModalVisible: false });
   };
 
@@ -26,21 +27,33 @@ export default class EditNewCommand extends React.Component {
     this.setState({ isModalVisible: false });
   };
 
+  changeTextArea = ({ target: { value } }) => {
+    this.setState({ textAreaValue: value });
+  };
+
   render() {
+    const { book, filename } = this.props;
+    const { isModalVisible, textAreaValue } = this.state;
+
     return (
       <div>
         <Button key="edit-file" onClick={this.showEditModal}>
           Edit
         </Button>
         <Modal
-          title={this.props.filename}
-          visible={this.state.isModalVisible}
-          onOk={this.editModalOk}
-          onCancel={this.editModalCancel}
+          title={filename}
+          visible={isModalVisible}
+          onOk={() => {
+            this.editModalOk(filename, textAreaValue, book.id);
+          }}
+          onCancel={() => {
+            this.editModalCancel();
+          }}
         >
           <TextArea
-            defaultValue={JSON.stringify(this.props.content)}
+            value={textAreaValue}
             autoSize={true}
+            onChange={this.changeTextArea}
           />
         </Modal>
       </div>

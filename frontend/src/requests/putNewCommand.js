@@ -2,20 +2,19 @@ import { message } from "antd";
 import axios from "axios";
 import url from "./Urls";
 
-export default function postNewCommand(file, bookId) {
+export default function putNewCommand(cmdJson, bookId) {
   return axios
-    .post(
+    .put(
       url.domain +
         ":" +
         url.port +
-        "/uploadNewCommand/" +
+        "/newCommandUpdate/" + //uploadNewCommand
         bookId.toString() +
         "/",
-      file,
+      cmdJson,
       {
         headers: {
-          "Content-Disposition": "attachment; filename=" + file.name,
-          "Content-Type": "*/*", // application/json, multipart/form-data
+          "Content-Type": "application/json", // application/json, multipart/form-data
         },
       }
     )

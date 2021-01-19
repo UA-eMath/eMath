@@ -81,11 +81,16 @@ export default class NewCommand extends React.Component {
         <Divider key={num}>
           {filename}
           {/* click the button to show up the textarea */}
-          <EditNewCommand filename={filename} content={commands[filename]} />
+          <EditNewCommand
+            book={this.props.book}
+            filename={filename}
+            content={commands[filename]}
+          />
         </Divider>
       );
       num = num + 1;
       for (const value of commands[filename]) {
+        console.log(value);
         items.push(
           <List key={num}>
             <Row>
