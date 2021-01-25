@@ -2,14 +2,17 @@ import React from "react";
 import { Button, Icon, Dropdown, Menu } from "antd";
 import AddIndex from "./addIndex";
 import { getIndexTree } from "../../requests/getTree";
+import AddLabel from "./addLabel";
 
 const valueMap = {};
+const SubMenu = Menu.SubMenu;
 
 export default class ParaControl extends React.Component {
   state = {
     visible: false,
     title: "",
     indexTree: null,
+    isLabelModalVisible: false,
   };
 
   showModal = (title) => {
@@ -21,6 +24,16 @@ export default class ParaControl extends React.Component {
 
   toggleModal = () => {
     this.setState((prevState) => ({ visible: !prevState.visible }));
+  };
+
+  showLabelModal = () => {
+    this.setState({ isLabelModalVisible: true });
+  };
+
+  toggleLabelModal = () => {
+    this.setState((prevState) => ({
+      isLabelModalVisible: !prevState.isLabelModalVisible,
+    }));
   };
 
   loops = (list, parent) => {
@@ -49,38 +62,58 @@ export default class ParaControl extends React.Component {
   };
 
   render() {
-    const { visible, title } = this.state;
+    const { visible, title, isLabelModalVisible } = this.state;
 
     const menu = (
       <Menu>
-        <Menu.Item
-          key="1"
-          onClick={() => {
-            this.showModal("Index Item");
-            this.fetchIndexTree("Index Item");
-          }}
+        <SubMenu
+          key="sub-index"
+          title={
+            <span>
+              <Icon type="bars" />
+              Index
+            </span>
+          }
         >
-          Index Item
-        </Menu.Item>
+          <Menu.Item
+            key="index"
+            onClick={() => {
+              this.showModal("Index Item");
+              this.fetchIndexTree("Index Item");
+            }}
+          >
+            Index Item
+          </Menu.Item>
+          <Menu.Item
+            key="symbol"
+            onClick={() => {
+              this.showModal("Symbol Index");
+              this.fetchIndexTree("Symbol Index");
+            }}
+          >
+            Symbol Index
+          </Menu.Item>
+          <Menu.Item
+            key="author"
+            onClick={() => {
+              this.showModal("Author Index");
+              this.fetchIndexTree("Author Index");
+            }}
+          >
+            Author Index
+          </Menu.Item>
+        </SubMenu>
 
-        <Menu.Item
-          key="2"
-          onClick={() => {
-            this.showModal("Symbol Index");
-            this.fetchIndexTree("Symbol Index");
-          }}
-        >
-          Symbol Index
+        <Menu.Item key="label" onClick={this.showLabelModal}>
+          <Icon type="tag-o" />
+          Add Label
         </Menu.Item>
-
         <Menu.Item
-          key="3"
-          onClick={() => {
-            this.showModal("Author Index");
-            this.fetchIndexTree("Author Index");
-          }}
+          key="delete"
+          onClick={() => this.props.delete(this.props.id)}
         >
-          Author Index
+          <Icon type="delete" />
+          Delete
         </Menu.Item>
       </Menu>
     );
@@ -88,8 +121,8 @@ export default class ParaControl extends React.Component {
     return (
       <div
         style={{
-					height: "100%",
-					width: "100%",
+          height: "100%",
+          width: "100%",
         }}
       >
         <div>
@@ -97,26 +130,16 @@ export default class ParaControl extends React.Component {
             <Icon type="up" />
           </Button>
         </div>
-				<div>
+        <Dropdown overlay={menu}>
+          <Button>
+            <Icon type="ellipsis" />
+          </Button>
+        </Dropdown>
+        <div>
           <Button>
             <Icon type="down" />
           </Button>
         </div>
-
-        <div>
-          <Button
-            type={"danger"}
-            onClick={() => this.props.delete(this.props.id)}
-          >
-            <Icon type="delete" />
-          </Button>
-        </div>
-
-        <Dropdown overlay={menu}>
-          <Button>
-            <Icon type="link" />
-          </Button>
-        </Dropdown>
         <AddIndex
           title={title}
           visible={visible}
@@ -125,6 +148,11 @@ export default class ParaControl extends React.Component {
           indexTree={this.state.indexTree}
           valueMap={valueMap}
           getNewIndexTree={(type) => this.fetchIndexTree(type)}
+        />
+        <AddLabel
+          visible={isLabelModalVisible}
+          id={this.props.id}
+          toggleModal={this.toggleLabelModal}
         />
       </div>
     );
