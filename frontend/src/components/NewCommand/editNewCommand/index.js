@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Modal, Input } from "antd";
-import putNewCommand from "../../requests/putNewCommand";
+import putNewCommand from "../../../requests/putNewCommand";
 
 const { TextArea } = Input;
 

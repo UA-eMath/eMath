@@ -181,7 +181,7 @@ class EditorToolBar extends React.Component {
           <Tooltip placement="bottom" title={"Save"}>
             <Button
               type="primary"
-              icon="upload"
+              icon="save"
               loading={this.props.uploading}
               onClick={() => this.props.uploadingData()}
             />
@@ -194,7 +194,7 @@ class EditorToolBar extends React.Component {
           />
         </ButtonGroup>
 
-        <div style={{ padding: "0 10px", display: "inline", }}>
+        <div style={{ padding: "0 10px", display: "inline" }}>
           <Switch
             checkedChildren="LR"
             unCheckedChildren="TB"

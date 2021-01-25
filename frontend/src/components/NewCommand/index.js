@@ -12,7 +12,7 @@ import {
 } from "antd";
 import postNewCommand from "../../requests/postNewCommand";
 import getNewCommand from "../../requests/getNewCommand";
-import EditNewCommand from "../editNewCommand";
+import EditNewCommand from "./editNewCommand";
 
 const { Dragger } = Upload;
 const { TabPane } = Tabs;
