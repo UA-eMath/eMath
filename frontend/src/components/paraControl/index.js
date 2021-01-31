@@ -1,8 +1,9 @@
 import React from "react";
-import { Button, Icon, Dropdown, Menu } from "antd";
+import { Button, Icon, Dropdown, Menu, Popover } from "antd";
 import AddIndex from "./addIndex";
 import { getIndexTree } from "../../requests/getTree";
 import AddLabel from "./addLabel";
+import getLabel from "../../requests/getLabel";
 
 const valueMap = {};
 const SubMenu = Menu.SubMenu;
@@ -13,7 +14,15 @@ export default class ParaControl extends React.Component {
     title: "",
     indexTree: null,
     isLabelModalVisible: false,
+    label: "",
   };
+
+  async componentDidMount() {
+    const labelObj = await getLabel(this.props.id);
+    if (typeof labelObj !== "undefined") {
+      this.setState({ label: labelObj.data.content });
+    }
+  }
 
   showModal = (title) => {
     this.setState({
@@ -105,8 +114,10 @@ export default class ParaControl extends React.Component {
         </SubMenu>
 
         <Menu.Item key="label" onClick={this.showLabelModal}>
-          <Icon type="tag-o" />
-          Add Label
+          <Popover placement="left" content={this.state.label} title="Label">
+            <Icon type="tag-o" />
+            Add Label
+          </Popover>
         </Menu.Item>
         <Menu.Item
           key="delete"
@@ -151,8 +162,9 @@ export default class ParaControl extends React.Component {
         />
         <AddLabel
           visible={isLabelModalVisible}
-          id={this.props.id}
+          paraID={this.props.id}
           toggleModal={this.toggleLabelModal}
+          bookID={this.props.bookID}
         />
       </div>
     );

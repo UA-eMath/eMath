@@ -196,6 +196,8 @@ class ParaEditor extends React.Component {
   };
 
   render() {
+    const { bookID } = this.props;
+
     return (
       <div>
         {this.props.status === null ? (
@@ -267,6 +269,7 @@ class ParaEditor extends React.Component {
                             id={item.id}
                             delete={this.deletePara}
                             parentId={this.props.id}
+                            bookID={bookID}
                           />
                         </div>
                       </div>
@@ -299,6 +302,7 @@ class ParaEditor extends React.Component {
                             id={item.id}
                             delete={this.deletePara}
                             parentId={this.props.id}
+                            bookID={bookID}
                           />
                         </Col>
                       </Row>

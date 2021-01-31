@@ -97,7 +97,7 @@ export default class AuthoringLayout extends React.Component {
               minHeight: "100vh",
             }}
           >
-            <ParaEditor />
+            <ParaEditor bookID={id} />
           </div>
         </SplitPane>
       </div>

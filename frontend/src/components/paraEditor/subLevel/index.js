@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { Button, Col, Icon, Modal, Row } from "antd";
+import { Button, Col, Icon, Modal, Row, Popover, Dropdown, Menu } from "antd";
 import InputBox from "../../InputBox";
 import DisplayArea from "../../displayArea";
 import ParaControl from "../../paraControl";
@@ -8,6 +8,8 @@ import removeLevel from "../../../requests/removeLevel";
 import { connect } from "react-redux";
 import { fetchPage } from "../../../actions";
 import paraRenderer from "../../../pageRenderer";
+import AddLabel from "../../paraControl/addLabel";
+import getLabel from "../../../requests/getLabel";
 
 const { confirm } = Modal;
 
@@ -22,6 +24,21 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class SubLevel extends React.Component {
+  _isMounted = false;
+  state = { isLabelModalVisible: false, label: "" };
+
+  async componentDidMount() {
+    this._isMounted = true;
+    const labelObj = await getLabel(this.props.children[0].para_parent.id);
+    if (typeof labelObj !== "undefined" && this._isMounted) {
+      this.setState({ label: labelObj.data.content });
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   deleteLevel = (id) => {
     confirm({
       title: "Are you sure delete this Level?",
@@ -42,8 +59,28 @@ class SubLevel extends React.Component {
     });
   };
 
+  showLabelModal = () => {
+    this.setState({ isLabelModalVisible: true });
+  };
+
+  toggleLabelModal = () => {
+    this.setState((prevState) => ({
+      isLabelModalVisible: !prevState.isLabelModalVisible,
+    }));
+  };
+
   render() {
     const { children, alignment, deletePara } = this.props;
+    const { isLabelModalVisible } = this.state;
+
+    // Display Label
+    let label = (
+      <div style={{ display: "inline", marginLeft: "4px" }}>
+        <Popover content={this.state.label} title="Label">
+          <Icon type="tag" />
+        </Popover>
+      </div>
+    );
 
     let left_title = children[0].para_parent.tocTitle;
     let right_title =
@@ -61,12 +98,11 @@ class SubLevel extends React.Component {
             padding: "2px 4px 2px 4px",
           }}
         >
-					<Col span={12}>
-						<b>{left_title}</b>
-					</Col>
-					<Col span={12}>
-						{right_title}
-					</Col>
+          <Col span={12}>
+            <b>{left_title}</b>
+            <b>{label}</b>
+          </Col>
+          <Col span={12}>{right_title}</Col>
         </div>
       );
     }
@@ -121,20 +157,33 @@ class SubLevel extends React.Component {
       }
     });
 
+    const sublevelMenu = (
+      <Menu>
+        <Menu.Item key="label" onClick={this.showLabelModal}>
+          <Icon type="tag-o" />
+          Add Label
+        </Menu.Item>
+        <Menu.Item
+          key="delete"
+          onClick={() => this.deleteLevel(children[0].para_parent.id)}
+        >
+          <Icon type="delete" />
+          Delete
+        </Menu.Item>
+      </Menu>
+    );
+
     let subLevelControl = (
       <div>
         <Button>
           <Icon type="up" />
         </Button>
-
-        <Button
-          type={"danger"}
-          onClick={() => this.deleteLevel(children[0].para_parent.id)}
-        >
-          <Icon type="delete" />
-        </Button>
-
-				<Button>
+        <Dropdown overlay={sublevelMenu}>
+          <Button>
+            <Icon type="ellipsis" />
+          </Button>
+        </Dropdown>
+        <Button>
           <Icon type="down" />
         </Button>
       </div>
@@ -152,7 +201,16 @@ class SubLevel extends React.Component {
       >
         <Row>{boxHeader}</Row>
         <Row>{content}</Row>
-        <Row type="flex" justify="center">{subLevelControl}</Row>
+        <Row type="flex" justify="center">
+          {subLevelControl}
+        </Row>
+
+        <AddLabel
+          visible={isLabelModalVisible}
+          levelID={children[0].para_parent.id}
+          toggleModal={this.toggleLabelModal}
+          bookID={"1"} //TODO
+        />
       </div>
     );
   }
