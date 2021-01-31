@@ -151,6 +151,8 @@ class Label(models.Model):
                                         related_name='label_linked_level')
     root = models.ForeignKey(RootLevel,
                              on_delete=models.CASCADE,
+                             null=True,
+                             blank=True,
                              related_name='root')
 
     class Meta:
