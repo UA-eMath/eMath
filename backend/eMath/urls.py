@@ -33,6 +33,7 @@ router.register(r'newCommand', newCommandViewSets, "newCommand")
 router.register(r'texShortcut', texShorcutViewSets, "texShortcut")
 router.register(r'newCommandUpdate', NewCommandUpdateViewSets,
                 "newCommandUpdate")
+router.register(r'label', LabelViewSet, "Label")
 
 urlpatterns = [
     url(r'^uploadNewCommand/(?P<pk>.+)/$', UploadNewCommand.as_view()),
