@@ -18,7 +18,7 @@ export default class ParaControl extends React.Component {
   };
 
   async componentDidMount() {
-    const labelObj = await getLabel(this.props.id);
+    const labelObj = await getLabel({ paraID: this.props.id });
     if (typeof labelObj !== "undefined") {
       this.setState({ label: labelObj.data.content });
     }

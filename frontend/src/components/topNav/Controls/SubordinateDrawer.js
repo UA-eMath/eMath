@@ -51,8 +51,6 @@ class SubordinateDrawer extends React.Component {
           style={{ fontSize: "25px" }}
         >
           {this.props.subs.map((el) => {
-            console.log("click");
-            console.log(this.props.subs);
             return (
               <div key={el.i} style={{ marginBottom: "5px" }}>
                 <Button

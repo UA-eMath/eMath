@@ -40,7 +40,7 @@ class InputBox extends React.Component {
     this.handleLabelModalVisiblility = this.handleLabelModalVisiblility.bind(
       this
     );
-    this.updateLinkID = this.updateLinkID.bind(this);
+    this.updateLinkLabel = this.updateLinkLabel.bind(this);
   }
 
   handleLabelModalVisiblility() {
@@ -54,10 +54,10 @@ class InputBox extends React.Component {
     });
   }
 
-  updateLinkID(newID) {
+  updateLinkLabel(labelName) {
     this.insertAtCursor(
       this.state.isClick,
-      `<iLink id="${newID}"></iLink> `,
+      `<iLink label="${labelName}"></iLink> `,
       13
     );
   }
@@ -200,7 +200,8 @@ class InputBox extends React.Component {
         <SelectLabelModal
           visible={this.state.isModalVisible}
           handleLabelModalVisiblility={this.handleLabelModalVisiblility}
-          updateLinkID={this.updateLinkID}
+          updateLinkLabel={this.updateLinkLabel}
+          bookID={1} // TODO
         />
       </span>
     );

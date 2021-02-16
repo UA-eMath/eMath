@@ -30,7 +30,6 @@ export default class AddLabel extends React.Component {
           root: parseInt(this.props.bookID),
         });
       }
-
       postLabel(request_body);
     } else {
       message.error("new label is null");

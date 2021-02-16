@@ -21,7 +21,6 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 						if (!data || data.status !== 200) {
 							console.error("FETCH_index_item_FAILED", data);
 						} else {
-							console.log(data.data);
 							this.setState({indexItemList: data.data});
 						}
 					}
@@ -80,7 +79,6 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 							if (!data || data.status !== 200) {
 								console.error("FETCH_index_item_FAILED", data);
 							} else {
-								console.log(data.data);
 								this.setState({indexItemList: data.data});
 							}
 						}
@@ -105,7 +103,6 @@ const AddIndex = Form.create({name: 'form_in_modal'})(
 						if (!data || data.status !== 200) {
 							console.error("FETCH_Glossary_FAILED", data);
 						} else {
-							console.log(data.data);
 							this.setState({indexItemList: data.data});
 						}
 					}

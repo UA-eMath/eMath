@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Icon, Switch, Tooltip } from "antd";
+import { Button, Icon, message, Switch, Tooltip } from "antd";
 
 import { connect } from "react-redux";
 import { fetchPage, loadPage, loadPageError } from "../../actions";
@@ -66,7 +66,6 @@ class EditorToolBar extends React.Component {
       if (this.props.focusedArea !== null) {
         //behind on focused area
         let focusedPara = this.getItemById(this.props.focusedArea);
-        console.log(focusedPara);
         if (typeof focusedPara !== "undefined") {
           //the position para want to be put
           position = focusedPara.position + 1;
@@ -87,7 +86,7 @@ class EditorToolBar extends React.Component {
       postLevel(request_body)
         .then((data) => {
           if (!data || data.status !== 200) {
-            console.error("Submit failed", data);
+            message.error("Submit failed", data);
           } else {
             return data.data.id;
           }

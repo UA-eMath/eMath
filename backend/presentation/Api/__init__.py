@@ -17,3 +17,4 @@ from .new_command_update import NewCommandUpdate
 from .new_command_update_view import NewCommandUpdateViewSets
 
 from .label_view import LabelViewSet
+from .get_label_view import GetLabelViewSets

@@ -15,6 +15,7 @@ import _ from "lodash";
 import paraRenderer from "../../../pageRenderer";
 import { Tabs } from "antd";
 import getNextLevel from "../../../requests/getNextLevel";
+import getLevel from "../../../requests/getLevel";
 
 const { TabPane } = Tabs;
 
@@ -46,13 +47,19 @@ class CreateElement extends React.Component {
     let pageContent;
     let context;
 
-    let id = this.props["data-grid"].pageId;
-    if (this.props["data-grid"].isPage) {
-      pageContent = await getPage({ id: id, page: null });
-    } else {
+    let id = this.props["data-grid"].pageId.id;
+    let linkTo = this.props["data-grid"].pageId.linkTo;
+    if (linkTo === "para") {
+      // show linked para
       pageContent = await getPara({ id: id });
       pageContent.data = [pageContent.data];
       context = await getNextLevel({ id: id });
+    } else {
+      if (this.props["data-grid"].isPage) {
+        pageContent = await getPage({ id: id, page: null }); // isPage true -> para
+      } else {
+        pageContent = await getLevel(id);
+      }
     }
 
     if (typeof context !== "undefined" && context.data.context.length !== 0) {

@@ -29,7 +29,9 @@ class SubLevel extends React.Component {
 
   async componentDidMount() {
     this._isMounted = true;
-    const labelObj = await getLabel(this.props.children[0].para_parent.id);
+    const labelObj = await getLabel({
+      levelID: this.props.children[0].para_parent.id,
+    });
     if (typeof labelObj !== "undefined" && this._isMounted) {
       this.setState({ label: labelObj.data.content });
     }
@@ -50,7 +52,6 @@ class SubLevel extends React.Component {
           if (data.status !== 200) {
             console.error("Delete error", data);
           } else {
-            console.log(data);
             this.props.fetchPage(this.props.id, this.props.title);
           }
         });
@@ -69,6 +70,55 @@ class SubLevel extends React.Component {
     }));
   };
 
+  wrapPara = (alignment, item, deletePara) => {
+    if (alignment) {
+      // true: RL
+      return (
+        <div className="paraWrapper" key={item.id}>
+          <div className="inputDiv">
+            <InputBox
+              id={item.id}
+              setFocusArea={this.props.setFocusArea}
+              boxValue={item.content.data}
+            />
+          </div>
+          <div className="displayDiv">
+            <DisplayArea id={item.id} />
+          </div>
+          <div className="controlDiv">
+            <ParaControl
+              id={item.id}
+              delete={deletePara}
+              parentId={item.para_parent.id}
+            />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <Row key={item.id}>
+          <Col span={23}>
+            <InputBox
+              id={item.id}
+              boxValue={item.content.data}
+              setFocusArea={this.props.setFocusArea}
+              TBview="true"
+            />
+
+            <DisplayArea id={item.id} />
+          </Col>
+
+          <Col span={1}>
+            <ParaControl
+              id={item.id}
+              delete={deletePara}
+              parentId={item.para_parent.id}
+            />
+          </Col>
+        </Row>
+      );
+    }
+  };
   render() {
     const { children, alignment, deletePara } = this.props;
     const { isLabelModalVisible } = this.state;
@@ -107,61 +157,32 @@ class SubLevel extends React.Component {
       );
     }
 
-    let content = _.map(children, (item) => {
-      // true: RL
-      if (alignment) {
+    let content = _.map(children, (item, i) => {
+      // TODO: only handle one layer
+      if (Array.isArray(item)) {
         return (
-          <div className="paraWrapper" key={item.id}>
-            <div className="inputDiv">
-              <InputBox
-                id={item.id}
-                setFocusArea={this.props.setFocusArea}
-                boxValue={item.content.data}
-              />
-            </div>
-            <div className="displayDiv">
-              <DisplayArea id={item.id} />
-            </div>
-            <div className="controlDiv">
-              <ParaControl
-                id={item.id}
-                delete={deletePara}
-                parentId={item.para_parent.id}
-              />
-            </div>
-          </div>
+          <SubLevel
+            key={i}
+            children={item}
+            alignment={alignment}
+            deletePara={deletePara}
+            setFocusArea={this.props.setFocusArea}
+            id={this.props.id}
+          />
         );
       } else {
-        return (
-          <Row key={item.id}>
-            <Col span={23}>
-              <InputBox
-                id={item.id}
-                boxValue={item.content.data}
-                setFocusArea={this.props.setFocusArea}
-                TBview="true"
-              />
-
-              <DisplayArea id={item.id} />
-            </Col>
-
-            <Col span={1}>
-              <ParaControl
-                id={item.id}
-                delete={deletePara}
-                parentId={item.para_parent.id}
-              />
-            </Col>
-          </Row>
-        );
+        return this.wrapPara(alignment, item, deletePara);
       }
     });
+    console.log(content);
 
     const sublevelMenu = (
       <Menu>
         <Menu.Item key="label" onClick={this.showLabelModal}>
-          <Icon type="tag-o" />
-          Add Label
+          <Popover placement="left" content={this.state.label} title="Label">
+            <Icon type="tag-o" />
+            Add Label
+          </Popover>
         </Menu.Item>
         <Menu.Item
           key="delete"
