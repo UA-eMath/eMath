@@ -21,7 +21,7 @@ export default class SelectLabelModal extends React.Component {
   async componentDidMount() {
     this._isMounted = true;
     const books = await getRoots({});
-    const labels = await getLabel(this.state.selectedBooks[0]); // get labels for default book
+    const labels = await getLabel({ rootID: this.state.selectedBooks[0] }); // get labels for default book
     if (typeof labels !== "undefined" && this._isMounted) {
       var obj = {};
       labels.data.forEach((item) => {
@@ -62,13 +62,13 @@ export default class SelectLabelModal extends React.Component {
           this.setState({
             selectedBooks: [...this.state.selectedBooks, item.id],
           });
-          getLabel(item.id).then((labels) => {
+          getLabel({ rootID: item.root.id }).then((labels) => {
             var obj = {};
             labels.data.forEach((item) => {
               obj = Object.assign({ [item.content]: item }, obj);
             });
             this.setState({
-              labelList: [...this.state.labelList, labels.data],
+              labelList: this.state.labelList.concat(labels.data),
               labelObj: { ...this.state.labelObj, obj },
             });
           });
@@ -83,15 +83,16 @@ export default class SelectLabelModal extends React.Component {
 
   render() {
     const { visible } = this.props;
-    const options = this.state.labelList.map((item) => (
-      <Option key={item.id} value={item.content}>
-        {item.content}
-      </Option>
-    ));
 
     const books = this.state.bookList.map((item) => (
       <Option key={item.id} value={item.title}>
         {item.title}
+      </Option>
+    ));
+
+    const options = this.state.labelList.map((item) => (
+      <Option key={item.id} value={item.content}>
+        {item.content}
       </Option>
     ));
 
