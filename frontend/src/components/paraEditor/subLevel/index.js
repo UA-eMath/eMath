@@ -123,15 +123,6 @@ class SubLevel extends React.Component {
     const { children, alignment, deletePara } = this.props;
     const { isLabelModalVisible } = this.state;
 
-    // Display Label
-    let label = (
-      <div style={{ display: "inline", marginLeft: "4px" }}>
-        <Popover content={this.state.label} title="Label">
-          <Icon type="tag" />
-        </Popover>
-      </div>
-    );
-
     let left_title = children[0].para_parent.tocTitle;
     let right_title =
       children[0].para_parent.title === null
@@ -150,7 +141,6 @@ class SubLevel extends React.Component {
         >
           <Col span={12}>
             <b>{left_title}</b>
-            <b>{label}</b>
           </Col>
           <Col span={12}>{right_title}</Col>
         </div>
@@ -174,7 +164,6 @@ class SubLevel extends React.Component {
         return this.wrapPara(alignment, item, deletePara);
       }
     });
-    console.log(content);
 
     const sublevelMenu = (
       <Menu>

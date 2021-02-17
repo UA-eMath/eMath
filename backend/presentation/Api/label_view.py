@@ -63,10 +63,15 @@ class LabelViewSet(viewsets.ModelViewSet):
         try:
             if 'linked_para' in request_data:
                 para = Para.objects.get(id=para_id)
+                root = Para.objects.get(id=para_id).para_parent.get_root().root
             else:
                 level = Level.objects.get(id=level_id)
+                root = Level.objects.get(id=level_id).get_root().root
         except ObjectDoesNotExist:
             return Response("Object's id is not found", 404)
+
+        request_data['root'] = root.id
+
         serializer = self.serializer_class(data=request_data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

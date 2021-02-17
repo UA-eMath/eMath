@@ -55,6 +55,7 @@ class CreateElement extends React.Component {
       pageContent.data = [pageContent.data];
       context = await getNextLevel({ id: id });
     } else {
+      // linked level
       if (this.props["data-grid"].isPage) {
         pageContent = await getPage({ id: id, page: null }); // isPage true -> para
       } else {
@@ -69,10 +70,22 @@ class CreateElement extends React.Component {
     }
 
     if (typeof pageContent !== "undefined" && pageContent.data.length !== 0) {
-      this.setState({
-        pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
-        paraText: pageContent.data,
-      });
+      // when not a page, show the level toctitle, e.g. Definition
+      if (this.props["data-grid"].isPage) {
+        this.setState({
+          pageTitle: paraRenderer(
+            pageContent.data.flat(Infinity)[0].para_parent.title
+          ),
+          paraText: pageContent.data,
+        });
+      } else {
+        this.setState({
+          pageTitle: paraRenderer(
+            pageContent.data.flat(Infinity)[0].para_parent.tocTitle
+          ),
+          paraText: pageContent.data,
+        });
+      }
     } else {
       this.setState({
         pageTitle: ["This page is under construction."],

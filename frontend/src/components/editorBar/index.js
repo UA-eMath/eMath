@@ -100,7 +100,7 @@ class EditorToolBar extends React.Component {
           });
           postPara(request_body).then((data) => {
             if (!data || data.status !== 200) {
-              console.error("Failed to add para", data);
+              message.error("Failed to add para", data);
             } else {
               this.props.fetchPage(this.props.parent, this.props.parentTitle);
             }
