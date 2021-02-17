@@ -77,11 +77,17 @@ class LabelViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data, 200)
 
-    def update(self, request, *args, **kwargs):
-        pass
+    def put(self, request, *args, **kwargs):
+        label_id = request.data['params'].get('id', None)
+        content = request.data['params'].get('content', None)
+        try:
+            label = Label.objects.get(id=label_id)
+            label.content = content
+            label.save()
+        except:
+            return Response("Label update fails.", 500)
 
-    def partial_update(self, request, *args, **kwargs):
-        pass
+        return Response("Label is successfully updated.", 204)
 
     def destroy(self, request, *args, **kwargs):
         try:
