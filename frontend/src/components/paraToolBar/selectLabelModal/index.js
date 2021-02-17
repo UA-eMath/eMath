@@ -12,7 +12,7 @@ export default class SelectLabelModal extends React.Component {
     this.state = {
       labelList: [],
       selectedLabel: "",
-      labelObj: null,
+      labelObj: {},
       bookList: [],
       selectedBooks: [this.props.bookID],
     };
@@ -20,8 +20,8 @@ export default class SelectLabelModal extends React.Component {
 
   async componentDidMount() {
     this._isMounted = true;
-    const labels = await getLabel();
     const books = await getRoots({});
+    const labels = await getLabel(this.state.selectedBooks[0]); // get labels for default book
     if (typeof labels !== "undefined" && this._isMounted) {
       var obj = {};
       labels.data.forEach((item) => {
@@ -62,14 +62,27 @@ export default class SelectLabelModal extends React.Component {
           this.setState({
             selectedBooks: [...this.state.selectedBooks, item.id],
           });
+          getLabel(item.id).then((labels) => {
+            var obj = {};
+            labels.data.forEach((item) => {
+              obj = Object.assign({ [item.content]: item }, obj);
+            });
+            this.setState({
+              labelList: [...this.state.labelList, labels.data],
+              labelObj: { ...this.state.labelObj, obj },
+            });
+          });
         }
       });
     }
   };
 
+  onDeselect = (value, option) => {
+    //TODO
+  };
+
   render() {
     const { visible } = this.props;
-
     const options = this.state.labelList.map((item) => (
       <Option key={item.id} value={item.content}>
         {item.content}
@@ -99,6 +112,7 @@ export default class SelectLabelModal extends React.Component {
               mode="multiple"
               optionFilterProp="children"
               onSelect={this.onSelectBook}
+              onDeselect={this.onDeselect}
               filterOption={(input, option) =>
                 option.props.children
                   .toLowerCase()
