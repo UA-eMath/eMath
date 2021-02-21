@@ -17,29 +17,9 @@ class LabelViewSet(viewsets.ModelViewSet):
     # GET http://localhost:8000/Label/
     def list(self, request, *args, **kwargs):
         root_id = request.query_params.get('rootID', None)
-        label_content = request.query_params.get('content', None)
         if root_id is not None:
             label_queryset = Label.objects.filter(root=root_id)
             return Response(LabelSerializers(label_queryset, many=True).data)
-        elif label_content is not None:
-            label_queryset = Label.objects.filter(content=label_content)
-            label = get_object_or_404(label_queryset)
-            level = label.linked_level
-            para = label.linked_para
-            link_to, linked_id, isPage = "", -1, False
-            if level:
-                isPage = level.isPage
-                linked_id = level.id
-                link_to = "level"
-            else:
-                isPage = para.para_parent.isPage
-                linked_id = para.id
-                link_to = "para"
-            return Response({
-                "id": linked_id,
-                "isPage": isPage,
-                "linkTo": link_to
-            })
         else:
             # return Response('Root id or label content is not provided', 500)
             return Response(LabelSerializers(self.queryset, many=True).data)
@@ -48,7 +28,18 @@ class LabelViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         label_queryset = Label.objects.filter(id=self.kwargs["pk"])
         label = get_object_or_404(label_queryset)
-        return Response(LabelSerializers(label).data)
+        level = label.linked_level
+        para = label.linked_para
+        link_to, linked_id, isPage = "", -1, False
+        if level:
+            isPage = level.isPage
+            linked_id = level.id
+            link_to = "level"
+        else:
+            isPage = para.para_parent.isPage
+            linked_id = para.id
+            link_to = "para"
+        return Response({"id": linked_id, "isPage": isPage, "linkTo": link_to})
 
     # POST
     def create(self, request):

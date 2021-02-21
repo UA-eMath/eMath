@@ -54,10 +54,10 @@ class InputBox extends React.Component {
     });
   }
 
-  updateLinkLabel(labelName) {
+  updateLinkLabel(labelID) {
     this.insertAtCursor(
       this.state.isClick,
-      `<iLink label="${labelName}"></iLink> `,
+      `<iLink id="${labelID}"></iLink> `,
       13
     );
   }

@@ -15,8 +15,8 @@ function iLink(props) {
       className="textLink"
       href
       onClick={async () => {
-        // get label using label content
-        const linked_obj = await getLabel({ content: props.label });
+        // get label using label id
+        const linked_obj = await getLabel({ labelID: props.id });
         props.onWindowOpen(
           { id: linked_obj.data.id, linkTo: linked_obj.data.linkTo },
           linked_obj.data.isPage

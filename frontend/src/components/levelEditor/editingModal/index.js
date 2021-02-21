@@ -201,7 +201,7 @@ class EditingModal extends React.Component {
           onClick={() => {
             //does not support safari browser
             navigator.clipboard.writeText(
-              '<iLink label="' + item.id.toString() + '"></iLink>'
+              '<iLink id="' + item.id.toString() + '"></iLink>'
             );
           }}
         >

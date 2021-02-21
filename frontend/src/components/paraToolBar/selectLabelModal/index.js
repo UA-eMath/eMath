@@ -11,7 +11,7 @@ export default class SelectLabelModal extends React.Component {
     super(props);
     this.state = {
       labelList: [],
-      selectedLabel: "",
+      selectedLabel: null,
       labelObj: {},
       bookList: [],
       selectedBooks: [this.props.bookID],
@@ -25,7 +25,7 @@ export default class SelectLabelModal extends React.Component {
     if (typeof labels !== "undefined" && this._isMounted) {
       var obj = {};
       labels.data.forEach((item) => {
-        obj = Object.assign({ [item.content]: item }, obj);
+        obj[item.content] = item;
       });
       this.setState({
         labelList: labels.data,
@@ -50,8 +50,9 @@ export default class SelectLabelModal extends React.Component {
 
   onSelectLabel = (value, option) => {
     if (this.state.labelObj !== null && this._isMounted) {
+      console.log("onselectlabel", this.state.labelObj);
       const label = this.state.labelObj[value];
-      this.setState({ selectedLabel: label.content });
+      this.setState({ selectedLabel: label.id });
     }
   };
 
@@ -65,11 +66,11 @@ export default class SelectLabelModal extends React.Component {
           getLabel({ rootID: item.root.id }).then((labels) => {
             var obj = {};
             labels.data.forEach((item) => {
-              obj = Object.assign({ [item.content]: item }, obj);
+              obj[item.content] = item;
             });
             this.setState({
               labelList: this.state.labelList.concat(labels.data),
-              labelObj: { ...this.state.labelObj, obj },
+              labelObj: { ...this.state.labelObj, ...obj },
             });
           });
         }

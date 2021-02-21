@@ -33,23 +33,6 @@ export default function getLabel(params = {}) {
         return response;
       })
       .catch((error) => console.log(error.response));
-  } else if (params.content !== undefined) {
-    return axios
-      .get(
-        url.domain + ":" + url.port + "/label/",
-        {
-          params: params,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => console.log(error.response));
   } else if (params.rootID !== undefined) {
     return axios
       .get(
