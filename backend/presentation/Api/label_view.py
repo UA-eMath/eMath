@@ -26,7 +26,8 @@ class LabelViewSet(viewsets.ModelViewSet):
 
     # GET http://localhost:8000/Label/**/
     def retrieve(self, request, *args, **kwargs):
-        label_queryset = Label.objects.filter(id=self.kwargs["pk"])
+        label_id = self.kwargs["pk"]
+        label_queryset = Label.objects.filter(id=label_id)
         label = get_object_or_404(label_queryset)
         level = label.linked_level
         para = label.linked_para
@@ -39,7 +40,13 @@ class LabelViewSet(viewsets.ModelViewSet):
             isPage = para.para_parent.isPage
             linked_id = para.id
             link_to = "para"
-        return Response({"id": linked_id, "isPage": isPage, "linkTo": link_to})
+        return Response({
+            "id": label_id,
+            "name": label.content,
+            "linkedID": linked_id,
+            "isPage": isPage,
+            "linkTo": link_to
+        })
 
     # POST
     def create(self, request):

@@ -1,7 +1,12 @@
 import React from "react";
-import { Modal, Select } from "antd";
+import { Modal, Select, Card } from "antd";
+import _ from "lodash";
 import getLabel from "../../../requests/getLabel";
 import getRoots from "../../../requests/GetRoots";
+import getPara from "../../../requests/getPara";
+import getLevel from "../../../requests/getLevel";
+import getPage from "../../../requests/getPage";
+import paraRenderer from "../../../pageRenderer";
 
 const { Option } = Select;
 
@@ -12,9 +17,9 @@ export default class SelectLabelModal extends React.Component {
     this.state = {
       labelList: [],
       selectedLabel: null,
-      labelObj: {},
       bookList: [],
       selectedBooks: [this.props.bookID],
+      previewContent: "",
     };
   }
 
@@ -23,13 +28,8 @@ export default class SelectLabelModal extends React.Component {
     const books = await getRoots({});
     const labels = await getLabel({ rootID: this.state.selectedBooks[0] }); // get labels for default book
     if (typeof labels !== "undefined" && this._isMounted) {
-      var obj = {};
-      labels.data.forEach((item) => {
-        obj[item.content] = item;
-      });
       this.setState({
         labelList: labels.data,
-        labelObj: obj,
         bookList: books.data,
       });
     }
@@ -39,8 +39,8 @@ export default class SelectLabelModal extends React.Component {
     this._isMounted = false;
   }
 
-  labelModalOk = (id) => {
-    this.props.updateLinkLabel(this.state.selectedLabel);
+  labelModalOk = () => {
+    this.props.updateLinkLabel(this.state.selectedLabel.id);
     this.props.handleLabelModalVisiblility();
   };
 
@@ -48,32 +48,24 @@ export default class SelectLabelModal extends React.Component {
     this.props.handleLabelModalVisiblility();
   };
 
-  onSelectLabel = (value, option) => {
-    if (this.state.labelObj !== null && this._isMounted) {
-      console.log("onselectlabel", this.state.labelObj);
-      const label = this.state.labelObj[value];
-      this.setState({ selectedLabel: label.id });
-    }
+  onSelectLabel = (labelID, option) => {
+    getLabel({ labelID: labelID }).then((label) => {
+      this.getLabelContent(label.data).then((item) => {
+        const content = item.data;
+        if (this._isMounted) {
+          this.setState({ selectedLabel: label.data, previewContent: content });
+        }
+      });
+    });
   };
 
-  onSelectBook = (value, option) => {
-    if (this.state.bookList !== [] && this._isMounted) {
-      this.state.bookList.forEach((item) => {
-        if (item.title === value) {
-          this.setState({
-            selectedBooks: [...this.state.selectedBooks, item.id],
-          });
-          getLabel({ rootID: item.root.id }).then((labels) => {
-            var obj = {};
-            labels.data.forEach((item) => {
-              obj[item.content] = item;
-            });
-            this.setState({
-              labelList: this.state.labelList.concat(labels.data),
-              labelObj: { ...this.state.labelObj, ...obj },
-            });
-          });
-        }
+  onSelectBook = (bookID, option) => {
+    if (this._isMounted) {
+      getLabel({ rootID: bookID }).then((labels) => {
+        this.setState({
+          selectedBooks: [...this.state.selectedBooks, bookID],
+          labelList: this.state.labelList.concat(labels.data),
+        });
       });
     }
   };
@@ -82,20 +74,57 @@ export default class SelectLabelModal extends React.Component {
     //TODO
   };
 
+  getLabelContent = async (label) => {
+    let item;
+    const linkedID = label.linkedID;
+    if (label.linkTo === "para") {
+      item = await getPara({ id: linkedID });
+      item.data = [item.data];
+    } else {
+      if (label.isPage) {
+        item = await getPage({ id: linkedID, page: null });
+      } else {
+        item = await getLevel(linkedID);
+      }
+    }
+    return item;
+  };
+
   render() {
     const { visible } = this.props;
+    const { selectedLabel } = this.state;
 
     const books = this.state.bookList.map((item) => (
-      <Option key={item.id} value={item.title}>
+      <Option key={item.root.id} value={item.root.id}>
         {item.title}
       </Option>
     ));
 
-    const options = this.state.labelList.map((item) => (
-      <Option key={item.id} value={item.content}>
-        {item.content}
+    const labels = this.state.labelList.map((item) => (
+      <Option key={item.id} value={item.id}>
+        {`${item.content} (${item.id})`}
       </Option>
     ));
+
+    // preview
+    let preview;
+    if (selectedLabel !== null) {
+      preview = (
+        <Card style={{ marginTop: "1em" }} title={selectedLabel.name}>
+          <div>
+            {_.map(this.state.previewContent, (para) => {
+              return paraRenderer(para);
+            })}
+          </div>
+        </Card>
+      );
+    } else {
+      preview = (
+        <Card style={{ width: 300, marginTop: "1em" }} title={"None"}>
+          <p>Selected label content preview</p>
+        </Card>
+      );
+    }
 
     return (
       <div>
@@ -109,6 +138,7 @@ export default class SelectLabelModal extends React.Component {
           <div style={{ margin: "1em" }}>
             <Select
               showSearch
+              autoClearSearchValue
               style={{ width: 300 }}
               placeholder="Select a book (Default is current book)"
               mode="multiple"
@@ -128,14 +158,12 @@ export default class SelectLabelModal extends React.Component {
             >
               {books}
             </Select>
-          </div>
 
-          {/* select labels */}
-          {/* TODO: filter labels based on selected book */}
-          <div style={{ margin: "1em" }}>
+            {/* select labels */}
             <Select
               showSearch
-              style={{ width: 300 }}
+              allowClear={true}
+              style={{ width: 300, marginTop: "1em" }}
               placeholder="Select a label to link"
               optionFilterProp="children"
               onSelect={this.onSelectLabel}
@@ -150,8 +178,11 @@ export default class SelectLabelModal extends React.Component {
                   .localeCompare(optionB.children.toLowerCase());
               }}
             >
-              {options}
+              {labels}
             </Select>
+
+            {/* preview */}
+            {preview}
           </div>
         </Modal>
       </div>
