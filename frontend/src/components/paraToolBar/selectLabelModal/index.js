@@ -20,6 +20,7 @@ export default class SelectLabelModal extends React.Component {
       bookList: [],
       selectedBooks: [this.props.bookID],
       previewContent: "",
+      previewTitle: "",
     };
   }
 
@@ -52,8 +53,19 @@ export default class SelectLabelModal extends React.Component {
     getLabel({ labelID: labelID }).then((label) => {
       this.getLabelContent(label.data).then((item) => {
         const content = item.data;
+        let title;
+        if (label.data.isPage) {
+          title = item.data.flat(Infinity)[0].para_parent.title;
+        } else {
+          title = item.data.flat(Infinity)[0].para_parent.tocTitle;
+        }
+
         if (this._isMounted) {
-          this.setState({ selectedLabel: label.data, previewContent: content });
+          this.setState({
+            selectedLabel: label.data,
+            previewContent: content,
+            previewTitle: title,
+          });
         }
       });
     });
@@ -92,7 +104,7 @@ export default class SelectLabelModal extends React.Component {
 
   render() {
     const { visible } = this.props;
-    const { selectedLabel } = this.state;
+    const { selectedLabel, previewContent, previewTitle } = this.state;
 
     const books = this.state.bookList.map((item) => (
       <Option key={item.root.id} value={item.root.id}>
@@ -110,9 +122,9 @@ export default class SelectLabelModal extends React.Component {
     let preview;
     if (selectedLabel !== null) {
       preview = (
-        <Card style={{ marginTop: "1em" }} title={selectedLabel.name}>
+        <Card style={{ marginTop: "1em" }} title={paraRenderer(previewTitle)}>
           <div>
-            {_.map(this.state.previewContent, (para) => {
+            {_.map(previewContent, (para) => {
               return paraRenderer(para);
             })}
           </div>
@@ -120,8 +132,8 @@ export default class SelectLabelModal extends React.Component {
       );
     } else {
       preview = (
-        <Card style={{ width: 300, marginTop: "1em" }} title={"None"}>
-          <p>Selected label content preview</p>
+        <Card style={{ width: 300, marginTop: "1em" }} title={"Preview"}>
+          <p>No label selected</p>
         </Card>
       );
     }
