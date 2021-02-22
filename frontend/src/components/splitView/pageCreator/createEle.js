@@ -47,7 +47,7 @@ class CreateElement extends React.Component {
     let pageContent;
     let context;
 
-    let id = this.props["data-grid"].pageId.id;
+    let id = this.props["data-grid"].pageId.linkedID;
     let linkTo = this.props["data-grid"].pageId.linkTo;
     if (linkTo === "para") {
       // show linked para

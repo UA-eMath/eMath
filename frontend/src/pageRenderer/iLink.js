@@ -18,7 +18,10 @@ function iLink(props) {
         // get label using label id
         const linked_obj = await getLabel({ labelID: props.id });
         props.onWindowOpen(
-          { id: linked_obj.data.id, linkTo: linked_obj.data.linkTo },
+          {
+            linkedID: linked_obj.data.linkedID,
+            linkTo: linked_obj.data.linkTo,
+          },
           linked_obj.data.isPage
         );
       }}
