@@ -85,8 +85,6 @@ class MenuDrawer extends React.Component {
   render() {
     let { indexItem, symbolIndex, authorIndex, bibliography } = this.state;
 
-    console.log(this.state);
-
     let indexItemPane =
       indexItem.length === 0 ? null : (
         <TabPane tab="Index Item" key="3">

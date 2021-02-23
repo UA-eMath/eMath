@@ -66,7 +66,6 @@ class Level(MPTTModel):
                             null=True,
                             blank=True,
                             related_name="children")
-
     isPage = models.BooleanField()
     title = models.CharField(max_length=100, null=True, blank=True)
     tocTitle = models.CharField(max_length=100, null=True, blank=True)
@@ -107,7 +106,6 @@ class Para(models.Model):
 
     content = JSONField(default=default_para_dict)
     position = models.IntegerField(null=True, blank=True)
-
     para_parent = models.ForeignKey(
         Level,
         on_delete=models.CASCADE,
@@ -134,3 +132,28 @@ class ExternalLink(models.Model):
     content = models.CharField(max_length=150)
     url = models.URLField()
     target = models.BooleanField()
+
+
+class Label(models.Model):
+    '''
+    This class represents a label structure
+    '''
+    content = models.CharField(max_length=30, null=True, blank=True)
+    linked_para = models.OneToOneField(Para,
+                                       on_delete=models.CASCADE,
+                                       null=True,
+                                       blank=True,
+                                       related_name='label_linked_para')
+    linked_level = models.OneToOneField(Level,
+                                        on_delete=models.CASCADE,
+                                        null=True,
+                                        blank=True,
+                                        related_name='label_linked_level')
+    root = models.ForeignKey(RootLevel,
+                             on_delete=models.CASCADE,
+                             null=True,
+                             blank=True,
+                             related_name='root')
+
+    class Meta:
+        ordering = ('content', )

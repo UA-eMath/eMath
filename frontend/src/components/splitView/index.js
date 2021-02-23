@@ -16,6 +16,7 @@ import {
 import CreateElement from "./pageCreator/createEle";
 import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle";
+import MathjaxRenderer from "../MathjaxRenderer";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -44,8 +45,8 @@ class SplitView extends React.Component {
 
   async componentDidMount() {
     this._isMounted = true;
-    let id = this.props.match.params["id"];
-    const pageContent = await getPage({ id: id });
+    let rootID = this.props.match.params["id"];
+    const pageContent = await getPage({ id: rootID });
 
     if (typeof pageContent !== "undefined" && pageContent.data.length > 0) {
       if (this._isMounted) {
@@ -53,7 +54,7 @@ class SplitView extends React.Component {
           pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
           paraText: pageContent.data,
           pageNum: 1,
-          id: id,
+          id: rootID,
         });
       }
     }
@@ -65,29 +66,32 @@ class SplitView extends React.Component {
 
   render() {
     return (
-      <ResponsiveReactGridLayout
-        className="layout"
-        breakpoints={{ lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0 }}
-        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-        rowHeight={100}
-        compactType="horizontal"
-        draggableHandle=".windowHeader"
-        color="#42b0f4"
-        onLayoutChange={() => {
-          this.props.onLayoutChange(this.props.items);
-        }}
-        onBreakpointChange={() => this.onBreakpointChange}
-        key={_.uniqueId()}
-      >
-        {_.map(this.props.items, (el) => {
-          if (el.i === "0") {
-            return this.initElement(el);
-          } else {
-            const i = el.add ? "+" : el.i;
-            return <CreateElement key={i} data-grid={el} />;
-          }
-        })}
-      </ResponsiveReactGridLayout>
+      <div>
+        <ResponsiveReactGridLayout
+          className="layout"
+          breakpoints={{ lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0 }}
+          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+          rowHeight={100}
+          compactType="horizontal"
+          draggableHandle=".windowHeader"
+          color="#42b0f4"
+          onLayoutChange={() => {
+            this.props.onLayoutChange(this.props.items);
+          }}
+          onBreakpointChange={() => this.onBreakpointChange}
+          key={_.uniqueId()}
+        >
+          {_.map(this.props.items, (el) => {
+            if (el.i === "0") {
+              return this.initElement(el);
+            } else {
+              const i = el.add ? "+" : el.i;
+              return <CreateElement key={i} data-grid={el} />;
+            }
+          })}
+        </ResponsiveReactGridLayout>
+        <MathjaxRenderer id={this.props.match.params["id"]} />
+      </div>
     );
   }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 import { Icon, message } from "antd";
 import { connect } from "react-redux";
 import { paraOnChange } from "../../actions";
@@ -6,6 +6,7 @@ import ParaToolBar from "../paraToolBar";
 import dataSource from "./dataSource";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import "./index.css";
+import SelectLabelModal from "../paraToolBar/selectLabelModal";
 
 const Loading = ({ data }) => (
   <div>
@@ -29,9 +30,36 @@ class InputBox extends React.Component {
     super(props);
     this.state = {
       showParaToolBar: false,
+      isModalVisible: false,
+      isClick: null,
     };
     this.inputEl = React.createRef();
     this.textArea = React.createRef();
+
+    this.handleLinkClick = this.handleLinkClick.bind(this);
+    this.handleLabelModalVisiblility = this.handleLabelModalVisiblility.bind(
+      this
+    );
+    this.updateLinkLabel = this.updateLinkLabel.bind(this);
+  }
+
+  handleLabelModalVisiblility() {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+  }
+
+  handleLinkClick(event) {
+    this.setState({
+      isClick: event,
+      isModalVisible: !this.state.isModalVisible,
+    });
+  }
+
+  updateLinkLabel(labelID) {
+    this.insertAtCursor(
+      this.state.isClick,
+      `<iLink id="${labelID}"></iLink> `,
+      13
+    );
   }
 
   setContent = (e) => {
@@ -133,6 +161,8 @@ class InputBox extends React.Component {
           <ParaToolBar
             showToolBar={this.showToolBar}
             tagInsertion={this.insertAtCursor}
+            handleLinkClick={this.handleLinkClick}
+            linkID={this.state.linkID}
           />
         ) : (
           <span />
@@ -166,6 +196,12 @@ class InputBox extends React.Component {
           onBlur={() => this.hideToolBar()}
           onFocus={this.showToolBar.bind(this)}
           //onSelect={this.onSelectionChange.bind(this)}
+        />
+        <SelectLabelModal
+          visible={this.state.isModalVisible}
+          handleLabelModalVisiblility={this.handleLabelModalVisiblility}
+          updateLinkLabel={this.updateLinkLabel}
+          bookID={1} // TODO
         />
       </span>
     );

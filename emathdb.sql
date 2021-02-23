@@ -395,6 +395,40 @@ ALTER TABLE public.database_person_id_seq OWNER TO emath;
 
 ALTER SEQUENCE public.database_person_id_seq OWNED BY public.presentation_person.id;
 
+--
+-- Name: presentation_label; Type: TABLE; Schema: public; Owner: emath
+--
+
+CREATE TABLE public.presentation_label (
+    id integer NOT NULL,
+    "content" character varying(30),
+    linked_para_id integer,
+    linked_level_id integer,
+    root_id integer
+);
+
+
+ALTER TABLE public.presentation_label OWNER TO emath;
+
+--
+-- Name: presentation_label_id_seq; Type: SEQUENCE; Schema: public; Owner: yaozhilu
+--
+
+CREATE SEQUENCE public.database_label_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.database_label_id_seq OWNER TO emath;
+
+--
+-- Name: presentation_label_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yaozhilu
+--
+
+ALTER SEQUENCE public.database_label_id_seq OWNED BY public.presentation_label.id;
 
 --
 -- Name: django_admin_log; Type: TABLE; Schema: public; Owner: emath
@@ -652,6 +686,12 @@ ALTER TABLE ONLY public.presentation_para ALTER COLUMN id SET DEFAULT nextval('p
 --
 
 ALTER TABLE ONLY public.presentation_person ALTER COLUMN id SET DEFAULT nextval('public.database_person_id_seq'::regclass);
+
+--
+-- Name: presentation_label id; Type: DEFAULT; Schema: public; Owner: emath
+--
+
+ALTER TABLE ONLY public.presentation_label ALTER COLUMN id SET DEFAULT nextval('public.database_label_id_seq'::regclass);
 
 
 --

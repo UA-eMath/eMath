@@ -169,7 +169,6 @@ class ParaEditor extends React.Component {
       if (!data || data.status !== 200) {
         console.error("Failed to add para", data);
       } else {
-        console.log(data);
         this.props.fetchPage(this.props.id, this.props.title);
       }
     });
@@ -186,7 +185,6 @@ class ParaEditor extends React.Component {
           if (data.status !== 200) {
             console.error("Delete error", data);
           } else {
-            console.log(data);
             this.props.fetchPage(this.props.id, this.props.title);
           }
         });
@@ -196,6 +194,8 @@ class ParaEditor extends React.Component {
   };
 
   render() {
+    const { bookID } = this.props;
+
     return (
       <div>
         {this.props.status === null ? (
@@ -267,6 +267,7 @@ class ParaEditor extends React.Component {
                             id={item.id}
                             delete={this.deletePara}
                             parentId={this.props.id}
+                            bookID={bookID}
                           />
                         </div>
                       </div>
@@ -299,6 +300,7 @@ class ParaEditor extends React.Component {
                             id={item.id}
                             delete={this.deletePara}
                             parentId={this.props.id}
+                            bookID={bookID}
                           />
                         </Col>
                       </Row>

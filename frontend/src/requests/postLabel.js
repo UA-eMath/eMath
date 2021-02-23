@@ -1,9 +1,9 @@
 import axios from "axios";
 import url from "./Urls";
 
-export default function updatePara(para, id) {
+export default function postLabel(label) {
   return axios
-    .patch(url.domain + ":" + url.port + "/para/" + id.toString() + "/", para, {
+    .post(url.domain + ":" + url.port + "/label/", label, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -11,7 +11,5 @@ export default function updatePara(para, id) {
     .then((response) => {
       return response;
     })
-    .catch((error) => {
-      console.log(error.response);
-    });
+    .catch((error) => console.log(error, label));
 }

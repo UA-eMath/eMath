@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
-from presentation.models import Level, RootLevel,Para
+from presentation.models import Level, RootLevel, Para
 from presentation.Serializers.rootLevel_serializer import RootLevelSerializer
 from presentation.Serializers.level_serializers import LevelSerializer
 
@@ -8,81 +8,83 @@ from datetime import date
 
 
 class RootLevelViewSets(viewsets.ModelViewSet):
-	serializer_class = RootLevelSerializer
-	level_serializer = LevelSerializer
+    serializer_class = RootLevelSerializer
+    level_serializer = LevelSerializer
 
-	queryset = RootLevel.objects.all()
+    queryset = RootLevel.objects.all()
 
-	def retrieve(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
+        return Response(RootLevelSerializer(self.queryset, many=True).data)
 
-		tree_type = self.request.query_params.get("type")
+    def retrieve(self, request, *args, **kwargs):
 
-		if tree_type:
-			root_level = Level.objects.get(pk=kwargs.get("pk")).get_root().root
-			tree = getattr(root_level,tree_type)
-			return Response(data=tree,status=200)
-		else:
-			return super().retrieve(request,*args,**kwargs)
+        tree_type = self.request.query_params.get("type")
 
-	def update(self, request, *args, **kwargs):
-		return super().update(request, *args, **kwargs)
+        if tree_type:
+            root_level = Level.objects.get(pk=kwargs.get("pk")).get_root().root
+            tree = getattr(root_level, tree_type)
+            return Response(data=tree, status=200)
+        else:
+            return super().retrieve(request, *args, **kwargs)
 
-	def create(self, request, *args, **kwargs):
-		request_data = request.data.copy()
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
 
-		# 1. add a new Root Level
-		if request_data.get("html_title") == None:
-			request_data["html_title"] = request_data.get("title")
+    def create(self, request, *args, **kwargs):
+        request_data = request.data.copy()
 
-		# TODO: author and contributor
+        # 1. add a new Root Level
+        if request_data.get("html_title") == None:
+            request_data["html_title"] = request_data.get("title")
 
-		if request_data.get("date") == None:
-			request_data["date"] = date.today()
+        # TODO: author and contributor
 
-		root_level_serializer = self.serializer_class(data=request_data)
-		root_level_serializer.is_valid(raise_exception=True)
+        if request_data.get("date") == None:
+            request_data["date"] = date.today()
 
-		root_level = root_level_serializer.save()
+        root_level_serializer = self.serializer_class(data=request_data)
+        root_level_serializer.is_valid(raise_exception=True)
+        root_level = root_level_serializer.save()
 
-		# 2. add root node level
-		root_node_data = {"root": root_level.id}
-		root_node_data["title"] = request_data.get("title")
+        # 2. add root node level
+        root_node_data = {"root": root_level.id}
+        root_node_data["title"] = request_data.get("title")
 
-		if request_data.get("tocTitle") == None:
-			root_node_data["tocTitle"] = request_data.get("title")
-		else:
-			root_node_data["tocTitle"] = request_data.get("tocTitle")
+        if request_data.get("tocTitle") == None:
+            root_node_data["tocTitle"] = request_data.get("title")
+        else:
+            root_node_data["tocTitle"] = request_data.get("tocTitle")
 
-		root_node_data["isPage"] = False
+        root_node_data["isPage"] = False
+        root_node_data["position"] = len(Level.objects.root_nodes())
 
-		root_node_data["position"] = len(Level.objects.root_nodes())
+        root_node_serializer = self.level_serializer(data=root_node_data)
+        root_node_serializer.is_valid(raise_exception=True)
+        root_node = root_node_serializer.save()
 
-		root_node_serializer = self.level_serializer(data=root_node_data)
-		root_node_serializer.is_valid(raise_exception=True)
+        # 3. add Appendix
+        appendix_data = {
+            "position": -1,
+            "parent": root_node.id,
+            "title": "Repository of Singleton",
+            "tocTitle": "Repository of Singleton",
+            "isPage": False
+        }
 
-		root_node = root_node_serializer.save()
+        appendix_serializer = self.level_serializer(data=appendix_data)
+        appendix_serializer.is_valid(raise_exception=True)
+        appendix_serializer.save()
+        return Response(data={
+            "rootLevel": root_level_serializer.data,
+            "rootNode": root_node_serializer.data,
+            "appendix": appendix_serializer.data
+        }, )
 
-		# 3. add Appendix
-		appendix_data = {"position": -1,
-		                 "parent": root_node.id,
-		                 "title": "Repository of Singleton",
-		                 "tocTitle": "Repository of Singleton",
-		                 "isPage": False}
+    def destroy(self, request, *args, **kwargs):
+        root_node = Level.objects.get(pk=self.kwargs["pk"])
+        root_level = root_node.root
 
-		appendix_serializer = self.level_serializer(data=appendix_data)
+        root_level.delete()
+        root_node.delete()
 
-		appendix_serializer.is_valid(raise_exception=True)
-		appendix_serializer.save()
-
-		return Response(data={"rootLevel": root_level_serializer.data,
-		                      "rootNode": root_node_serializer.data,
-		                      "appendix": appendix_serializer.data}, )
-
-	def destroy(self, request, *args, **kwargs):
-		root_node = Level.objects.get(pk=self.kwargs["pk"])
-		root_level = root_node.root
-
-		root_level.delete()
-		root_node.delete()
-
-		return Response("Level is successfully deleted.", 200)
+        return Response("Level is successfully deleted.", 200)

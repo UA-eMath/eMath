@@ -12,7 +12,7 @@ import {
 } from "antd";
 import postNewCommand from "../../requests/postNewCommand";
 import getNewCommand from "../../requests/getNewCommand";
-import EditNewCommand from "../editNewCommand";
+import EditNewCommand from "./editNewCommand";
 
 const { Dragger } = Upload;
 const { TabPane } = Tabs;
@@ -55,24 +55,6 @@ export default class NewCommand extends React.Component {
     return false;
   };
 
-  showEditModal = () => {
-    if (this._isMounted) {
-      this.setState({ isModalVisible: true });
-    }
-  };
-
-  editModalOk = () => {
-    if (this._isMounted) {
-      this.setState({ isModalVisible: false });
-    }
-  };
-
-  editModalCancel = () => {
-    if (this._isMounted) {
-      this.setState({ isModalVisible: false });
-    }
-  };
-
   renderTexCommands = (commands) => {
     let items = [];
     let num = 0;
@@ -90,7 +72,6 @@ export default class NewCommand extends React.Component {
       );
       num = num + 1;
       for (const value of commands[filename]) {
-        console.log(value);
         items.push(
           <List key={num}>
             <Row>

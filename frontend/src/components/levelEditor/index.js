@@ -39,11 +39,10 @@ const getParentKey = (id, tree) => {
 };
 
 class LevelEditor extends React.Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
-
     this.updateLevelTree = this.updateLevelTree.bind(this);
+    this._isMounted = false;
   }
 
   state = {
@@ -155,6 +154,7 @@ class LevelEditor extends React.Component {
                 key={item.id}
                 title={
                   <EditingModal
+                    bookID={this.props.bookID}
                     item={item}
                     title={title}
                     insertable={false}
@@ -174,6 +174,7 @@ class LevelEditor extends React.Component {
                 key={item.id}
                 title={
                   <EditingModal
+                    bookID={this.props.bookID}
                     item={item}
                     title={title}
                     insertable={false}
@@ -199,6 +200,7 @@ class LevelEditor extends React.Component {
               key={item.id}
               title={
                 <EditingModal
+                  bookID={this.props.bookID}
                   item={item}
                   title={title}
                   insertable={true}

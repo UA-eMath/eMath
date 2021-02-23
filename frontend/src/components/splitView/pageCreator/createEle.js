@@ -15,6 +15,7 @@ import _ from "lodash";
 import paraRenderer from "../../../pageRenderer";
 import { Tabs } from "antd";
 import getNextLevel from "../../../requests/getNextLevel";
+import getLevel from "../../../requests/getLevel";
 
 const { TabPane } = Tabs;
 
@@ -46,13 +47,20 @@ class CreateElement extends React.Component {
     let pageContent;
     let context;
 
-    let id = this.props["data-grid"].pageId;
-    if (this.props["data-grid"].isPage) {
-      pageContent = await getPage({ id: id, page: null });
-    } else {
+    let id = this.props["data-grid"].pageId.linkedID;
+    let linkTo = this.props["data-grid"].pageId.linkTo;
+    if (linkTo === "para") {
+      // show linked para
       pageContent = await getPara({ id: id });
       pageContent.data = [pageContent.data];
       context = await getNextLevel({ id: id });
+    } else {
+      // linked level
+      if (this.props["data-grid"].isPage) {
+        pageContent = await getPage({ id: id, page: null }); // isPage true -> para
+      } else {
+        pageContent = await getLevel(id);
+      }
     }
 
     if (typeof context !== "undefined" && context.data.context.length !== 0) {
@@ -62,10 +70,22 @@ class CreateElement extends React.Component {
     }
 
     if (typeof pageContent !== "undefined" && pageContent.data.length !== 0) {
-      this.setState({
-        pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
-        paraText: pageContent.data,
-      });
+      // when not a page, show the level toctitle, e.g. Definition
+      if (this.props["data-grid"].isPage) {
+        this.setState({
+          pageTitle: paraRenderer(
+            pageContent.data.flat(Infinity)[0].para_parent.title
+          ),
+          paraText: pageContent.data,
+        });
+      } else {
+        this.setState({
+          pageTitle: paraRenderer(
+            pageContent.data.flat(Infinity)[0].para_parent.tocTitle
+          ),
+          paraText: pageContent.data,
+        });
+      }
     } else {
       this.setState({
         pageTitle: ["This page is under construction."],
