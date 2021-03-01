@@ -18,7 +18,7 @@ const MathJaxConfig = {
     },
     TeX: {
       extensions: [
-        "http://sonoisa.github.io/xyjax_ext/xypic.js",
+        "https://sonoisa.github.io/xyjax_ext/xypic.js",
         "AMSmath.js",
         "AMSsymbols.js",
         "action.js",
