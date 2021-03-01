@@ -1,0 +1,2 @@
+release: python manage.py makemigrations presentation && python manage.py migrate
+web: gunicorn eMath.wsgi --log-file -

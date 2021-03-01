@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from corsheaders.defaults import default_headers
+import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -26,22 +27,15 @@ SECRET_KEY = 'kjxogc8bp6tzq8u&_5dq*rff1ji^uc51=0@we*s0k3v*e2+9^z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['142.244.163.57', 'localhost']
-
+ALLOWED_HOSTS = ['142.244.163.57', 'localhost', 'emath-backend.herokuapp.com']
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'presentation.apps.DatabaseConfig',
-    'rest_framework',
-    'mptt',
-    'corsheaders'
+    'django.contrib.admin', 'django.contrib.auth',
+    'django.contrib.contenttypes', 'django.contrib.sessions',
+    'django.contrib.messages', 'django.contrib.staticfiles',
+    'presentation.apps.DatabaseConfig', 'rest_framework', 'mptt', 'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -75,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'eMath.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -89,25 +82,30 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+DATABASES['default'] = dj_database_url.config(
+)  # comment this line when running local
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -122,18 +120,18 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
 # Frontend hosting port
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://142.244.163.57:4000'
-)
+CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://142.244.163.57:4000',
+                         'https://emath-frontend.herokuapp.com')
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'content-disposition',
 ]
+
+# Configure Django App for Heroku.
+django_heroku.settings(locals())
