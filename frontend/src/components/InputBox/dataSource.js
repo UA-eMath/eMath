@@ -8,7 +8,7 @@ const tagArray = [
   { name: "Caption", char: "<Caption></Caption>" },
   { name: "Inline Math", char: '<Math inline="true"></Math>' },
   { name: "MathDisplay", char: "<Math></Math>" },
-  { name: "Internal Link", char: '<iLink label=""></iLink> ' },
+  { name: "Internal Link", char: '<iLink id=""></iLink> ' },
   { name: "Numbered List", char: "<ol>\n\t<li></li>\n</ol>" },
   { name: "Bulleted List", char: "<ul>\n\t<li></li>\n</ul>" },
   { name: "Table", char: "<table>\n\t<tr>\n\t<td></td>\n\t</tr>\n</table> " },
