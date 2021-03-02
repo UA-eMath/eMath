@@ -12,7 +12,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -6694,9 +6694,9 @@ MathJax.Hub.Register.StartupHook(
     var xypic = MathJax.Extension.xypic;
     var AST = xypic.AST;
 
-    var SVGNS = "http://www.w3.org/2000/svg";
-    var XHTMLNS = "http://www.w3.org/1999/xhtml";
-    var XLINKNS = "http://www.w3.org/1999/xlink";
+    var SVGNS = "https://www.w3.org/2000/svg";
+    var XHTMLNS = "https://www.w3.org/1999/xhtml";
+    var XLINKNS = "https://www.w3.org/1999/xlink";
 
     // override MathJax.Hub.formatError function to display runtime error.
     var hub_formatError = HUB.formatError;
@@ -21640,9 +21640,9 @@ MathJax.Hub.Register.StartupHook("HTML-CSS Xy-pic Require", function () {
   var xypic = MathJax.Extension.xypic;
   var AST = xypic.AST;
 
-  var SVGNS = "http://www.w3.org/2000/svg";
-  var XHTMLNS = "http://www.w3.org/1999/xhtml";
-  var XLINKNS = "http://www.w3.org/1999/xlink";
+  var SVGNS = "https://www.w3.org/2000/svg";
+  var XHTMLNS = "https://www.w3.org/1999/xhtml";
+  var XLINKNS = "https://www.w3.org/1999/xlink";
 
   var setupHTMLCSSMeasure = function () {
     xypic.length2em = function (len) {
@@ -21993,9 +21993,9 @@ MathJax.Hub.Register.StartupHook("SVG Xy-pic Require", function () {
   var xypic = MathJax.Extension.xypic;
   var AST = xypic.AST;
 
-  var SVGNS = "http://www.w3.org/2000/svg";
-  var XHTMLNS = "http://www.w3.org/1999/xhtml";
-  var XLINKNS = "http://www.w3.org/1999/xlink";
+  var SVGNS = "https://www.w3.org/2000/svg";
+  var XHTMLNS = "https://www.w3.org/1999/xhtml";
+  var XLINKNS = "https://www.w3.org/1999/xlink";
 
   var memoize = xypic.memoize;
 
@@ -22326,4 +22326,4 @@ MathJax.Hub.Register.StartupHook("SVG Xy-pic Require", function () {
   MathJax.Hub.Startup.signal.Post("SVG Xy-pic Ready");
 });
 
-MathJax.Ajax.loadComplete("http://sonoisa.github.io/xyjax_ext/xypic.js");
+MathJax.Ajax.loadComplete("https://sonoisa.github.io/xyjax_ext/xypic.js");
