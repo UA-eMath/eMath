@@ -100,6 +100,7 @@ class LevelViewset(viewsets.ModelViewSet):
         # save new title and tocTitle for the given level
         new_title = request.data.get('title')
         new_toctitle = request.data.get('tocTitle')
+        new_isPage = request.data.get('isPage')
         if new_title and new_toctitle:
             try:
                 level = Level.objects.get(pk=self.kwargs["pk"])
@@ -109,6 +110,7 @@ class LevelViewset(viewsets.ModelViewSet):
                 return Response("level id(" + self.kwargs["pk"] + ") is not found", 404)
             level.title = new_title
             level.tocTitle = new_toctitle
+            level.isPage = new_isPage
             level.save()
 
         if request.data.get("position") != None:
