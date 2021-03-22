@@ -52,7 +52,7 @@ const dataSource = {
         .map(({ name, char }) => ({ name, char })),
     component: Item,
     output: (item, trigger) => ({
-      text: item.name + item.char,
+      text: item.name,
       caretPosition: "next",
     }),
   },
