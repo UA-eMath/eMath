@@ -228,7 +228,7 @@ class EditingModal extends React.Component {
         <Dropdown overlay={menu} trigger={["contextMenu"]}>
           <span style={{ userSelect: "none" }}>
             <SubLevelTag title={item.tocTitle} />
-            {item.id + item.title + item.position.toString()}
+            {item.title}
           </span>
         </Dropdown>
 
