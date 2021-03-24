@@ -104,7 +104,7 @@ class EditingModal extends React.Component {
       } else {
         //modify selected parent Level
         request_body = JSON.stringify({ ...values });
-        updateLevel(request_body, this.props.parent.id).then((data) => {
+        updateLevel(request_body, this.props.item.id).then((data) => {
           if (!data || data.status !== 200) {
             console.error("Update error", data);
           } else {
@@ -228,7 +228,7 @@ class EditingModal extends React.Component {
         <Dropdown overlay={menu} trigger={["contextMenu"]}>
           <span style={{ userSelect: "none" }}>
             <SubLevelTag title={item.tocTitle} />
-            {item.id + item.title + item.position.toString()}
+            {item.title}
           </span>
         </Dropdown>
 

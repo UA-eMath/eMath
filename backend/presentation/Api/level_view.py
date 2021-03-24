@@ -81,8 +81,7 @@ class LevelViewset(viewsets.ModelViewSet):
             root = level.get_root()
             parent_level = level.parent
         except ObjectDoesNotExist:
-            return Response("level id(" + self.kwargs["pk"] + ") is not found",
-                            404)
+            return Response("level id(" + self.kwargs["pk"] + ") is not found", 404)
 
         level.delete()
         #TODO
@@ -98,6 +97,22 @@ class LevelViewset(viewsets.ModelViewSet):
         #position : -1 left or 1 right or 0 make a branch
         # target : dropped node id
         #child : dragged node id
+        # save new title and tocTitle for the given level
+        new_title = request.data.get('title')
+        new_toctitle = request.data.get('tocTitle')
+        new_isPage = request.data.get('isPage')
+        if new_title and new_toctitle:
+            try:
+                level = Level.objects.get(pk=self.kwargs["pk"])
+                root = level.get_root()
+                parent_level = level.parent
+            except ObjectDoesNotExist:
+                return Response("level id(" + self.kwargs["pk"] + ") is not found", 404)
+            level.title = new_title
+            level.tocTitle = new_toctitle
+            level.isPage = new_isPage
+            level.save()
+
         if request.data.get("position") != None:
             child = Level.objects.get(pk=self.kwargs["pk"])
 
