@@ -1,4 +1,4 @@
-const local = false;
+const local = true;
 const domain = local
   ? "http://localhost"
   : "https://emath-backend.herokuapp.com";
