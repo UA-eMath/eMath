@@ -42,31 +42,45 @@ The project has two major components:
      run `psql emathdb < emathdb.sql` to restore data from sql file.
 
 3. Backend(Django):
+
    #### Prerequisites:
+
    python 3.7.x
    pip3
+
    #### setup virtual environment
+
    ```
-    python3 -m venv emath
-    source emath/bin/activate
+    python3 -m venv venv
+    source venv/bin/activate
    ```
+
    to deactivate simply do `deactivate`
+
    #### install packages
+
    ```
    cd eMath/backend/
    pip3 install -r requirements.txt
 
    ```
+
    #### apply database:
+
    ```
    python manage.py makemigrations
    python manage.py migrate
    ```
+
    #### run
+
    python manage.py runserver
+
    #### Django admin site
+
    create a admin account:
    python manage.py createsuperuser
+
 4. Frontend(React):
 
    #### Prerequisites:
