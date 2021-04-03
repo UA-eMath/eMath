@@ -3,12 +3,7 @@ import styles from "../styles/style";
 import Scrollbars from "react-custom-scrollbars";
 import TitleBar from "../../titleBar";
 import { connect } from "react-redux";
-import {
-  closeWindow,
-  minimizeWindow,
-  onLayoutChange,
-  openNewWindow,
-} from "../../../actions";
+import { closeWindow, minimizeWindow, onLayoutChange } from "../../../actions";
 import getPage from "../../../requests/getPage";
 import getPara from "../../../requests/getPara";
 import _ from "lodash";
@@ -46,7 +41,7 @@ class CreateElement extends React.Component {
     //this.props['data-grid'] stores this window's information
     let pageContent;
     let context;
-
+    let usage = this.props["data-grid"].usage;
     let id = this.props["data-grid"].pageId.linkedID;
     let linkTo = this.props["data-grid"].pageId.linkTo;
     if (linkTo === "para") {
@@ -57,9 +52,20 @@ class CreateElement extends React.Component {
     } else {
       // linked level
       if (this.props["data-grid"].isPage) {
-        pageContent = await getPage({ id: id, page: null }); // isPage true -> para
+        if (usage === "index") {
+          pageContent = await getPage({
+            id: this.props["data-grid"].pageId,
+            page: null,
+          });
+        } else {
+          pageContent = await getPage({ id: id, page: null }); // isPage true -> para
+        }
       } else {
-        pageContent = await getLevel(id);
+        if (usage === "index") {
+          pageContent = await getLevel(this.props["data-grid"].pageId);
+        } else {
+          pageContent = await getLevel(id);
+        }
       }
     }
 

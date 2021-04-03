@@ -1,31 +1,31 @@
 import _ from "lodash";
 
 const initState_subs = {
-	subs:[]
+  subs: [],
 };
 
+const subordinates = (state = initState_subs, action) => {
+  switch (action.type) {
+    case "ADD_SUBS":
+      return Object.assign({}, state, {
+        subs: state.subs.concat({
+          i: action.id,
+          title: action.title,
+          pageId: action.pageId,
+          isPage: action.isPage,
+          usage: action.usage,
+        }),
+      });
 
-const subordinates = (state = initState_subs, action)=>{
-	switch (action.type){
-		case "ADD_SUBS":
-			return Object.assign({},state,{
-				subs: state.subs.concat({
-					i: action.id,
-					title:action.title,
-					pageId:action.pageId,
-					isPage: action.isPage,
-				})
-			});
+    case "CLOSE_SUBS":
+      return Object.assign({}, state, {
+        ...state,
+        subs: _.reject(state.subs, { i: action.id }),
+      });
 
-		case "CLOSE_SUBS":
-			return Object.assign({},state,{
-				...state,
-				subs: _.reject(state.subs, {i: action.id})
-			});
-
-		default:
-			return state;
-	}
+    default:
+      return state;
+  }
 };
 
 export default subordinates;

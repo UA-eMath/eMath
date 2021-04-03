@@ -7,7 +7,6 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 
 import { connect } from "react-redux";
 import {
-  openNewWindow,
   minimizeWindow,
   closeWindow,
   onLayoutChange,
