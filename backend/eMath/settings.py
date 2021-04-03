@@ -82,8 +82,7 @@ DATABASES = {
         "PORT": "5432",
     }
 }
-DATABASES['default'] = dj_database_url.config(
-)  # comment this line when running local
+# DATABASES['default'] = dj_database_url.config()  # comment this line when running local
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
