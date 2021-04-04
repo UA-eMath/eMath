@@ -21,6 +21,10 @@ def basic_shortcut():
     return {}
 
 
+def basic_dict():
+    return {}
+
+
 # Create your models here.
 
 
@@ -32,11 +36,7 @@ class RootLevel(models.Model):
                                null=True,
                                blank=True,
                                on_delete=models.SET_NULL)
-    contributor = models.ForeignKey('Person',
-                                    related_name="contributors",
-                                    null=True,
-                                    blank=True,
-                                    on_delete=models.SET_NULL)
+    contributor = JSONField(default=basic_dict)
     date = models.DateField(null=True, blank=True)
     index_item = JSONField(default=default_dict)
     symbol_index = JSONField(default=default_dict)

@@ -5,6 +5,7 @@ from presentation.Serializers.rootLevel_serializer import RootLevelSerializer
 from presentation.Serializers.level_serializers import LevelSerializer
 from presentation.Serializers.person_serializer import PersonSerializer
 from datetime import date
+import json
 
 
 class RootLevelViewSets(viewsets.ModelViewSet):
@@ -32,22 +33,35 @@ class RootLevelViewSets(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         request_data = request.data.copy()
-
         # 1. add a new Root Level
         if request_data.get("html_title") == None:
             request_data["html_title"] = request_data.get("title")
 
-        # TODO: author and contributor
-        # create an Person object
+        # create an Person object for atuhor
         author_serializer = PersonSerializer(
             data={
                 'first_name': request_data.get("first_name"),
-                'middle_name': request_data.get("middlet_name", None),
+                'middle_name': request_data.get("middle_name"),
                 'last_name': request_data.get("last_name")
             })
         author_serializer.is_valid()
         author_serializer.save()
         request_data["author"] = author_serializer.data["id"]
+        # create an Person object for each contributor
+        request_data["contributor"] = {}
+        for i in range(request_data["contributors_num"]):
+            contributor_serializer = PersonSerializer(
+                data={
+                    'first_name': request_data.get("contributor_first_" +
+                                                   str(i)),
+                    'middle_name': request_data.get("contributor_middle_" +
+                                                    str(i)),
+                    'last_name': request_data.get("contributor_last_" + str(i))
+                })
+            contributor_serializer.is_valid()
+            contributor_serializer.save()
+            request_data["contributor"][i] = json.dumps(
+                contributor_serializer.data)
 
         if request_data.get("date") == None:
             request_data["date"] = date.today()

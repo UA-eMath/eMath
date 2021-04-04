@@ -1,7 +1,17 @@
-import { Button, Modal, DatePicker, Form, Input } from "antd";
+import {
+  Button,
+  Modal,
+  DatePicker,
+  Form,
+  Input,
+  Icon,
+  InputNumber,
+} from "antd";
 import React from "react";
 import postBook from "../../../requests/postBook";
 import moment from "moment";
+
+let id = 0;
 
 const AddBook = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
@@ -42,9 +52,89 @@ const AddBook = Form.create({ name: "form_in_modal" })(
       });
     };
 
+    remove = (k) => {
+      const { form } = this.props;
+      // can use data-binding to get
+      const keys = form.getFieldValue("keys");
+      // can use data-binding to set
+      form.setFieldsValue({
+        keys: keys.filter((key) => key !== k),
+      });
+    };
+
+    add = () => {
+      const { form } = this.props;
+      // can use data-binding to get
+      const keys = form.getFieldValue("keys");
+      const nextKeys = keys.concat(id++);
+      // can use data-binding to set
+      // important! notify form to detect changes
+      form.setFieldsValue({
+        keys: nextKeys,
+      });
+    };
+
     render() {
       const { visible, onCancel, form, loading } = this.props;
-      const { getFieldDecorator } = form;
+      const { getFieldDecorator, getFieldValue } = form;
+
+      const formItemLayoutWithOutLabel = {
+        wrapperCol: {
+          xs: { span: 24, offset: 0 },
+          sm: { span: 20, offset: 4 },
+        },
+      };
+      getFieldDecorator("keys", { initialValue: [] });
+      const keys = getFieldValue("keys");
+      const formItems = keys.map((k, index) => (
+        <Form.Item label={`Contributor ${index + 1}`} required={false} key={k}>
+          {getFieldDecorator(`contributor_first_${index}`, {
+            validateTrigger: ["onChange", "onBlur"],
+            rules: [
+              {
+                required: true,
+                message:
+                  "Please input the first name of author or delete this field.",
+              },
+            ],
+          })(
+            <Input
+              placeholder="first name"
+              style={{ width: "30%", marginRight: 8 }}
+            />
+          )}
+          {getFieldDecorator(`contributor_middle_${index}`, {
+            defaultValue: "",
+          })(
+            <Input
+              placeholder="middle name"
+              style={{ width: "30%", marginRight: 8 }}
+            />
+          )}
+          {getFieldDecorator(`contributor_last_${index}`, {
+            validateTrigger: ["onChange", "onBlur"],
+            rules: [
+              {
+                required: true,
+                message:
+                  "Please input the last name of author or delete this field.",
+              },
+            ],
+          })(
+            <Input
+              placeholder="last name"
+              style={{ width: "30%", marginRight: 8 }}
+            />
+          )}
+          {keys.length > 0 ? (
+            <Icon
+              className="dynamic-delete-button"
+              type="minus-circle-o"
+              onClick={() => this.remove(k)}
+            />
+          ) : null}
+        </Form.Item>
+      ));
 
       return (
         <Modal
@@ -95,43 +185,60 @@ const AddBook = Form.create({ name: "form_in_modal" })(
             </Form.Item>
 
             <Form.Item label="Author">
-              <Input.Group compact>
-                <Form.Item label="First Name">
-                  {getFieldDecorator("first_name", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please input the first name of author!",
-                      },
-                    ],
-                  })(<Input />)}
-                </Form.Item>
-                <Form.Item label="Middle Name">
-                  {getFieldDecorator("middle_name", { defaultValue: "" })(
-                    <Input />
-                  )}
-                </Form.Item>
-                <Form.Item label="Last Name">
-                  {getFieldDecorator("last_name", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please input the last name of author!",
-                      },
-                    ],
-                  })(<Input />)}
-                </Form.Item>
-              </Input.Group>
+              {getFieldDecorator("first_name", {
+                validateTrigger: ["onChange", "onBlur"],
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input the first name of author!",
+                  },
+                ],
+              })(
+                <Input
+                  placeholder="first name"
+                  style={{ width: "30%", marginRight: 8 }}
+                />
+              )}
+              {getFieldDecorator("middle_name", { defaultValue: "" })(
+                <Input
+                  placeholder="middle name"
+                  style={{ width: "30%", marginRight: 8 }}
+                />
+              )}
+              {getFieldDecorator("last_name", {
+                validateTrigger: ["onChange", "onBlur"],
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input the last name of author!",
+                  },
+                ],
+              })(
+                <Input
+                  placeholder="last name"
+                  style={{ width: "30%", marginRight: 8 }}
+                />
+              )}
             </Form.Item>
 
-            {/* <Form.Item
-              label="Contributor"
-              extra="Leave it empty if no contributors"
-            >
-              {getFieldDecorator("contributor", {
-                defaultValue: "",
-              })(<Input />)}
-            </Form.Item> */}
+            {formItems}
+            <Form.Item {...formItemLayoutWithOutLabel}>
+              <Button type="dashed" onClick={this.add} style={{ width: "60%" }}>
+                <Icon type="plus" /> Add contributor
+              </Button>
+            </Form.Item>
+
+            <Form.Item label="Number of Contributors">
+              {getFieldDecorator("contributors_num", {
+                initialValue: keys.length,
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input the number of contributors.",
+                  },
+                ],
+              })(<InputNumber min={0} style={{ width: "30%" }} />)}
+            </Form.Item>
 
             <Form.Item label="Date">
               {getFieldDecorator("date", {
