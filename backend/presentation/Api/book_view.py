@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from presentation.models import Level, RootLevel, Para
 from presentation.Serializers.rootLevel_serializer import RootLevelSerializer
 from presentation.Serializers.level_serializers import LevelSerializer
-
+from presentation.Serializers.person_serializer import PersonSerializer
 from datetime import date
 
 
@@ -38,12 +38,22 @@ class RootLevelViewSets(viewsets.ModelViewSet):
             request_data["html_title"] = request_data.get("title")
 
         # TODO: author and contributor
+        # create an Person object
+        author_serializer = PersonSerializer(
+            data={
+                'first_name': request_data.get("first_name"),
+                'middle_name': request_data.get("middlet_name", None),
+                'last_name': request_data.get("last_name")
+            })
+        author_serializer.is_valid()
+        author_serializer.save()
+        request_data["author"] = author_serializer.data["id"]
 
         if request_data.get("date") == None:
             request_data["date"] = date.today()
 
         root_level_serializer = self.serializer_class(data=request_data)
-        root_level_serializer.is_valid(raise_exception=True)
+        root_level_serializer.is_valid()
         root_level = root_level_serializer.save()
 
         # 2. add root node level
@@ -68,7 +78,7 @@ class RootLevelViewSets(viewsets.ModelViewSet):
             "parent": root_node.id,
             "title": "Repository of Singleton",
             "tocTitle": "Repository of Singleton",
-            "isPage": False
+            "isPage": False,
         }
 
         appendix_serializer = self.level_serializer(data=appendix_data)
