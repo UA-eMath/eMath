@@ -21,7 +21,7 @@ class ParaToolBar extends React.Component {
         <Tooltip placement="top" title={"Caption"}>
           <Button
             onMouseDown={(e) =>
-              props.tagInsertion(e, "<caption></caption> ", 9)
+              props.tagInsertion(e, "<Caption></Caption> ", 9)
             }
           >
             Cap
