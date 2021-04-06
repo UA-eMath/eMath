@@ -81,7 +81,8 @@ class LevelViewset(viewsets.ModelViewSet):
             root = level.get_root()
             parent_level = level.parent
         except ObjectDoesNotExist:
-            return Response("level id(" + self.kwargs["pk"] + ") is not found", 404)
+            return Response("level id(" + self.kwargs["pk"] + ") is not found",
+                            404)
 
         level.delete()
         #TODO
@@ -101,16 +102,22 @@ class LevelViewset(viewsets.ModelViewSet):
         new_title = request.data.get('title')
         new_toctitle = request.data.get('tocTitle')
         new_isPage = request.data.get('isPage')
-        if new_title and new_toctitle:
+        if new_title:
             try:
                 level = Level.objects.get(pk=self.kwargs["pk"])
                 root = level.get_root()
                 parent_level = level.parent
             except ObjectDoesNotExist:
-                return Response("level id(" + self.kwargs["pk"] + ") is not found", 404)
-            level.title = new_title
-            level.tocTitle = new_toctitle
-            level.isPage = new_isPage
+                return Response(
+                    "level id(" + self.kwargs["pk"] + ") is not found", 404)
+            if (new_title):
+                level.title = new_title
+            if (new_toctitle != ""):
+                level.tocTitle = new_toctitle
+            else:
+                level.tocTitle = new_title
+            if (new_isPage):
+                level.isPage = new_isPage
             level.save()
 
         if request.data.get("position") != None:
@@ -137,7 +144,6 @@ class LevelViewset(viewsets.ModelViewSet):
                         data='You cannot move a content block at toc tree',
                         status=400)
                 level = level.parent
-            ##
 
             updatePosition(child, target, position)
 

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
-from presentation.models import Level, RootLevel, Para
+from presentation.models import Level, RootLevel, Para, Person
 from presentation.Serializers.rootLevel_serializer import RootLevelSerializer
 from presentation.Serializers.level_serializers import LevelSerializer
 from presentation.Serializers.person_serializer import PersonSerializer
@@ -29,7 +29,27 @@ class RootLevelViewSets(viewsets.ModelViewSet):
             return super().retrieve(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+        request_data = request.data.copy()
+        rootLevel = RootLevel.objects.get(pk=self.kwargs["pk"])
+        title = request_data.get("title")
+        html_title = request_data.get("html_title")
+        date = request_data.get("date")
+        # create an Person object for atuhor
+        author = Person.objects.get(id=request_data.get("authorID"))
+        author.first_name = request_data.get("first_name")
+        author.middle_name = request_data.get("middle_name")
+        author.last_name = request_data.get("last_name")
+        author.save()
+        # TODO: update contributors
+        if (html_title):
+            rootLevel.html_title = html_title
+        else:
+            rootLevel.html_title = title
+        if (author):
+            rootLevel.author = author
+        rootLevel.date = date
+        rootLevel.save()
+        return Response("Book updated successfully!", 200)
 
     def create(self, request, *args, **kwargs):
         request_data = request.data.copy()
