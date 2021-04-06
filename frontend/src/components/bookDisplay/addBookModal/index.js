@@ -104,7 +104,7 @@ const AddBook = Form.create({ name: "form_in_modal" })(
             />
           )}
           {getFieldDecorator(`contributor_middle_${index}`, {
-            defaultValue: "",
+            initialValue: "",
           })(
             <Input
               placeholder="middle name"
@@ -199,7 +199,7 @@ const AddBook = Form.create({ name: "form_in_modal" })(
                   style={{ width: "30%", marginRight: 8 }}
                 />
               )}
-              {getFieldDecorator("middle_name", { defaultValue: "" })(
+              {getFieldDecorator("middle_name", { initialValue: "" })(
                 <Input
                   placeholder="middle name"
                   style={{ width: "30%", marginRight: 8 }}
