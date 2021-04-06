@@ -54,7 +54,11 @@ export default function paraRenderer(para) {
 
   let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
 
-  return <React.Fragment key={_.uniqueId("div_")}>{reactTree}</React.Fragment>;
+  return (
+    <React.Fragment key={_.uniqueId("div_")}>
+      <div>{reactTree}</div>
+    </React.Fragment>
+  );
 
   // let xmlParser = new DOMParser();
   // let preDom = xmlParser.parseFromString(`<React.Fragment>${decodedData}</React.Fragment>`, "text/xml");
