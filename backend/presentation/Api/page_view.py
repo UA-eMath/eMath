@@ -47,7 +47,8 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
             page = Level.objects.get(id=level_id)
             if page.is_root_node():
                 page = page.get_descendants().filter(pageNum=1).first()
-            if not page.isPage:
+
+            if (page == None) or (not page.isPage):
                 return None
         else:
             return None
