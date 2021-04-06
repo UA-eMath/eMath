@@ -14,8 +14,8 @@ class ParaToolBar extends React.Component {
     return (
       <ButtonGroup
         style={{
-          position: "absolute",
-          top: "-35px",
+          position: "relative",
+          top: "0px",
         }}
       >
         <Tooltip placement="top" title={"Caption"}>

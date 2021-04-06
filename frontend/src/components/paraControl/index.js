@@ -134,6 +134,8 @@ export default class ParaControl extends React.Component {
         style={{
           height: "100%",
           width: "100%",
+          display: "table-cell",
+          verticalAlign: "middle",
         }}
       >
         <div>

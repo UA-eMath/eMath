@@ -1,32 +1,43 @@
-.userInput {
-	font-size: 15px;
-	height: 300px;
-
-}
-
 .userInput:focus {
-	outline: none !important;
-	border: 5px solid deepskyblue;
-	box-shadow: 0 0 10px #719ECE;
+  outline: none !important;
+  border: 5px solid deepskyblue;
+  box-shadow: 0 0 10px #719ece;
 }
 
 .paraWrapper {
-	display: flex;
+  display: table;
+  width: 100%;
+  padding: 5px;
+}
+.displayDiv {
+  width: 50%;
+  display: table-cell;
+  vertical-align: middle;
+  background-color: #fffbe6;
+}
+.inputDiv {
+  width: 50%;
+  display: table-cell;
+  padding: 10px;
+}
+
+/* .paraWrapper {
+  display: flex;
 }
 
 .inputDiv {
-	display: inline-block;
-	overflow: visible;
-	position: relative;
-	flex: 1;
-	margin: 10px 5px;
+  display: inline-block;
+  overflow: visible;
+  position: relative;
+  flex: 1;
+  margin: 10px 5px;
 }
 
 .displayDiv {
-	margin: 10px 5px;
-	flex: 1;
-}
+  margin: 10px 5px;
+  flex: 1;
+} */
 
-.controlDiv {
-	margin: auto;
-}
+/* .controlDiv {
+  margin: auto;
+} */

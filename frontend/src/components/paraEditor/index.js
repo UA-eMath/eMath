@@ -251,6 +251,7 @@ class ParaEditor extends React.Component {
                   if (this.state.sideAlign) {
                     return (
                       <div className="paraWrapper" key={item.id}>
+                        <DisplayArea id={item.id} />
                         <div className="inputDiv">
                           <InputBox
                             id={item.id}
@@ -258,17 +259,12 @@ class ParaEditor extends React.Component {
                             boxValue={item.content.data}
                           />
                         </div>
-                        <div className="displayDiv">
-                          <DisplayArea id={item.id} />
-                        </div>
-                        <div className="controlDiv">
-                          <ParaControl
-                            id={item.id}
-                            delete={this.deletePara}
-                            parentId={this.props.id}
-                            bookID={bookID}
-                          />
-                        </div>
+                        <ParaControl
+                          id={item.id}
+                          delete={this.deletePara}
+                          parentId={this.props.id}
+                          bookID={bookID}
+                        />
                       </div>
                     );
                   } else {
@@ -285,7 +281,6 @@ class ParaEditor extends React.Component {
                             boxValue={item.content.data}
                             setFocusArea={this.setFocusArea}
                           />
-
                           <DisplayArea id={item.id} />
                         </Col>
 
