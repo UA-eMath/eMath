@@ -5,6 +5,7 @@ import { paraOnChange } from "../../actions";
 import ParaToolBar from "../paraToolBar";
 import dataSource from "./dataSource";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+import autosize from "autosize";
 import "./index.css";
 import SelectLabelModal from "../paraToolBar/selectLabelModal";
 
@@ -41,6 +42,11 @@ class InputBox extends React.Component {
       this
     );
     this.updateLinkLabel = this.updateLinkLabel.bind(this);
+  }
+
+  componentDidMount() {
+    let textarea = document.querySelectorAll("textarea");
+    autosize(textarea);
   }
 
   handleLabelModalVisiblility() {
@@ -92,7 +98,11 @@ class InputBox extends React.Component {
       event.preventDefault();
       let selectionStart = event.target.selectionStart;
       let selectionEnd = event.target.selectionEnd;
-
+      console.log(
+        "start",
+        event.target.selectionStart,
+        event.target.selectionEnd
+      );
       let value = decodeURI(this.props.boxValue);
 
       value =
@@ -101,10 +111,14 @@ class InputBox extends React.Component {
         value.substring(selectionEnd);
 
       this.props.paraOnChange(value, this.props.id);
-
-      this.textArea.selectionStart = this.textArea.selectionEnd =
-        selectionStart + 1;
+      this.textArea.blur();
+      setTimeout(() => {
+        this.textArea.selectionStart = selectionStart + 1;
+        this.textArea.selectionEnd = selectionStart + 1;
+        this.textArea.focus();
+      });
     }
+    autosize(this.textArea);
   }
 
   // inline tool bar
@@ -112,7 +126,7 @@ class InputBox extends React.Component {
 
   insertAtCursor = (event, tag, length) => {
     if (typeof event != "undefined") {
-      event.preventDefault();
+      // event.preventDefault();
       this.textArea.focus();
       let focusedTextarea = this.textArea;
       let value = decodeURI(this.props.boxValue);
@@ -124,12 +138,14 @@ class InputBox extends React.Component {
         let suffix = value.substring(selectionEnd);
 
         value = prefix + tag + suffix;
-
         this.props.paraOnChange(value, this.props.id);
 
-        this.setState({}, () => {
-          this.textArea.selectionStart = this.textArea.selectionEnd =
-            selectionStart + length;
+        this.textArea.blur();
+        setTimeout(() => {
+          this.textArea.selectionStart = selectionStart + length;
+          this.textArea.selectionEnd = selectionStart + length;
+          this.textArea.focus();
+          autosize(this.textArea);
         });
       }
     }
@@ -176,9 +192,9 @@ class InputBox extends React.Component {
             fontSize: "14px",
             lineHeight: "20px",
             padding: 5,
-            position: "absolute",
-            bottom: 0,
-            resize: "none",
+            // position: "absolute",
+            // bottom: 0,
+            // resize: "none",
           }}
           ref={(rta) => {
             this.inputEl = rta;
