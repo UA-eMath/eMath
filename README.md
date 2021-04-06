@@ -41,6 +41,9 @@ The project has two major components:
    - (optional) to get some sample data,
      run `psql emathdb < emathdb.sql` to restore data from sql file.
 
+   - Delete PostgreSQL Database
+     DROP DATABASE emathdb
+
 3. Backend(Django):
 
    #### Prerequisites:

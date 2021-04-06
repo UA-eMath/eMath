@@ -14,14 +14,14 @@ class ParaToolBar extends React.Component {
     return (
       <ButtonGroup
         style={{
-          position: "absolute",
-          top: "-35px",
+          position: "relative",
+          top: "0px",
         }}
       >
         <Tooltip placement="top" title={"Caption"}>
           <Button
             onMouseDown={(e) =>
-              props.tagInsertion(e, "<caption></caption> ", 9)
+              props.tagInsertion(e, "<Caption></Caption> ", 9)
             }
           >
             Cap

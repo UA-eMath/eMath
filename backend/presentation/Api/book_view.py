@@ -1,10 +1,11 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
-from presentation.models import Level, RootLevel, Para
+from presentation.models import Level, RootLevel, Para, Person
 from presentation.Serializers.rootLevel_serializer import RootLevelSerializer
 from presentation.Serializers.level_serializers import LevelSerializer
-
+from presentation.Serializers.person_serializer import PersonSerializer
 from datetime import date
+import json
 
 
 class RootLevelViewSets(viewsets.ModelViewSet):
@@ -28,22 +29,65 @@ class RootLevelViewSets(viewsets.ModelViewSet):
             return super().retrieve(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+        request_data = request.data.copy()
+        rootLevel = RootLevel.objects.get(pk=self.kwargs["pk"])
+        title = request_data.get("title")
+        html_title = request_data.get("html_title")
+        date = request_data.get("date")
+        # create an Person object for atuhor
+        author = Person.objects.get(id=request_data.get("authorID"))
+        author.first_name = request_data.get("first_name")
+        author.middle_name = request_data.get("middle_name")
+        author.last_name = request_data.get("last_name")
+        author.save()
+        # TODO: update contributors
+        if (html_title):
+            rootLevel.html_title = html_title
+        else:
+            rootLevel.html_title = title
+        if (author):
+            rootLevel.author = author
+        rootLevel.date = date
+        rootLevel.save()
+        return Response("Book updated successfully!", 200)
 
     def create(self, request, *args, **kwargs):
         request_data = request.data.copy()
-
         # 1. add a new Root Level
         if request_data.get("html_title") == None:
             request_data["html_title"] = request_data.get("title")
 
-        # TODO: author and contributor
+        # create an Person object for atuhor
+        author_serializer = PersonSerializer(
+            data={
+                'first_name': request_data.get("first_name"),
+                'middle_name': request_data.get("middle_name"),
+                'last_name': request_data.get("last_name")
+            })
+        author_serializer.is_valid()
+        author_serializer.save()
+        request_data["author"] = author_serializer.data["id"]
+        # create an Person object for each contributor
+        request_data["contributor"] = {}
+        for i in range(request_data["contributors_num"]):
+            contributor_serializer = PersonSerializer(
+                data={
+                    'first_name': request_data.get("contributor_first_" +
+                                                   str(i)),
+                    'middle_name': request_data.get("contributor_middle_" +
+                                                    str(i)),
+                    'last_name': request_data.get("contributor_last_" + str(i))
+                })
+            contributor_serializer.is_valid()
+            contributor_serializer.save()
+            request_data["contributor"][i] = json.dumps(
+                contributor_serializer.data)
 
         if request_data.get("date") == None:
             request_data["date"] = date.today()
 
         root_level_serializer = self.serializer_class(data=request_data)
-        root_level_serializer.is_valid(raise_exception=True)
+        root_level_serializer.is_valid()
         root_level = root_level_serializer.save()
 
         # 2. add root node level
@@ -68,7 +112,7 @@ class RootLevelViewSets(viewsets.ModelViewSet):
             "parent": root_node.id,
             "title": "Repository of Singleton",
             "tocTitle": "Repository of Singleton",
-            "isPage": False
+            "isPage": False,
         }
 
         appendix_serializer = self.level_serializer(data=appendix_data)

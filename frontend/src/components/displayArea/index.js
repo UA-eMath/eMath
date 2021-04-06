@@ -15,13 +15,7 @@ class DisplayArea extends React.Component {
     let target_para = dataArray[dataArray.findIndex((el) => el.id === id)];
 
     return (
-      <div
-        style={{
-          background: "#FFFBE6",
-          display: "block",
-          height: "100%",
-        }}
-      >
+      <div className="displayDiv">
         {/*TODO: need to handle open window activity*/}
         {paraRenderer(target_para)}
       </div>

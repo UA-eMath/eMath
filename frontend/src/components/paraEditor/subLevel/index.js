@@ -75,6 +75,7 @@ class SubLevel extends React.Component {
       // true: RL
       return (
         <div className="paraWrapper" key={item.id}>
+          <DisplayArea id={item.id} />
           <div className="inputDiv">
             <InputBox
               id={item.id}
@@ -82,16 +83,11 @@ class SubLevel extends React.Component {
               boxValue={item.content.data}
             />
           </div>
-          <div className="displayDiv">
-            <DisplayArea id={item.id} />
-          </div>
-          <div className="controlDiv">
-            <ParaControl
-              id={item.id}
-              delete={deletePara}
-              parentId={item.para_parent.id}
-            />
-          </div>
+          <ParaControl
+            id={item.id}
+            delete={deletePara}
+            parentId={item.para_parent.id}
+          />
         </div>
       );
     } else {
@@ -104,7 +100,6 @@ class SubLevel extends React.Component {
               setFocusArea={this.props.setFocusArea}
               TBview="true"
             />
-
             <DisplayArea id={item.id} />
           </Col>
 
