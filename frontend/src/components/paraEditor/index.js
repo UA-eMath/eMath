@@ -251,7 +251,6 @@ class ParaEditor extends React.Component {
                   if (this.state.sideAlign) {
                     return (
                       <div className="paraWrapper" key={item.id}>
-                        <DisplayArea id={item.id} />
                         <div className="inputDiv">
                           <InputBox
                             id={item.id}
@@ -259,6 +258,7 @@ class ParaEditor extends React.Component {
                             boxValue={item.content.data}
                           />
                         </div>
+                        <DisplayArea id={item.id} />
                         <ParaControl
                           id={item.id}
                           delete={this.deletePara}
