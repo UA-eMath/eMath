@@ -6,24 +6,19 @@ import { Icon } from "antd";
 
 export default function math(props) {
   let node;
-  node = (
-    <div key={_.uniqueId("MJN_")}>
-      <Node>{props.children}</Node>
-    </div>
-  );
-  // if (props.inline === "true") {
-  //   node = (
-  //     <Node key={_.uniqueId("MJN_")} inline>
-  //       {props.children}
-  //     </Node>
-  //   );
-  // } else {
-  //   node = (
-  //     <div key={_.uniqueId("MJN_")}>
-  //       <Node>{props.children}</Node>
-  //     </div>
-  //   );
-  // }
+  if (props.inline === "true") {
+    node = (
+      <Node key={_.uniqueId("MJN_")} inline>
+        {props.children}
+      </Node>
+    );
+  } else {
+    node = (
+      <div key={_.uniqueId("MJN_")}>
+        <Node>{props.children}</Node>
+      </div>
+    );
+  }
 
   return (
     <span>
