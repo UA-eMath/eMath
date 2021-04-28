@@ -4,26 +4,13 @@ import _ from "lodash";
 import MathJaxConfig from "../constants/MathJax_config";
 import { Icon } from "antd";
 
-export default function math(props) {
+export default function inlineMath(props) {
   let node;
   node = (
-    <div key={_.uniqueId("MJN_")}>
-      <Node>{props.children}</Node>
-    </div>
+    <Node key={_.uniqueId("MJN_")} inline>
+      {props.children}
+    </Node>
   );
-  // if (props.inline === "true") {
-  //   node = (
-  //     <Node key={_.uniqueId("MJN_")} inline>
-  //       {props.children}
-  //     </Node>
-  //   );
-  // } else {
-  //   node = (
-  //     <div key={_.uniqueId("MJN_")}>
-  //       <Node>{props.children}</Node>
-  //     </div>
-  //   );
-  // }
 
   return (
     <span>

@@ -6,7 +6,7 @@ const tagArray = [
   { name: "Bold", char: "<b></b>" },
   { name: "Italic", char: "<i></i>" },
   { name: "Caption", char: "<Caption></Caption>" },
-  { name: "Inline Math", char: '<Math inline="true"></Math>' },
+  { name: "Inline Math", char: "<math></math>" },
   { name: "MathDisplay", char: "<Math></Math>" },
   { name: "Internal Link", char: '<iLink id=""></iLink> ' },
   { name: "Numbered List", char: "<ol>\n\t<li></li>\n</ol>" },

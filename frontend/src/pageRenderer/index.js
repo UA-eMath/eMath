@@ -4,6 +4,7 @@ import XMLToReact from "@condenast/xml-to-react"; //Converts an XML document int
 import caption from "./caption";
 import iLink from "./iLink";
 import math from "./math";
+import inlineMath from "./inlineMath";
 import { blockOfPara } from "./paraBlock";
 import "./index.css";
 
@@ -17,6 +18,7 @@ export default function paraRenderer(para) {
     caption: (attrs) => ({ type: caption, props: attrs }),
     iLink: (attrs) => ({ type: iLink, props: { ...attrs } }),
     Math: (attrs) => ({ type: math, props: attrs }),
+    math: (attrs) => ({ type: inlineMath, props: attrs }),
     ParaWrap: (attrs) => ({ type: React.Fragment, props: attrs }),
 
     //HTML tag
