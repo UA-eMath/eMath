@@ -25,10 +25,7 @@ const dataSource = {
     dataProvider: (token) =>
       tagArray
         .filter((item) => {
-          return (
-            item.name.toLowerCase().includes(token.toLowerCase()) ||
-            item.char.toLowerCase().includes(token.toLowerCase())
-          );
+          return item.char.toLowerCase().includes(token.toLowerCase());
         })
         .slice(0, 10)
         .map(({ name, char }) => ({ name, char })),
