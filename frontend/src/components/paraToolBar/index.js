@@ -42,9 +42,7 @@ class ParaToolBar extends React.Component {
 
         <Tooltip placement="top" title={"Inline Math"}>
           <Button
-            onMouseDown={(e) =>
-              props.tagInsertion(e, '<Math inline="true"></Math> ', 20)
-            }
+            onMouseDown={(e) => props.tagInsertion(e, "<math></math> ", 20)}
           >
             iMath
           </Button>

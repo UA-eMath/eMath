@@ -75,7 +75,6 @@ class SubLevel extends React.Component {
       // true: RL
       return (
         <div className="paraWrapper" key={item.id}>
-          <DisplayArea id={item.id} />
           <div className="inputDiv">
             <InputBox
               id={item.id}
@@ -83,6 +82,7 @@ class SubLevel extends React.Component {
               boxValue={item.content.data}
             />
           </div>
+          <DisplayArea id={item.id} />
           <ParaControl
             id={item.id}
             delete={deletePara}

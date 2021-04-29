@@ -6,7 +6,7 @@ const tagArray = [
   { name: "Bold", char: "<b></b>" },
   { name: "Italic", char: "<i></i>" },
   { name: "Caption", char: "<Caption></Caption>" },
-  { name: "Inline Math", char: '<Math inline="true"></Math>' },
+  { name: "Inline Math", char: "<math></math>" },
   { name: "MathDisplay", char: "<Math></Math>" },
   { name: "Internal Link", char: '<iLink id=""></iLink> ' },
   { name: "Numbered List", char: "<ol>\n\t<li></li>\n</ol>" },
@@ -25,10 +25,7 @@ const dataSource = {
     dataProvider: (token) =>
       tagArray
         .filter((item) => {
-          return (
-            item.name.toLowerCase().includes(token.toLowerCase()) ||
-            item.char.toLowerCase().includes(token.toLowerCase())
-          );
+          return item.char.toLowerCase().includes(token.toLowerCase());
         })
         .slice(0, 10)
         .map(({ name, char }) => ({ name, char })),
