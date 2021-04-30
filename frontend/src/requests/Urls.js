@@ -1,12 +1,10 @@
-const local = true;
-const domain = local
-  ? "http://localhost"
-  : "https://emath-backend.herokuapp.com";
-// "http://142.244.163.57"
+const local = false;
+const domain = local ? "http://localhost" : "http://142.244.163.49";
+// "https://emath-backend.herokuapp.com"
 
 export default {
   domain: domain,
-  port: local ? 8000 : "", // 9000
+  port: 8000,
   endpoints: {
     roots: {
       address: "database",
