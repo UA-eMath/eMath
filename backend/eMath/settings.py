@@ -27,7 +27,7 @@ SECRET_KEY = 'kjxogc8bp6tzq8u&_5dq*rff1ji^uc51=0@we*s0k3v*e2+9^z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['142.244.163.*', 'localhost', 'emath-backend.herokuapp.com']
+ALLOWED_HOSTS = ['142.244.163.49', 'localhost', 'emath-backend.herokuapp.com']
 
 # Application definition
 
@@ -125,7 +125,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Frontend hosting port
-CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://142.244.163.*',
+CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://142.244.163.49:3000',
                          'https://emath-frontend.herokuapp.com')
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
