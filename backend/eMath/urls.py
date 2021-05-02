@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls import include, url
 from rest_framework import routers
 from presentation.Api import *
+from rest_framework_jwt.views import obtain_jwt_token as obtainJwtToken
 
 router = routers.DefaultRouter()
 
@@ -35,11 +36,16 @@ router.register(r'newCommandUpdate', NewCommandUpdateViewSets,
                 "newCommandUpdate")
 router.register(r'label', LabelViewSet, "Label")
 router.register(r'getLabel', GetLabelViewSets, "getLabel")
+router.register(r'person', PersonViewSet, "Person")
+router.register(r'usermod', UsermodViewSet, "Usermod")
 
 urlpatterns = [
     url(r'^uploadNewCommand/(?P<pk>.+)/$', UploadNewCommand.as_view()),
     url(r'^uploadTex/(?P<pk>.+)/$', UploadTexShortcut.as_view()),
     url(r'^newCommandUpdate/(?P<pk>.+)/$', NewCommandUpdate.as_view()),
+    url(r'^api-token-auth/', obtainJwtToken),
+    url(r'^current-user/', GetCurrentUser.as_view()),
+    url(r'^user-person/', UserToPerson.as_view()),
     url('', include(router.urls)),
     path('admin/', admin.site.urls),
 ]

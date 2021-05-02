@@ -15,6 +15,7 @@ export default function putNewCommand(cmdJson, bookId) {
       {
         headers: {
           "Content-Type": "application/json", // application/json, multipart/form-data
+          Authorization: `JWT ${localStorage.getItem("token")}`,
         },
       }
     )

@@ -1,7 +1,7 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.postgres.fields import JSONField
-
+from django.contrib.auth.models import User
 from .constant.basic_command import new_commands
 '''
 yaozhilu
@@ -83,6 +83,10 @@ class Person(models.Model):
     first_name = models.CharField(max_length=20)
     middle_name = models.CharField(max_length=20, null=True, blank=True)
     last_name = models.CharField(max_length=20)
+    user = models.OneToOneField(User,
+                                on_delete=models.CASCADE,
+                                null=True,
+                                blank=True)
 
 
 def default_para_dict():
@@ -157,3 +161,8 @@ class Label(models.Model):
 
     class Meta:
         ordering = ('content', )
+
+
+class Usermod(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    allowLogin = models.BooleanField(default=False)

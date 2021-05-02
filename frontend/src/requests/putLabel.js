@@ -12,6 +12,7 @@ export default function putLabel(params = {}) {
       {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `JWT ${localStorage.getItem("token")}`,
         },
       }
     )

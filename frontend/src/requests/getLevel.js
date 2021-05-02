@@ -8,6 +8,7 @@ export default function getLevel(levelID) {
     .get(Url, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `JWT ${localStorage.getItem("token")}`,
       },
     })
     .then((response) => {

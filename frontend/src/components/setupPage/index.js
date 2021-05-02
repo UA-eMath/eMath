@@ -30,21 +30,19 @@ export default function SetupPage(props) {
   };
 
   return (
-    <Layout>
+    <div>
       <TopNav />
-      <Content>
-        <Tabs defaultActiveKey="1" tabPosition={"left"}>
-          <TabPane tab={"Book information"} key={1}>
-            <BookSetting book={book} />
-          </TabPane>
-          <TabPane tab={"Tex shortcut"} key={2}>
-            <TexShortcut book={book} />
-          </TabPane>
-          <TabPane tab={"New command"} key={3}>
-            <NewCommand book={book} />
-          </TabPane>
-        </Tabs>
-      </Content>
-    </Layout>
+      <Tabs defaultActiveKey="1" tabPosition={"left"}>
+        <TabPane tab={"Book information"} key={1}>
+          <BookSetting book={book} />
+        </TabPane>
+        <TabPane tab={"Tex shortcut"} key={2}>
+          <TexShortcut book={book} />
+        </TabPane>
+        <TabPane tab={"New command"} key={3}>
+          <NewCommand book={book} />
+        </TabPane>
+      </Tabs>
+    </div>
   );
 }

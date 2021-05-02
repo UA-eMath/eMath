@@ -6,6 +6,7 @@ export default function postPara(para) {
     .post(url.domain + ":" + url.port + "/para/", para, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `JWT ${localStorage.getItem("token")}`,
       },
     })
     .then((response) => {

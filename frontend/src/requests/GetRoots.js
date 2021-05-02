@@ -9,6 +9,7 @@ export default function getRoots(params = {}) {
     .get(url.domain + ":" + url.port + root, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `JWT ${localStorage.getItem("token")}`,
       },
     })
     .then((response) => {

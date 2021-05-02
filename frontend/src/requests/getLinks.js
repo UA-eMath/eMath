@@ -7,7 +7,8 @@ export default function getLinks(ids) {
 		return new Promise(resolve => {
 			axios.get(Url, {
 				headers: {
-					"Content-Type": "application/json"
+					"Content-Type": "application/json",
+					Authorization: `JWT ${localStorage.getItem("token")}`,
 				},
 			})
 				.then(function (response) {

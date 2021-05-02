@@ -6,6 +6,7 @@ export default function postLabel(label) {
     .post(url.domain + ":" + url.port + "/label/", label, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `JWT ${localStorage.getItem("token")}`,
       },
     })
     .then((response) => {
