@@ -146,9 +146,9 @@ JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER':
     'presentation.Api.utils.myJwtResponseHandler',
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=10),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=180),
     'JWT_ALLOW_REFRESH': False,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=30),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=365),
 }
 
 # Configure Django App for Heroku.

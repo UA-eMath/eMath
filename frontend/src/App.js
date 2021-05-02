@@ -1,15 +1,16 @@
 import React from "react";
 import TopNav from "./components/topNav";
 import { Layout } from "antd";
-import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import SplitView from "./components/splitView";
 import BookDisplay from "./components/bookDisplay";
 import AuthoringLayout from "./components/authoringLayout";
 import SetupPage from "./components/setupPage";
 import LoginComp from "./components/LoginComp";
 import Signup from "./components/Signup";
+import jwt_decode from "jwt-decode";
 
-const { Header, Content, Footer } = Layout;
+const { Content } = Layout;
 
 export default class App extends React.Component {
   constructor(props) {
@@ -19,6 +20,14 @@ export default class App extends React.Component {
       username: localStorage.getItem("username"),
     };
   }
+
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    if (token && jwt_decode(token).exp < Date.now() / 1000) {
+      this.logout();
+    }
+  }
+
   Home = () => {
     return (
       <div>
@@ -29,9 +38,8 @@ export default class App extends React.Component {
   };
 
   logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    this.setState({ loggedIn: null });
+    localStorage.clear();
+    this.setState({ loggedIn: null, username: "" });
     window.location.href = "/";
   };
 
