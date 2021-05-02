@@ -2,12 +2,14 @@ import axios from "axios";
 import url from "./Urls";
 
 export default function getLevel(levelID) {
-  let Url = url.domain + ":" + url.port + "/Level/" + levelID.toString();
+  let id = levelID ? levelID.toString() : levelID;
+  let Url = url.domain + ":" + url.port + "/Level/" + id;
 
   return axios
     .get(Url, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `JWT ${localStorage.getItem("token")}`,
       },
     })
     .then((response) => {

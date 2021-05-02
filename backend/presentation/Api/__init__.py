@@ -18,3 +18,9 @@ from .new_command_update_view import NewCommandUpdateViewSets
 
 from .label_view import LabelViewSet
 from .get_label_view import GetLabelViewSets
+
+from .person_view import PersonViewSet
+from .current_user import GetCurrentUser
+from .user_person import UserToPerson
+
+from .usermod_view import UsermodViewSet

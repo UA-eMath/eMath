@@ -14,6 +14,7 @@ import os
 from corsheaders.defaults import default_headers
 import django_heroku
 import dj_database_url
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +28,7 @@ SECRET_KEY = 'kjxogc8bp6tzq8u&_5dq*rff1ji^uc51=0@we*s0k3v*e2+9^z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['142.244.163.*', 'localhost', 'emath-backend.herokuapp.com']
+ALLOWED_HOSTS = ['142.244.163.49', 'localhost', 'emath-backend.herokuapp.com']
 
 # Application definition
 
@@ -48,6 +49,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES':
+    ('rest_framework.permissions.IsAuthenticated', ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
 
 ROOT_URLCONF = 'eMath.urls'
 
@@ -125,12 +135,21 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Frontend hosting port
-CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://142.244.163.*',
+CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://142.244.163.49:3000',
                          'https://emath-frontend.herokuapp.com')
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'content-disposition',
 ]
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER':
+    'presentation.Api.utils.myJwtResponseHandler',
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=180),
+    'JWT_ALLOW_REFRESH': False,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=365),
+}
 
 # Configure Django App for Heroku.
 django_heroku.settings(locals())

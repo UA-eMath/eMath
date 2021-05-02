@@ -9,6 +9,7 @@ export default function getLabel(params = {}) {
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `JWT ${localStorage.getItem("token")}`,
           },
         }
       )
@@ -18,34 +19,26 @@ export default function getLabel(params = {}) {
       .catch((error) => console.log(error.response));
   } else if (params.levelID !== undefined || params.paraID !== undefined) {
     return axios
-      .get(
-        url.domain + ":" + url.port + "/getLabel/",
-        {
-          params: params,
+      .get(url.domain + ":" + url.port + "/getLabel/", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${localStorage.getItem("token")}`,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+        params,
+      })
       .then((response) => {
         return response;
       })
       .catch((error) => console.log(error.response));
   } else if (params.rootID !== undefined) {
     return axios
-      .get(
-        url.domain + ":" + url.port + "/label/",
-        {
-          params: params,
+      .get(url.domain + ":" + url.port + "/label/", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `JWT ${localStorage.getItem("token")}`,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+        params,
+      })
       .then((response) => {
         return response;
       })
@@ -55,6 +48,7 @@ export default function getLabel(params = {}) {
       .get(url.domain + ":" + url.port + "/label/", {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `JWT ${localStorage.getItem("token")}`,
         },
       })
       .then((response) => {

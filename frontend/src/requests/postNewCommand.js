@@ -16,6 +16,7 @@ export default function postNewCommand(file, bookId) {
         headers: {
           "Content-Disposition": "attachment; filename=" + file.name,
           "Content-Type": "*/*", // application/json, multipart/form-data
+          Authorization: `JWT ${localStorage.getItem("token")}`,
         },
       }
     )

@@ -6,16 +6,13 @@ import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
 
 import { connect } from "react-redux";
-import {
-  minimizeWindow,
-  closeWindow,
-  onLayoutChange,
-} from "../../actions";
+import { minimizeWindow, closeWindow, onLayoutChange } from "../../actions";
 
 import CreateElement from "./pageCreator/createEle";
 import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle";
 import MathjaxRenderer from "../MathjaxRenderer";
+import TopNav from "../topNav";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 

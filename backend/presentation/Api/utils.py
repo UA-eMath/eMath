@@ -1,5 +1,6 @@
 from itertools import chain
 from presentation.models import Level, Para
+from presentation.Serializers.user_serializer import UserSerializer
 
 
 def updateParaPosition(parent):
@@ -106,3 +107,12 @@ def mergeAndSort(block, paras):
     for item in paras[j:]:
         res.append(item)
     return res
+
+
+def myJwtResponseHandler(token, user=None, request=None):
+    return {
+        'token': token,
+        'user': UserSerializer(user, context={
+            'request': request
+        }).data
+    }

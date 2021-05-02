@@ -36,7 +36,7 @@ class EditingModal extends React.Component {
 
   async componentDidMount() {
     this._isMounted = true;
-    const labelObj = await getLabel({ paraID: this.props.id });
+    const labelObj = await getLabel({ levelID: this.props.item.id });
     if (typeof labelObj !== "undefined" && this._isMounted) {
       this.setState({ label: labelObj.data.content });
     }

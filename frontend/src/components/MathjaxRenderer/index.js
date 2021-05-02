@@ -1,8 +1,9 @@
 import React from "react";
 import getNewCommand from "../../requests/getNewCommand";
-import { texCommandArray } from "../InputBox/dataSource";
+// import { texCommandArray } from "../InputBox/dataSource";
 import { Node, Context } from "../react-mathjax";
 import MathJaxConfig from "../../constants/MathJax_config";
+import dataSource from "../InputBox/dataSource";
 
 export default class MathjaxRenderer extends React.Component {
   _isMounted = false;
@@ -20,7 +21,7 @@ export default class MathjaxRenderer extends React.Component {
       for (const filename in commands) {
         for (const value of commands[filename]) {
           items.push(<Node>{value["tex"]}</Node>);
-          texCommandArray.push(this.regexMatch(value["tex"], value["note"]));
+          dataSource.push(this.regexMatch(value["tex"], value["note"]));
         }
       }
       if (this._isMounted) {
@@ -36,7 +37,12 @@ export default class MathjaxRenderer extends React.Component {
   regexMatch = (tex, note) => {
     const regex = /{\\[^}]+/;
     const texCommand = tex.match(regex)[0];
-    return { name: texCommand.slice(1), char: note };
+    return {
+      value: texCommand.slice(1),
+      caption: texCommand.slice(1),
+      meta: note,
+      score: 1000,
+    };
   };
 
   render() {
