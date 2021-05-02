@@ -5,9 +5,7 @@ const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 
 export default function getPage(params = {}) {
-  console.log(params);
-  let Url =
-    url.domain + ":" + url.port + "/content/?id=" + params.id.toString();
+  let Url = url.domain + ":" + url.port + "/content/";
 
   return axios
     .get(Url, {
@@ -16,6 +14,7 @@ export default function getPage(params = {}) {
         "Content-Type": "application/json",
         Authorization: `JWT ${localStorage.getItem("token")}`,
       },
+      params,
     })
     .then((response) => {
       return response;

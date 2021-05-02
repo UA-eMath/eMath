@@ -17,28 +17,14 @@ export default function getLabel(params = {}) {
         return response;
       })
       .catch((error) => console.log(error.response));
-  } else if (params.levelID !== undefined) {
+  } else if (params.levelID !== undefined || params.paraID !== undefined) {
     return axios
-      .get(
-        url.domain + ":" + url.port + "/getLabel/?levelID=" + params.levelID,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `JWT ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => console.log(error.response));
-  } else if (params.paraID !== undefined) {
-    return axios
-      .get(url.domain + ":" + url.port + "/getLabel/?paraID=" + params.paraID, {
+      .get(url.domain + ":" + url.port + "/getLabel/", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `JWT ${localStorage.getItem("token")}`,
         },
+        params,
       })
       .then((response) => {
         return response;
@@ -46,11 +32,12 @@ export default function getLabel(params = {}) {
       .catch((error) => console.log(error.response));
   } else if (params.rootID !== undefined) {
     return axios
-      .get(url.domain + ":" + url.port + "/label/?rootID="+params.rootID, {
+      .get(url.domain + ":" + url.port + "/label/", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `JWT ${localStorage.getItem("token")}`,
         },
+        params,
       })
       .then((response) => {
         return response;
