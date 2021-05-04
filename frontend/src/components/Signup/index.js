@@ -13,7 +13,7 @@ class Signup extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         postPerson(values).then((response) => {
-          if (response.status === 200) {
+          if (response.status && response.status === 200) {
             if (Object.keys(response.data).length === 1) {
               message.error("Registration failed: " + response.data.msg);
             } else {
