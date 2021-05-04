@@ -122,7 +122,10 @@ export default class SelectLabelModal extends React.Component {
     let preview;
     if (selectedLabel !== null) {
       preview = (
-        <Card style={{ marginTop: "1em" }} title={paraRenderer(previewTitle)}>
+        <Card
+          style={{ marginTop: "1em", maxHeight: 400, overflow: "auto" }}
+          title={paraRenderer(previewTitle)}
+        >
           <div>
             {_.map(previewContent, (para) => {
               return paraRenderer(para);
