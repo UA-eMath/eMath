@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Dropdown, Popover, Icon } from "antd";
+import { Menu, Dropdown, Popover, Icon, message } from "antd";
 import postLevel from "../../../requests/postLevel";
 import updateLevel from "../../../requests/updateLevel";
 import removeLevel from "../../../requests/removeLevel";
@@ -124,8 +124,16 @@ class EditingModal extends React.Component {
 
   handleDelete = () => {
     const { form } = this.formRef.props;
+    // if ISO section
+    if (this.props.item.position === -1) {
+      message.error("ISO section cannot be deleted!");
+      this.setState({
+        visible: false,
+        modifyState: "",
+      });
+      return;
+    }
     this.setState({ loading: true });
-
     removeLevel(this.props.item.id).then((data) => {
       if (data.status !== 200) {
         console.error("Delete error", data);
@@ -153,7 +161,7 @@ class EditingModal extends React.Component {
             this.showModal("New");
           }}
         >
-          New...
+          New
         </Menu.Item>
         <Menu.Item
           key="editing-modal-edit"

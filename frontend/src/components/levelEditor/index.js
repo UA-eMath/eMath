@@ -50,6 +50,8 @@ class LevelEditor extends React.Component {
     searchValue: "",
     autoExpandParent: true,
     treeData: [],
+    isoNode: null,
+    isStored: false,
   };
 
   componentDidMount() {
@@ -131,7 +133,6 @@ class LevelEditor extends React.Component {
         const afterStr = item.tocTitle.substr(
           index + this.state.searchValue.length
         );
-
         const title =
           index > -1 ? (
             <span>
@@ -187,6 +188,11 @@ class LevelEditor extends React.Component {
               </TreeNode>
             );
           }
+
+          if (item.position === -1 && !this.state.isStored) {
+            this.setState({ isoNode: item, isStored: true });
+          }
+
           //branch/root
           return (
             <TreeNode
@@ -222,6 +228,16 @@ class LevelEditor extends React.Component {
     const dropPos = info.node.props.pos.split("-");
     const dropPosition =
       info.dropPosition - Number(dropPos[dropPos.length - 1]);
+
+    // handle default ISO section
+    if (
+      dropPosition === -1 ||
+      (this.state.isoNode &&
+        Number(node_been_dragged_key) === this.state.isoNode.id)
+    ) {
+      message.error("ISO have to be the top section.");
+      return;
+    }
 
     let request_body = {};
     // Need to change parent and position
