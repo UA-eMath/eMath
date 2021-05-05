@@ -121,7 +121,6 @@ class BookSetting extends React.Component {
   };
 
   normFile = (e) => {
-    console.log("Upload: ", e);
     if (Array.isArray(e)) {
       return e;
     }

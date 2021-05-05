@@ -44,7 +44,7 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { loggedIn, username } = this.state;
+    const { loggedIn } = this.state;
 
     let page = loggedIn ? (
       <div>
