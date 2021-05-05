@@ -43,6 +43,7 @@ class RootLevel(models.Model):
     author_index = JSONField(default=default_dict)
     new_command = JSONField(default=basic_command)
     tex_shortcut = JSONField(default=basic_shortcut)
+    cover_image = models.TextField(null=True, blank=True)
 
 
 class Level(MPTTModel):

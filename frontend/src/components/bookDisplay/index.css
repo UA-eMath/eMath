@@ -1,5 +1,7 @@
-/*.Card{*/
-    /*width: 300px;*/
-    /*margin: 30px;*/
-/*}*/
+.ant-empty-normal {
+  margin: 0 !important;
+}
 
+.ant-empty-image {
+  margin-bottom: 0 !important;
+}
