@@ -34,6 +34,7 @@ class RootLevelViewSets(viewsets.ModelViewSet):
         title = request_data.get("title")
         html_title = request_data.get("html_title")
         date = request_data.get("date")
+        cover_image = request_data.get("cover_image")
         # create an Person object for atuhor
         author = Person.objects.get(id=request_data.get("authorID"))
         author.first_name = request_data.get("first_name")
@@ -48,6 +49,8 @@ class RootLevelViewSets(viewsets.ModelViewSet):
         if (author):
             rootLevel.author = author
         rootLevel.date = date
+        if (cover_image):
+            rootLevel.cover_image = cover_image
         rootLevel.save()
         return Response("Book updated successfully!", 200)
 

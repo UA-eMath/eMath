@@ -6,6 +6,8 @@ import {
   Input,
   Icon,
   InputNumber,
+  Upload,
+  message,
 } from "antd";
 import React from "react";
 import postBook from "../../../requests/postBook";
@@ -13,8 +15,27 @@ import moment from "moment";
 
 let id = 0;
 
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+  return isJpgOrPng && isLt2M;
+}
+
 const AddBook = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
+    state = { imageUrl: null };
     onCreate = () => {
       const { form, setLoading, setVisible, fetchRoots } = this.props;
 
@@ -22,16 +43,18 @@ const AddBook = Form.create({ name: "form_in_modal" })(
 
       form.validateFields((err, values) => {
         if (err) {
+          setLoading(false);
           return;
         }
-
-        let request_body;
         //create new book
-
-        request_body = JSON.stringify({
+        delete values.cover_image_upload;
+        let request_body = JSON.stringify({
           ...values,
           date: values["date"].format("YYYY-MM-DD"),
           isPage: false,
+          cover_image: this.state.imageUrl
+            ? this.state.imageUrl
+            : values["cover_image"],
         });
 
         postBook(request_body)
@@ -47,6 +70,7 @@ const AddBook = Form.create({ name: "form_in_modal" })(
           });
 
         form.resetFields();
+        this.setState({ imageUrl: null });
         setVisible(false);
         setLoading(false);
       });
@@ -72,6 +96,29 @@ const AddBook = Form.create({ name: "form_in_modal" })(
       form.setFieldsValue({
         keys: nextKeys,
       });
+    };
+
+    coverImageChange = (info) => {
+      if (info.file.status === "done") {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj, (imageUrl) =>
+          this.setState({
+            imageUrl,
+          })
+        );
+      } else {
+        this.setState({
+          imageUrl: null,
+        });
+      }
+    };
+
+    normFile = (e) => {
+      console.log("Upload: ", e);
+      if (Array.isArray(e)) {
+        return e;
+      }
+      return e && e.fileList;
     };
 
     render() {
@@ -245,6 +292,36 @@ const AddBook = Form.create({ name: "form_in_modal" })(
                 rules: [{ type: "object" }],
                 initialValue: moment(),
               })(<DatePicker />)}
+            </Form.Item>
+
+            <Form.Item label="Cover Image">
+              {getFieldDecorator("cover_image_upload", {
+                valuePropName: "fileList",
+                getValueFromEvent: this.normFile,
+              })(
+                <Upload
+                  listType="picture"
+                  beforeUpload={beforeUpload}
+                  onChange={this.coverImageChange}
+                  customRequest={({ file, onSuccess }) => {
+                    setTimeout(() => {
+                      onSuccess("ok");
+                    }, 0);
+                  }}
+                >
+                  <Button>
+                    <Icon type="upload" /> Upload
+                  </Button>
+                </Upload>
+              )}
+              {getFieldDecorator(`cover_image`, {
+                initialValue: "",
+              })(
+                <Input
+                  placeholder="Image Link"
+                  style={{ width: "80%", marginTop: 8 }}
+                />
+              )}
             </Form.Item>
           </Form>
         </Modal>

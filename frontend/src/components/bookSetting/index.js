@@ -1,4 +1,13 @@
-import { Button, DatePicker, Form, Input, message, Modal } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Modal,
+  Upload,
+  Icon,
+} from "antd";
 import get from "lodash/get";
 import React from "react";
 import updateLevel from "../../requests/updateLevel";
@@ -6,7 +15,28 @@ import updateBook from "../../requests/updateBook";
 import removeBook from "../../requests/removeBook";
 import moment from "moment";
 
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+  return isJpgOrPng && isLt2M;
+}
+
 class BookSetting extends React.Component {
+  state = {
+    imageUrl: null,
+  };
   onDelete = (bookId) => {
     Modal.confirm({
       title: "Are you sure delete this Book?",
@@ -29,12 +59,12 @@ class BookSetting extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (err) {
         console.error(err);
+        return;
       }
 
       let node_request_body;
       let root_request_body;
 
-      console.log("value", values);
       node_request_body = JSON.stringify({
         title: values["title"],
         tocTitle: values["tocTitle"],
@@ -50,10 +80,14 @@ class BookSetting extends React.Component {
           }
         })
         .then((res) => {
+          delete values.cover_image_upload;
           root_request_body = JSON.stringify({
             ...values,
             date: values["date"].format("YYYY-MM-DD"),
             authorID: this.props.book.root.author.id,
+            cover_image: this.state.imageUrl
+              ? this.state.imageUrl
+              : values["cover_image"],
           });
           updateBook(root_request_body, bookId).then((data) => {
             if (!data || data.status !== 200) {
@@ -71,6 +105,29 @@ class BookSetting extends React.Component {
     });
   };
 
+  coverImageChange = (info) => {
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) =>
+        this.setState({
+          imageUrl,
+        })
+      );
+    } else {
+      this.setState({
+        imageUrl: null,
+      });
+    }
+  };
+
+  normFile = (e) => {
+    console.log("Upload: ", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { book } = this.props;
@@ -86,7 +143,7 @@ class BookSetting extends React.Component {
                 message: "Please input the title of collection!",
               },
             ],
-          })(<Input />)}
+          })(<Input style={{ width: "50%" }} />)}
         </Form.Item>
 
         <Form.Item
@@ -95,13 +152,13 @@ class BookSetting extends React.Component {
         >
           {getFieldDecorator("tocTitle", {
             initialValue: get(book, "tocTitle"),
-          })(<Input />)}
+          })(<Input style={{ width: "50%" }} />)}
         </Form.Item>
 
         <Form.Item label="HTML Title" extra="Leave it empty if same as title">
           {getFieldDecorator("html_title", {
             initialValue: get(book, ["root", "html_title"]),
-          })(<Input />)}
+          })(<Input style={{ width: "50%" }} />)}
         </Form.Item>
 
         <Form.Item label="Author">
@@ -190,6 +247,36 @@ class BookSetting extends React.Component {
             rules: [{ type: "object" }],
             initialValue: moment(get(book, ["root", "date"])),
           })(<DatePicker />)}
+        </Form.Item>
+
+        <Form.Item label="Cover Image">
+          {getFieldDecorator("cover_image_upload", {
+            valuePropName: "fileList",
+            getValueFromEvent: this.normFile,
+          })(
+            <Upload
+              listType="picture"
+              beforeUpload={beforeUpload}
+              onChange={this.coverImageChange}
+              customRequest={({ file, onSuccess }) => {
+                setTimeout(() => {
+                  onSuccess("ok");
+                }, 0);
+              }}
+            >
+              <Button>
+                <Icon type="upload" /> Upload
+              </Button>
+            </Upload>
+          )}
+          {getFieldDecorator(`cover_image`, {
+            initialValue: "",
+          })(
+            <Input
+              placeholder="Image Link"
+              style={{ width: "50%", marginTop: 8 }}
+            />
+          )}
         </Form.Item>
 
         <Form.Item>
