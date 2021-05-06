@@ -12,7 +12,6 @@ import CreateElement from "./pageCreator/createEle";
 import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle";
 import MathjaxRenderer from "../MathjaxRenderer";
-import TopNav from "../topNav";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 

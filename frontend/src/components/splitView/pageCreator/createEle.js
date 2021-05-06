@@ -41,9 +41,10 @@ class CreateElement extends React.Component {
     //this.props['data-grid'] stores this window's information
     let pageContent;
     let context;
-    let usage = this.props["data-grid"].usage;
-    let id = this.props["data-grid"].pageId.linkedID;
-    let linkTo = this.props["data-grid"].pageId.linkTo;
+    const usage = this.props["data-grid"].usage;
+    const content = this.props["data-grid"].pageId;
+    const id = usage === "index" ? content.id : content.linkedID;
+    const linkTo = content.linkTo;
     if (linkTo === "para") {
       // show linked para
       pageContent = await getPara({ id: id });
@@ -52,20 +53,9 @@ class CreateElement extends React.Component {
     } else {
       // linked level
       if (this.props["data-grid"].isPage) {
-        if (usage === "index") {
-          pageContent = await getPage({
-            id: this.props["data-grid"].pageId,
-            page: null,
-          });
-        } else {
-          pageContent = await getPage({ id: id, page: null }); // isPage true -> para
-        }
+        pageContent = await getPage({ id: id, page: null }); // isPage true -> para
       } else {
-        if (usage === "index") {
-          pageContent = await getLevel(this.props["data-grid"].pageId);
-        } else {
-          pageContent = await getLevel(id);
-        }
+        pageContent = await getLevel(id);
       }
     }
 
@@ -92,6 +82,14 @@ class CreateElement extends React.Component {
           paraText: pageContent.data,
         });
       }
+    } else if (
+      typeof pageContent !== "undefined" &&
+      pageContent.data.length === 0
+    ) {
+      this.setState({
+        pageTitle: usage === "index" ? content.title : content.name,
+        paraText: pageContent.data,
+      });
     } else {
       this.setState({
         pageTitle: ["This page is under construction."],

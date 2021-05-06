@@ -54,7 +54,9 @@ export default class SelectLabelModal extends React.Component {
       this.getLabelContent(label.data).then((item) => {
         const content = item.data;
         let title;
-        if (label.data.isPage) {
+        if (item.data.length === 0) {
+          title = label.data.name;
+        } else if (label.data.isPage) {
           title = item.data.flat(Infinity)[0].para_parent.title;
         } else {
           title = item.data.flat(Infinity)[0].para_parent.tocTitle;
