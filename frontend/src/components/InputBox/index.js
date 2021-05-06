@@ -84,7 +84,7 @@ class InputBox extends React.Component {
     this.props.setFocusArea(this.props.id);
     this.setState({
       showParaToolBar: true,
-      borderStyle: "5px solid deepskyblue",
+      borderStyle: "2px solid deepskyblue",
     });
   }
 
@@ -123,7 +123,7 @@ class InputBox extends React.Component {
       };
     }
     return (
-      <div style={{ overflow: "visible" }}>
+      <div>
         {this.state.showParaToolBar ? (
           <ParaToolBar
             showToolBar={this.showToolBar}
@@ -131,25 +131,22 @@ class InputBox extends React.Component {
             handleLinkClick={this.handleLinkClick}
             linkID={this.state.linkID}
           />
-        ) : (
-          <div />
-        )}
+        ) : null}
         <AceEditor
           ref="ace"
-          style={inputAreaContainerStyle}
-          wrapEnabled={true}
-          maxLines={Infinity}
-          minLines={5}
           mode="html"
           theme="solarized_light"
-          onFocus={this.showToolBar.bind(this)}
-          onBlur={() => this.hideToolBar()}
-          className="userInput"
-          onChange={(value) => this.setContent(value, this.props.id)}
+          style={inputAreaContainerStyle}
+          maxLines={Infinity}
+          minLines={5}
+          wrapEnabled={true}
           value={decodeURI(this.props.boxValue)}
           fontSize={14}
           showGutter={false}
           highlightActiveLine={true}
+          onFocus={this.showToolBar.bind(this)}
+          onBlur={() => this.hideToolBar()}
+          onChange={(value) => this.setContent(value, this.props.id)}
           setOptions={{
             enableBasicAutocompletion: true,
             enableLiveAutocompletion: true,
