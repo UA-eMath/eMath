@@ -20,6 +20,7 @@
   width: 50%;
   display: table-cell;
   padding: 5px;
+  position: relative;
 }
 
 /* .paraWrapper {
