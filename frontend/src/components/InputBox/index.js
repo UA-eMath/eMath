@@ -12,7 +12,6 @@ import "ace-builds/src-noconflict/snippets/html";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/ext-language_tools";
 import { addCompleter } from "ace-builds/src-noconflict/ext-language_tools";
-import "ace-builds/src-min-noconflict/ext-searchbox";
 
 const mapDispatchToProps = (dispatch) => ({
   paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
@@ -152,6 +151,7 @@ class InputBox extends React.Component {
             enableLiveAutocompletion: true,
             enableSnippets: true,
             tabSize: 2,
+            useWorker: false,
           }}
         />
 
