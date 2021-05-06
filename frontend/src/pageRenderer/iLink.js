@@ -21,16 +21,10 @@ function iLink(props) {
         const linked_obj = await getLabel({ labelID: props.id });
         if (linked_obj === undefined) {
           message.error(
-            "Fail to get cross reference! Please check your linked id!"
+            "Fail to get cross reference! Please check your linked ID!"
           );
         } else {
-          props.onWindowOpen(
-            {
-              linkedID: linked_obj.data.linkedID,
-              linkTo: linked_obj.data.linkTo,
-            },
-            linked_obj.data.isPage
-          );
+          props.onWindowOpen(linked_obj.data, linked_obj.data.isPage);
         }
       }}
       style={{ color: "#297DB5" }}

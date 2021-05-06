@@ -205,7 +205,7 @@ class MenuDrawer extends React.Component {
               <a
                 href
                 onClick={() => {
-                  this.props.onWindowOpen(item.id, false, "index");
+                  this.props.onWindowOpen(item, false, "index");
                   this.onClose();
                 }}
               >
@@ -237,7 +237,7 @@ class MenuDrawer extends React.Component {
                   <a
                     href
                     onClick={() => {
-                      this.props.onWindowOpen(item.id, true,"index");
+                      this.props.onWindowOpen(item, true, "index");
                       this.onClose();
                     }}
                   >
