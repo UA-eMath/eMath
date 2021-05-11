@@ -53,6 +53,4 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
         else:
             return None
 
-        if page == None:
-            return []
         return getParas(page)

@@ -38,6 +38,9 @@ The project has two major components:
    - exit
      `\q` then `exit`
 
+   - export database
+     `pg_dump -U yaozhilu emathdb > emathdump.pgsql`
+
    - (optional) to get some sample data,
      run `psql emathdb < emathdb.sql` to restore data from sql file.
 
