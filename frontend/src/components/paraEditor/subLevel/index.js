@@ -71,6 +71,7 @@ class SubLevel extends React.Component {
   };
 
   wrapPara = (alignment, item, deletePara) => {
+    const bookID = this.props.bookID;
     if (alignment) {
       // true: RL
       return (
@@ -78,6 +79,7 @@ class SubLevel extends React.Component {
           <div className="inputDiv">
             <InputBox
               id={item.id}
+              bookID={bookID}
               setFocusArea={this.props.setFocusArea}
               boxValue={item.content.data}
             />
@@ -85,6 +87,7 @@ class SubLevel extends React.Component {
           <DisplayArea id={item.id} />
           <ParaControl
             id={item.id}
+            bookID={bookID}
             delete={deletePara}
             parentId={item.para_parent.id}
           />
@@ -96,6 +99,7 @@ class SubLevel extends React.Component {
           <Col span={23}>
             <InputBox
               id={item.id}
+              bookID={bookID}
               boxValue={item.content.data}
               setFocusArea={this.props.setFocusArea}
               TBview="true"
@@ -106,6 +110,7 @@ class SubLevel extends React.Component {
           <Col span={1}>
             <ParaControl
               id={item.id}
+              bookID={bookID}
               delete={deletePara}
               parentId={item.para_parent.id}
             />
@@ -115,7 +120,7 @@ class SubLevel extends React.Component {
     }
   };
   render() {
-    const { children, alignment, deletePara } = this.props;
+    const { children, alignment, deletePara, bookID } = this.props;
     const { isLabelModalVisible } = this.state;
 
     let left_title = children[0].para_parent.tocTitle;
@@ -153,6 +158,7 @@ class SubLevel extends React.Component {
             deletePara={deletePara}
             setFocusArea={this.props.setFocusArea}
             id={this.props.id}
+            bookID={bookID}
           />
         );
       } else {

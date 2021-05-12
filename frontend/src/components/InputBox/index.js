@@ -108,6 +108,7 @@ class InputBox extends React.Component {
   };
 
   render() {
+    const { bookID } = this.props;
     let inputAreaContainerStyle = {};
     if (this.props.TBview) {
       inputAreaContainerStyle = {
@@ -159,7 +160,7 @@ class InputBox extends React.Component {
           visible={this.state.isModalVisible}
           handleLabelModalVisiblility={this.handleLabelModalVisiblility}
           updateLinkLabel={this.updateLinkLabel}
-          bookID={1} // TODO
+          bookID={bookID}
         />
       </div>
     );

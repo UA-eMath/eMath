@@ -244,6 +244,7 @@ class ParaEditor extends React.Component {
                         deletePara={this.deletePara}
                         setFocusArea={this.setFocusArea.bind(this)}
                         id={this.props.id}
+                        bookID={bookID}
                       />
                     );
                   }
@@ -254,6 +255,7 @@ class ParaEditor extends React.Component {
                         <div className="inputDiv">
                           <InputBox
                             id={item.id}
+                            bookID={bookID}
                             setFocusArea={this.setFocusArea.bind(this)}
                             boxValue={item.content.data}
                           />
@@ -278,6 +280,7 @@ class ParaEditor extends React.Component {
                         >
                           <InputBox
                             id={item.id}
+                            bookID={bookID}
                             boxValue={item.content.data}
                             setFocusArea={this.setFocusArea}
                           />
