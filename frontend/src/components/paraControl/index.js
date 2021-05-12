@@ -139,6 +139,7 @@ export default class ParaControl extends React.Component {
         }}
       >
         <div>
+          {/* TODO: up and down button */}
           <Button>
             <Icon type="up" />
           </Button>

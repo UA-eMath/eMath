@@ -1,7 +1,7 @@
 import axios from "axios";
 import url from "./Urls";
 
-export default function GetToc(params = {}) {
+export default function getToc(params = {}) {
   return axios
     .get(url.domain + ":" + url.port + "/getToc/?id=" + params.id, {
       headers: {

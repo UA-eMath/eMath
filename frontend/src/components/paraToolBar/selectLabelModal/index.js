@@ -7,6 +7,7 @@ import getPara from "../../../requests/getPara";
 import getLevel from "../../../requests/getLevel";
 import getPage from "../../../requests/getPage";
 import paraRenderer from "../../../pageRenderer";
+import getToc from "../../../requests/getTree";
 
 const { Option } = Select;
 
@@ -27,7 +28,9 @@ export default class SelectLabelModal extends React.Component {
   async componentDidMount() {
     this._isMounted = true;
     const books = await getRoots({});
-    const labels = await getLabel({ rootID: this.state.selectedBooks[0] }); // get labels for default book
+    // bookID is actually the top level of the book, so we need to get the root of the level first
+    const level = await getToc({ id: this.state.selectedBooks[0] });
+    const labels = await getLabel({ rootID: level.data.root }); // get labels for default book
     if (typeof labels !== "undefined" && this._isMounted) {
       this.setState({
         labelList: labels.data,
