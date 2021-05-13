@@ -42,7 +42,7 @@ export default function BookDisplay(props) {
             ) : (
               <img
                 alt="example"
-                style={{ width: 300, height: 360 }}
+                style={{ width: 300, height: 360, objectFit: "scale-down" }}
                 src={book.root.cover_image}
                 onClick={() => {
                   window.location.href = "/view/" + book.title + "/" + book.id;
