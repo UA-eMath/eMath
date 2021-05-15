@@ -38,7 +38,7 @@ export default class MathjaxRenderer extends React.Component {
     const regex = /{\\[^}]+/;
     const texCommand = tex.match(regex)[0];
     return {
-      value: texCommand.slice(1),
+      value: texCommand.slice(1).substring(1),
       caption: texCommand.slice(1),
       meta: note,
       score: 1000,
