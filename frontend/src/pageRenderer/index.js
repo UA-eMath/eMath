@@ -29,12 +29,21 @@ export default function paraRenderer(para) {
     a: (attrs) => ({ type: "a", props: attrs }),
     p: (attrs) => ({ type: "p", props: attrs }),
     i: (attrs) => ({ type: "i", props: attrs }),
-    img: (attrs) => ({ type: "img", props: { ...attrs, className: "image" } }),
+    img: (attrs) => ({
+      type: "img",
+      props: { ...attrs, className: "imageTag" },
+    }),
 
-    table: (attrs) => ({ type: "table", props: attrs }),
+    table: (attrs) => ({
+      type: "table",
+      props: attrs,
+    }),
     tr: (attrs) => ({ type: "tr", props: attrs }),
     td: (attrs) => ({ type: "td", props: attrs }),
-    tbody: (attrs) => ({ type: "tbody", props: attrs }),
+    tbody: (attrs) => ({
+      type: "tbody",
+      props: attrs,
+    }),
   });
 
   if (Array.isArray(para)) {
