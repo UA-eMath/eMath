@@ -11,10 +11,9 @@ export default class MathjaxRenderer extends React.Component {
     texCommandsInMathTag: [],
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this._isMounted = true;
-    const texCommandFromDB = await getNewCommand(this.props.id);
-    if (typeof texCommandFromDB !== "undefined") {
+    getNewCommand(this.props.id).then((texCommandFromDB) => {
       const commands = texCommandFromDB.data;
       // put commands into <Math></Math>
       let items = [];
@@ -27,7 +26,7 @@ export default class MathjaxRenderer extends React.Component {
       if (this._isMounted) {
         this.setState({ texCommandsInMathTag: items });
       }
-    }
+    });
   }
 
   componentWillUnmount() {
