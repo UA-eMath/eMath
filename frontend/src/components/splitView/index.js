@@ -33,7 +33,6 @@ class SplitView extends React.Component {
     this.state = {
       paraText: [],
       pageTitle: "Loading page ...",
-      loadedMath: false,
     };
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.initElement = initElement.bind(this);
@@ -60,25 +59,11 @@ class SplitView extends React.Component {
     this._isMounted = false;
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.state.loadedMath !== nextState.loadedMath) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  mathOnLoad = () => {
-    this.setState({ loadedMath: true });
-  };
-
   render() {
     console.log(this.state);
     return (
       <div>
-        <MathjaxRenderer
-          id={this.props.match.params["id"]}
-          mathOnLoad={this.mathOnLoad}
-        />
+        <MathjaxRenderer id={this.props.match.params["id"]} />
         <ResponsiveReactGridLayout
           className="layout"
           breakpoints={{ lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0 }}
