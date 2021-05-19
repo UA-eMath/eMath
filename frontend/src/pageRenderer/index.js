@@ -3,8 +3,8 @@ import React from "react";
 import XMLToReact from "@condenast/xml-to-react"; //Converts an XML document into a React tree.
 import caption from "./caption";
 import iLink from "./iLink";
-import math from "./math";
-import inlineMath from "./inlineMath";
+import math from "./math-preview";
+import inlineMath from "./inlineMath-preview";
 import { blockOfPara } from "./paraBlock";
 import "./index.css";
 

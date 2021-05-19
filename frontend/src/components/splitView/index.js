@@ -11,7 +11,7 @@ import { minimizeWindow, closeWindow, onLayoutChange } from "../../actions";
 import CreateElement from "./pageCreator/createEle";
 import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle";
-import MathjaxRenderer from "../MathjaxRenderer";
+import MathjaxRenderer from "../MathjaxRenderer/index-preview";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -33,35 +33,52 @@ class SplitView extends React.Component {
     this.state = {
       paraText: [],
       pageTitle: "Loading page ...",
+      loadedMath: false,
     };
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.initElement = initElement.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this._isMounted = true;
     let rootID = this.props.match.params["id"];
-    const pageContent = await getPage({ id: rootID });
-
-    if (typeof pageContent !== "undefined" && pageContent.data.length > 0) {
-      if (this._isMounted) {
-        this.setState({
-          pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
-          paraText: pageContent.data,
-          pageNum: 1,
-          id: rootID,
-        });
+    getPage({ id: rootID }).then((pageContent) => {
+      if (typeof pageContent !== "undefined" && pageContent.data.length > 0) {
+        if (this._isMounted) {
+          this.setState({
+            pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
+            paraText: pageContent.data,
+            pageNum: 1,
+            id: rootID,
+          });
+        }
       }
-    }
+    });
   }
 
   componentWillUnmount() {
     this._isMounted = false;
   }
 
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.state.loadedMath !== nextState.loadedMath) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+  mathOnLoad = () => {
+    this.setState({ loadedMath: true });
+  };
+
   render() {
+    console.log(this.state);
     return (
       <div>
+        <MathjaxRenderer
+          id={this.props.match.params["id"]}
+          mathOnLoad={this.mathOnLoad}
+        />
         <ResponsiveReactGridLayout
           className="layout"
           breakpoints={{ lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0 }}
@@ -85,7 +102,6 @@ class SplitView extends React.Component {
             }
           })}
         </ResponsiveReactGridLayout>
-        <MathjaxRenderer id={this.props.match.params["id"]} />
       </div>
     );
   }

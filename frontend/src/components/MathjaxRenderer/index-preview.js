@@ -1,37 +1,41 @@
 import React from "react";
-import { message } from "antd";
 import getNewCommand from "../../requests/getNewCommand";
-// import { texCommandArray } from "../InputBox/dataSource";
-import { Node, Context } from "../react-mathjax";
-import MathJaxConfig from "../../constants/MathJax_config";
 import dataSource from "../InputBox/dataSource";
+import MathJax from "react-mathjax-preview";
 
 export default class MathjaxRenderer extends React.Component {
   _isMounted = false;
   state = {
-    texCommandsInMathTag: [],
+    texCommand: "",
   };
 
   componentDidMount() {
     this._isMounted = true;
     getNewCommand(this.props.id).then((texCommandFromDB) => {
       const commands = texCommandFromDB.data;
-      // put commands into <Math></Math>
-      let items = [];
+      let math = "";
       for (const filename in commands) {
         for (const value of commands[filename]) {
-          items.push(<Node>{value["tex"]}</Node>);
+          math = math.concat(`$$${value["tex"]}$$ `);
           dataSource.push(this.regexMatch(value["tex"], value["note"]));
         }
       }
       if (this._isMounted) {
-        this.setState({ texCommandsInMathTag: items });
+        this.setState({ texCommand: math });
       }
     });
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.texCommand !== nextState.texCommand) {
+      console.log("render-----------");
+      return true;
+    }
+    return false;
   }
 
   regexMatch = (tex, note) => {
@@ -46,28 +50,12 @@ export default class MathjaxRenderer extends React.Component {
   };
 
   render() {
+    const { texCommand } = this.state;
     return (
       <div style={{ display: "none" }}>
-        <Context
-          input="tex"
-          onError={(MathJax, error) => {
-            message.warning(
-              "Encountered a MathJax error, re-attempting a typeset!"
-            );
-            MathJax.Hub.Queue(MathJax.Hub.Typeset());
-          }}
-          didFinishTypeset={() => {
-            message.success("Loaded MathJax script!");
-          }}
-          script={MathJaxConfig.script}
-          options={MathJaxConfig.options}
-        >
-          <div>
-            {this.state.texCommandsInMathTag.map((value, index) => {
-              return value;
-            })}
-          </div>
-        </Context>
+        return (
+        <MathJax math={texCommand} />
+        );
       </div>
     );
   }
