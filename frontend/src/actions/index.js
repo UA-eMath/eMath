@@ -27,9 +27,9 @@ export function minimizeWindow(id, title, pageId, isPage) {
   };
 }
 
-export function openSubWindow(id, pageId, isPage,usage) {
+export function openSubWindow(id, pageId, isPage, usage) {
   return function (dispatch) {
-    dispatch(openNewWindow(pageId, isPage,usage));
+    dispatch(openNewWindow(pageId, isPage, usage));
     dispatch(closeSubs(id));
   };
 }

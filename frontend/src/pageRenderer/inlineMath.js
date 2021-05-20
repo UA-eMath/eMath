@@ -1,5 +1,5 @@
 import React from "react";
-import { Node, Context } from "./../components/react-mathjax";
+import { Node, Context } from "../components/react-mathjax";
 import _ from "lodash";
 import MathJaxConfig from "../constants/MathJax_config";
 import { Icon } from "antd";
@@ -17,9 +17,7 @@ export default function inlineMath(props) {
       <Context
         input="tex"
         delay={100}
-        onLoad={() => {}}
         loading={<Icon type="loading" />}
-        didFinishTypeset={() => {}}
         onError={(MathJax, error) => {
           console.warn(error);
           console.log("Encountered a MathJax error, re-attempting a typeset!");
