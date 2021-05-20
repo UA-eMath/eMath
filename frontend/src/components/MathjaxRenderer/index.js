@@ -20,7 +20,7 @@ export default class MathjaxRenderer extends React.Component {
       let items = [];
       for (const filename in commands) {
         for (const value of commands[filename]) {
-          items.push(<Node>{value["tex"]}</Node>);
+          items.push(<Node key={items.length}>{value["tex"]}</Node>);
           dataSource.push(this.regexMatch(value["tex"], value["note"]));
         }
       }
@@ -32,6 +32,13 @@ export default class MathjaxRenderer extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.texCommandsInMathTag !== nextState.texCommandsInMathTag) {
+      return true;
+    }
+    return false;
   }
 
   regexMatch = (tex, note) => {
@@ -57,6 +64,7 @@ export default class MathjaxRenderer extends React.Component {
             MathJax.Hub.Queue(MathJax.Hub.Typeset());
           }}
           didFinishTypeset={() => {
+            this.props.mathLoaded();
             message.success("Loaded MathJax script!");
           }}
           script={MathJaxConfig.script}

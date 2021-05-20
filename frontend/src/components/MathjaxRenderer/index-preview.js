@@ -32,7 +32,6 @@ export default class MathjaxRenderer extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.texCommand !== nextState.texCommand) {
-      console.log("render-----------");
       return true;
     }
     return false;

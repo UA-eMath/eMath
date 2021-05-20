@@ -1,13 +1,10 @@
 const MathJaxConfig = {
   script:
-    "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_HTMLorMML",
+    "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_HTMLorMML",
   options: {
-    extensions: ["tex2jax.js"],
+    extensions: ["tex2jax.js", "mml2jax.js", "asciimath2jax.js"],
     jax: ["input/TeX", "output/HTML-CSS"],
     "HTML-CSS": {
-      styles: { ".MathJax_Preview": { visibility: "hidden" } },
-    },
-    SVG: {
       styles: { ".MathJax_Preview": { visibility: "hidden" } },
     },
     tex2jax: {
@@ -18,10 +15,10 @@ const MathJaxConfig = {
     },
     TeX: {
       extensions: [
-        "https://sonoisa.github.io/xyjax_ext/xypic.js",
         "AMSmath.js",
         "AMSsymbols.js",
         "action.js",
+        "https://sonoisa.github.io/xyjax_ext/xypic.js",
       ],
     },
   },
