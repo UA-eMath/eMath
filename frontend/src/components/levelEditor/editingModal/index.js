@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { fetchPage } from "../../../actions";
 import getLabel from "../../../requests/getLabel";
 import AddLabel from "../../paraControl/addLabel";
+import paraRenderer from "../../../pageRenderer";
 
 const mapStateToProps = (state) => {
   return {
@@ -236,7 +237,7 @@ class EditingModal extends React.Component {
         <Dropdown overlay={menu} trigger={["contextMenu"]}>
           <span style={{ userSelect: "none" }}>
             <SubLevelTag title={item.tocTitle} />
-            {item.title}
+            {paraRenderer(item.title, true)}
           </span>
         </Dropdown>
 

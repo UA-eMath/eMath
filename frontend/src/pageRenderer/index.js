@@ -8,7 +8,7 @@ import inlineMath from "./inlineMath";
 import { blockOfPara } from "./paraBlock";
 import "./index.css";
 
-export default function paraRenderer(para) {
+export default function paraRenderer(para, isTitle) {
   /*
 	"content":{"data":""}
 	*/
@@ -65,11 +65,9 @@ export default function paraRenderer(para) {
 
   let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
 
-  return (
-    <React.Fragment key={_.uniqueId("div_")}>
-      <div>{reactTree}</div>
-    </React.Fragment>
-  );
+  const fragment = isTitle ? <span>{reactTree}</span> : <div>{reactTree}</div>;
+
+  return <React.Fragment key={_.uniqueId("div_")}>{fragment}</React.Fragment>;
 
   // let xmlParser = new DOMParser();
   // let preDom = xmlParser.parseFromString(`<React.Fragment>${decodedData}</React.Fragment>`, "text/xml");
