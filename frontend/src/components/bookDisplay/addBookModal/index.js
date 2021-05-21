@@ -114,7 +114,6 @@ const AddBook = Form.create({ name: "form_in_modal" })(
     };
 
     normFile = (e) => {
-      console.log("Upload: ", e);
       if (Array.isArray(e)) {
         return e;
       }
