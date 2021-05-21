@@ -55,27 +55,23 @@ export default class MathjaxRenderer extends React.Component {
   render() {
     return (
       <div style={{ display: "none" }}>
-        <Context
-          input="tex"
-          onError={(MathJax, error) => {
-            message.warning(
-              "Encountered a MathJax error, re-attempting a typeset!"
-            );
-            MathJax.Hub.Queue(MathJax.Hub.Typeset());
-          }}
-          didFinishTypeset={() => {
-            this.props.mathLoaded();
-            message.success("Loaded MathJax script!");
-          }}
-          script={MathJaxConfig.script}
-          options={MathJaxConfig.options}
-        >
-          <div>
-            {this.state.texCommandsInMathTag.map((value, index) => {
-              return value;
-            })}
-          </div>
-        </Context>
+        {this.state.texCommandsInMathTag.map((value, index) => {
+          return (
+            <Context
+              input="tex"
+              script={MathJaxConfig.script}
+              options={MathJaxConfig.options}
+              didFinishTypeset={() => {
+                if (index === this.state.texCommandsInMathTag.length - 1) {
+                  this.props.mathLoaded();
+                  message.success("Loaded MathJax script!");
+                }
+              }}
+            >
+              {value}
+            </Context>
+          );
+        })}
       </div>
     );
   }
