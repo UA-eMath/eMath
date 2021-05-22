@@ -3,13 +3,17 @@ import styles from "../styles/style";
 import { NextButton } from "../styles/nextButton";
 import { PreButton } from "../styles/preButton";
 import _ from "lodash";
-
 import getPage from "../../../requests/getPage";
 import paraRenderer from "../../../pageRenderer";
 
 export default function initElement(el) {
   return (
-    <div key={el.i} data-grid={el} style={{ ...styles.window }}>
+    <div
+      className="InitElement"
+      key={el.i}
+      data-grid={el}
+      style={{ ...styles.window }}
+    >
       <div style={{ ...styles.titleBar }}>
         <PreButton
           onClick={() => {
@@ -51,7 +55,7 @@ export default function initElement(el) {
           borderRadius: "2px",
           boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)",
           margin: "1em .9em",
-          padding: ".25em 1.25em .1em",
+          padding: ".5em 1.25em .5em",
         }}
       >
         {_.map(this.state.paraText, (para) => {

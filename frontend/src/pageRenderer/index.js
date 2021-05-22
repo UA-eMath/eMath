@@ -44,6 +44,10 @@ export default function paraRenderer(para, isTitle) {
       type: "tbody",
       props: attrs,
     }),
+    iframe: (attrs) => ({
+      type: "iframe",
+      props: attrs,
+    }),
   });
 
   if (Array.isArray(para)) {
@@ -64,6 +68,7 @@ export default function paraRenderer(para, isTitle) {
   }
 
   let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
+  // const reactTree = htmlToReactParser.parse(decodedData);
 
   const fragment = isTitle ? <span>{reactTree}</span> : <div>{reactTree}</div>;
 

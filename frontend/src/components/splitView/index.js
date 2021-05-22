@@ -95,6 +95,7 @@ class SplitView extends React.Component {
         tip="Waiting for MathJax..."
         style={{
           width: "100%",
+          minHeight: "100rem",
           marginTop: 300,
           marginLeft: "auto",
           marginRight: "auto",

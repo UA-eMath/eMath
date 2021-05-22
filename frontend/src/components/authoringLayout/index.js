@@ -33,7 +33,7 @@ export default class AuthoringLayout extends React.Component {
       <SplitPane split="vertical" minSize={0} size={this.state.paneSize}>
         <div
           style={{
-            minHeight: "100vh",
+            minHeight: "100rem",
           }}
         >
           <LevelEditor
@@ -46,7 +46,7 @@ export default class AuthoringLayout extends React.Component {
         <div
           style={{
             background: "#aaaa00",
-            minHeight: "100vh",
+            minHeight: "100rem",
           }}
         >
           <ParaEditor bookID={id} />
@@ -57,6 +57,7 @@ export default class AuthoringLayout extends React.Component {
         tip="Waiting for MathJax..."
         style={{
           width: "100%",
+          minHeight: "100rem",
           marginTop: 300,
           marginLeft: "auto",
           marginRight: "auto",
