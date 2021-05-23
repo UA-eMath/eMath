@@ -1,8 +1,8 @@
 import React from "react";
 import _ from "lodash";
-import { openNewWindow } from "../actions";
+import { openNewWindow } from "../../actions";
 import { connect } from "react-redux";
-import getLabel from "../requests/getLabel";
+import getLabel from "../../requests/getLabel";
 import { message } from "antd";
 
 const mapDispatchToProps = (dispatch) => ({
