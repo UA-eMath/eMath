@@ -25,21 +25,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 class SubLevel extends React.Component {
   _isMounted = false;
-  state = { isLabelModalVisible: false, label: "" };
-
-  async componentDidMount() {
-    this._isMounted = true;
-    const labelObj = await getLabel({
-      levelID: this.props.children[0].para_parent.id,
-    });
-    if (typeof labelObj !== "undefined" && this._isMounted) {
-      this.setState({ label: labelObj.data.content });
-    }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+  state = {
+    isLabelModalVisible: false,
+    label: <Icon type="loading" />,
+    labelObj: null,
+  };
 
   deleteLevel = (id) => {
     confirm({
@@ -119,6 +109,19 @@ class SubLevel extends React.Component {
       );
     }
   };
+
+  hoverLabel = () => {
+    getLabel({
+      levelID: this.props.children[0].para_parent.id,
+    })
+      .then((labelObj) => {
+        this.setState({
+          label: labelObj.data.content,
+          labelObj: labelObj.data,
+        });
+      })
+      .catch((error) => this.setState({ label: "" }));
+  };
   render() {
     const { children, alignment, deletePara, bookID } = this.props;
     const { isLabelModalVisible } = this.state;
@@ -169,7 +172,12 @@ class SubLevel extends React.Component {
     const sublevelMenu = (
       <Menu>
         <Menu.Item key="label" onClick={this.showLabelModal}>
-          <Popover placement="left" content={this.state.label} title="Label">
+          <Popover
+            placement="left"
+            content={this.state.label}
+            title="Label"
+            onMouseEnter={this.hoverLabel}
+          >
             <Icon type="tag-o" />
             Add Label
           </Popover>
@@ -216,12 +224,17 @@ class SubLevel extends React.Component {
           {subLevelControl}
         </Row>
 
-        <AddLabel
-          visible={isLabelModalVisible}
-          levelID={children[0].para_parent.id}
-          toggleModal={this.toggleLabelModal}
-          bookID={"1"} //TODO
-        />
+        {this.state.isLabelModalVisible ? (
+          <AddLabel
+            visible={isLabelModalVisible}
+            levelID={children[0].para_parent.id}
+            toggleModal={this.toggleLabelModal}
+            label={this.state.labelObj}
+            bookID={"1"} //TODO
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }

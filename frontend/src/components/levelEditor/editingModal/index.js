@@ -29,21 +29,10 @@ class EditingModal extends React.Component {
       visible: false,
       modifyState: "",
       loading: false,
-      label: "",
+      label: <Icon type="loading" />,
+      labelObj: null,
       isLabelModalVisible: false,
     };
-    this._isMounted = false;
-  }
-
-  async componentDidMount() {
-    this._isMounted = true;
-    const labelObj = await getLabel({ levelID: this.props.item.id });
-    if (typeof labelObj !== "undefined" && this._isMounted) {
-      this.setState({ label: labelObj.data.content });
-    }
-  }
-
-  componentWillUnmount() {
     this._isMounted = false;
   }
 
@@ -55,6 +44,17 @@ class EditingModal extends React.Component {
     this.setState((prevState) => ({
       isLabelModalVisible: !prevState.isLabelModalVisible,
     }));
+  };
+
+  hoverLabel = () => {
+    getLabel({ levelID: this.props.item.id })
+      .then((labelObj) => {
+        this.setState({
+          label: labelObj.data.content,
+          labelObj: labelObj.data,
+        });
+      })
+      .catch((error) => this.setState({ label: "" }));
   };
 
   showModal = (state) => {
@@ -181,7 +181,12 @@ class EditingModal extends React.Component {
           Remove
         </Menu.Item>
         <Menu.Item key="editing-modal-label" onClick={this.showLabelModal}>
-          <Popover placement="left" content={this.state.label} title="Label">
+          <Popover
+            placement="left"
+            content={this.state.label}
+            title="Label"
+            onMouseEnter={this.hoverLabel}
+          >
             <Icon type="tag-o" />
             Add Label
           </Popover>
@@ -217,7 +222,12 @@ class EditingModal extends React.Component {
           Get linkable tag
         </Menu.Item>
         <Menu.Item key="editing-modal-label" onClick={this.showLabelModal}>
-          <Popover placement="left" content={this.state.label} title="Label">
+          <Popover
+            placement="left"
+            content={this.state.label}
+            title="Label"
+            onMouseEnter={this.hoverLabel}
+          >
             <Icon type="tag-o" />
             Add Label
           </Popover>
@@ -251,12 +261,17 @@ class EditingModal extends React.Component {
           parent={item}
           loading={this.state.loading}
         />
-        <AddLabel
-          visible={this.state.isLabelModalVisible}
-          levelID={this.props.item.id}
-          toggleModal={this.toggleLabelModal}
-          bookID={this.props.bookID}
-        />
+        {this.state.isLabelModalVisible ? (
+          <AddLabel
+            visible={this.state.isLabelModalVisible}
+            levelID={this.props.item.id}
+            toggleModal={this.toggleLabelModal}
+            bookID={this.props.bookID}
+            label={this.state.labelObj}
+          />
+        ) : (
+          ""
+        )}
       </span>
     );
   }
