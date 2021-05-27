@@ -1,0 +1,13 @@
+import React from "react";
+
+export default function td(props) {
+  try {
+    if (props.css !== undefined) {
+      const style = JSON.parse(props.css);
+      return <td style={style} {...props} />;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  return <td {...props} />;
+}

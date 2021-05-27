@@ -1,24 +1,16 @@
 import React from "react";
-import { Node, Context } from "../components/react-mathjax";
+import { Node, Context } from "../../components/react-mathjax";
 import _ from "lodash";
-import MathJaxConfig from "../constants/MathJax_config";
+import MathJaxConfig from "../../constants/MathJax_config";
 import { Icon } from "antd";
 
-export default function math(props) {
+export default function inlineMath(props) {
   let node;
-  if (props.inline === "true") {
-    node = (
-      <Node key={_.uniqueId("MJN_")} inline>
-        {props.children}
-      </Node>
-    );
-  } else {
-    node = (
-      <div key={_.uniqueId("MJN_")}>
-        <Node>{props.children}</Node>
-      </div>
-    );
-  }
+  node = (
+    <Node key={_.uniqueId("MJN_")} inline>
+      {props.children}
+    </Node>
+  );
 
   return (
     <span>
