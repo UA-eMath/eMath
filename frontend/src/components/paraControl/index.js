@@ -14,15 +14,9 @@ export default class ParaControl extends React.Component {
     title: "",
     indexTree: null,
     isLabelModalVisible: false,
-    label: "",
+    label: <Icon type="loading" />,
+    labelObj: null,
   };
-
-  async componentDidMount() {
-    const labelObj = await getLabel({ paraID: this.props.id });
-    if (typeof labelObj !== "undefined") {
-      this.setState({ label: labelObj.data.content });
-    }
-  }
 
   showModal = (title) => {
     this.setState({
@@ -43,6 +37,17 @@ export default class ParaControl extends React.Component {
     this.setState((prevState) => ({
       isLabelModalVisible: !prevState.isLabelModalVisible,
     }));
+  };
+
+  hoverLabel = () => {
+    getLabel({ paraID: this.props.id })
+      .then((labelObj) => {
+        this.setState({
+          label: labelObj.data.content,
+          labelObj: labelObj.data,
+        });
+      })
+      .catch((error) => this.setState({ label: "" }));
   };
 
   loops = (list, parent) => {
@@ -114,7 +119,12 @@ export default class ParaControl extends React.Component {
         </SubMenu>
 
         <Menu.Item key="label" onClick={this.showLabelModal}>
-          <Popover placement="left" content={this.state.label} title="Label">
+          <Popover
+            placement="left"
+            content={this.state.label}
+            title="Label"
+            onMouseEnter={this.hoverLabel}
+          >
             <Icon type="tag-o" />
             Add Label
           </Popover>
@@ -163,12 +173,17 @@ export default class ParaControl extends React.Component {
           valueMap={valueMap}
           getNewIndexTree={(type) => this.fetchIndexTree(type)}
         />
-        <AddLabel
-          visible={isLabelModalVisible}
-          paraID={this.props.id}
-          toggleModal={this.toggleLabelModal}
-          bookID={this.props.bookID}
-        />
+        {isLabelModalVisible ? (
+          <AddLabel
+            visible={isLabelModalVisible}
+            paraID={this.props.id}
+            toggleModal={this.toggleLabelModal}
+            bookID={this.props.bookID}
+            label={this.state.labelObj}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }

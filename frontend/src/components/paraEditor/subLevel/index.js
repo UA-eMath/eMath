@@ -1,17 +1,25 @@
 import React from "react";
+import { connect } from "react-redux";
+import { fetchPage } from "../../../actions";
 import _ from "lodash";
-import { Button, Col, Icon, Modal, Row, Popover, Dropdown, Menu } from "antd";
+import {
+  Button,
+  Col,
+  Icon,
+  Modal,
+  Row,
+  Popover,
+  Dropdown,
+  Menu,
+  message,
+} from "antd";
 import InputBox from "../../InputBox";
 import DisplayArea from "../../displayArea";
 import ParaControl from "../../paraControl";
 import removeLevel from "../../../requests/removeLevel";
-import { connect } from "react-redux";
-import { fetchPage } from "../../../actions";
 import paraRenderer from "../../../pageRenderer";
 import AddLabel from "../../paraControl/addLabel";
 import getLabel from "../../../requests/getLabel";
-
-const { confirm } = Modal;
 
 const mapStateToProps = (state) => {
   return {
@@ -23,22 +31,16 @@ const mapDispatchToProps = (dispatch) => ({
   fetchPage: (id, title) => dispatch(fetchPage(id, title)),
 });
 
+const { confirm } = Modal;
 class SubLevel extends React.Component {
   _isMounted = false;
-  state = { isLabelModalVisible: false, label: "" };
-
-  async componentDidMount() {
-    this._isMounted = true;
-    const labelObj = await getLabel({
-      levelID: this.props.children[0].para_parent.id,
-    });
-    if (typeof labelObj !== "undefined" && this._isMounted) {
-      this.setState({ label: labelObj.data.content });
-    }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLabelModalVisible: false,
+      label: <Icon type="loading" />,
+      labelObj: null,
+    };
   }
 
   deleteLevel = (id) => {
@@ -50,6 +52,7 @@ class SubLevel extends React.Component {
       onOk: () => {
         removeLevel(id).then((data) => {
           if (data.status !== 200) {
+            message.error("Fail to delete level.");
             console.error("Delete error", data);
           } else {
             this.props.fetchPage(this.props.id, this.props.title);
@@ -119,8 +122,28 @@ class SubLevel extends React.Component {
       );
     }
   };
+
+  hoverLabel = () => {
+    getLabel({
+      levelID: this.props.children[0].para_parent.id,
+    })
+      .then((labelObj) => {
+        this.setState({
+          label: labelObj.data.content,
+          labelObj: labelObj.data,
+        });
+      })
+      .catch((error) => this.setState({ label: "" }));
+  };
   render() {
-    const { children, alignment, deletePara, bookID } = this.props;
+    const {
+      children,
+      alignment,
+      deletePara,
+      bookID,
+      setFocusArea,
+      fetchPage,
+    } = this.props;
     const { isLabelModalVisible } = this.state;
 
     let left_title = children[0].para_parent.tocTitle;
@@ -147,29 +170,15 @@ class SubLevel extends React.Component {
       );
     }
 
-    let content = _.map(children, (item, i) => {
-      // TODO: only handle one layer
-      if (Array.isArray(item)) {
-        return (
-          <SubLevel
-            key={i}
-            children={item}
-            alignment={alignment}
-            deletePara={deletePara}
-            setFocusArea={this.props.setFocusArea}
-            id={this.props.id}
-            bookID={bookID}
-          />
-        );
-      } else {
-        return this.wrapPara(alignment, item, deletePara);
-      }
-    });
-
     const sublevelMenu = (
       <Menu>
         <Menu.Item key="label" onClick={this.showLabelModal}>
-          <Popover placement="left" content={this.state.label} title="Label">
+          <Popover
+            placement="left"
+            content={this.state.label}
+            title="Label"
+            onMouseEnter={this.hoverLabel}
+          >
             <Icon type="tag-o" />
             Add Label
           </Popover>
@@ -211,17 +220,42 @@ class SubLevel extends React.Component {
         }}
       >
         <Row>{boxHeader}</Row>
-        <Row>{content}</Row>
+        <Row>
+          {_.map(children, (item, i) => {
+            if (Array.isArray(item)) {
+              console.log("nested level");
+              return (
+                <SubLevel
+                  key={i}
+                  children={item}
+                  alignment={alignment}
+                  deletePara={deletePara}
+                  setFocusArea={setFocusArea}
+                  id={this.props.id}
+                  bookID={bookID}
+                  fetchPage={fetchPage}
+                />
+              );
+            } else {
+              return this.wrapPara(alignment, item, deletePara);
+            }
+          })}
+        </Row>
         <Row type="flex" justify="center">
           {subLevelControl}
         </Row>
 
-        <AddLabel
-          visible={isLabelModalVisible}
-          levelID={children[0].para_parent.id}
-          toggleModal={this.toggleLabelModal}
-          bookID={"1"} //TODO
-        />
+        {this.state.isLabelModalVisible ? (
+          <AddLabel
+            visible={isLabelModalVisible}
+            levelID={children[0].para_parent.id}
+            toggleModal={this.toggleLabelModal}
+            label={this.state.labelObj}
+            bookID={"1"} //TODO
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }

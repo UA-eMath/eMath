@@ -1,7 +1,6 @@
 import React from "react";
 import { Modal, Input, message } from "antd";
 import postLabel from "../../../requests/postLabel";
-import getLabel from "../../../requests/getLabel";
 import putLabel from "../../../requests/putLabel";
 
 export default class AddLabel extends React.Component {
@@ -10,26 +9,9 @@ export default class AddLabel extends React.Component {
     this.state = {
       paraID: this.props.paraID,
       levelID: this.props.levelID,
-      oldLabel: null,
+      oldLabel: this.props.label,
       newLabel: null,
     };
-    this._isMounted = false;
-  }
-
-  async componentDidMount() {
-    this._isMounted = true;
-    let labelObj;
-    if (typeof this.state.levelID !== "undefined") {
-      labelObj = await getLabel({ levelID: this.props.levelID });
-    } else {
-      labelObj = await getLabel({ paraID: this.props.paraID });
-    }
-    if (typeof labelObj !== "undefined" && this._isMounted) {
-      this.setState({ oldLabel: labelObj.data });
-    }
-  }
-
-  componentWillUnmount() {
     this._isMounted = false;
   }
 

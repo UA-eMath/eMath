@@ -44,7 +44,6 @@ class ParaEditor extends React.Component {
   _isMounted = false;
   constructor(props) {
     super(props);
-
     this.state = {
       uploading: false,
       sideAlign: true,
