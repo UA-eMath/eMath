@@ -1,11 +1,10 @@
 import * as types from "../constants/ActionTypes";
 import getPage from "../requests/getPage";
 
-export const openNewWindow = (pageId, isPage, usage) => ({
+export const openNewWindow = (pageId, isPage) => ({
   type: types.OPEN_NEW_WINDOW,
   pageId,
   isPage,
-  usage,
 });
 
 export const closeWindow = (id) => ({
@@ -27,9 +26,9 @@ export function minimizeWindow(id, title, pageId, isPage) {
   };
 }
 
-export function openSubWindow(id, pageId, isPage, usage) {
+export function openSubWindow(id, pageId, isPage) {
   return function (dispatch) {
-    dispatch(openNewWindow(pageId, isPage, usage));
+    dispatch(openNewWindow(pageId, isPage));
     dispatch(closeSubs(id));
   };
 }

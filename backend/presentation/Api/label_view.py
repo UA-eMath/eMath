@@ -42,7 +42,7 @@ class LabelViewSet(viewsets.ModelViewSet):
             link_to = "para"
         return Response({
             "id": label_id,
-            "name": label.content,
+            "title": label.content,
             "linkedID": linked_id,
             "isPage": isPage,
             "linkTo": link_to
@@ -60,10 +60,8 @@ class LabelViewSet(viewsets.ModelViewSet):
             return Response('Linked id is needed', HTTP_400_BAD_REQUEST)
         try:
             if 'linked_para' in request_data:
-                para = Para.objects.get(id=para_id)
                 root = Para.objects.get(id=para_id).para_parent.get_root().root
             else:
-                level = Level.objects.get(id=level_id)
                 root = Level.objects.get(id=level_id).get_root().root
         except ObjectDoesNotExist:
             return Response("Object's id is not found", 404)

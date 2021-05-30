@@ -41,9 +41,8 @@ class CreateElement extends React.Component {
     //this.props['data-grid'] stores this window's information
     let pageContent;
     let context;
-    const usage = this.props["data-grid"].usage;
     const content = this.props["data-grid"].pageId;
-    const id = usage === "index" ? content.id : content.linkedID;
+    const id = content.id;
     const linkTo = content.linkTo;
     if (linkTo === "para") {
       // show linked para
@@ -87,7 +86,7 @@ class CreateElement extends React.Component {
       pageContent.data.length === 0
     ) {
       this.setState({
-        pageTitle: usage === "index" ? content.title : content.name,
+        pageTitle: content.title,
         paraText: pageContent.data,
       });
     } else {
