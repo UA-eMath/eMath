@@ -1,3 +1,4 @@
+import { message } from "antd";
 import _ from "lodash";
 
 const initState_windows = {
@@ -19,23 +20,31 @@ const windows = (state = initState_windows, action) => {
   switch (action.type) {
     case "OPEN_NEW_WINDOW":
       if (typeof action.pageId !== "undefined" && action.pageId !== null) {
-        return Object.assign({}, state, {
-          items: state.items.concat({
-            i: "n" + state.newCounter,
-            x: 6,
-            y: 0, // puts it at the bottom
-            w: 6,
-            h: 4,
-            static: false,
-            pageId: action.pageId,
-            isPage: action.isPage,
-            usage: action.usage,
-          }),
-          newCounter: state.newCounter + 1,
+        // Only add page if not opened before
+        // TODO: handle init window
+        const [, ...rest] = state.items;
+        const isExist = _.find(rest, function (e) {
+          return e.pageId.id === action.pageId.id;
         });
-      } else {
-        return state;
+        if (isExist === undefined) {
+          return Object.assign({}, state, {
+            items: state.items.concat({
+              i: "n" + state.newCounter,
+              x: 6,
+              y: 0, // puts it at the bottom
+              w: 6,
+              h: 4,
+              static: false,
+              pageId: action.pageId,
+              isPage: action.isPage,
+            }),
+            newCounter: state.newCounter + 1,
+          });
+        } else {
+          message.warn("The reference has opened.");
+        }
       }
+      return state;
 
     case "CLOSE_WINDOW":
       return Object.assign({}, state, {

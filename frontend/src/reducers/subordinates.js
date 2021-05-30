@@ -13,7 +13,6 @@ const subordinates = (state = initState_subs, action) => {
           title: action.title,
           pageId: action.pageId,
           isPage: action.isPage,
-          usage: action.usage,
         }),
       });
 

@@ -6,8 +6,7 @@ import getLabel from "../../requests/getLabel";
 import { message } from "antd";
 
 const mapDispatchToProps = (dispatch) => ({
-  onWindowOpen: (pageId, isPage, usage) =>
-    dispatch(openNewWindow(pageId, isPage, usage)),
+  onWindowOpen: (pageId, isPage) => dispatch(openNewWindow(pageId, isPage)),
 });
 
 function iLink(props) {
@@ -24,6 +23,7 @@ function iLink(props) {
             "Fail to get cross reference! Please check your linked ID!"
           );
         } else {
+          linked_obj.data.id = linked_obj.data.linkedID;
           props.onWindowOpen(linked_obj.data, linked_obj.data.isPage);
         }
       }}
