@@ -223,11 +223,13 @@ class LevelEditor extends React.Component {
   onDrop = (info) => {
     const dragFromPos = info.dragNode.props.pos;
     const dragToPos = info.node.props.pos;
-    console.log("drop_", dragFromPos, dragToPos);
     const node_been_dragged_key = info.dragNode.props.eventKey;
     const node_been_dropped_key = info.node.props.eventKey;
     // handle default ISO section
-    if (dragToPos === "0-0-0" || dragFromPos === "0-0-0") {
+    if (
+      dragFromPos === "0-0-0" ||
+      (dragToPos === "0-0-0" && info.dropPosition === -1)
+    ) {
       message.error("ISO have to be the top section.");
       return;
     }
