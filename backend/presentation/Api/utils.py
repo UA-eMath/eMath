@@ -24,6 +24,62 @@ def updateParaPosition(parent):
         index += 1
 
 
+def moveParaPosUpOrDown(parent, position, action):
+    children_list = parent.get_children().order_by('position')
+    children_para_list = parent.para_set.all().order_by('position')
+    cached_list = list(chain(children_list, children_para_list))
+
+    # to avoid "memory loss", delete para's parent if it has no children
+    if len(cached_list) == 0:
+        parent.delete()
+
+    if action == -1 and position == 0:
+        return
+    elif action == 1 and position == len(cached_list) - 1:
+        return
+    else:
+        # current one
+        cached_list[position].position = position + action
+        try:
+            cached_list[position].save()
+        except:
+            Level.objects.rebuild()
+            cached_list[position].save()
+        # previous one
+        cached_list[position + action].position = position
+        try:
+            cached_list[position + action].save()
+        except:
+            Level.objects.rebuild()
+            cached_list[position + action].save()
+
+
+def moveParaPosDown(parent, position):
+    children_list = parent.get_children().order_by('position')
+    children_para_list = parent.para_set.all().order_by('position')
+    cached_list = list(chain(children_list, children_para_list))
+
+    # to avoid "memory loss", delete para's parent if it has no children
+    if len(cached_list) == 0:
+        parent.delete()
+
+    if position < len(cached_list) - 1:
+        # current one
+        cached_list[position].position = position + 1
+        try:
+            cached_list[position].save()
+        except:
+            Level.objects.rebuild()
+            cached_list[position].save()
+        # next one
+        cached_list[position + 1].position = position
+        try:
+            cached_list[position + 1].save()
+        except:
+            Level.objects.rebuild()
+            cached_list[position + 1].save()
+
+
 def updatePosition(child, target, position):
     if position == 0:
         child.move_to(target, "first-child")
