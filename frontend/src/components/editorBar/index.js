@@ -60,7 +60,6 @@ class EditorToolBar extends React.Component {
 
       let request_body;
       //create new level under selected parent level
-
       let position = null;
       let parentId = this.props.parent;
       if (this.props.focusedArea !== null) {

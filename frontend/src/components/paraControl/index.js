@@ -1,14 +1,27 @@
 import React from "react";
-import { Button, Icon, Dropdown, Menu, Popover } from "antd";
+import { connect } from "react-redux";
+import { fetchPage } from "../../actions";
+import { Button, Icon, Dropdown, Menu, Popover, message } from "antd";
 import AddIndex from "./addIndex";
 import { getIndexTree } from "../../requests/getTree";
 import AddLabel from "./addLabel";
 import getLabel from "../../requests/getLabel";
+import updatePara from "../../requests/updatePara";
 
 const valueMap = {};
 const SubMenu = Menu.SubMenu;
 
-export default class ParaControl extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    title: state.paras.title,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchPage: (id, title) => dispatch(fetchPage(id, title)),
+});
+
+class ParaControl extends React.Component {
   state = {
     visible: false,
     title: "",
@@ -71,6 +84,34 @@ export default class ParaControl extends React.Component {
           indexTree: data.data,
         });
         this.loops(this.state.indexTree);
+      }
+    });
+  };
+
+  moveParaUp = () => {
+    const request_body = { action: -1 };
+    updatePara(request_body, this.props.id).then((data) => {
+      if (!data || data.status !== 200) {
+        if (data.status === 400) {
+          message.error(data.data);
+        }
+        console.error("Update Para error", request_body, data);
+      } else {
+        this.props.fetchPage(this.props.parentId, this.props.title);
+      }
+    });
+  };
+
+  moveParaDown = () => {
+    const request_body = { action: 1 };
+    updatePara(request_body, this.props.id).then((data) => {
+      if (!data || data.status !== 200) {
+        if (data.status === 400) {
+          message.error(data.data);
+        }
+        console.error("Update Para error", request_body, data);
+      } else {
+        this.props.fetchPage(this.props.parentId, this.props.title);
       }
     });
   };
@@ -150,7 +191,7 @@ export default class ParaControl extends React.Component {
       >
         <div>
           {/* TODO: up and down button */}
-          <Button>
+          <Button onClick={this.moveParaUp}>
             <Icon type="up" />
           </Button>
         </div>
@@ -160,7 +201,7 @@ export default class ParaControl extends React.Component {
           </Button>
         </Dropdown>
         <div>
-          <Button>
+          <Button onClick={this.moveParaDown}>
             <Icon type="down" />
           </Button>
         </div>
@@ -188,3 +229,5 @@ export default class ParaControl extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ParaControl);

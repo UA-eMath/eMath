@@ -221,23 +221,28 @@ class LevelEditor extends React.Component {
       });
 
   onDrop = (info) => {
+    const dragFromPos = info.dragNode.props.pos;
+    const dragToPos = info.node.props.pos;
     const node_been_dragged_key = info.dragNode.props.eventKey;
     const node_been_dropped_key = info.node.props.eventKey;
+    // handle default ISO section
+    if (
+      dragFromPos === "0-0-0" ||
+      (dragToPos === "0-0-0" && info.dropPosition === -1)
+    ) {
+      message.error("ISO have to be the top section.");
+      return;
+    }
+
+    if (dragToPos === "0-0") {
+      message.error("You can't move a node above the book node.");
+      return;
+    }
 
     //calc before(-1) of dropped node and after(1);
     const dropPos = info.node.props.pos.split("-");
     const dropPosition =
       info.dropPosition - Number(dropPos[dropPos.length - 1]);
-
-    // handle default ISO section
-    if (
-      dropPosition === -1 ||
-      (this.state.isoNode &&
-        Number(node_been_dragged_key) === this.state.isoNode.id)
-    ) {
-      message.error("ISO have to be the top section.");
-      return;
-    }
 
     let request_body = {};
     // Need to change parent and position

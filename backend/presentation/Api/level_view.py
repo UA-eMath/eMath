@@ -151,6 +151,32 @@ class LevelViewset(viewsets.ModelViewSet):
         else:
             response = super().update(request, *args, **kwargs)
 
+        if request.data.get("action") != None:
+            action = request.data.get("action")  # two actions: up: -1, down: 1
+            current = Level.objects.get(pk=self.kwargs["pk"])
+            parent = current.parent
+            children_nums = len(parent.get_children()) + len(
+                parent.para_set.all())
+            if current.position == children_nums - 1 and action == -1:  # if last part in current level, you should only move up
+                current.position -= 2
+                current.save()
+                response = Response(data="Successfully move the level up!",
+                                    status=200)
+            elif current.position >= 0 and current.position < (
+                    children_nums -
+                    1):  # if (children_nums - 1) > position >= 0
+                current.position += action  # can move up or down
+                current.save()
+                response = Response(data="Successfully move the level up!",
+                                    status=200)
+            elif current.position == -1 and action == 1:  # if the first level in current level, you should only move down
+                current.position += 1
+                current.save()
+                response = Response(data="Successfully move the level up!",
+                                    status=200)
+            else:
+                response = Response(data="Position is incorrect.", status=500)
+
         self._updatePageNumber(
             Level.objects.get(pk=self.kwargs["pk"]).get_root())
         return response
