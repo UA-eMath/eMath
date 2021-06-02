@@ -20,6 +20,7 @@ import removeLevel from "../../../requests/removeLevel";
 import paraRenderer from "../../../pageRenderer";
 import AddLabel from "../../paraControl/addLabel";
 import getLabel from "../../../requests/getLabel";
+import updateLevel from "../../../requests/updateLevel";
 
 const mapStateToProps = (state) => {
   return {
@@ -135,15 +136,47 @@ class SubLevel extends React.Component {
       })
       .catch((error) => this.setState({ label: "" }));
   };
+
+  moveParaUp = () => {
+    //change position
+    const request_body = JSON.stringify({
+      action: -1,
+    });
+    updateLevel(request_body, this.props.children[0].para_parent.id).then(
+      (data) => {
+        if (!data || data.status !== 200) {
+          if (data.status === 400) {
+            message.error(data.data);
+          }
+          console.error("Update error", request_body, data);
+        } else {
+          this.props.fetchPage(this.props.id, this.props.title);
+        }
+      }
+    );
+  };
+
+  moveParaDown = () => {
+    const request_body = JSON.stringify({
+      action: 1,
+    });
+    updateLevel(request_body, this.props.children[0].para_parent.id).then(
+      (data) => {
+        if (!data || data.status !== 200) {
+          if (data.status === 400) {
+            message.error(data.data);
+          }
+          console.error("Update error", request_body, data);
+        } else {
+          this.props.fetchPage(this.props.id, this.props.title);
+        }
+      }
+    );
+  };
+
   render() {
-    const {
-      children,
-      alignment,
-      deletePara,
-      bookID,
-      setFocusArea,
-      fetchPage,
-    } = this.props;
+    const { children, alignment, deletePara, bookID, setFocusArea, fetchPage } =
+      this.props;
     const { isLabelModalVisible } = this.state;
 
     let left_title = children[0].para_parent.tocTitle;
@@ -193,9 +226,10 @@ class SubLevel extends React.Component {
       </Menu>
     );
 
+    // TODO: up and down button
     let subLevelControl = (
       <div>
-        <Button>
+        <Button onClick={this.moveParaUp}>
           <Icon type="up" />
         </Button>
         <Dropdown overlay={sublevelMenu}>
@@ -203,7 +237,7 @@ class SubLevel extends React.Component {
             <Icon type="ellipsis" />
           </Button>
         </Dropdown>
-        <Button>
+        <Button onClick={this.moveParaDown}>
           <Icon type="down" />
         </Button>
       </div>
@@ -223,7 +257,6 @@ class SubLevel extends React.Component {
         <Row>
           {_.map(children, (item, i) => {
             if (Array.isArray(item)) {
-              console.log("nested level");
               return (
                 <SubLevel
                   key={i}

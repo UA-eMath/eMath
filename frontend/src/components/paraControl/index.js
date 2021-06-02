@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { fetchPage } from "../../actions";
 import { Button, Icon, Dropdown, Menu, Popover, message } from "antd";
 import AddIndex from "./addIndex";
 import { getIndexTree } from "../../requests/getTree";
@@ -9,7 +11,17 @@ import updatePara from "../../requests/updatePara";
 const valueMap = {};
 const SubMenu = Menu.SubMenu;
 
-export default class ParaControl extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    title: state.paras.title,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchPage: (id, title) => dispatch(fetchPage(id, title)),
+});
+
+class ParaControl extends React.Component {
   state = {
     visible: false,
     title: "",
@@ -84,6 +96,8 @@ export default class ParaControl extends React.Component {
           message.error(data.data);
         }
         console.error("Update Para error", request_body, data);
+      } else {
+        this.props.fetchPage(this.props.parentId, this.props.title);
       }
     });
   };
@@ -96,6 +110,8 @@ export default class ParaControl extends React.Component {
           message.error(data.data);
         }
         console.error("Update Para error", request_body, data);
+      } else {
+        this.props.fetchPage(this.props.parentId, this.props.title);
       }
     });
   };
@@ -213,3 +229,5 @@ export default class ParaControl extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ParaControl);

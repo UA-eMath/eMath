@@ -25,6 +25,9 @@ def updateParaPosition(parent):
 
 
 def moveParaPosUpOrDown(parent, position, action):
+    # parent: current para's parent
+    # position: current para's position
+    # action: up (-1), down (1)
     children_list = parent.get_children().order_by('position')
     children_para_list = parent.para_set.all().order_by('position')
     cached_list = list(chain(children_list, children_para_list))
@@ -33,9 +36,10 @@ def moveParaPosUpOrDown(parent, position, action):
     if len(cached_list) == 0:
         parent.delete()
 
-    if action == -1 and position == 0:
+    if action == -1 and position == 0:  # if be the first part, you can't move up
         return
-    elif action == 1 and position == len(cached_list) - 1:
+    elif action == 1 and position == len(
+            cached_list) - 1:  # if be the last part, you can't move down
         return
     else:
         # current one
@@ -52,32 +56,6 @@ def moveParaPosUpOrDown(parent, position, action):
         except:
             Level.objects.rebuild()
             cached_list[position + action].save()
-
-
-def moveParaPosDown(parent, position):
-    children_list = parent.get_children().order_by('position')
-    children_para_list = parent.para_set.all().order_by('position')
-    cached_list = list(chain(children_list, children_para_list))
-
-    # to avoid "memory loss", delete para's parent if it has no children
-    if len(cached_list) == 0:
-        parent.delete()
-
-    if position < len(cached_list) - 1:
-        # current one
-        cached_list[position].position = position + 1
-        try:
-            cached_list[position].save()
-        except:
-            Level.objects.rebuild()
-            cached_list[position].save()
-        # next one
-        cached_list[position + 1].position = position
-        try:
-            cached_list[position + 1].save()
-        except:
-            Level.objects.rebuild()
-            cached_list[position + 1].save()
 
 
 def updatePosition(child, target, position):
