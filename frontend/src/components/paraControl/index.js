@@ -97,7 +97,7 @@ class ParaControl extends React.Component {
         }
         console.error("Update Para error", request_body, data);
       } else {
-        this.props.fetchPage(this.props.parentId, this.props.title);
+        this.props.fetchPage(this.props.pageId, this.props.title);
       }
     });
   };
@@ -111,7 +111,7 @@ class ParaControl extends React.Component {
         }
         console.error("Update Para error", request_body, data);
       } else {
-        this.props.fetchPage(this.props.parentId, this.props.title);
+        this.props.fetchPage(this.props.pageId, this.props.title);
       }
     });
   };

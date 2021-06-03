@@ -77,9 +77,10 @@ export const loadPageError = (error) => ({
 
 export function fetchPage(id, title) {
   return function (dispatch) {
-    return getPage({ id: id }).then(
-      (data) => dispatch(loadPage(data.data, data.status, title, id)),
-      (error) => dispatch(loadPageError(error))
-    );
+    return getPage({ id: id })
+      .then((data) => {
+        dispatch(loadPage(data.data, data.status, title, id));
+      })
+      .catch((error) => dispatch(loadPageError(error)));
   };
 }

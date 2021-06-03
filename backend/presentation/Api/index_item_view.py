@@ -84,8 +84,6 @@ class IndexItemViewSets(viewsets.ModelViewSet):
 			col_to_append = index_to_col.get(request_data.get("add"))
 			root_level = Para.objects.get(pk=referred_id).para_parent.get_root().root
 
-			print(referred_id, path, col_to_append)
-
 			getattr(root_level, col_to_append)["treeData"][path] = referred_id
 
 			root_level.save()

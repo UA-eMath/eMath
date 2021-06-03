@@ -265,6 +265,7 @@ class ParaEditor extends React.Component {
                           delete={this.deletePara}
                           parentId={this.props.id}
                           bookID={bookID}
+                          pageId={this.props.id}
                         />
                       </div>
                     );
@@ -297,6 +298,7 @@ class ParaEditor extends React.Component {
                             delete={this.deletePara}
                             parentId={this.props.id}
                             bookID={bookID}
+                            pageId={this.props.id}
                           />
                         </Col>
                       </Row>

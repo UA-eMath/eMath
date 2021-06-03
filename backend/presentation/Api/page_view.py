@@ -17,7 +17,9 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 
         # bad request
         if not queryset:
-            return Response('Page number/level id is not provided', 500)
+            return Response(
+                'The provided id is not for a page or page number/level id is not provided.',
+                500)
 
         return Response(self.serilalizeNestList(queryset))
 

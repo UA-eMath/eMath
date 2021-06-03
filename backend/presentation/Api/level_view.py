@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from itertools import chain
 from presentation.Api.utils import *
-from .utils import getParas
+from .utils import getParas, mergeAndSort
 
 
 class LevelViewset(viewsets.ModelViewSet):
@@ -63,7 +63,9 @@ class LevelViewset(viewsets.ModelViewSet):
         #insert
         #Update children position when insert between nodes. Mainly implemented by reserving position for new level
         elif int(request_data['position']) <= last_position:
-            cached_list = list(chain(children_list, children_para_list))
+            cached_list = mergeAndSort(
+                children_list, children_para_list
+            )  # list(chain(children_list, children_para_list))
             for child in cached_list:
                 if child.position >= int(request_data['position']):
                     child.position += 1
@@ -155,27 +157,7 @@ class LevelViewset(viewsets.ModelViewSet):
             action = request.data.get("action")  # two actions: up: -1, down: 1
             current = Level.objects.get(pk=self.kwargs["pk"])
             parent = current.parent
-            children_nums = len(parent.get_children()) + len(
-                parent.para_set.all())
-            if current.position == children_nums - 1 and action == -1:  # if last part in current level, you should only move up
-                current.position -= 2
-                current.save()
-                response = Response(data="Successfully move the level up!",
-                                    status=200)
-            elif current.position >= 0 and current.position < (
-                    children_nums -
-                    1):  # if (children_nums - 1) > position >= 0
-                current.position += action  # can move up or down
-                current.save()
-                response = Response(data="Successfully move the level up!",
-                                    status=200)
-            elif current.position == -1 and action == 1:  # if the first level in current level, you should only move down
-                current.position += 1
-                current.save()
-                response = Response(data="Successfully move the level up!",
-                                    status=200)
-            else:
-                response = Response(data="Position is incorrect.", status=500)
+            moveUpOrDown(parent, current.position, request.data.get("action"))
 
         self._updatePageNumber(
             Level.objects.get(pk=self.kwargs["pk"]).get_root())
