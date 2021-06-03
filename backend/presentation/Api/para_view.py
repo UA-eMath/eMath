@@ -54,7 +54,9 @@ class ParaViewSet(viewsets.ModelViewSet):
         # insert
         # Update children position when insert between nodes. Mainly implemented by reserving position for new level
         elif int(request_data['position']) <= last_position:
-            cached_list = list(chain(children_list, children_para_list))
+            cached_list = mergeAndSort(
+                children_list, children_para_list
+            )  # list(chain(children_list, children_para_list))
             for child in cached_list:
                 if child.position >= int(request_data['position']):
                     child.position += 1
@@ -115,8 +117,7 @@ class ParaViewSet(viewsets.ModelViewSet):
         if request.data.get("position") is not None:
             updateParaPosition(parent)
         elif request.data.get("action") is not None:
-            moveParaPosUpOrDown(parent, para.position,
-                                request.data.get("action"))
+            moveUpOrDown(parent, para.position, request.data.get("action"))
 
         response.data = {'status': 'successfully update'}
         return response

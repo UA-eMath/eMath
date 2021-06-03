@@ -94,6 +94,7 @@ class SubLevel extends React.Component {
             bookID={bookID}
             delete={deletePara}
             parentId={item.para_parent.id}
+            pageId={this.props.id}
           />
         </div>
       );
@@ -117,6 +118,7 @@ class SubLevel extends React.Component {
               bookID={bookID}
               delete={deletePara}
               parentId={item.para_parent.id}
+              pageId={this.props.id}
             />
           </Col>
         </Row>
