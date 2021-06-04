@@ -32,11 +32,11 @@ class InputBox extends React.Component {
       isModalVisible: false,
       isClick: null,
       borderStyle: "",
+      highlightedText: "",
     };
     this.handleLinkClick = this.handleLinkClick.bind(this);
-    this.handleLabelModalVisiblility = this.handleLabelModalVisiblility.bind(
-      this
-    );
+    this.handleLabelModalVisiblility =
+      this.handleLabelModalVisiblility.bind(this);
     this.updateLinkLabel = this.updateLinkLabel.bind(this);
   }
 
@@ -53,17 +53,18 @@ class InputBox extends React.Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   }
 
-  handleLinkClick(event) {
+  handleLinkClick(event, highlightedText) {
     this.setState({
       isClick: event,
       isModalVisible: !this.state.isModalVisible,
+      highlightedText: highlightedText,
     });
   }
 
   updateLinkLabel(labelID) {
     this.insertAtCursor(
       this.state.isClick,
-      `<iLink id="${labelID}"></iLink> `,
+      `<iLink id="${labelID}">${this.state.highlightedText}</iLink> `,
       13
     );
   }
@@ -97,14 +98,22 @@ class InputBox extends React.Component {
   insertAtCursor = (event, tag, length) => {
     if (typeof event != "undefined") {
       // event.preventDefault();
-      let focusedTextarea = this.refs.ace.editor;
-      const position = focusedTextarea.selection.getCursor();
-      focusedTextarea.session.insert(position, tag);
-      let value = focusedTextarea.getValue();
+      const focusedTextarea = this.refs.ace.editor;
+      focusedTextarea.session.replace(
+        focusedTextarea.selection.getRange(),
+        tag
+      );
+      const value = focusedTextarea.getValue();
       if (value !== undefined) {
         this.props.paraOnChange(value, this.props.id);
       }
     }
+  };
+
+  iLinkTextChange = (value) => {
+    this.setState({
+      highlightedText: value,
+    });
   };
 
   render() {
@@ -161,6 +170,8 @@ class InputBox extends React.Component {
           handleLabelModalVisiblility={this.handleLabelModalVisiblility}
           updateLinkLabel={this.updateLinkLabel}
           bookID={bookID}
+          highlightedText={this.state.highlightedText}
+          iLinkTextChange={this.iLinkTextChange}
         />
       </div>
     );

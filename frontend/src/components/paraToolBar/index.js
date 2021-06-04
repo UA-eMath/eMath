@@ -40,7 +40,7 @@ class ParaToolBar extends React.Component {
           </Button>
         </Tooltip>
 
-        <Tooltip placement="top" title={"Inline Math"}>
+        <Tooltip placement="top" title={"Inline math"}>
           <Button
             onMouseDown={(e) => props.tagInsertion(e, "<math></math> ", 20)}
           >
@@ -56,17 +56,18 @@ class ParaToolBar extends React.Component {
           </Button>
         </Tooltip>
 
-        <Tooltip placement="top" title={"Link"}>
+        <Tooltip placement="top" title={"Insert link"}>
           <Button
             onMouseDown={(e) => {
-              props.handleLinkClick(e);
+              const highlightedText = window.getSelection().toString();
+              props.handleLinkClick(e, highlightedText);
             }}
           >
             <Icon type="link" />
           </Button>
         </Tooltip>
 
-        <Tooltip placement="top" title={"Numbered List"}>
+        <Tooltip placement="top" title={"Numbered list"}>
           <Button
             onMouseDown={(e) =>
               props.tagInsertion(e, "<ol>\n\t<li></li>\n</ol> ", 9)
@@ -76,7 +77,7 @@ class ParaToolBar extends React.Component {
           </Button>
         </Tooltip>
 
-        <Tooltip placement="top" title={"Bulleted List"}>
+        <Tooltip placement="top" title={"Bulleted list"}>
           <Button
             onMouseDown={(e) =>
               props.tagInsertion(e, "<ul>\n\t<li></li>\n</ul> ", 9)
@@ -86,7 +87,7 @@ class ParaToolBar extends React.Component {
           </Button>
         </Tooltip>
 
-        <Tooltip placement="top" title={"Table"}>
+        <Tooltip placement="top" title={"Insert table"}>
           <Button
             onMouseDown={(e) =>
               props.tagInsertion(
@@ -100,7 +101,7 @@ class ParaToolBar extends React.Component {
           </Button>
         </Tooltip>
 
-        <Tooltip placement="top" title={"Image"}>
+        <Tooltip placement="top" title={"Insert image"}>
           <Button
             onMouseDown={(e) => props.tagInsertion(e, '<img src=""/> \n', 10)}
           >
