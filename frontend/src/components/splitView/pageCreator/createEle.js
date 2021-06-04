@@ -43,9 +43,8 @@ class CreateElement extends React.Component {
     let context;
     const content = this.props["data-grid"].pageId;
     const id = content.id;
-    const linkTo = content.linkTo;
-    if (linkTo === "para") {
-      // show linked para
+    // for label or index
+    if (content.linkTo === "para" || content.levelParent) {
       pageContent = await getPara({ id: id });
       pageContent.data = [pageContent.data];
       context = await getNextLevel({ id: id });
@@ -71,6 +70,12 @@ class CreateElement extends React.Component {
           pageTitle: paraRenderer(
             pageContent.data.flat(Infinity)[0].para_parent.title
           ),
+          paraText: pageContent.data,
+        });
+      } else if (content.levelParent) {
+        // for index
+        this.setState({
+          pageTitle: paraRenderer(content.title),
           paraText: pageContent.data,
         });
       } else {
