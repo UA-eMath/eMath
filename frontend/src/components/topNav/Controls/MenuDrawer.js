@@ -6,6 +6,7 @@ import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import { openNewWindow } from "../../../actions";
 import { getIndexTree } from "../../../requests/getTree";
+import paraRenderer from "../../../pageRenderer";
 
 const { TreeNode } = Tree;
 const { TabPane } = Tabs;
@@ -26,8 +27,7 @@ const styles = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onWindowOpen: (pageId, isPage) =>
-    dispatch(openNewWindow(pageId, isPage)),
+  onWindowOpen: (content, isPage) => dispatch(openNewWindow(content, isPage)),
 });
 
 class MenuDrawer extends React.Component {
@@ -209,7 +209,7 @@ class MenuDrawer extends React.Component {
                   this.onClose();
                 }}
               >
-                {item.tocTitle}
+                {paraRenderer(item.tocTitle, true)}
               </a>
             }
             key={item.tocTitle + item.id}
@@ -241,7 +241,7 @@ class MenuDrawer extends React.Component {
                       this.onClose();
                     }}
                   >
-                    {item.tocTitle}
+                    {paraRenderer(item.tocTitle, true)}
                   </a>
                 }
                 key={item.id}
@@ -252,7 +252,7 @@ class MenuDrawer extends React.Component {
           }
           return (
             <TreeNode
-              title={item.tocTitle}
+              title={paraRenderer(item.tocTitle, true)}
               key={item.id}
               dataRef={item}
               selectable={false}

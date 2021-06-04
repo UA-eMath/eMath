@@ -11,7 +11,7 @@ const initState_windows = {
       h: 9,
       add: i === (list.length - 1).toString(),
       static: true,
-      pageId: {},
+      content: {},
     };
   }),
   newCounter: 0,
@@ -20,11 +20,11 @@ const initState_windows = {
 const windows = (state = initState_windows, action) => {
   switch (action.type) {
     case "OPEN_NEW_WINDOW":
-      if (typeof action.pageId !== "undefined" && action.pageId !== null) {
+      if (typeof action.content !== "undefined" && action.content !== null) {
         // Only add page if not opened before
         // TODO: handle init window
         const removeExisted = _.reject(state.items, function (e) {
-          return e.pageId.id === action.pageId.id;
+          return e.content.id === action.content.id;
         });
         return Object.assign({}, state, {
           items: removeExisted.concat({
@@ -34,7 +34,7 @@ const windows = (state = initState_windows, action) => {
             w: 6,
             h: 4,
             static: false,
-            pageId: action.pageId,
+            content: action.content,
             isPage: action.isPage,
           }),
           newCounter: state.newCounter + 1,
