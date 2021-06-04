@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Select, Card } from "antd";
+import { Modal, Select, Card, Input } from "antd";
 import _ from "lodash";
 import getLabel from "../../../requests/getLabel";
 import getRoots from "../../../requests/GetRoots";
@@ -107,6 +107,10 @@ export default class SelectLabelModal extends React.Component {
     return item;
   };
 
+  iLinkTextOnChange = ({ target: { value } }) => {
+    this.props.iLinkTextChange(value);
+  };
+
   render() {
     const { visible } = this.props;
     const { selectedLabel, previewContent, previewTitle } = this.state;
@@ -140,7 +144,7 @@ export default class SelectLabelModal extends React.Component {
       );
     } else {
       preview = (
-        <Card style={{ width: 300, marginTop: "1em" }} title={"Preview"}>
+        <Card style={{ width: 400, marginTop: "1em" }} title={"Preview"}>
           <p>No label selected</p>
         </Card>
       );
@@ -156,10 +160,16 @@ export default class SelectLabelModal extends React.Component {
         >
           {/* select book */}
           <div style={{ margin: "1em" }}>
+            Text to display:{" "}
+            <Input
+              style={{ width: 300 }}
+              defaultValue={this.props.highlightedText}
+              onChange={this.iLinkTextOnChange}
+            />
             <Select
               showSearch
               autoClearSearchValue
-              style={{ width: 300 }}
+              style={{ width: 400, marginTop: "1em" }}
               placeholder="Select a book (Default is current book)"
               mode="multiple"
               optionFilterProp="children"
@@ -178,12 +188,11 @@ export default class SelectLabelModal extends React.Component {
             >
               {books}
             </Select>
-
             {/* select labels */}
             <Select
               showSearch
               allowClear={true}
-              style={{ width: 300, marginTop: "1em" }}
+              style={{ width: 400, marginTop: "1em" }}
               placeholder="Select a label to link"
               optionFilterProp="children"
               onSelect={this.onSelectLabel}
@@ -200,7 +209,6 @@ export default class SelectLabelModal extends React.Component {
             >
               {labels}
             </Select>
-
             {/* preview */}
             {preview}
           </div>
