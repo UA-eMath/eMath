@@ -20,8 +20,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onCloseWindow: (id) => dispatch(closeWindow(id)),
-  minimizeWindow: (id, title, pageId, isPage) =>
-    dispatch(minimizeWindow(id, title, pageId, isPage)),
+  minimizeWindow: (id, title, content, isPage) =>
+    dispatch(minimizeWindow(id, title, content, isPage)),
   onLayoutChange: (layout) => dispatch(onLayoutChange(layout)),
 });
 
@@ -41,7 +41,7 @@ class CreateElement extends React.Component {
     //this.props['data-grid'] stores this window's information
     let pageContent;
     let context;
-    const content = this.props["data-grid"].pageId;
+    const content = this.props["data-grid"].content;
     const id = content.id;
     // for label or index
     if (content.linkTo === "para" || content.levelParent) {
@@ -144,7 +144,7 @@ class CreateElement extends React.Component {
             minimizeWindow(
               i,
               pageTitle,
-              this.props["data-grid"].pageId,
+              this.props["data-grid"].content,
               this.props["data-grid"].isPage
             );
           }}

@@ -27,7 +27,7 @@ const styles = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onWindowOpen: (pageId, isPage) => dispatch(openNewWindow(pageId, isPage)),
+  onWindowOpen: (content, isPage) => dispatch(openNewWindow(content, isPage)),
 });
 
 class MenuDrawer extends React.Component {

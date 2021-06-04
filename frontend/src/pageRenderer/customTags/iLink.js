@@ -6,7 +6,7 @@ import getLabel from "../../requests/getLabel";
 import { message } from "antd";
 
 const mapDispatchToProps = (dispatch) => ({
-  onWindowOpen: (pageId, isPage) => dispatch(openNewWindow(pageId, isPage)),
+  onWindowOpen: (content, isPage) => dispatch(openNewWindow(content, isPage)),
 });
 
 function iLink(props) {

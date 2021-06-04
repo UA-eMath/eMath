@@ -1,9 +1,9 @@
 import * as types from "../constants/ActionTypes";
 import getPage from "../requests/getPage";
 
-export const openNewWindow = (pageId, isPage) => ({
+export const openNewWindow = (content, isPage) => ({
   type: types.OPEN_NEW_WINDOW,
-  pageId,
+  content,
   isPage,
 });
 
@@ -19,25 +19,25 @@ export function onLayoutChange(layout) {
   };
 }
 
-export function minimizeWindow(id, title, pageId, isPage) {
+export function minimizeWindow(id, title, content, isPage) {
   return function (dispatch) {
     dispatch(closeWindow(id));
-    dispatch(addSubs(id, title, pageId, isPage));
+    dispatch(addSubs(id, title, content, isPage));
   };
 }
 
-export function openSubWindow(id, pageId, isPage) {
+export function openSubWindow(id, content, isPage) {
   return function (dispatch) {
-    dispatch(openNewWindow(pageId, isPage));
+    dispatch(openNewWindow(content, isPage));
     dispatch(closeSubs(id));
   };
 }
 
-export const addSubs = (id, title, pageId, isPage) => ({
+export const addSubs = (id, title, content, isPage) => ({
   type: types.ADD_SUBS,
   title,
   id,
-  pageId,
+  content,
   isPage,
 });
 

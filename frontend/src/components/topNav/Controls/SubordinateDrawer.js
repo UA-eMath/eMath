@@ -20,8 +20,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  openSubWindow: (id, pageId, isPage) =>
-    dispatch(openSubWindow(id, pageId, isPage)),
+  openSubWindow: (id, content, isPage) =>
+    dispatch(openSubWindow(id, content, isPage)),
 
   closeSubs: (id) => dispatch(closeSubs(id)),
 });
@@ -61,7 +61,7 @@ class SubordinateDrawer extends React.Component {
                     overflow: "hidden",
                   }}
                   onClick={() => {
-                    this.props.openSubWindow(el.i, el.pageId, el.isPage);
+                    this.props.openSubWindow(el.i, el.content, el.isPage);
                   }}
                 >
                   {el.title}
