@@ -7,7 +7,6 @@ import paraRenderer from "./index";
 
 export function blockOfPara(dataArray, left_title, right_title) {
   let boxHeader;
-
   if (left_title || right_title) {
     boxHeader = (
       <div
@@ -18,8 +17,12 @@ export function blockOfPara(dataArray, left_title, right_title) {
           marginBottom: "10px",
         }}
       >
-        <span>
-          <b>{left_title}</b>
+        <span
+          style={{
+            fontWeight: "bold",
+          }}
+        >
+          {left_title}
         </span>
         <span
           style={{
@@ -27,7 +30,7 @@ export function blockOfPara(dataArray, left_title, right_title) {
             fontWeight: "bold",
           }}
         >
-          {right_title}
+          {paraRenderer(right_title, true)}
         </span>
       </div>
     );

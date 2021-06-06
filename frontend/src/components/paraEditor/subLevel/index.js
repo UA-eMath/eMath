@@ -197,10 +197,10 @@ class SubLevel extends React.Component {
             padding: "2px 4px 2px 4px",
           }}
         >
-          <Col span={12}>
-            <b>{left_title}</b>
-          </Col>
-          <Col span={12}>{right_title}</Col>
+          <span style={{ fontWeight: "bold" }}>{left_title}</span>
+          <span style={{ float: "right", fontWeight: "bold" }}>
+            {right_title}
+          </span>
         </div>
       );
     }

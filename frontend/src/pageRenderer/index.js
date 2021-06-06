@@ -64,11 +64,9 @@ export default function paraRenderer(para, isTitle) {
   });
 
   if (Array.isArray(para)) {
+    // has sublevel
     let left_title = para[0].para_parent.tocTitle;
-    let right_title = xmlToReact.convert(
-      `<span>${para[0].para_parent.title}</span>`
-    );
-
+    let right_title = para[0].para_parent.title;
     return blockOfPara(para, left_title, right_title);
   }
 
@@ -80,29 +78,9 @@ export default function paraRenderer(para, isTitle) {
     decodedData = decodeURI(para.content.data);
   }
 
-  let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
-  // const reactTree = htmlToReactParser.parse(decodedData);
+  const reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
 
   const fragment = isTitle ? <span>{reactTree}</span> : <div>{reactTree}</div>;
 
   return <React.Fragment key={_.uniqueId("div_")}>{fragment}</React.Fragment>;
-
-  // let xmlParser = new DOMParser();
-  // let preDom = xmlParser.parseFromString(`<React.Fragment>${decodedData}</React.Fragment>`, "text/xml");
-  //
-  // if (preDom.getElementsByTagName("parsererror").length > 0) {
-  // 	let errorMessage = preDom.getElementsByTagName("parsererror")[0].innerText;
-  // 	return (
-  // 		<p style={{color:"red"}} key={_.uniqueId("error_")}>
-  // 			{errorMessage.replace("This page contains the following errors","This paragraph contains the following errors")}
-  // 		</p>
-  // 	)
-  // } else {
-  // 	let reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
-  // 	return (
-  // 		<React.Fragment key={_.uniqueId("div_")}>
-  // 			{reactTree}
-  // 		</React.Fragment>
-  // 	)
-  // }
 }
