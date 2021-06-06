@@ -28,7 +28,6 @@ class SplitView extends React.Component {
   _isMounted = false;
   constructor(props) {
     super(props);
-
     this.state = {
       paraText: [],
       pageTitle: "Loading page ...",
