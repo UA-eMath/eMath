@@ -1,4 +1,3 @@
-import { message } from "antd";
 import _ from "lodash";
 
 const initState_windows = {

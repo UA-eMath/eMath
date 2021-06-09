@@ -10,3 +10,6 @@ export const LOAD_PARAS_ERROR = "LOAD_PARAS_ERROR";
 export const PARA_ONCHANGE = "PARA_ONCHANGE";
 export const CLEAR_QUEUE = "CLEAR_QUEUE";
 export const POP_QUEUE = "POP_QUEUE";
+
+export const CHANGE_PAGE = "CHANGE_PAGE";
+export const SET_PAGE = "SET_PAGE";

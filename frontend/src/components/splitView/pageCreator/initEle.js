@@ -17,32 +17,34 @@ export default function initElement(el) {
       <div style={{ ...styles.titleBar }}>
         <PreButton
           onClick={() => {
-            getPrePage(this.state.id, this.state.pageNum, (prePageData) => {
+            getPrePage(this.props.id, this.props.pageNum, (prePageData) => {
               if (prePageData) {
-                let num = this.state.pageNum - 1;
-                this.setState({
-                  pageTitle: prePageData.flat(Infinity)[0].para_parent.title,
-                  paraText: prePageData,
-                  pageNum: num,
-                });
+                let num = this.props.pageNum - 1;
+                this.props.onSetPage(
+                  prePageData.flat(Infinity)[0].para_parent.id,
+                  prePageData.flat(Infinity)[0].para_parent.title,
+                  prePageData,
+                  num
+                );
               }
             });
           }}
         />
 
-        <span style={{ ...styles.title }}>{this.state.pageTitle}</span>
+        <span style={{ ...styles.title }}>{this.props.pageTitle}</span>
 
         <NextButton
           className="ml-auto"
           onClick={() => {
-            getNextPage(this.state.id, this.state.pageNum, (nextPageData) => {
-              let num = this.state.pageNum + 1;
+            getNextPage(this.props.id, this.props.pageNum, (nextPageData) => {
+              let num = this.props.pageNum + 1;
               if (nextPageData) {
-                this.setState({
-                  pageTitle: nextPageData.flat(Infinity)[0].para_parent.title,
-                  paraText: nextPageData,
-                  pageNum: num,
-                });
+                this.props.onSetPage(
+                  nextPageData.flat(Infinity)[0].para_parent.id,
+                  nextPageData.flat(Infinity)[0].para_parent.title,
+                  nextPageData,
+                  num
+                );
               }
             });
           }}
@@ -58,7 +60,7 @@ export default function initElement(el) {
           padding: ".5em 1.25em .5em",
         }}
       >
-        {_.map(this.state.paraText, (para) => {
+        {_.map(this.props.paraText, (para) => {
           return paraRenderer(para);
         })}
       </div>
