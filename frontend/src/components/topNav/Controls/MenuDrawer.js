@@ -4,7 +4,7 @@ import { Tree } from "antd";
 import { Drawer, Tabs, Icon, Button } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import { openNewWindow } from "../../../actions";
+import { getPageToChange, openNewWindow } from "../../../actions";
 import { getIndexTree } from "../../../requests/getTree";
 import paraRenderer from "../../../pageRenderer";
 
@@ -28,6 +28,7 @@ const styles = {
 
 const mapDispatchToProps = (dispatch) => ({
   onWindowOpen: (content, isPage) => dispatch(openNewWindow(content, isPage)),
+  getPageToChange: (id) => dispatch(getPageToChange(id)),
 });
 
 class MenuDrawer extends React.Component {
@@ -160,7 +161,7 @@ class MenuDrawer extends React.Component {
                 style={styles.Tree}
                 defaultExpandAll={true}
               >
-                {this.renderTreeNodes(this.state.treeData.slice(1))}
+                {this.renderTreeNodes(this.state.treeData.slice(1), true)}
               </Tree>
             </TabPane>
 
@@ -170,7 +171,7 @@ class MenuDrawer extends React.Component {
                 style={styles.Tree}
                 defaultExpandAll={true}
               >
-                {this.renderTreeNodes(this.state.treeData.slice(0, 1))}
+                {this.renderTreeNodes(this.state.treeData.slice(0, 1), false)}
               </Tree>
             </TabPane>
 
@@ -223,7 +224,7 @@ class MenuDrawer extends React.Component {
     });
   };
 
-  renderTreeNodes = (data) =>
+  renderTreeNodes = (data, isTOC) =>
     data
       .filter((item) => {
         return item.tocTitle !== null;
@@ -237,7 +238,11 @@ class MenuDrawer extends React.Component {
                   <a
                     href
                     onClick={() => {
-                      this.props.onWindowOpen(item, true);
+                      if (isTOC) {
+                        this.props.getPageToChange(item.id);
+                      } else {
+                        this.props.onWindowOpen(item, true);
+                      }
                       this.onClose();
                     }}
                   >
@@ -257,7 +262,7 @@ class MenuDrawer extends React.Component {
               dataRef={item}
               selectable={false}
             >
-              {this.renderTreeNodes(item.children)}
+              {this.renderTreeNodes(item.children, isTOC)}
             </TreeNode>
           );
         }

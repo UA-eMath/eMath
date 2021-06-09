@@ -5,9 +5,14 @@ import "react-resizable/css/styles.css";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { connect } from "react-redux";
-import { minimizeWindow, closeWindow, onLayoutChange } from "../../actions";
+import {
+  minimizeWindow,
+  closeWindow,
+  onLayoutChange,
+  getPageToChange,
+  setPage,
+} from "../../actions";
 import CreateElement from "./pageCreator/createEle";
-import getPage from "../../requests/getPage";
 import initElement from "./pageCreator/initEle";
 import MathjaxRenderer from "../MathjaxRenderer/index";
 import { Spin } from "antd";
@@ -15,13 +20,22 @@ import { Spin } from "antd";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const mapStateToProps = (state) => {
-  return { items: state.windows.items };
+  return {
+    items: state.windows.items,
+    pageTitle: state.currentpage.title,
+    paraText: state.currentpage.page,
+    pageNum: state.currentpage.pageNum,
+    id: state.currentpage.pageId,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onCloseWindow: (id) => dispatch(closeWindow(id)),
   minimizeWindow: (id) => dispatch(minimizeWindow(id)),
   onLayoutChange: (layout) => dispatch(onLayoutChange(layout)),
+  getPageToChange: (id) => dispatch(getPageToChange(id)),
+  onSetPage: (id, title, content, pageNum) =>
+    dispatch(setPage(id, title, content, pageNum)),
 });
 
 class SplitView extends React.Component {
@@ -29,8 +43,6 @@ class SplitView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      paraText: [],
-      pageTitle: "Loading page ...",
       mathLoaded: false,
     };
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
@@ -39,19 +51,7 @@ class SplitView extends React.Component {
 
   componentDidMount() {
     this._isMounted = true;
-    let rootID = this.props.match.params["id"];
-    getPage({ id: rootID }).then((pageContent) => {
-      if (typeof pageContent !== "undefined" && pageContent.data.length > 0) {
-        if (this._isMounted) {
-          this.setState({
-            pageTitle: pageContent.data.flat(Infinity)[0].para_parent.title,
-            paraText: pageContent.data,
-            pageNum: 1,
-            id: rootID,
-          });
-        }
-      }
-    });
+    this.props.getPageToChange(this.props.match.params["id"]); // pass rootID into function
   }
 
   componentWillUnmount() {

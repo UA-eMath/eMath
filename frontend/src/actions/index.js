@@ -84,3 +84,26 @@ export function fetchPage(id, title) {
       .catch((error) => dispatch(loadPageError(error)));
   };
 }
+
+export const changePage = (content) => ({
+  type: types.CHANGE_PAGE,
+  content,
+});
+
+export const setPage = (id, title, content, pageNum) => ({
+  type: types.SET_PAGE,
+  id,
+  title,
+  content,
+  pageNum,
+});
+
+export function getPageToChange(id) {
+  return function (dispatch) {
+    return getPage({ id: id })
+      .then((data) => {
+        dispatch(changePage(data.data));
+      })
+      .catch((error) => dispatch(loadPageError(error)));
+  };
+}
