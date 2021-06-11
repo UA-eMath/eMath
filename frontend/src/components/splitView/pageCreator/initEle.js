@@ -5,6 +5,7 @@ import { PreButton } from "../styles/preButton";
 import _ from "lodash";
 import getPage from "../../../requests/getPage";
 import paraRenderer from "../../../pageRenderer";
+import { setReadCache } from "../../../utils/setReadCache";
 
 export default function initElement(el) {
   return (
@@ -26,6 +27,7 @@ export default function initElement(el) {
                   prePageData,
                   num
                 );
+                setReadCache(this.props.match.params.id, this.props.id);
               }
             });
           }}
@@ -45,6 +47,7 @@ export default function initElement(el) {
                   nextPageData,
                   num
                 );
+                setReadCache(this.props.match.params.id, this.props.id);
               }
             });
           }}

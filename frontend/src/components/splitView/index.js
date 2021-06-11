@@ -51,7 +51,19 @@ class SplitView extends React.Component {
 
   componentDidMount() {
     this._isMounted = true;
-    this.props.getPageToChange(this.props.match.params["id"]); // pass rootID into function
+    const rootId = this.props.match.params["id"];
+    // Get pageId from cache
+    const readCache = localStorage.getItem("readCache");
+    if (readCache) {
+      const pageId = JSON.parse(readCache)[rootId];
+      if (pageId) {
+        this.props.getPageToChange(pageId);
+      } else {
+        this.props.getPageToChange(rootId);
+      }
+    } else {
+      this.props.getPageToChange(rootId); // pass rootID into function
+    }
   }
 
   componentWillUnmount() {

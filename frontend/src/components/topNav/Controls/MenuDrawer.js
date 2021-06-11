@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { getPageToChange, openNewWindow } from "../../../actions";
 import { getIndexTree } from "../../../requests/getTree";
 import paraRenderer from "../../../pageRenderer";
+import { setReadCache } from "../../../utils/setReadCache";
 
 const { TreeNode } = Tree;
 const { TabPane } = Tabs;
@@ -240,6 +241,7 @@ class MenuDrawer extends React.Component {
                     onClick={() => {
                       if (isTOC) {
                         this.props.getPageToChange(item.id);
+                        setReadCache(this.props.props.params.id, item.id);
                       } else {
                         this.props.onWindowOpen(item, true);
                       }
