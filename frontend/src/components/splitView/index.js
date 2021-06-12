@@ -80,7 +80,7 @@ class SplitView extends React.Component {
     const gridLayout = this.state.mathLoaded ? (
       <ResponsiveReactGridLayout
         className="layout"
-        breakpoints={{ lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0 }}
+        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }} //{{ lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
         rowHeight={100}
         compactType="horizontal"
@@ -106,7 +106,6 @@ class SplitView extends React.Component {
         tip="Waiting for MathJax..."
         style={{
           width: "100%",
-          minHeight: "100rem",
           marginTop: 300,
           marginLeft: "auto",
           marginRight: "auto",
@@ -115,11 +114,11 @@ class SplitView extends React.Component {
     );
     return (
       <div>
+        {gridLayout}
         <MathjaxRenderer
           id={this.props.match.params["id"]}
           mathLoaded={this.onMathLoaded}
         />
-        {gridLayout}
       </div>
     );
   }

@@ -1,7 +1,6 @@
 import React from "react";
 import { message } from "antd";
 import getNewCommand from "../../requests/getNewCommand";
-// import { texCommandArray } from "../InputBox/dataSource";
 import { Node, Context } from "../react-mathjax";
 import MathJaxConfig from "../../constants/MathJax_config";
 import dataSource from "../InputBox/dataSource";

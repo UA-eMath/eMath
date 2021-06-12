@@ -10,7 +10,7 @@ export default class TopNav extends React.Component {
       return <Control props={this.props.match} />;
     } else {
       return (
-        <Navbar bg="dark" variant="dark">
+        <Navbar bg="dark" variant="dark" sticky="top">
           <Navbar.Brand href="/">eMath</Navbar.Brand>
         </Navbar>
       );

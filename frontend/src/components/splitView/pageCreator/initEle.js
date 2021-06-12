@@ -6,15 +6,11 @@ import _ from "lodash";
 import getPage from "../../../requests/getPage";
 import paraRenderer from "../../../pageRenderer";
 import { setReadCache } from "../../../utils/setReadCache";
+import Scrollbars from "react-custom-scrollbars";
 
 export default function initElement(el) {
   return (
-    <div
-      className="InitElement"
-      key={el.i}
-      data-grid={el}
-      style={{ ...styles.window }}
-    >
+    <div key={el.i} data-grid={el} style={{ ...styles.window }}>
       <div style={{ ...styles.titleBar }}>
         <PreButton
           onClick={() => {
@@ -54,19 +50,21 @@ export default function initElement(el) {
         />
       </div>
 
-      <div
-        style={{
-          background: "#F7F7EE",
-          borderRadius: "2px",
-          boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)",
-          margin: "1em .9em",
-          padding: ".5em 1.25em .5em",
-        }}
-      >
-        {_.map(this.props.paraText, (para) => {
-          return paraRenderer(para);
-        })}
-      </div>
+      <Scrollbars>
+        <div
+          style={{
+            background: "#F7F7EE",
+            borderRadius: "2px",
+            boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)",
+            margin: "1em .9em 5em",
+            padding: "1em 1.25em 3em",
+          }}
+        >
+          {_.map(this.props.paraText, (para) => {
+            return paraRenderer(para);
+          })}
+        </div>
+      </Scrollbars>
     </div>
   );
 }
