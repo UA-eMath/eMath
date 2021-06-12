@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
-import TopNav from "./../../components/topNav";
-import { Layout, Tabs } from "antd";
+import { Tabs } from "antd";
 import BookSetting from "../bookSetting";
 import getRoots from "../../requests/GetRoots";
 import TexShortcut from "../TexShortcut";
@@ -10,8 +9,6 @@ import NewCommand from "../NewCommand";
 const { TabPane } = Tabs;
 
 export default function SetupPage(props) {
-  const { Content } = Layout;
-
   const rootId = props.match.params.id;
   const [book, setBook] = useState({});
 
@@ -31,7 +28,6 @@ export default function SetupPage(props) {
 
   return (
     <div>
-      <TopNav />
       <Tabs defaultActiveKey="1" tabPosition={"left"}>
         <TabPane tab={"Book information"} key={1}>
           <BookSetting book={book} />

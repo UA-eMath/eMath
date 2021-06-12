@@ -1,6 +1,6 @@
 import React from "react";
 import TopNav from "./components/topNav";
-import { Layout } from "antd";
+import { Layout, message } from "antd";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import SplitView from "./components/splitView";
 import BookDisplay from "./components/bookDisplay";
@@ -10,7 +10,7 @@ import LoginComp from "./components/LoginComp";
 import Signup from "./components/Signup";
 import jwt_decode from "jwt-decode";
 
-const { Content } = Layout;
+const { Content, Footer } = Layout;
 
 export default class App extends React.Component {
   constructor(props) {
@@ -26,6 +26,12 @@ export default class App extends React.Component {
     if (token && jwt_decode(token).exp < Date.now() / 1000) {
       this.logout();
     }
+    // global message config
+    message.config({
+      top: 80,
+      duration: 2,
+      maxCount: 3,
+    });
   }
 
   Home = () => {
@@ -60,12 +66,22 @@ export default class App extends React.Component {
         />
         <Route
           path="/authoring/:id/"
-          render={(props) => <AuthoringLayout {...this.props} {...props} />}
+          render={(props) => (
+            <div>
+              <TopNav />
+              <AuthoringLayout {...this.props} {...props} />
+            </div>
+          )}
         />
 
         <Route
           path="/setup/:id/"
-          render={(props) => <SetupPage {...this.props} {...props} />}
+          render={(props) => (
+            <div>
+              <TopNav />
+              <SetupPage {...this.props} {...props} />
+            </div>
+          )}
         />
       </div>
     ) : (
@@ -75,13 +91,13 @@ export default class App extends React.Component {
       </div>
     );
     return (
-      <Layout className="layout">
+      <Layout className="layout" style={{ minHeight: "100vh" }}>
         <Content>
           <Router>{page}</Router>
         </Content>
-        {/* <Footer style={{ textAlign: "center" }}>
+        <Footer style={{ textAlign: "center" }}>
           eMath ©2020 Created by University of Alberta
-        </Footer> */}
+        </Footer>
       </Layout>
     );
   }

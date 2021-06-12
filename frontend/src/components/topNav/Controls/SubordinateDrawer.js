@@ -48,7 +48,7 @@ class SubordinateDrawer extends React.Component {
           onClose={this.onClose}
           visible={this.state.visible}
           width={300}
-          style={{ fontSize: "25px" }}
+          style={{ fontSize: "25px", marginTop: "53px" }}
         >
           {this.props.subs.map((el) => {
             return (

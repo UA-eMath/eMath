@@ -143,7 +143,7 @@ class MenuDrawer extends React.Component {
           onClose={this.onClose}
           visible={this.state.visible}
           width={"50%"}
-          style={{ fontSize: "25px" }}
+          style={{ fontSize: "25px", marginTop: "53px" }}
         >
           <Button
             style={{ float: "right" }}

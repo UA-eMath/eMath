@@ -157,8 +157,8 @@ class CreateElement extends React.Component {
               borderRadius: "2px",
               boxShadow:
                 "0 0 0 1px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.35)",
-              margin: "1em .9em",
-              padding: ".25em 1.25em .1em",
+              margin: "1em .9em 5em",
+              padding: "1em 1.25em 3em",
             }}
           >
             <Tabs defaultActiveKey={"1"}>

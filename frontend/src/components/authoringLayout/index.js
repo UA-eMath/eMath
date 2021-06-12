@@ -1,6 +1,5 @@
 import React from "react";
 import "antd/dist/antd.css";
-import TopNav from "./../../components/topNav";
 import LevelEditor from "./../../components/levelEditor";
 import ParaEditor from "./../../components/paraEditor";
 import SplitPane from "react-split-pane";
@@ -10,7 +9,7 @@ import { Spin } from "antd";
 
 export default class AuthoringLayout extends React.Component {
   state = {
-    paneSize: 700,
+    paneSize: 600,
     mathLoaded: false,
   };
 
@@ -30,12 +29,13 @@ export default class AuthoringLayout extends React.Component {
     const id = this.props.match.params.id;
 
     const splitPane = this.state.mathLoaded ? (
-      <SplitPane split="vertical" minSize={0} size={this.state.paneSize}>
-        <div
-          style={{
-            minHeight: "100rem",
-          }}
-        >
+      <SplitPane
+        split="vertical"
+        minSize={0}
+        size={this.state.paneSize}
+        style={{ position: "relative" }}
+      >
+        <div style={{}}>
           <LevelEditor
             bookID={id}
             levelId={id}
@@ -46,7 +46,6 @@ export default class AuthoringLayout extends React.Component {
         <div
           style={{
             background: "#aaaa00",
-            minHeight: "100rem",
           }}
         >
           <ParaEditor bookID={id} />
@@ -57,7 +56,6 @@ export default class AuthoringLayout extends React.Component {
         tip="Waiting for MathJax..."
         style={{
           width: "100%",
-          minHeight: "100rem",
           marginTop: 300,
           marginLeft: "auto",
           marginRight: "auto",
@@ -67,9 +65,8 @@ export default class AuthoringLayout extends React.Component {
 
     return (
       <div>
-        <TopNav />
-        <MathjaxRenderer id={id} mathLoaded={this.onMathLoaded} />
         {splitPane}
+        <MathjaxRenderer id={id} mathLoaded={this.onMathLoaded} />
       </div>
     );
   }
