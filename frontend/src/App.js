@@ -1,6 +1,6 @@
 import React from "react";
 import TopNav from "./components/topNav";
-import { Layout } from "antd";
+import { Layout, message } from "antd";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import SplitView from "./components/splitView";
 import BookDisplay from "./components/bookDisplay";
@@ -26,6 +26,12 @@ export default class App extends React.Component {
     if (token && jwt_decode(token).exp < Date.now() / 1000) {
       this.logout();
     }
+    // global message config
+    message.config({
+      top: 80,
+      duration: 2,
+      maxCount: 3,
+    });
   }
 
   Home = () => {
