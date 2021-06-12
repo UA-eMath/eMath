@@ -22,13 +22,14 @@ function CaptionOptions(props) {
       <Option value="Corollary">Corollary</Option>
       <Option value="Definition">Definition</Option>
       <Option value="Example">Example</Option>
+      <Option value="Exercise">Exercise</Option>
       <Option value="Lemma">Lemma</Option>
       <Option value="Notation">Notation</Option>
       <Option value="Proof">Proof</Option>
       <Option value="Proposition">Proposition</Option>
+      <Option value="Remark">Remark</Option>
       <Option value="Terminology">Terminology</Option>
       <Option value="Theorem">Theorem</Option>
-      <Option value="Remark">Remark</Option>
     </Select>
   );
 }
