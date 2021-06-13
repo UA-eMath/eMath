@@ -116,12 +116,26 @@ class CreateElement extends React.Component {
       ...rest
     } = this.props;
     const { context, pageTitle, paraText } = this.state;
-
     let contextPane =
-      context === null ? null : (
+      context === null || _.isEqual(context, paraText) ? null : (
         <TabPane tab={"Context"} key={"2"}>
           {_.map(context, (para) => {
             return paraRenderer(para, this.props);
+          })}
+        </TabPane>
+      );
+
+    let referencePane =
+      this.props["data-grid"].content.linkTo === undefined ? (
+        <TabPane tab={""} key={"1"}>
+          {_.map(paraText, (para) => {
+            return paraRenderer(para);
+          })}
+        </TabPane>
+      ) : (
+        <TabPane tab={"Reference"} key={"1"}>
+          {_.map(paraText, (para) => {
+            return paraRenderer(para);
           })}
         </TabPane>
       );
@@ -162,11 +176,7 @@ class CreateElement extends React.Component {
             }}
           >
             <Tabs defaultActiveKey={"1"}>
-              <TabPane tab={"Reference"} key={"1"}>
-                {_.map(paraText, (para) => {
-                  return paraRenderer(para);
-                })}
-              </TabPane>
+              {referencePane}
               {contextPane}
             </Tabs>
           </div>
