@@ -2,17 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchPage } from "../../../actions";
 import _ from "lodash";
-import {
-  Button,
-  Col,
-  Icon,
-  Modal,
-  Row,
-  Popover,
-  Dropdown,
-  Menu,
-  message,
-} from "antd";
+import { Button, Col, Icon, Row, Popover, Dropdown, Menu, message } from "antd";
 import InputBox from "../../InputBox";
 import DisplayArea from "../../displayArea";
 import ParaControl from "../../paraControl";
@@ -21,6 +11,7 @@ import paraRenderer from "../../../pageRenderer";
 import AddLabel from "../../paraControl/addLabel";
 import getLabel from "../../../requests/getLabel";
 import updateLevel from "../../../requests/updateLevel";
+import DeleteModal from "../../deleteModal";
 
 const mapStateToProps = (state) => {
   return {
@@ -32,7 +23,6 @@ const mapDispatchToProps = (dispatch) => ({
   fetchPage: (id, title) => dispatch(fetchPage(id, title)),
 });
 
-const { confirm } = Modal;
 class SubLevel extends React.Component {
   _isMounted = false;
   constructor(props) {
@@ -41,26 +31,28 @@ class SubLevel extends React.Component {
       isLabelModalVisible: false,
       label: <Icon type="loading" />,
       labelObj: null,
+      visible: false,
     };
   }
 
-  deleteLevel = (id) => {
-    confirm({
-      title: "Are you sure delete this Level?",
-      okText: "Yes",
-      okType: "danger",
-      cancelText: "No",
-      onOk: () => {
-        removeLevel(id).then((data) => {
-          if (data.status !== 200) {
-            message.error("Fail to delete level.");
-            console.error("Delete error", data);
-          } else {
-            this.props.fetchPage(this.props.id, this.props.title);
-          }
-        });
-      },
-      onCancel() {},
+  showModal = (state) => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({ visible: false });
+  };
+
+  onDelete = (id) => {
+    removeLevel(id).then((data) => {
+      if (data.status !== 200) {
+        message.error("Fail to delete level.");
+        console.error("Delete error", data);
+      } else {
+        this.props.fetchPage(this.props.id, this.props.title);
+      }
     });
   };
 
@@ -180,7 +172,6 @@ class SubLevel extends React.Component {
     const { children, alignment, deletePara, bookID, setFocusArea, fetchPage } =
       this.props;
     const { isLabelModalVisible } = this.state;
-
     let left_title = children[0].para_parent.tocTitle;
     let right_title =
       children[0].para_parent.title === null
@@ -218,10 +209,7 @@ class SubLevel extends React.Component {
             Add Label
           </Popover>
         </Menu.Item>
-        <Menu.Item
-          key="delete"
-          onClick={() => this.deleteLevel(children[0].para_parent.id)}
-        >
+        <Menu.Item key="delete" onClick={this.showModal}>
           <Icon type="delete" />
           Delete
         </Menu.Item>
@@ -287,6 +275,18 @@ class SubLevel extends React.Component {
             toggleModal={this.toggleLabelModal}
             label={this.state.labelObj}
             bookID={"1"} //TODO
+          />
+        ) : (
+          ""
+        )}
+
+        {this.state.visible ? (
+          <DeleteModal
+            title={`this ${children[0].para_parent.tocTitle} Level`}
+            onDelete={() => this.onDelete(children[0].para_parent.id)}
+            deleteContent={children[0].para_parent.title}
+            visible={this.state.visible}
+            onCancel={this.handleCancel}
           />
         ) : (
           ""
