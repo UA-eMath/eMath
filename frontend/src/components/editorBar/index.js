@@ -139,7 +139,7 @@ class EditorToolBar extends React.Component {
         }}
       >
         <ButtonGroup>
-          <Tooltip placement="bottom" title={"Add one paragraph"}>
+          <Tooltip placement="bottom" title={"add a paragraph"}>
             <Button
               onClick={() => this.props.addPara()}
               style={{
@@ -150,7 +150,7 @@ class EditorToolBar extends React.Component {
             </Button>
           </Tooltip>
 
-          <Tooltip placement="bottom" title={"Add content block"}>
+          <Tooltip placement="bottom" title={"add a content block"}>
             <Button
               onClick={() => this.showModal()}
               style={{
