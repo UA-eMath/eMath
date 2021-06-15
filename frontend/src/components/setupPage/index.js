@@ -32,7 +32,7 @@ export default function SetupPage(props) {
         <TabPane tab={"Book information"} key={1}>
           <BookSetting book={book} />
         </TabPane>
-        <TabPane tab={"Tex shortcut"} key={2}>
+        <TabPane tab={"Tex Author Assist"} key={2}>
           <TexShortcut book={book} />
         </TabPane>
         <TabPane tab={"New command"} key={3}>

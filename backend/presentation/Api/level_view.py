@@ -6,8 +6,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from itertools import chain
-from presentation.Api.utils import *
-from .utils import getParas, mergeAndSort
+from .utils import *
 
 
 class LevelViewset(viewsets.ModelViewSet):
@@ -148,16 +147,15 @@ class LevelViewset(viewsets.ModelViewSet):
                 level = level.parent
 
             updatePosition(child, target, position)
-
             response = Response(child.position)
-        else:
-            response = super().update(request, *args, **kwargs)
-
-        if request.data.get("action") != None:
+        elif request.data.get("action") != None:
             action = request.data.get("action")  # two actions: up: -1, down: 1
             current = Level.objects.get(pk=self.kwargs["pk"])
             parent = current.parent
-            moveUpOrDown(parent, current.position, request.data.get("action"))
+            moveUpOrDown(parent, current.position, action)
+            response = Response(current.position)
+        else:
+            response = super().update(request, *args, **kwargs)
 
         self._updatePageNumber(
             Level.objects.get(pk=self.kwargs["pk"]).get_root())

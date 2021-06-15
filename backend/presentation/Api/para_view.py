@@ -5,7 +5,7 @@ from presentation.Serializers.para_serializers import ParaSerializers, ParaReadS
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from presentation.Api.utils import *
+from .utils import *
 
 
 class ParaViewSet(viewsets.ModelViewSet):
@@ -118,6 +118,7 @@ class ParaViewSet(viewsets.ModelViewSet):
             updateParaPosition(parent)
         elif request.data.get("action") is not None:
             moveUpOrDown(parent, para.position, request.data.get("action"))
+            updateParaPosition(parent)
 
         response.data = {'status': 'successfully update'}
         return response

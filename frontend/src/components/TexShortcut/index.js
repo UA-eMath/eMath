@@ -94,7 +94,7 @@ export default class TexShortcut extends React.Component {
     return (
       <div style={{ margin: "10px" }}>
         <Tabs defaultActiveKey="1">
-          <TabPane tab="Available Tex Shortcuts" key="1">
+          <TabPane tab="Available Tex Assist" key="1">
             <div style={{ margin: "10px" }}>{texCommandItems}</div>
           </TabPane>
           <TabPane tab="Upload Shortcuts File" key="2">

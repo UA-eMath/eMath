@@ -18,12 +18,11 @@ def updateParaPosition(parent):
     for i in cached_list:
         if i.position != index:
             i.position = index
-            i.save()
-            # try:
-            #     i.save()
-            # except:
-            #     Level.objects.rebuild()
-            #     i.save()
+            try:
+                i.save()
+            except:
+                Level.objects.rebuild()
+                i.save()
         index += 1
 
 
@@ -121,22 +120,8 @@ def getParas(root):
 
 
 def mergeAndSort(block, paras):
-    res = []
-    i = 0
-    j = 0
-    while i < len(block) and j < len(paras):
-        if block[i].position < paras[j].position:
-            res.append(block[i])
-            i += 1
-        else:
-            res.append(paras[j])
-            j += 1
-
-    for item in block[i:]:
-        res.append(item)
-
-    for item in paras[j:]:
-        res.append(item)
+    res = list(chain(block, paras))
+    res.sort(key=lambda x: x.position)
     return res
 
 
