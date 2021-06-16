@@ -13,7 +13,6 @@ class NewCommandUpdate(views.APIView):
 
     def put(self, request, *args, **kwargs):
         book = Level.objects.get(pk=kwargs.get("pk")).get_root().root
-        commands = getattr(book, 'new_command')
         cmd_obj = request.data
         [[filename, modified_cmd]] = cmd_obj.items()
         try:

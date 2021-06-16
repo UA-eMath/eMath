@@ -1,18 +1,8 @@
 import React from "react";
-import {
-  Upload,
-  message,
-  Icon,
-  Button,
-  List,
-  Divider,
-  Tabs,
-  Row,
-  Col,
-} from "antd";
+import { Upload, message, Icon, Button, Divider, Tabs } from "antd";
 import postNewCommand from "../../requests/postNewCommand";
 import getNewCommand from "../../requests/getNewCommand";
-import EditNewCommand from "./editNewCommand";
+import EachNewCommand from "./eachNewCommand";
 
 const { Dragger } = Upload;
 const { TabPane } = Tabs;
@@ -60,28 +50,20 @@ export default class NewCommand extends React.Component {
     let num = 0;
     for (const filename in commands) {
       items.push(
-        <Divider key={num}>
-          {filename}
+        <div>
+          <Divider key={num}>{filename}</Divider>
           {/* click the button to show up the textarea */}
-          <EditNewCommand
-            book={this.props.book}
-            filename={filename}
-            content={commands[filename]}
-          />
-        </Divider>
+          {commands[filename].map((command, index) => (
+            <EachNewCommand
+              bookId={this.props.book.id}
+              filename={filename}
+              command={command}
+              index={index}
+              allCommands={commands[filename]}
+            />
+          ))}
+        </div>
       );
-      num = num + 1;
-      for (const value of commands[filename]) {
-        items.push(
-          <List key={num}>
-            <Row>
-              <Col span={12}>{value["tex"]}</Col>
-              <Col span={12}>{value["note"]}</Col>
-            </Row>
-          </List>
-        );
-        num = num + 1;
-      }
     }
     return items;
   };
