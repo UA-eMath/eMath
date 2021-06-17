@@ -27,7 +27,7 @@ export default class AddNewCommand extends React.Component {
   saveNewCommand = () => {
     const { inputTex, inputNote } = this.state;
     const { filename, bookId, allCommands, texCommandsOnChange } = this.props;
-    if (inputTex !== "" || inputNote !== "") {
+    if (inputTex !== "") {
       allCommands.push({ tex: inputTex, note: inputNote });
       putNewCommand({ [filename]: allCommands }, bookId);
       texCommandsOnChange(filename, allCommands);
