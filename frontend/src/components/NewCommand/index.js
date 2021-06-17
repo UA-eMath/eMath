@@ -3,6 +3,7 @@ import { Upload, message, Icon, Button, Divider, Tabs } from "antd";
 import postNewCommand from "../../requests/postNewCommand";
 import getNewCommand from "../../requests/getNewCommand";
 import EachNewCommand from "./eachNewCommand";
+import AddNewCommand from "./addNewCommand";
 
 const { Dragger } = Upload;
 const { TabPane } = Tabs;
@@ -45,6 +46,13 @@ export default class NewCommand extends React.Component {
     return false;
   };
 
+  // When added a new command, update command list
+  texCommandsOnChange = (filename, commands) => {
+    const texCommands = this.state.texCommands;
+    texCommands[filename] = commands;
+    this.setState({ texCommands: texCommands });
+  };
+
   renderTexCommands = (commands) => {
     let items = [];
     let num = 0;
@@ -52,7 +60,6 @@ export default class NewCommand extends React.Component {
       items.push(
         <div>
           <Divider key={num}>{filename}</Divider>
-          {/* click the button to show up the textarea */}
           {commands[filename].map((command, index) => (
             <EachNewCommand
               bookId={this.props.book.id}
@@ -62,6 +69,12 @@ export default class NewCommand extends React.Component {
               allCommands={commands[filename]}
             />
           ))}
+          <AddNewCommand
+            bookId={this.props.book.id}
+            filename={filename}
+            allCommands={commands[filename]}
+            texCommandsOnChange={this.texCommandsOnChange}
+          />
         </div>
       );
     }
