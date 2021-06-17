@@ -2,7 +2,7 @@ import { message } from "antd";
 import axios from "axios";
 import url from "./Urls";
 
-export default function putNewCommand(cmdJson, bookId) {
+export default function putNewCommand(commands, bookId) {
   return axios
     .put(
       url.domain +
@@ -11,7 +11,7 @@ export default function putNewCommand(cmdJson, bookId) {
         "/newCommandUpdate/" + //uploadNewCommand
         bookId.toString() +
         "/",
-      cmdJson,
+      commands,
       {
         headers: {
           "Content-Type": "application/json", // application/json, multipart/form-data
