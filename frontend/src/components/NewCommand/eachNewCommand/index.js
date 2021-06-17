@@ -1,6 +1,8 @@
 import React from "react";
-import { Input, Icon, List, Row, Col } from "antd";
+import { Input, Icon, List, Row, Col, Modal } from "antd";
 import putNewCommand from "../../../requests/putNewCommand";
+
+const { confirm } = Modal;
 
 export default class EachNewCommand extends React.Component {
   constructor(props) {
@@ -35,10 +37,19 @@ export default class EachNewCommand extends React.Component {
   };
 
   deleteCommand = () => {
-    const { filename, bookId, index, allCommands } = this.props;
-    allCommands.splice(index, 1); // remove current command from the origin array
-    putNewCommand({ [filename]: allCommands }, bookId);
-    this.setState({ visible: false });
+    confirm({
+      title: "Are you sure delete this command?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: () => {
+        const { filename, bookId, index, allCommands } = this.props;
+        allCommands.splice(index, 1); // remove current command from the origin array
+        putNewCommand({ [filename]: allCommands }, bookId);
+        this.setState({ visible: false });
+      },
+      onCancel() {},
+    });
   };
 
   render() {
