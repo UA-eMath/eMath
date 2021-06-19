@@ -19,6 +19,7 @@ import InputBox from "../InputBox";
 import DisplayArea from "../displayArea";
 import ParaControl from "../paraControl";
 import SubLevel from "./subLevel";
+import paraRenderer from "../../pageRenderer";
 
 const mapStateToProps = (state) => {
   return {
@@ -221,12 +222,11 @@ class ParaEditor extends React.Component {
                 margin: "10px",
               }}
             >
-              {this.props.title}
+              {paraRenderer(this.props.title, true)}
             </h3>
             <Scrollbars
               style={{
-                width: "100%",
-                height: "80vh",
+                minHeight: "100vh",
                 paddingBottom: "100px",
                 margin: "10px",
                 marginTop: "20px",
