@@ -57,6 +57,7 @@ export default class MathjaxRenderer extends React.Component {
         {this.state.texCommandsInMathTag.map((value, index) => {
           return (
             <Context
+              key={index}
               input="tex"
               script={MathJaxConfig.script}
               options={MathJaxConfig.options}
