@@ -35,7 +35,7 @@ export default class AuthoringLayout extends React.Component {
         size={this.state.paneSize}
         style={{ position: "relative" }}
       >
-        <div style={{}}>
+        <div>
           <LevelEditor
             bookID={id}
             levelId={id}

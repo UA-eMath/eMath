@@ -5,6 +5,7 @@ import getToc from "../../requests/getTree";
 import EditingModal from "./editingModal";
 import updateLevel from "../../requests/updateLevel";
 import paraRenderer from "../../pageRenderer";
+import { setExpandKeysCache } from "../../utils/setReadCache";
 
 const { TreeNode } = Tree;
 const { Search } = Input;
@@ -14,9 +15,12 @@ const parentId = [];
 const generateList = (data) => {
   for (let i = 0; i < data.length; i++) {
     const node = data[i];
-    const { id, tocTitle } = node;
+    const { id, tocTitle, level } = node;
     dataList.push({ id: id, tocTitle: tocTitle });
-    parentId.push(id.toString());
+    // Only expand top levels
+    if (level < 1) {
+      parentId.push(id.toString());
+    }
     if (node.children) {
       generateList(node.children);
     }
@@ -41,22 +45,19 @@ const getParentKey = (id, tree) => {
 class LevelEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.updateLevelTree = this.updateLevelTree.bind(this);
     this._isMounted = false;
+    this.state = {
+      expandedKeys: [],
+      searchValue: "",
+      autoExpandParent: true,
+      treeData: [],
+      isoNode: null,
+      isStored: false,
+    };
   }
-
-  state = {
-    expandedKeys: [],
-    searchValue: "",
-    autoExpandParent: true,
-    treeData: [],
-    isoNode: null,
-    isStored: false,
-  };
 
   componentDidMount() {
     this._isMounted = true;
-    //TODO change here
     this.getTreeData(this.props.levelId);
   }
 
@@ -64,10 +65,9 @@ class LevelEditor extends React.Component {
     this._isMounted = false;
   }
 
-  updateLevelTree() {
-    //TODO change here
+  updateLevelTree = () => {
     this.getTreeData(this.props.levelId);
-  }
+  };
 
   getTreeData = (id) => {
     getToc({ id: id }).then((data) => {
@@ -80,10 +80,23 @@ class LevelEditor extends React.Component {
           });
         }
         generateList(this.state.treeData);
+        // Get expand keys from cache
+        const expandedKeysFromCache = localStorage.getItem("expandedKeys");
         if (this._isMounted) {
-          this.setState({
-            expandedKeys: parentId,
-          });
+          if (expandedKeysFromCache) {
+            const expandedKeys = JSON.parse(expandedKeysFromCache)[
+              this.props.bookID
+            ];
+            this.setState({
+              expandedKeys:
+                expandedKeys === undefined ? parentId : expandedKeys,
+              autoExpandParent: false,
+            });
+          } else {
+            this.setState({
+              expandedKeys: parentId,
+            });
+          }
         }
       }
     });
@@ -94,6 +107,7 @@ class LevelEditor extends React.Component {
       expandedKeys,
       autoExpandParent: false,
     });
+    setExpandKeysCache(this.props.bookID, expandedKeys);
   };
 
   onChange = (e) => {
@@ -143,7 +157,7 @@ class LevelEditor extends React.Component {
               {afterStr}
             </span>
           ) : (
-            <span>{paraRenderer(item.tocTitle)}</span>
+            <span>{paraRenderer(item.tocTitle, true)}</span>
           );
 
         if (item.children) {
