@@ -103,11 +103,13 @@ class LevelEditor extends React.Component {
   };
 
   onExpand = (expandedKeys) => {
-    this.setState({
-      expandedKeys,
-      autoExpandParent: false,
-    });
-    setExpandKeysCache(this.props.bookID, expandedKeys);
+    if (this._isMounted) {
+      this.setState({
+        expandedKeys,
+        autoExpandParent: false,
+      });
+      setExpandKeysCache(this.props.bookID, expandedKeys);
+    }
   };
 
   onChange = (e) => {
@@ -126,11 +128,13 @@ class LevelEditor extends React.Component {
       .map((item) => {
         return item.toString();
       });
-    this.setState({
-      expandedKeys,
-      searchValue: value,
-      autoExpandParent: true,
-    });
+    if (this._isMounted) {
+      this.setState({
+        expandedKeys,
+        searchValue: value,
+        autoExpandParent: true,
+      });
+    }
   };
 
   renderTreeNodes = (data, isSub = false) =>
