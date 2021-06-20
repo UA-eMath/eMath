@@ -6,6 +6,7 @@ import EditingModal from "./editingModal";
 import updateLevel from "../../requests/updateLevel";
 import paraRenderer from "../../pageRenderer";
 import { setExpandKeysCache } from "../../utils/setReadCache";
+import { Scrollbars } from "react-custom-scrollbars";
 
 const { TreeNode } = Tree;
 const { Search } = Input;
