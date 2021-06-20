@@ -29,7 +29,9 @@ export default function initElement(el) {
           }}
         />
 
-        <span style={{ ...styles.title }}>{this.props.pageTitle}</span>
+        <span style={{ ...styles.title }}>
+          {paraRenderer(this.props.pageTitle, true)}
+        </span>
 
         <NextButton
           className="ml-auto"

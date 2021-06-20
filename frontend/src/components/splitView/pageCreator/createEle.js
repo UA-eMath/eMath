@@ -8,11 +8,9 @@ import getPage from "../../../requests/getPage";
 import getPara from "../../../requests/getPara";
 import _ from "lodash";
 import paraRenderer from "../../../pageRenderer";
-import { Tabs } from "antd";
+import { message } from "antd";
 import getNextLevel from "../../../requests/getNextLevel";
 import getLevel from "../../../requests/getLevel";
-
-const { TabPane } = Tabs;
 
 const mapStateToProps = (state) => {
   return { items: state.windows.items };
@@ -116,29 +114,6 @@ class CreateElement extends React.Component {
       ...rest
     } = this.props;
     const { context, pageTitle, paraText } = this.state;
-    let contextPane =
-      context === null || _.isEqual(context, paraText) ? null : (
-        <TabPane tab={"Context"} key={"2"}>
-          {_.map(context, (para) => {
-            return paraRenderer(para, this.props);
-          })}
-        </TabPane>
-      );
-
-    let referencePane =
-      this.props["data-grid"].content.linkTo === undefined ? (
-        <TabPane tab={""} key={"1"}>
-          {_.map(paraText, (para) => {
-            return paraRenderer(para);
-          })}
-        </TabPane>
-      ) : (
-        <TabPane tab={"Reference"} key={"1"}>
-          {_.map(paraText, (para) => {
-            return paraRenderer(para);
-          })}
-        </TabPane>
-      );
 
     return (
       <div
@@ -162,6 +137,13 @@ class CreateElement extends React.Component {
               this.props["data-grid"].isPage
             );
           }}
+          onShowContextClick={() => {
+            if (context === null || _.isEqual(context, paraText)) {
+              message.info("No context.");
+            } else {
+              this.setState({ paraText: context });
+            }
+          }}
         />
         <Scrollbars>
           {this.props.children}
@@ -175,10 +157,9 @@ class CreateElement extends React.Component {
               padding: "1em 1.25em 3em",
             }}
           >
-            <Tabs defaultActiveKey={"1"}>
-              {referencePane}
-              {contextPane}
-            </Tabs>
+            {_.map(paraText, (para) => {
+              return paraRenderer(para);
+            })}
           </div>
         </Scrollbars>
       </div>

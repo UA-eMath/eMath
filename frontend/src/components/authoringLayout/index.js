@@ -33,7 +33,7 @@ export default class AuthoringLayout extends React.Component {
         split="vertical"
         minSize={0}
         size={this.state.paneSize}
-        style={{ position: "relative" }}
+        style={{ position: "relative", minHeight: "84vh" }}
         pane2Style={{ background: "#aaaa00" }}
       >
         <div>
