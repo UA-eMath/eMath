@@ -22,7 +22,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   openSubWindow: (id, content, isPage) =>
     dispatch(openSubWindow(id, content, isPage)),
-
   closeSubs: (id) => dispatch(closeSubs(id)),
 });
 

@@ -4,7 +4,11 @@ import { Tree } from "antd";
 import { Drawer, Tabs, Icon, Button } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import { getPageToChange, openNewWindow } from "../../../actions";
+import {
+  getPageToChange,
+  openNewWindow,
+  minimizeWindow,
+} from "../../../actions";
 import { getIndexTree } from "../../../requests/getTree";
 import paraRenderer from "../../../pageRenderer";
 import { setReadCache } from "../../../utils/setReadCache";
@@ -27,9 +31,17 @@ const styles = {
   },
 };
 
+const mapStateToProps = (state) => {
+  return {
+    items: state.windows.items,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => ({
   onWindowOpen: (content, isPage) => dispatch(openNewWindow(content, isPage)),
   getPageToChange: (id) => dispatch(getPageToChange(id)),
+  minimizeWindow: (id, title, content, isPage) =>
+    dispatch(minimizeWindow(id, title, content, isPage)),
 });
 
 class MenuDrawer extends React.Component {
@@ -198,6 +210,20 @@ class MenuDrawer extends React.Component {
     });
   };
 
+  replaceWindow = () => {
+    if (this.props.items.length > 1) {
+      const exceptFirst = this.props.items.slice(1);
+      exceptFirst.forEach((preWindow) => {
+        this.props.minimizeWindow(
+          preWindow.i,
+          preWindow.title,
+          preWindow.content,
+          preWindow.isPage
+        );
+      });
+    }
+  };
+
   renderIndexNodes = (data) => {
     return data.map((item) => {
       if (item.children) {
@@ -207,6 +233,7 @@ class MenuDrawer extends React.Component {
               <a
                 href
                 onClick={() => {
+                  this.replaceWindow();
                   this.props.onWindowOpen(item, false);
                   this.onClose();
                 }}
@@ -243,6 +270,7 @@ class MenuDrawer extends React.Component {
                         this.props.getPageToChange(item.id);
                         setReadCache(this.props.props.params.id, item.id);
                       } else {
+                        this.replaceWindow();
                         this.props.onWindowOpen(item, true);
                       }
                       this.onClose();
@@ -273,4 +301,4 @@ class MenuDrawer extends React.Component {
       });
 }
 
-export default connect(null, mapDispatchToProps)(MenuDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuDrawer);
