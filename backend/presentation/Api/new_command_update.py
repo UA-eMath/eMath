@@ -16,7 +16,10 @@ class NewCommandUpdate(views.APIView):
         cmd_obj = request.data
         [[filename, modified_cmd]] = cmd_obj.items()
         try:
-            book.new_command[filename] = modified_cmd
+            if modified_cmd is None:
+                book.new_command.pop(filename)
+            else:
+                book.new_command[filename] = modified_cmd
             book.save()
             return Response(status=204, data="Edit success!")
         except:
