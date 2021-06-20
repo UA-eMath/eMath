@@ -4,6 +4,7 @@ import postNewCommand from "../../requests/postNewCommand";
 import getNewCommand from "../../requests/getNewCommand";
 import EachNewCommand from "./eachNewCommand";
 import AddNewCommand from "./addNewCommand";
+import DeleteNewCommandFile from "./deleteNewCommandFile";
 
 const { Dragger } = Upload;
 const { TabPane } = Tabs;
@@ -49,7 +50,11 @@ export default class NewCommand extends React.Component {
   // When added a new command, update command list
   texCommandsOnChange = (filename, commands) => {
     const texCommands = this.state.texCommands;
-    texCommands[filename] = commands;
+    if (commands === null) {
+      delete texCommands[filename];
+    } else {
+      texCommands[filename] = commands;
+    }
     this.setState({ texCommands: texCommands });
   };
 
@@ -59,7 +64,7 @@ export default class NewCommand extends React.Component {
     for (const filename in commands) {
       items.push(
         <div>
-          <Divider key={num}>{filename}</Divider>
+          <Divider key={num}>{filename} </Divider>
           {commands[filename].map((command, index) => (
             <EachNewCommand
               bookId={this.props.book.id}
@@ -73,6 +78,11 @@ export default class NewCommand extends React.Component {
             bookId={this.props.book.id}
             filename={filename}
             allCommands={commands[filename]}
+            texCommandsOnChange={this.texCommandsOnChange}
+          />
+          <DeleteNewCommandFile
+            bookId={this.props.book.id}
+            filename={filename}
             texCommandsOnChange={this.texCommandsOnChange}
           />
         </div>
