@@ -34,6 +34,7 @@ export default class AuthoringLayout extends React.Component {
         minSize={0}
         size={this.state.paneSize}
         style={{ position: "relative" }}
+        pane2Style={{ background: "#aaaa00" }}
       >
         <div>
           <LevelEditor
@@ -43,11 +44,7 @@ export default class AuthoringLayout extends React.Component {
           />
         </div>
 
-        <div
-          style={{
-            background: "#aaaa00",
-          }}
-        >
+        <div>
           <ParaEditor bookID={id} />
         </div>
       </SplitPane>

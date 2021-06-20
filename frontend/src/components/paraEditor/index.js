@@ -198,11 +198,15 @@ class ParaEditor extends React.Component {
     return (
       <div>
         {this.props.status === null ? (
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <p style={{ fontSize: "25px", lineHeight: "600px" }}>
-              {" "}
-              Double click a page to edit.
-            </p>
+          <div
+            style={{
+              textAlign: "center",
+              height: "100%",
+              fontSize: "25px",
+              marginTop: 300,
+            }}
+          >
+            Double click a page to edit.
           </div>
         ) : (
           <div>
@@ -215,24 +219,20 @@ class ParaEditor extends React.Component {
               parentTitle={this.props.title}
               focusedArea={this.state.focusedArea}
             />
-
-            <h3
-              align={"center"}
-              style={{
-                margin: "10px",
-              }}
-            >
-              {paraRenderer(this.props.title, true)}
-            </h3>
             <Scrollbars
               style={{
                 minHeight: "100vh",
-                paddingBottom: "100px",
-                margin: "10px",
-                marginTop: "20px",
               }}
             >
-              <div style={{ margin: "35px 30px 0 0" }}>
+              <div style={{ margin: 16 }}>
+                <h3
+                  align={"center"}
+                  style={{
+                    marginTop: 24,
+                  }}
+                >
+                  {paraRenderer(this.props.title, true)}
+                </h3>
                 {_.map(this.props.data, (item, i) => {
                   if (Array.isArray(item)) {
                     return (
