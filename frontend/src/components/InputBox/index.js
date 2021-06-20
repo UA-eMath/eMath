@@ -8,7 +8,6 @@ import "./index.css";
 import SelectLabelModal from "../paraToolBar/selectLabelModal";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-html";
-import "ace-builds/src-noconflict/snippets/html";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/ext-language_tools";
 import { addCompleter } from "ace-builds/src-noconflict/ext-language_tools";
