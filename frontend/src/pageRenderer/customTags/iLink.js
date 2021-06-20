@@ -1,12 +1,20 @@
 import React from "react";
 import _ from "lodash";
-import { openNewWindow } from "../../actions";
+import { openNewWindow, minimizeWindow } from "../../actions";
 import { connect } from "react-redux";
 import getLabel from "../../requests/getLabel";
 import { message } from "antd";
 
+const mapStateToProps = (state) => {
+  return {
+    items: state.windows.items,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => ({
   onWindowOpen: (content, isPage) => dispatch(openNewWindow(content, isPage)),
+  minimizeWindow: (id, title, content, isPage) =>
+    dispatch(minimizeWindow(id, title, content, isPage)),
 });
 
 function iLink(props) {
@@ -24,6 +32,19 @@ function iLink(props) {
           );
         } else {
           linked_obj.data.id = linked_obj.data.linkedID;
+
+          // Minimize previous windows
+          if (props.items.length > 1) {
+            const exceptFirst = props.items.slice(1);
+            exceptFirst.forEach((preWindow) => {
+              props.minimizeWindow(
+                preWindow.i,
+                preWindow.title,
+                preWindow.content,
+                preWindow.isPage
+              );
+            });
+          }
           props.onWindowOpen(linked_obj.data, linked_obj.data.isPage);
         }
       }}
@@ -35,4 +56,4 @@ function iLink(props) {
   );
 }
 
-export default connect(null, mapDispatchToProps)(iLink);
+export default connect(mapStateToProps, mapDispatchToProps)(iLink);

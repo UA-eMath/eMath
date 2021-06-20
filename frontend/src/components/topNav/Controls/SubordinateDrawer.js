@@ -1,8 +1,6 @@
 import React from "react";
-import { Icon, Drawer, Button } from "antd";
-
+import { Icon, Drawer, Button, Badge, Tooltip } from "antd";
 import { closeSubs, openSubWindow } from "../../../actions";
-
 import { connect } from "react-redux";
 
 const styles = {
@@ -22,7 +20,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   openSubWindow: (id, content, isPage) =>
     dispatch(openSubWindow(id, content, isPage)),
-
   closeSubs: (id) => dispatch(closeSubs(id)),
 });
 
@@ -34,12 +31,24 @@ class SubordinateDrawer extends React.Component {
   render() {
     return (
       <div style={styles.DivPos}>
-        <Icon
-          type="container"
-          onClick={this.showSubordinateDrawer}
-          style={styles.Icon}
-          theme="filled"
-        />
+        <Tooltip title="Minimized Windows">
+          <Badge
+            count={this.props.subs.length}
+            overflowCount={10}
+            style={{
+              color: "#999",
+              backgroundColor: "#fff",
+              boxShadow: "0 0 0 1px #d9d9d9 inset",
+            }}
+          >
+            <Icon
+              type="container"
+              onClick={this.showSubordinateDrawer}
+              style={styles.Icon}
+              theme="filled"
+            />
+          </Badge>
+        </Tooltip>
 
         <Drawer
           title="Minimized Windows"

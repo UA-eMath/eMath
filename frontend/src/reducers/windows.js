@@ -25,17 +25,20 @@ const windows = (state = initState_windows, action) => {
         const removeExisted = _.reject(state.items, function (e) {
           return e.content.id === action.content.id;
         });
+
+        const newWindow = {
+          i: "n" + state.newCounter,
+          x: 6,
+          y: 0,
+          w: 6,
+          h: 9,
+          static: false,
+          title: action.content.title,
+          content: action.content,
+          isPage: action.isPage,
+        };
         return Object.assign({}, state, {
-          items: removeExisted.concat({
-            i: "n" + state.newCounter,
-            x: 6,
-            y: 0, // puts it at the bottom
-            w: 6,
-            h: 4,
-            static: false,
-            content: action.content,
-            isPage: action.isPage,
-          }),
+          items: removeExisted.concat(newWindow),
           newCounter: state.newCounter + 1,
         });
       }

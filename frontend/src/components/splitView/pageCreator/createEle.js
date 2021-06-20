@@ -106,13 +106,8 @@ class CreateElement extends React.Component {
 
   render() {
     let i = this.props["data-grid"].i;
-    const {
-      minimizeWindow,
-      onWindowOpen,
-      onCloseWindow,
-      onLayoutChange,
-      ...rest
-    } = this.props;
+    const { minimizeWindow, onCloseWindow, onLayoutChange, ...rest } =
+      this.props;
     const { context, pageTitle, paraText } = this.state;
 
     return (
