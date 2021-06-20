@@ -1,7 +1,7 @@
 import React from "react";
 import fetchTocTree from "./treeData";
 import { Tree } from "antd";
-import { Drawer, Tabs, Icon, Button } from "antd";
+import { Drawer, Tabs, Icon, Button, Tooltip } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import {
@@ -20,8 +20,6 @@ const styles = {
   Icon: {
     fontSize: "25px",
     color: "lightGrey",
-    marginLeft: "25px",
-    marginRight: "10px",
   },
   Tree: {
     fontSize: "20px",
@@ -148,7 +146,9 @@ class MenuDrawer extends React.Component {
 
     return (
       <div style={styles.DivPos}>
-        <Icon type="menu" onClick={this.showDrawer} style={styles.Icon} />
+        <Tooltip title="Menu">
+          <Icon type="read" onClick={this.showDrawer} style={styles.Icon} />
+        </Tooltip>
         <Drawer
           placement="right"
           closable={false}
