@@ -6,6 +6,7 @@ import SplitPane from "react-split-pane";
 import "./index.css";
 import MathjaxRenderer from "../MathjaxRenderer";
 import { Spin } from "antd";
+import background from "../../static/img/write.jpg";
 
 export default class AuthoringLayout extends React.Component {
   state = {
@@ -33,8 +34,11 @@ export default class AuthoringLayout extends React.Component {
         split="vertical"
         minSize={0}
         size={this.state.paneSize}
-        style={{ position: "relative", minHeight: "84vh" }}
-        pane2Style={{ background: "#aaaa00" }}
+        style={{ position: "relative", minHeight: "100vh" }}
+        pane2Style={{
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+        }} // #aaaa00
       >
         <div>
           <LevelEditor
