@@ -1,3 +1,5 @@
+import paperTexture from "../../../static/img/paper.jpg";
+
 export default {
   titleBar: {
     WebkitUserSelect: "none",
@@ -9,7 +11,7 @@ export default {
     alignItems: "center",
     width: "100%",
     height: "31px",
-    backgroundColor: "#EAE8DC",
+    backgroundColor: "transparent", //#EAE8DC
     textAlign: "center",
     margin: "10px 0px 10px",
   },
@@ -26,7 +28,8 @@ export default {
     letterSpacing: " 0.81px",
   },
   window: {
-    background: "#EAE7DC",
+    backgroundImage: `url(${paperTexture})`, //#EAE7DC
+    backgroundSize: "cover",
     overflow: "hidden",
     width: "100%",
     boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.35)",

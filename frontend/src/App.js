@@ -1,6 +1,6 @@
 import React from "react";
 import TopNav from "./components/topNav";
-import { Layout, message } from "antd";
+import { message } from "antd";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import SplitView from "./components/splitView";
 import BookDisplay from "./components/bookDisplay";
@@ -9,8 +9,7 @@ import SetupPage from "./components/setupPage";
 import LoginComp from "./components/LoginComp";
 import Signup from "./components/Signup";
 import jwt_decode from "jwt-decode";
-
-const { Content, Footer } = Layout;
+import background from "./static/img/paper_white.jpg";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -91,14 +90,15 @@ export default class App extends React.Component {
       </div>
     );
     return (
-      <Layout className="layout" style={{ minHeight: "100vh" }}>
-        <Content>
-          <Router>{page}</Router>
-        </Content>
-        <Footer style={{ textAlign: "center" }}>
-          eMath ©2020 Created by University of Alberta
-        </Footer>
-      </Layout>
+      <div
+        style={{
+          minHeight: "100vh",
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+        }}
+      >
+        <Router>{page}</Router>
+      </div>
     );
   }
 }
