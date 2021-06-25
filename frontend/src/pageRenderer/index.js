@@ -20,8 +20,11 @@ import tbody from "./customTags/tbody";
 import tr from "./customTags/tr";
 import td from "./customTags/td";
 import iframe from "./customTags/iframe";
+import HideParaBlock from "./hideParaBlock";
 
-export default function paraRenderer(para, isTitle) {
+const hiddenLevel = ["Proof"];
+
+export default function paraRenderer(para, isTitle = false, isInit = false) {
   /*
 	"content":{"data":""}
 	*/
@@ -63,11 +66,15 @@ export default function paraRenderer(para, isTitle) {
     }),
   });
 
+  // has sublevel
   if (Array.isArray(para)) {
-    // has sublevel
-    let left_title = para[0].para_parent.tocTitle;
-    let right_title = para[0].para_parent.title;
-    return blockOfPara(para, left_title, right_title);
+    if (isInit && hiddenLevel.includes(para[0].para_parent.tocTitle)) {
+      return <HideParaBlock para={para} />;
+    } else {
+      let left_title = para[0].para_parent.tocTitle;
+      let right_title = para[0].para_parent.title;
+      return blockOfPara(para, left_title, right_title, isInit);
+    }
   }
 
   let decodedData;

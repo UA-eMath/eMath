@@ -21,7 +21,7 @@ const windows = (state = initState_windows, action) => {
     case "OPEN_NEW_WINDOW":
       if (typeof action.content !== "undefined" && action.content !== null) {
         // Only add page if not opened before
-        // TODO: handle init window
+        // TODO: handle repeated init window
         const removeExisted = _.reject(state.items, function (e) {
           return e.content.id === action.content.id;
         });
