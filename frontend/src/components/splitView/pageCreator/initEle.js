@@ -63,7 +63,7 @@ export default function initElement(el) {
           }}
         >
           {_.map(this.props.paraText, (para) => {
-            return paraRenderer(para);
+            return paraRenderer(para, false, true);
           })}
         </div>
       </Scrollbars>
