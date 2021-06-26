@@ -15,16 +15,16 @@ Api request:
 
 
 def parseNewCommandFromFile(file_content):
-    new_command = r"^(\\newcommand\{\\.*\}(\[[0-9]*\])+(\{.*\})).*(\%.*)"
-    pattern = re.compile(new_command)
+    pattern = re.compile(
+        r"^(\\newcommand\{\\([a-zA-Z]*)\}(\[(.*)\])*\{(.*)\})(\s*)(\%(.*))?")
     matched_commands = []
     tex = file_content.splitlines()
     for line in tex:
-        matchObj = re.search(pattern, line)
+        matchObj = re.match(pattern, line)
         if matchObj:
-            new = matchObj.group(1)
-            comment = matchObj.group(4)
-            matched_commands.append({"tex": new, "note": comment[1:]})
+            new_command = matchObj.group(1)
+            comment = matchObj.group(8)
+            matched_commands.append({"tex": new_command, "note": comment})
     return matched_commands
 
 
@@ -43,6 +43,9 @@ class UploadNewCommand(views.APIView):
             tex += chunk_string
         # parse file into {"tex":"\newcommand","note",""}
         tex_array = parseNewCommandFromFile(tex)
+        if tex_array == []:
+            return Response(status=500,
+                            data="Tex file is empty or parsed fail.")
         tex_to_be_added = {file_obj.name: tex_array}
         book = Level.objects.get(pk=kwargs.get("pk")).get_root().root
         commands = getattr(book, 'new_command')
