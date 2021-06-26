@@ -57,14 +57,14 @@ export default class EachNewCommand extends React.Component {
 
     const content = onClickEdit ? (
       <>
-        <Col span={11}>
+        <Col span={14}>
           <Input
             addonBefore={"Tex:"}
             value={inputTex}
             onChange={this.changeInputTex}
           />
         </Col>
-        <Col span={11}>
+        <Col span={7}>
           <Input
             addonBefore={"Note:"}
             value={inputNote}
@@ -74,8 +74,8 @@ export default class EachNewCommand extends React.Component {
       </>
     ) : (
       <>
-        <Col span={11}>{inputTex}</Col>
-        <Col span={11}>{inputNote}</Col>
+        <Col span={14}>{inputTex}</Col>
+        <Col span={7}>{inputNote}</Col>
       </>
     );
 
@@ -96,6 +96,9 @@ export default class EachNewCommand extends React.Component {
     const renderContent = this.state.visible ? (
       <List key={this.props.index}>
         <Row>
+          <Col span={1} style={{ color: "#0085F9", textAlign: "center" }}>
+            {this.props.index + 1}
+          </Col>
           {content}
           <Col span={1}>{editOrSave}</Col>
           <Col span={1}>
