@@ -64,7 +64,8 @@ export default class BookCard extends React.Component {
           }}
         />
       );
-    } else if (settingActive) {
+    }
+    if (settingActive) {
       actionList.push(
         <Icon
           type="setting"
