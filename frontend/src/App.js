@@ -1,15 +1,10 @@
 import React from "react";
-import TopNav from "./components/topNav";
 import { message } from "antd";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import SplitView from "./components/splitView";
-import BookDisplay from "./components/bookDisplay";
-import AuthoringLayout from "./components/authoringLayout";
-import SetupPage from "./components/setupPage";
-import LoginComp from "./components/LoginComp";
-import Signup from "./components/Signup";
 import jwt_decode from "jwt-decode";
 import background from "./static/img/paper_white.jpg";
+import AuthorRoute from "./components/authorRoute";
+import UnauthenticatedRoute from "./components/unauthenticatedRoute";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -17,6 +12,7 @@ export default class App extends React.Component {
     this.state = {
       loggedIn: localStorage.getItem("token") ? true : false,
       username: localStorage.getItem("username"),
+      accountType: localStorage.getItem("type"),
     };
   }
 
@@ -33,61 +29,28 @@ export default class App extends React.Component {
     });
   }
 
-  Home = () => {
-    return (
-      <div>
-        <TopNav />
-        <BookDisplay />
-      </div>
-    );
-  };
-
   logout = () => {
     localStorage.clear();
-    this.setState({ loggedIn: null, username: "" });
+    this.setState({ loggedIn: null, username: "", type: "" });
     window.location.href = "/";
   };
 
+  switchAccountType = (type) => {
+    switch (type) {
+      case "Author":
+        return <AuthorRoute {...this.props} />;
+      default:
+        return <div></div>;
+    }
+  };
+
   render() {
-    const { loggedIn } = this.state;
+    const { loggedIn, accountType } = this.state;
 
     let page = loggedIn ? (
-      <div>
-        <Route exact path="/" component={this.Home} />
-        <Route
-          path="/view/:title/:id"
-          render={(props) => (
-            <div>
-              <TopNav {...this.props} {...props} />
-              <SplitView {...this.props} {...props} />
-            </div>
-          )}
-        />
-        <Route
-          path="/authoring/:id/"
-          render={(props) => (
-            <div>
-              <TopNav />
-              <AuthoringLayout {...this.props} {...props} />
-            </div>
-          )}
-        />
-
-        <Route
-          path="/setup/:id/"
-          render={(props) => (
-            <div>
-              <TopNav />
-              <SetupPage {...this.props} {...props} />
-            </div>
-          )}
-        />
-      </div>
+      <div>{this.switchAccountType(accountType)}</div>
     ) : (
-      <div>
-        <Route exact path="/" component={() => <LoginComp />} />
-        <Route path="/signup" render={(props) => <Signup />} />
-      </div>
+      <UnauthenticatedRoute />
     );
     return (
       <div

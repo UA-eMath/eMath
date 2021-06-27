@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, Input, Button, Checkbox, Icon, message } from "antd";
-import "./index.css";
-import { authPerson, getUsermod } from "../../requests/requestPerson";
-import url from "../../requests/Urls";
+import "../index.css";
+import { authPerson, getUsermod } from "../../../requests/requestPerson";
+import url from "../../../requests/Urls";
 
 class LoginComp extends React.Component {
   state = {
@@ -59,6 +59,7 @@ class LoginComp extends React.Component {
                               json.middle_name
                             );
                             localStorage.setItem("lastName", json.last_name);
+                            localStorage.setItem("type", json.type);
                             window.location.href = "/";
                           });
                       });
