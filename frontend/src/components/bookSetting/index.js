@@ -7,6 +7,7 @@ import {
   Modal,
   Upload,
   Icon,
+  Switch,
 } from "antd";
 import get from "lodash/get";
 import React from "react";
@@ -276,6 +277,13 @@ class BookSetting extends React.Component {
               style={{ width: "50%", marginTop: 8 }}
             />
           )}
+        </Form.Item>
+
+        <Form.Item label="This book is COMPLETED">
+          {getFieldDecorator("completed", {
+            valuePropName: "checked",
+            initialValue: get(book, ["root", "completed"]),
+          })(<Switch />)}
         </Form.Item>
 
         <Form.Item>

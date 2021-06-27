@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import BooleanField
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.postgres.fields import JSONField
 from django.contrib.auth.models import User
@@ -7,6 +8,9 @@ from .constant.basic_command import new_commands
 yaozhilu
 dell1234
 '''
+
+ACCOUNT_TYPES = [('Author', 'Author'), ('Student', 'Student'), ('TA', 'TA'),
+                 ('Tester', 'Tester')]
 
 
 def default_dict():
@@ -44,6 +48,7 @@ class RootLevel(models.Model):
     new_command = JSONField(default=basic_command)
     tex_shortcut = JSONField(default=basic_shortcut)
     cover_image = models.TextField(null=True, blank=True)
+    completed = models.BooleanField(default=False)
 
 
 class Level(MPTTModel):
@@ -84,6 +89,9 @@ class Person(models.Model):
     first_name = models.CharField(max_length=20)
     middle_name = models.CharField(max_length=20, null=True, blank=True)
     last_name = models.CharField(max_length=20)
+    type = models.CharField(max_length=20,
+                            choices=ACCOUNT_TYPES,
+                            default='Student')
     user = models.OneToOneField(User,
                                 on_delete=models.CASCADE,
                                 null=True,

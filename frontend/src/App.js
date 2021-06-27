@@ -5,6 +5,9 @@ import jwt_decode from "jwt-decode";
 import background from "./static/img/paper_white.jpg";
 import AuthorRoute from "./components/authorRoute";
 import UnauthenticatedRoute from "./components/unauthenticatedRoute";
+import StudentRoute from "./components/studentRoute";
+import TesterRoute from "./components/testerRoute";
+import TARoute from "./components/taRoute";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -38,7 +41,13 @@ export default class App extends React.Component {
   switchAccountType = (type) => {
     switch (type) {
       case "Author":
-        return <AuthorRoute {...this.props} />;
+        return <AuthorRoute {...this.props} type="Author" />;
+      case "Student":
+        return <StudentRoute {...this.props} type="Student" />;
+      case "Tester":
+        return <TesterRoute {...this.props} type="Tester" />;
+      case "TA":
+        return <TARoute {...this.props} type="TA" />;
       default:
         return <div></div>;
     }

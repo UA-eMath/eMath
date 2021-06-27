@@ -3,12 +3,10 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import TopNav from "../topNav";
 import BookDisplay from "../bookDisplay";
 import SplitView from "../splitView";
-import AuthoringLayout from "../authoringLayout";
-import SetupPage from "../setupPage";
 
-// Author can create book, edit book, and read book.
+// Tester can read a specific developing book.
 
-export default class AuthorRoute extends React.Component {
+export default class TesterRoute extends React.Component {
   render() {
     return (
       <div>
@@ -20,6 +18,7 @@ export default class AuthorRoute extends React.Component {
               <div>
                 <TopNav />
                 <BookDisplay type={this.props.type} />
+                {/* only display books that the user is allowed to see */}
               </div>
             );
           }}
@@ -30,25 +29,6 @@ export default class AuthorRoute extends React.Component {
             <div>
               <TopNav {...this.props} {...props} />
               <SplitView {...this.props} {...props} />
-            </div>
-          )}
-        />
-        <Route
-          path="/authoring/:id/"
-          render={(props) => (
-            <div>
-              <TopNav />
-              <AuthoringLayout {...this.props} {...props} />
-            </div>
-          )}
-        />
-
-        <Route
-          path="/setup/:id/"
-          render={(props) => (
-            <div>
-              <TopNav />
-              <SetupPage {...this.props} {...props} />
             </div>
           )}
         />
