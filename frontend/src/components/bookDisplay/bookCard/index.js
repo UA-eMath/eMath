@@ -78,20 +78,18 @@ export default class BookCard extends React.Component {
     }
 
     return (
-      <Tooltip title={book.title} placement="bottom" key={book.id}>
-        <div>
-          <Card
-            hoverable
-            style={{
-              width: 300,
-              margin: 20,
-            }}
-            cover={coverContent}
-            actions={actionList}
-          >
-            <Meta title={book.title} description={authorList} />
-          </Card>
-        </div>
+      <Tooltip title={book.title} placement="bottom">
+        <Card
+          hoverable
+          style={{
+            width: 300,
+            margin: 20,
+          }}
+          cover={coverContent}
+          actions={actionList}
+        >
+          <Meta title={book.title} description={authorList} />
+        </Card>
       </Tooltip>
     );
   }

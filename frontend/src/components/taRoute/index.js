@@ -1,7 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import TopNav from "../topNav";
-import BookDisplay from "../bookDisplay";
 import SplitView from "../splitView";
 import AuthoringLayout from "../authoringLayout";
 import SetupPage from "../setupPage";
@@ -11,20 +10,7 @@ import SetupPage from "../setupPage";
 export default class TARoute extends React.Component {
   render() {
     return (
-      <div>
-        <Route
-          exact
-          path="/"
-          render={() => {
-            return (
-              <div>
-                <TopNav />
-                <BookDisplay type={this.props.userType} />
-                {/* only display books that the user is allowed to see */}
-              </div>
-            );
-          }}
-        />
+      <>
         <Route
           path="/view/:title/:id"
           render={(props) => (
@@ -53,7 +39,7 @@ export default class TARoute extends React.Component {
             </div>
           )}
         />
-      </div>
+      </>
     );
   }
 }
