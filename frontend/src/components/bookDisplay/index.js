@@ -1,133 +1,118 @@
 import React, { useState, useEffect } from "react";
+import _ from "lodash";
 import CardDeck from "react-bootstrap/CardDeck";
-import { Button, Card, Icon, Tooltip, Empty } from "antd";
+import { Button } from "antd";
 import "./index.css";
 import "antd/dist/antd.css";
 import getRoots from "../../requests/GetRoots";
 import AddBook from "./addBookModal";
+import BookCard from "./bookCard";
 
 export default function BookDisplay(props) {
   const [data, setData] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { Meta } = Card;
-
   useEffect(() => {
     fetchRoots();
   }, []);
+
+  const displayedBook = (type, bookList) => {
+    switch (type) {
+      case "Student":
+        const filteredBookList = _.filter(bookList, function (book) {
+          return book.root.completed;
+        });
+        return filteredBookList;
+      case "Tester":
+        return []; // TODO: tester's book
+      default:
+        return bookList;
+    }
+  };
 
   const fetchRoots = () => {
     getRoots().then((data) => {
       if (!data || data.status !== 200) {
         console.error("FETCH_TAGS_FAILED", data);
       } else {
-        setData(data.data);
+        const bookList = data.data;
+        // Consider which book should be displayed
+        setData(displayedBook(props.type, bookList));
       }
     });
+  };
+
+  const createBookSwitch = (type) => {
+    // whether the user can create books
+    switch (type) {
+      case "Author":
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  const editModeSwitch = (type) => {
+    // whether the user can edit books
+    switch (type) {
+      case "Author":
+        return true;
+      case "TA":
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  const settingSwitch = (type) => {
+    // whether the user can change the settings of books
+    switch (type) {
+      case "Author":
+        return true;
+      case "TA":
+        return true;
+      default:
+        return false;
+    }
   };
 
   return (
     <React.Fragment>
       <CardDeck style={{ justifyContent: "center" }}>
         {data.map((book) => {
-          const authorList = authors(book);
-          const coverContent =
-            book.root.cover_image === null || book.root.cover_image === "" ? (
-              <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                imageStyle={{ width: 300, height: 360 }}
-                description={false}
-              />
-            ) : (
-              <img
-                alt="example"
-                style={{ width: 300, height: 360, objectFit: "scale-down" }}
-                src={book.root.cover_image}
-                onClick={() => {
-                  window.location.href = "/view/" + book.title + "/" + book.id;
-                }}
-              />
-            );
           return (
-            <Tooltip title={book.title} placement="bottom" key={book.id}>
-              <div>
-                <Card
-                  hoverable
-                  style={{
-                    width: 300,
-                    margin: 20,
-                  }}
-                  cover={coverContent}
-                  actions={[
-                    <Icon
-                      type="setting"
-                      key="setting"
-                      onClick={() => {
-                        window.location.href = "/setup/" + book.id;
-                      }}
-                    />,
-                    <Icon
-                      type="edit"
-                      key="edit"
-                      onClick={() => {
-                        window.location.href = "/authoring/" + book.id;
-                      }}
-                    />,
-                    <Icon
-                      type="read"
-                      key="read"
-                      onClick={() => {
-                        window.location.href =
-                          "/view/" + book.title + "/" + book.id;
-                      }}
-                    />,
-                  ]}
-                >
-                  <Meta title={book.title} description={authorList} />
-                </Card>
-              </div>
-            </Tooltip>
+            <BookCard
+              book={book}
+              editModeActive={editModeSwitch(props.type)}
+              settingActive={settingSwitch(props.type)}
+            />
           );
         })}
       </CardDeck>
 
-      <Button
-        icon={"plus"}
-        shape="circle"
-        size={"large"}
-        onClick={() => {
-          setVisible(true);
-        }}
-      />
-
-      <AddBook
-        visible={visible}
-        onCancel={() => setVisible(false)}
-        loading={loading}
-        setVisible={setVisible}
-        setLoading={setLoading}
-        fetchRoots={() => fetchRoots()}
-      />
+      {createBookSwitch(props.type) ? (
+        <div>
+          <Button
+            icon={"plus"}
+            shape="circle"
+            size={"large"}
+            onClick={() => {
+              setVisible(true);
+            }}
+          />
+          <AddBook
+            visible={visible}
+            onCancel={() => setVisible(false)}
+            loading={loading}
+            setVisible={setVisible}
+            setLoading={setLoading}
+            fetchRoots={() => fetchRoots()}
+          />
+        </div>
+      ) : (
+        ""
+      )}
     </React.Fragment>
   );
 }
-
-let authors = (book) => {
-  let description = "";
-
-  if (book.root.author === null) {
-    return "";
-  }
-
-  let author_array = [book.root.author];
-
-  for (let key in author_array) {
-    description += author_array[key].first_name + " ";
-    let md = author_array[key].middle_name;
-    description += !md ? "" : md + " ";
-    description += author_array[key].last_name + " ";
-  }
-
-  return description;
-};

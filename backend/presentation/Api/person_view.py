@@ -37,9 +37,9 @@ class PersonViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         request_data = request.data.copy()
         # create person
-        first_name = request_data.get('firstName', None)
+        first_name = request_data.get('firstName', "")
         middle_name = request_data.get('middleName', None)
-        last_name = request_data.get('lastName', None)
+        last_name = request_data.get('lastName', "")
         person_data = {
             'first_name': first_name,
             'middle_name': middle_name,
@@ -47,7 +47,7 @@ class PersonViewSet(viewsets.ModelViewSet):
         }
         # create user if given enough information
         username = request_data.get('username', None)
-        email = request_data.get('email', None)
+        email = request_data.get('email', "")
         password = request_data.get('password', None)
         if (username and password):
             try:

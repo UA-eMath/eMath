@@ -1,29 +1,38 @@
 import React from "react";
-import TopNav from "./components/topNav";
+import { connect } from "react-redux";
 import { message } from "antd";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import SplitView from "./components/splitView";
-import BookDisplay from "./components/bookDisplay";
-import AuthoringLayout from "./components/authoringLayout";
-import SetupPage from "./components/setupPage";
-import LoginComp from "./components/LoginComp";
-import Signup from "./components/Signup";
 import jwt_decode from "jwt-decode";
 import background from "./static/img/paper_white.jpg";
+import AuthorRoute from "./components/authorRoute";
+import UnauthenticatedRoute from "./components/unauthenticatedRoute";
+import StudentRoute from "./components/studentRoute";
+import TesterRoute from "./components/testerRoute";
+import TARoute from "./components/taRoute";
+import { login } from "./actions";
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: localStorage.getItem("token") ? true : false,
-      username: localStorage.getItem("username"),
-    };
-  }
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.authentication.isAuthenticated,
+    username: state.authentication.username,
+    userType: state.authentication.userType,
+  };
+};
 
+const mapDispatchToProps = (dispatch) => ({
+  onAuthentication: (username, userType) => dispatch(login(username, userType)),
+});
+
+class App extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem("token");
     if (token && jwt_decode(token).exp < Date.now() / 1000) {
       this.logout();
+    } else if (token) {
+      this.props.onAuthentication(
+        localStorage.getItem("username"),
+        localStorage.getItem("type")
+      );
     }
     // global message config
     message.config({
@@ -33,61 +42,33 @@ export default class App extends React.Component {
     });
   }
 
-  Home = () => {
-    return (
-      <div>
-        <TopNav />
-        <BookDisplay />
-      </div>
-    );
-  };
-
   logout = () => {
     localStorage.clear();
-    this.setState({ loggedIn: null, username: "" });
     window.location.href = "/";
   };
 
+  switchAccountType = (type) => {
+    switch (type) {
+      case "Author":
+        return <AuthorRoute {...this.props} />;
+      case "Student":
+        return <StudentRoute {...this.props} />;
+      case "Tester":
+        return <TesterRoute {...this.props} />;
+      case "TA":
+        return <TARoute {...this.props} />;
+      default:
+        return <div></div>;
+    }
+  };
+
   render() {
-    const { loggedIn } = this.state;
+    const { isAuthenticated, userType } = this.props;
 
-    let page = loggedIn ? (
-      <div>
-        <Route exact path="/" component={this.Home} />
-        <Route
-          path="/view/:title/:id"
-          render={(props) => (
-            <div>
-              <TopNav {...this.props} {...props} />
-              <SplitView {...this.props} {...props} />
-            </div>
-          )}
-        />
-        <Route
-          path="/authoring/:id/"
-          render={(props) => (
-            <div>
-              <TopNav />
-              <AuthoringLayout {...this.props} {...props} />
-            </div>
-          )}
-        />
-
-        <Route
-          path="/setup/:id/"
-          render={(props) => (
-            <div>
-              <TopNav />
-              <SetupPage {...this.props} {...props} />
-            </div>
-          )}
-        />
-      </div>
+    let page = isAuthenticated ? (
+      <div>{this.switchAccountType(userType)}</div>
     ) : (
-      <div>
-        <Route exact path="/" component={() => <LoginComp />} />
-        <Route path="/signup" render={(props) => <Signup />} />
-      </div>
+      <UnauthenticatedRoute />
     );
     return (
       <div
@@ -102,3 +83,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

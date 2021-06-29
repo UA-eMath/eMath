@@ -1,7 +1,9 @@
 import React from "react";
-import { Form, Input, Button, message } from "antd";
-import { postPerson } from "../../requests/requestPerson";
-import "./index.css";
+import { Form, Input, Button, message, Select } from "antd";
+import { postPerson } from "../../../requests/requestPerson";
+import "../index.css";
+
+const { Option } = Select;
 
 class Signup extends React.Component {
   state = {
@@ -100,11 +102,7 @@ class Signup extends React.Component {
           </Form.Item>
 
           <Form.Item label="First Name">
-            {getFieldDecorator("firstName", {
-              rules: [
-                { required: true, message: "Please input your first name!" },
-              ],
-            })(<Input />)}
+            {getFieldDecorator("firstName", {})(<Input />)}
           </Form.Item>
 
           <Form.Item label="Middle Name">
@@ -112,9 +110,31 @@ class Signup extends React.Component {
           </Form.Item>
 
           <Form.Item label="Last Name">
-            {getFieldDecorator("lastName", {
+            {getFieldDecorator("lastName", {})(<Input />)}
+          </Form.Item>
+
+          <Form.Item label="Account Type" hasFeedback>
+            {getFieldDecorator("type", {
               rules: [
-                { required: true, message: "Please input your last name!" },
+                { required: true, message: "Please select your account type!" },
+              ],
+            })(
+              <Select placeholder="Please select a type">
+                <Option value="author">Author</Option>
+                <Option value="student">Student</Option>
+                <Option value="ta">TA</Option>
+                <Option value="tester">Tester</Option>
+              </Select>
+            )}
+          </Form.Item>
+
+          <Form.Item label="E-mail">
+            {getFieldDecorator("email", {
+              rules: [
+                {
+                  type: "email",
+                  message: "The input is not valid E-mail!",
+                },
               ],
             })(<Input />)}
           </Form.Item>
@@ -144,21 +164,6 @@ class Signup extends React.Component {
                 },
               ],
             })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-          </Form.Item>
-
-          <Form.Item label="E-mail">
-            {getFieldDecorator("email", {
-              rules: [
-                {
-                  type: "email",
-                  message: "The input is not valid E-mail!",
-                },
-                {
-                  required: true,
-                  message: "Please input your E-mail!",
-                },
-              ],
-            })(<Input />)}
           </Form.Item>
 
           <Form.Item {...tailLayout}>

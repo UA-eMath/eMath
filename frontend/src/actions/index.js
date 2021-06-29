@@ -107,3 +107,14 @@ export function getPageToChange(id) {
       .catch((error) => dispatch(loadPageError(error)));
   };
 }
+
+// Authentication
+export const login = (username, userType) => ({
+  type: types.LOGIN,
+  username,
+  userType,
+});
+
+export const logout = () => ({
+  type: types.LOGOUT,
+});
