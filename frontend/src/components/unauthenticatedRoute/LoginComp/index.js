@@ -5,10 +5,6 @@ import { authPerson, getUsermod } from "../../../requests/requestPerson";
 import url from "../../../requests/Urls";
 
 class LoginComp extends React.Component {
-  state = {
-    autoLogin: true,
-  };
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {

@@ -19,7 +19,7 @@ export default class AuthorRoute extends React.Component {
             return (
               <div>
                 <TopNav />
-                <BookDisplay type={this.props.type} />
+                <BookDisplay type={this.props.userType} />
               </div>
             );
           }}

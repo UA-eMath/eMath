@@ -13,3 +13,6 @@ export const POP_QUEUE = "POP_QUEUE";
 
 export const CHANGE_PAGE = "CHANGE_PAGE";
 export const SET_PAGE = "SET_PAGE";
+
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";

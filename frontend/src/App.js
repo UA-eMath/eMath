@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { message } from "antd";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import jwt_decode from "jwt-decode";
@@ -8,21 +9,30 @@ import UnauthenticatedRoute from "./components/unauthenticatedRoute";
 import StudentRoute from "./components/studentRoute";
 import TesterRoute from "./components/testerRoute";
 import TARoute from "./components/taRoute";
+import { login } from "./actions";
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: localStorage.getItem("token") ? true : false,
-      username: localStorage.getItem("username"),
-      accountType: localStorage.getItem("type"),
-    };
-  }
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.authentication.isAuthenticated,
+    username: state.authentication.username,
+    userType: state.authentication.userType,
+  };
+};
 
+const mapDispatchToProps = (dispatch) => ({
+  onAuthentication: (username, userType) => dispatch(login(username, userType)),
+});
+
+class App extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem("token");
     if (token && jwt_decode(token).exp < Date.now() / 1000) {
       this.logout();
+    } else if (token) {
+      this.props.onAuthentication(
+        localStorage.getItem("username"),
+        localStorage.getItem("type")
+      );
     }
     // global message config
     message.config({
@@ -34,30 +44,29 @@ export default class App extends React.Component {
 
   logout = () => {
     localStorage.clear();
-    this.setState({ loggedIn: null, username: "", type: "" });
     window.location.href = "/";
   };
 
   switchAccountType = (type) => {
     switch (type) {
       case "Author":
-        return <AuthorRoute {...this.props} type="Author" />;
+        return <AuthorRoute {...this.props} />;
       case "Student":
-        return <StudentRoute {...this.props} type="Student" />;
+        return <StudentRoute {...this.props} />;
       case "Tester":
-        return <TesterRoute {...this.props} type="Tester" />;
+        return <TesterRoute {...this.props} />;
       case "TA":
-        return <TARoute {...this.props} type="TA" />;
+        return <TARoute {...this.props} />;
       default:
         return <div></div>;
     }
   };
 
   render() {
-    const { loggedIn, accountType } = this.state;
+    const { isAuthenticated, userType } = this.props;
 
-    let page = loggedIn ? (
-      <div>{this.switchAccountType(accountType)}</div>
+    let page = isAuthenticated ? (
+      <div>{this.switchAccountType(userType)}</div>
     ) : (
       <UnauthenticatedRoute />
     );
@@ -74,3 +83,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

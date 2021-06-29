@@ -17,7 +17,7 @@ export default class TesterRoute extends React.Component {
             return (
               <div>
                 <TopNav />
-                <BookDisplay type={this.props.type} />
+                <BookDisplay type={this.props.userType} />
                 {/* only display books that the user is allowed to see */}
               </div>
             );
