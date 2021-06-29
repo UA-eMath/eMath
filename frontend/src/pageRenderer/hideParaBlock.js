@@ -13,9 +13,7 @@ export function HideParaBlock(props) {
   return (
     <span key={_.uniqueId("btnOfHiddenPara_")}>
       <Button
-        style={{
-          background: "#fdf5e8",
-        }}
+        type="link"
         onClick={() => {
           // open sublevel with its parent on the right pane
           props.onWindowOpen(upperLevel, upperLevel.isPage);
