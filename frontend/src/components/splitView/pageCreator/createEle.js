@@ -11,6 +11,7 @@ import paraRenderer from "../../../pageRenderer";
 import { message } from "antd";
 import getNextLevel from "../../../requests/getNextLevel";
 import getLevel from "../../../requests/getLevel";
+import SubLevelTag from "../../levelEditor/editingModal/subLevelTag";
 
 const mapStateToProps = (state) => {
   return { items: state.windows.items };
@@ -62,7 +63,7 @@ class CreateElement extends React.Component {
     }
 
     if (typeof pageContent !== "undefined" && pageContent.data.length !== 0) {
-      // when not a page, show the level toctitle, e.g. Definition
+      // when not a page, show the level toctitle with its title, e.g. Definition Properties of Addition
       if (this.props["data-grid"].isPage) {
         this.setState({
           pageTitle: paraRenderer(
@@ -78,8 +79,17 @@ class CreateElement extends React.Component {
         });
       } else {
         this.setState({
-          pageTitle: paraRenderer(
-            pageContent.data.flat(Infinity)[0].para_parent.tocTitle
+          pageTitle: (
+            <span>
+              {SubLevelTag({
+                title: pageContent.data.flat(Infinity)[0].para_parent.tocTitle,
+              })}
+              {paraRenderer(
+                pageContent.data.flat(Infinity)[0].para_parent.title,
+                true,
+                false
+              )}
+            </span>
           ),
           paraText: pageContent.data,
         });
