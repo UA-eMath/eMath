@@ -83,6 +83,7 @@ export default function BookDisplay(props) {
         {data.map((book) => {
           return (
             <BookCard
+              key={book.id}
               book={book}
               editModeActive={editModeSwitch(props.type)}
               settingActive={settingSwitch(props.type)}

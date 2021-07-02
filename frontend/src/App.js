@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { message } from "antd";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import background from "./static/img/paper_white.jpg";
 import AuthorRoute from "./components/authorRoute";
@@ -10,6 +10,9 @@ import StudentRoute from "./components/studentRoute";
 import TesterRoute from "./components/testerRoute";
 import TARoute from "./components/taRoute";
 import { login } from "./actions";
+import BookDisplay from "./components/bookDisplay";
+import TopNav from "./components/topNav";
+import NotFound from "./components/NotFound";
 
 const mapStateToProps = (state) => {
   return {
@@ -41,6 +44,13 @@ class App extends React.Component {
       maxCount: 3,
     });
   }
+
+  Home = () => (
+    <div>
+      <TopNav />
+      <BookDisplay type={this.props.userType} />
+    </div>
+  );
 
   logout = () => {
     localStorage.clear();
@@ -78,7 +88,13 @@ class App extends React.Component {
           backgroundSize: "cover",
         }}
       >
-        <Router>{page}</Router>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={this.Home} />
+            {page}
+            <Route component={NotFound} />
+          </Switch>
+        </Router>
       </div>
     );
   }
