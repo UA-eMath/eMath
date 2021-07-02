@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { Button } from "antd";
+import { Button, Divider } from "antd";
 import { openNewWindow } from "../actions";
 import { connect } from "react-redux";
 import getLevel from "../requests/getLevel";
@@ -13,6 +13,7 @@ export function HideParaBlock(props) {
   const upperLevel = props.para[0].para_parent;
   return (
     <span key={_.uniqueId("btnOfHiddenPara_")}>
+      <Divider style={{ margin: "16px 0 0" }} />
       <Button
         type="link"
         onClick={() => {
