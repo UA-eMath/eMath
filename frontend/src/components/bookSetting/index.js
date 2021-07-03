@@ -279,7 +279,7 @@ class BookSetting extends React.Component {
           )}
         </Form.Item>
 
-        <Form.Item label="This book is COMPLETED">
+        <Form.Item label="Make this book viewable to everyone">
           {getFieldDecorator("completed", {
             valuePropName: "checked",
             initialValue: get(book, ["root", "completed"]),

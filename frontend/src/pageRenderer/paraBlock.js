@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import paraRenderer from "./index";
-
+import SubLevelTag from "../components/levelEditor/editingModal/subLevelTag";
 //  A block of paras which are inside of a sub-level will be represented as an inner array.
 // For a para array, inner para will be like: [xxx,[xxx,xxx],xxx]
 
@@ -12,30 +12,23 @@ export function blockOfPara(
   isInit = false
 ) {
   let boxHeader;
+
   if (left_title || right_title) {
     boxHeader = (
       <div
         style={{
           background: "linear-gradient(#fdf5e8,#EAE7DC)",
-          borderRadius: "2px 2px 0 0",
-          padding: "2px 4px 2px 4px",
-          marginBottom: "10px",
+          padding: "4px 4px",
         }}
       >
+        {SubLevelTag({ title: left_title })}
         <span
           style={{
             fontWeight: "bold",
-          }}
-        >
-          {left_title}
-        </span>
-        <span
-          style={{
             float: "right",
-            fontWeight: "bold",
           }}
         >
-          {paraRenderer(right_title, true)}
+          {paraRenderer(right_title, true, false)}
         </span>
       </div>
     );
@@ -46,15 +39,15 @@ export function blockOfPara(
       key={_.uniqueId("blockOfPara_")}
       style={{
         background: "#fdf5e8",
-        borderRadius: "2px",
-        boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.35)",
-        marginBottom: "10px",
+        borderRadius: "6px",
+        boxShadow: "rgba(0,0,0,0.55) 0 2px 4px",
+        margin: "16px 0 10px",
       }}
     >
       {boxHeader}
       <div
         style={{
-          padding: "2px 4px 2px 4px",
+          padding: "6px",
         }}
       >
         {_.map(dataArray, (para) => {
