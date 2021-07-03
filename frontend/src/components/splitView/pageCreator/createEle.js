@@ -130,7 +130,7 @@ class CreateElement extends React.Component {
           className="windowHeader"
           title={pageTitle}
           controls
-          background={this.props.color}
+          style={{ background: "rgba(0,0,0,0.10)" }}
           onCloseClick={() => {
             onCloseWindow(i);
           }}
@@ -144,7 +144,7 @@ class CreateElement extends React.Component {
           }}
           onShowContextClick={() => {
             if (context === null || _.isEqual(context, paraText)) {
-              message.info("No context.");
+              message.info("No context available.");
             } else {
               this.setState({ paraText: context });
             }
