@@ -44,7 +44,11 @@ export default class TopNav extends React.Component {
                 menuVariant="dark"
               >
                 <NavDropdown.ItemText>{userType}</NavDropdown.ItemText>
-                <NavDropdown.Item as="button" onClick={this.logout}>
+                <NavDropdown.Item
+                  as="button"
+                  onClick={this.logout}
+                  style={{ color: "red" }}
+                >
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
