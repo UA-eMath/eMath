@@ -38,6 +38,7 @@ router.register(r'label', LabelViewSet, "Label")
 router.register(r'getLabel', GetLabelViewSets, "getLabel")
 router.register(r'person', PersonViewSet, "Person")
 router.register(r'usermod', UsermodViewSet, "Usermod")
+router.register(r'user', UserViewSets, "User")
 
 urlpatterns = [
     url(r'^uploadNewCommand/(?P<pk>.+)/$', UploadNewCommand.as_view()),

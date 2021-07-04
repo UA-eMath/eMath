@@ -25,6 +25,10 @@ def basic_shortcut():
     return {}
 
 
+def default_access():
+    return {"book": []}
+
+
 def basic_dict():
     return {}
 
@@ -40,15 +44,16 @@ class RootLevel(models.Model):
                                null=True,
                                blank=True,
                                on_delete=models.SET_NULL)
-    contributor = JSONField(default=basic_dict)
+    contributor = JSONField(default=basic_dict, null=True, blank=True)
     date = models.DateField(null=True, blank=True)
-    index_item = JSONField(default=default_dict)
-    symbol_index = JSONField(default=default_dict)
-    author_index = JSONField(default=default_dict)
-    new_command = JSONField(default=basic_command)
-    tex_shortcut = JSONField(default=basic_shortcut)
+    index_item = JSONField(default=default_dict, null=True, blank=True)
+    symbol_index = JSONField(default=default_dict, null=True, blank=True)
+    author_index = JSONField(default=default_dict, null=True, blank=True)
+    new_command = JSONField(default=basic_command, null=True, blank=True)
+    tex_shortcut = JSONField(default=basic_shortcut, null=True, blank=True)
     cover_image = models.TextField(null=True, blank=True)
     completed = models.BooleanField(default=False)
+    tester = JSONField(default=basic_dict, null=True, blank=True)
 
 
 class Level(MPTTModel):
@@ -86,12 +91,17 @@ class Level(MPTTModel):
 
 
 class Person(models.Model):
+    # middle_name and last_name can be null or blank, but not first_name
+    # combine these 3 fields as the person's full name
     first_name = models.CharField(max_length=20, blank=True)
     middle_name = models.CharField(max_length=20, null=True, blank=True)
-    last_name = models.CharField(max_length=20, blank=True)
+    last_name = models.CharField(max_length=20, null=True, blank=True)
+    # use type to control the person's permissions
     type = models.CharField(max_length=20,
                             choices=ACCOUNT_TYPES,
                             default='Student')
+    # Controls which rootLevel the person can access. If all, leave empty.
+    access = JSONField(default=default_access)
     user = models.OneToOneField(User,
                                 on_delete=models.CASCADE,
                                 null=True,

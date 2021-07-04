@@ -24,3 +24,4 @@ from .current_user import GetCurrentUser
 from .user_person import UserToPerson
 
 from .usermod_view import UsermodViewSet
+from .user_view import UserViewSets
