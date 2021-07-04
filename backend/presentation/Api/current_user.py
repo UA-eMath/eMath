@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from presentation.models import Usermod, Person
 from django.contrib.auth.models import User
 from presentation.Serializers.user_serializer import UserSerializer
-from presentation.Serializers.person_serializer import PersonSerializer
 
 
 class GetCurrentUser(views.APIView):

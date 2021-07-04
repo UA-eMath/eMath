@@ -109,10 +109,11 @@ export function getPageToChange(id) {
 }
 
 // Authentication
-export const login = (username, userType) => ({
+export const login = (username, userType, access) => ({
   type: types.LOGIN,
   username,
   userType,
+  access,
 });
 
 export const logout = () => ({

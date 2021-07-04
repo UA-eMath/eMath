@@ -121,14 +121,16 @@ const AddBook = Form.create({ name: "form_in_modal" })(
     };
 
     render() {
-      const { visible, onCancel, form, loading } = this.props;
+      const { visible, onCancel, form } = this.props;
       const { getFieldDecorator, getFieldValue } = form;
 
+      const formItemLayout = {
+        labelCol: { span: 6 },
+        wrapperCol: { span: 14 },
+      };
+
       const formItemLayoutWithOutLabel = {
-        wrapperCol: {
-          xs: { span: 24, offset: 0 },
-          sm: { span: 20, offset: 4 },
-        },
+        wrapperCol: { span: 14, offset: 6 },
       };
       getFieldDecorator("keys", { initialValue: [] });
       const keys = getFieldValue("keys");
@@ -186,21 +188,11 @@ const AddBook = Form.create({ name: "form_in_modal" })(
         <Modal
           visible={visible}
           title={"Create a new book"}
-          footer={[
-            <Button key="back" onClick={onCancel}>
-              Cancel
-            </Button>,
-            <Button
-              key="submit"
-              type="primary"
-              onClick={() => this.onCreate()}
-              loading={loading}
-            >
-              Create
-            </Button>,
-          ]}
+          width={800}
+          onOk={() => this.onCreate()}
+          onCancel={onCancel}
         >
-          <Form layout="vertical">
+          <Form layout="vertical" {...formItemLayout}>
             <Form.Item label="Title">
               {getFieldDecorator("title", {
                 rules: [
@@ -230,7 +222,7 @@ const AddBook = Form.create({ name: "form_in_modal" })(
               })(<Input />)}
             </Form.Item>
 
-            <Form.Item label="Author">
+            <Form.Item label="Author" {...formItemLayoutWithOutLabel}>
               {getFieldDecorator("first_name", {
                 validateTrigger: ["onChange", "onBlur"],
                 rules: [

@@ -10,17 +10,15 @@ export default {
     display: "flex",
     alignItems: "center",
     width: "100%",
-    height: "31px",
     backgroundColor: "transparent", //#EAE8DC
     textAlign: "center",
-    margin: "10px 0px 10px",
+    margin: "10px 0",
   },
   title: {
     WebkitUserSelect: "none",
     userSelect: "none",
     cursor: "default",
-    paddingLeft: "12px",
-    fontFamily: "TimesNewRomanPSMT, Times New Roman",
+    fontFamily: "Arial, Helvetica, sans-serif",
     fontSize: "20px",
     color: "#000000",
     flex: 1,
@@ -32,6 +30,7 @@ export default {
     backgroundSize: "cover",
     overflow: "hidden",
     width: "100%",
+    borderRadius: "2px",
     boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.35)",
   },
 };

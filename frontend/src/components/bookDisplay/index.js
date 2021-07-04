@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import CardDeck from "react-bootstrap/CardDeck";
-import { Button } from "antd";
+import { Button, Affix } from "antd";
 import "./index.css";
 import "antd/dist/antd.css";
 import getRoots from "../../requests/GetRoots";
@@ -18,14 +18,18 @@ export default function BookDisplay(props) {
   }, []);
 
   const displayedBook = (type, bookList) => {
+    let filteredBookList;
     switch (type) {
       case "Student":
-        const filteredBookList = _.filter(bookList, function (book) {
+        filteredBookList = _.filter(bookList, function (book) {
           return book.root.completed;
         });
         return filteredBookList;
       case "Tester":
-        return []; // TODO: tester's book
+        filteredBookList = _.filter(bookList, function (book) {
+          return props.access.book.includes(book.root.id);
+        });
+        return filteredBookList;
       default:
         return bookList;
     }
@@ -94,14 +98,16 @@ export default function BookDisplay(props) {
 
       {createBookSwitch(props.type) ? (
         <div>
-          <Button
-            icon={"plus"}
-            shape="circle"
-            size={"large"}
-            onClick={() => {
-              setVisible(true);
-            }}
-          />
+          <Affix style={{ position: "fixed", bottom: 20, right: 20 }}>
+            <Button
+              icon={"plus"}
+              shape="circle"
+              size={"large"}
+              onClick={() => {
+                setVisible(true);
+              }}
+            />
+          </Affix>
           <AddBook
             visible={visible}
             onCancel={() => setVisible(false)}

@@ -5,6 +5,7 @@ import BookSetting from "../bookSetting";
 import getRoots from "../../requests/GetRoots";
 import TexShortcut from "../TexShortcut";
 import NewCommand from "../NewCommand";
+import CreateTester from "../createTester";
 
 const { TabPane } = Tabs;
 
@@ -29,14 +30,17 @@ export default function SetupPage(props) {
   return (
     <div>
       <Tabs defaultActiveKey="1" tabPosition={"left"}>
-        <TabPane tab={"Book information"} key={1}>
+        <TabPane tab={"Book Information"} key={1}>
           <BookSetting book={book} />
         </TabPane>
         <TabPane tab={"Tex Author Assist"} key={2}>
           <TexShortcut book={book} />
         </TabPane>
-        <TabPane tab={"New command"} key={3}>
+        <TabPane tab={"New Command"} key={3}>
           <NewCommand book={book} />
+        </TabPane>
+        <TabPane tab={"Create Test Account"} key={4}>
+          <CreateTester book={book} />
         </TabPane>
       </Tabs>
     </div>
