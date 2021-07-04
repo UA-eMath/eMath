@@ -18,14 +18,18 @@ export default function BookDisplay(props) {
   }, []);
 
   const displayedBook = (type, bookList) => {
+    let filteredBookList;
     switch (type) {
       case "Student":
-        const filteredBookList = _.filter(bookList, function (book) {
+        filteredBookList = _.filter(bookList, function (book) {
           return book.root.completed;
         });
         return filteredBookList;
       case "Tester":
-        return []; // TODO: tester's book
+        filteredBookList = _.filter(bookList, function (book) {
+          return props.access.book.includes(book.root.id);
+        });
+        return filteredBookList;
       default:
         return bookList;
     }

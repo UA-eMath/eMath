@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Input, Button, message, Descriptions, Badge } from "antd";
 import { postPerson } from "../../requests/requestPerson";
+import _ from "lodash";
 
 class CreateTester extends React.Component {
   state = {
@@ -19,7 +20,6 @@ class CreateTester extends React.Component {
             } else {
               message.success("Registration successful: " + response.data.msg);
             }
-            this.setState({ hasCreated: true });
           } else {
             message.error("Registration failed: " + response.data.msg);
           }
@@ -89,24 +89,7 @@ class CreateTester extends React.Component {
       wrapperCol: { offset: 8, span: 16 },
     };
 
-    return tester ? (
-      <Descriptions
-        title="Tester Info"
-        column={1}
-        bordered
-        style={{ maxWidth: 600 }}
-      >
-        <Descriptions.Item label="Username">
-          {tester.username}
-        </Descriptions.Item>
-        <Descriptions.Item label="Password">
-          <Button onClick={this.forgetPasswordBtnClick}>Forget password</Button>
-        </Descriptions.Item>
-        <Descriptions.Item label="Status" span={3}>
-          <Badge status="processing" text="Activate" />
-        </Descriptions.Item>
-      </Descriptions>
-    ) : (
+    return _.isEmpty(tester) ? (
       <div style={{ margin: "10px" }}>
         <Form
           {...layout}
@@ -138,7 +121,7 @@ class CreateTester extends React.Component {
 
           <Form.Item label="Authorized Book" help="Current book's ID">
             {getFieldDecorator("access", {
-              initialValue: this.props.book.id,
+              initialValue: this.props.book.root.id,
             })(<Input disabled />)}
           </Form.Item>
 
@@ -176,6 +159,23 @@ class CreateTester extends React.Component {
           </Form.Item>
         </Form>
       </div>
+    ) : (
+      <Descriptions
+        title="Tester Info"
+        column={1}
+        bordered
+        style={{ maxWidth: 600 }}
+      >
+        <Descriptions.Item label="Username">
+          {tester.username}
+        </Descriptions.Item>
+        <Descriptions.Item label="Password">
+          <Button onClick={this.forgetPasswordBtnClick}>Forget password</Button>
+        </Descriptions.Item>
+        <Descriptions.Item label="Status" span={3}>
+          <Badge status="processing" text="Activate" />
+        </Descriptions.Item>
+      </Descriptions>
     );
   }
 }

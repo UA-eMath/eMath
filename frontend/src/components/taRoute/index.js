@@ -4,6 +4,7 @@ import TopNav from "../topNav";
 import SplitView from "../splitView";
 import AuthoringLayout from "../authoringLayout";
 import SetupPage from "../setupPage";
+import BookDisplay from "../bookDisplay";
 
 // TA can modify a specific book, and also read it.
 
@@ -11,6 +12,16 @@ export default class TARoute extends React.Component {
   render() {
     return (
       <>
+        <Route
+          exact
+          path="/"
+          component={() => (
+            <div>
+              <TopNav />
+              <BookDisplay type={this.props.userType} />
+            </div>
+          )}
+        />
         <Route
           path="/view/:title/:id"
           render={(props) => (

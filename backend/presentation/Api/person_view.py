@@ -39,8 +39,8 @@ class PersonViewSet(viewsets.ModelViewSet):
         request_data = request.data.copy()
         # create an person object
         first_name = request_data.get('firstName', "")
-        middle_name = request_data.get('middleName', None)
-        last_name = request_data.get('lastName', None)
+        middle_name = request_data.get('middleName', "")
+        last_name = request_data.get('lastName', "")
         person_data = {
             'first_name': first_name,
             'middle_name': middle_name,
@@ -77,8 +77,7 @@ class PersonViewSet(viewsets.ModelViewSet):
                 if (type not in ['Student', 'Tester']):
                     serializerData["msg"] = "Pending admin approval."
                 if (type == 'Tester'):
-                    level = get_object_or_404(Level, pk=access)
-                    rootLevel = level.root
+                    rootLevel = get_object_or_404(RootLevel, pk=access)
                     rootLevel.tester = {
                         'id': user.id,
                         'username': user.username,

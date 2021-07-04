@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox, Icon, message } from "antd";
 import "../index.css";
 import { authPerson, getUsermod } from "../../../requests/requestPerson";
 import url from "../../../requests/Urls";
+import _ from "lodash";
 
 class LoginComp extends React.Component {
   handleSubmit = (e) => {
@@ -49,13 +50,19 @@ class LoginComp extends React.Component {
                           .then((res) => res.json())
                           .then((json) => {
                             localStorage.setItem("personID", json.id);
-                            localStorage.setItem("firstName", json.first_name);
                             localStorage.setItem(
-                              "middleName",
-                              json.middle_name
+                              "name",
+                              _.filter([
+                                json.first_name,
+                                json.middle_name,
+                                json.last_name,
+                              ]).join()
                             );
-                            localStorage.setItem("lastName", json.last_name);
                             localStorage.setItem("type", json.type);
+                            localStorage.setItem(
+                              "access",
+                              JSON.stringify(json.access)
+                            );
                             window.location.href = "/";
                           });
                       });

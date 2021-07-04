@@ -13,7 +13,7 @@ export default class TopNav extends React.Component {
   };
 
   render() {
-    const username = localStorage.getItem("username");
+    const name = localStorage.getItem("name");
     const userType = localStorage.getItem("type");
 
     if (this.props.match) {
@@ -29,7 +29,7 @@ export default class TopNav extends React.Component {
                 id="nav-dropdown-dark-example"
                 title={
                   <span>
-                    <Avatar src={generateRandomAvatar(username)} />
+                    <Avatar src={generateRandomAvatar(name)} />
                     <span
                       style={{
                         fontWeight: "bold",
@@ -37,7 +37,7 @@ export default class TopNav extends React.Component {
                         color: "white",
                       }}
                     >
-                      {username}
+                      {name}
                     </span>
                   </span>
                 }
