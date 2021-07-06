@@ -20,38 +20,32 @@ class ParaToolBar extends React.Component {
       >
         <Tooltip placement="top" title={"Caption"}>
           <Button
-            onMouseDown={(e) =>
-              props.tagInsertion(e, "<Caption></Caption> ", 9)
-            }
+            onMouseDown={(e) => props.selectedTextInsertion(e, "Caption")}
           >
             Cap
           </Button>
         </Tooltip>
 
         <Tooltip placement="top" title={"Bold"}>
-          <Button onMouseDown={(e) => props.tagInsertion(e, "<b></b> ", 3)}>
+          <Button onMouseDown={(e) => props.selectedTextInsertion(e, "b")}>
             <Icon type="bold" />
           </Button>
         </Tooltip>
 
         <Tooltip placement="top" title={"Italic"}>
-          <Button onMouseDown={(e) => props.tagInsertion(e, "<i></i> ", 3)}>
+          <Button onMouseDown={(e) => props.selectedTextInsertion(e, "i")}>
             <Icon type="italic" />
           </Button>
         </Tooltip>
 
         <Tooltip placement="top" title={"Inline math"}>
-          <Button
-            onMouseDown={(e) => props.tagInsertion(e, "<math></math> ", 20)}
-          >
+          <Button onMouseDown={(e) => props.selectedTextInsertion(e, "math")}>
             iMath
           </Button>
         </Tooltip>
 
         <Tooltip placement="top" title={"Display math"}>
-          <Button
-            onMouseDown={(e) => props.tagInsertion(e, "<Math></Math> ", 6)}
-          >
+          <Button onMouseDown={(e) => props.selectedTextInsertion(e, "Math")}>
             dMath
           </Button>
         </Tooltip>
