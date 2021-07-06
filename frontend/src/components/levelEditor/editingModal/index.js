@@ -151,6 +151,30 @@ class EditingModal extends React.Component {
     });
   };
 
+  copyToClipboard = (textToCopy) => {
+    // navigator clipboard api needs a secure context (https)
+    if (navigator.clipboard && window.isSecureContext) {
+      // navigator clipboard api method'
+      return navigator.clipboard.writeText(textToCopy);
+    } else {
+      // text area method
+      let textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      // make the textarea out of viewport
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      return new Promise((res, rej) => {
+        // here the magic happens
+        document.execCommand("copy") ? res() : rej();
+        textArea.remove();
+      });
+    }
+  };
+
   render() {
     const { item, fetchPage, changePaneSize, insertable } = this.props;
 
@@ -221,8 +245,9 @@ class EditingModal extends React.Component {
             if (this.state.labelObj) {
               const linkableTag = `<iLink id="${this.state.labelObj.id.toString()}"></iLink>`;
               //does not support safari browser
-              navigator.clipboard.writeText(linkableTag);
-              message.success("Linkable Tag Copied!");
+              this.copyToClipboard(linkableTag)
+                .then(() => message.success("Linkable Tag Copied!"))
+                .catch(() => message.error("Failed to copy."));
             } else {
               message.error("Please create a label first!");
             }
