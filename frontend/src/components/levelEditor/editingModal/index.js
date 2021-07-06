@@ -162,6 +162,7 @@ class EditingModal extends React.Component {
             this.showModal("New");
           }}
         >
+          <Icon type="plus" />
           New
         </Menu.Item>
         <Menu.Item
@@ -170,6 +171,7 @@ class EditingModal extends React.Component {
             this.showModal("Edit");
           }}
         >
+          <Icon type="edit" />
           Edit
         </Menu.Item>
         <Menu.Item
@@ -178,13 +180,14 @@ class EditingModal extends React.Component {
             this.showModal("Remove");
           }}
         >
+          <Icon type="delete" />
           Remove
         </Menu.Item>
         <Menu.Item key="editing-modal-label" onClick={this.showLabelModal}>
           <Popover
             placement="left"
-            content={this.state.label}
             title="Label"
+            content={this.state.label}
             onMouseEnter={this.hoverLabel}
           >
             <Icon type="tag-o" />
@@ -200,6 +203,7 @@ class EditingModal extends React.Component {
             this.showModal("Edit");
           }}
         >
+          <Icon type="edit" />
           Edit
         </Menu.Item>
         <Menu.Item
@@ -208,22 +212,39 @@ class EditingModal extends React.Component {
             this.showModal("Remove");
           }}
         >
+          <Icon type="delete" />
           Remove
         </Menu.Item>
         <Menu.Item
           key="editing-modal-get-linkable-tag"
           onClick={() => {
-            //does not support safari browser
-            navigator.clipboard.writeText(
-              '<iLink id="' + item.id.toString() + '"></iLink>'
-            );
+            if (this.state.labelObj) {
+              const linkableTag = `<iLink id="${this.state.labelObj.id.toString()}"></iLink>`;
+              //does not support safari browser
+              navigator.clipboard.writeText(linkableTag);
+              message.success("Linkable Tag Copied!");
+            } else {
+              message.error("Please create a label first!");
+            }
           }}
         >
-          Get linkable tag
+          <Popover
+            placement="left"
+            title="Linkable Tag"
+            content={
+              this.state.labelObj
+                ? `<iLink id="${this.state.labelObj.id.toString()}"></iLink>`
+                : this.state.label
+            }
+            onMouseEnter={this.hoverLabel}
+          >
+            <Icon type="link" />
+            Get linkable tag
+          </Popover>
         </Menu.Item>
         <Menu.Item key="editing-modal-label" onClick={this.showLabelModal}>
           <Popover
-            placement="left"
+            placement="bottom"
             content={this.state.label}
             title="Label"
             onMouseEnter={this.hoverLabel}
