@@ -63,8 +63,7 @@ class InputBox extends React.Component {
   updateLinkLabel(labelID) {
     this.insertAtCursor(
       this.state.isClick,
-      `<iLink id="${labelID}">${this.state.highlightedText}</iLink> `,
-      13
+      `<iLink id="${labelID}">${this.state.highlightedText}</iLink>`
     );
   }
 
@@ -94,7 +93,7 @@ class InputBox extends React.Component {
     });
   }
 
-  insertAtCursor = (event, tag, length) => {
+  insertAtCursor = (event, tag) => {
     if (typeof event != "undefined") {
       // event.preventDefault();
       const focusedTextarea = this.refs.ace.editor;
@@ -113,6 +112,21 @@ class InputBox extends React.Component {
     this.setState({
       highlightedText: value,
     });
+  };
+
+  insertAtSelectText = (event, tag) => {
+    if (typeof event != "undefined") {
+      // event.preventDefault();
+      const focusedTextarea = this.refs.ace.editor;
+      focusedTextarea.session.replace(
+        focusedTextarea.selection.getRange(),
+        `<${tag}>${focusedTextarea.getSelectedText()}</${tag}>`
+      );
+      const value = focusedTextarea.getValue();
+      if (value !== undefined) {
+        this.props.paraOnChange(value, this.props.id);
+      }
+    }
   };
 
   render() {
@@ -136,6 +150,7 @@ class InputBox extends React.Component {
           <ParaToolBar
             showToolBar={this.showToolBar}
             tagInsertion={this.insertAtCursor}
+            selectedTextInsertion={this.insertAtSelectText}
             handleLinkClick={this.handleLinkClick}
             linkID={this.state.linkID}
           />
@@ -162,6 +177,22 @@ class InputBox extends React.Component {
             tabSize: 2,
             useWorker: false,
           }}
+          commands={[
+            {
+              name: "italic",
+              bindKey: { win: "Ctrl-i", mac: "Command-i" },
+              exec: (event) => {
+                this.insertAtSelectText(event, "i");
+              },
+            },
+            {
+              name: "bold",
+              bindKey: { win: "Ctrl-b", mac: "Command-b" },
+              exec: (event) => {
+                this.insertAtSelectText(event, "b");
+              },
+            },
+          ]}
         />
 
         <SelectLabelModal
