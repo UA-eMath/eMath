@@ -127,7 +127,7 @@ class EditingModal extends React.Component {
     const { form } = this.formRef.props;
     // if ISO section
     if (this.props.item.position === -1) {
-      message.error("ISO section cannot be deleted!");
+      message.error("Internal subordinate level cannot be deleted!");
       this.setState({
         visible: false,
         modifyState: "",
