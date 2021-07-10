@@ -19,34 +19,41 @@ The project has two major components:
 
 2. set up database(postgresql):
 
-   - install
+   - Install
 
      `sudo apt update`
 
      `sudo apt install postgresql postgresql-contrib`
 
-   - setup
+   - Setup
 
-   enter postgresql shell: `sudo -i -u postgres` then `psql` (if not work, try `psql postgres`)
+     enter postgresql shell: `sudo -i -u postgres` then `psql` (if not work, try `psql postgres`)
 
-   ```
-   CREATE DATABASE emathdb;
-   CREATE USER yaozhilu WITH PASSWORD 'dell1234';
-   GRANT ALL PRIVILEGES ON DATABASE emathdb TO yaozhilu;
-   ```
+     ```
+     CREATE DATABASE emathdb;
+     CREATE USER yaozhilu WITH PASSWORD 'dell1234';
+     GRANT ALL PRIVILEGES ON DATABASE emathdb TO yaozhilu;
+     ```
 
-   ```
-   DROP DATABASE emathdb
-   ```
+   - Useful commands
 
-   - exit
-     `\q` then `exit`
+     - drop table
 
-   - export database
-     `pg_dump -U yaozhilu emathdb > emathdump.pgsql`
+       ```
+       DROP DATABASE emathdb
+       ```
 
-   - (optional) to get some sample data,
-     run `psql emathdb < emathdb.sql` to restore data from sql file.
+     - exit
+       `\q` then `exit`
+
+     - export database
+
+       ```
+       pg_dump -U yaozhilu emathdb > emathdump.pgsql
+       ```
+
+     - (optional) to get some sample data,
+       run `psql emathdb < emathdb.sql` to restore data from sql file.
 
 3. Backend(Django):
 
