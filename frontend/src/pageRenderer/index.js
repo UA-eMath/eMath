@@ -82,7 +82,11 @@ export default function paraRenderer(para, isTitle = false, isInit = false) {
   if (typeof para === "string") {
     decodedData = para;
   } else {
-    decodedData = decodeURI(para.content.data);
+    if (para.content !== undefined) {
+      decodedData = decodeURI(para.content.data);
+    } else {
+      decodedData = "";
+    }
   }
 
   const reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
