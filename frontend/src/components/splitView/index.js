@@ -44,9 +44,11 @@ class SplitView extends React.Component {
     super(props);
     this.state = {
       mathLoaded: false,
+      innerHeight: 0,
     };
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.initElement = initElement.bind(this);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
   componentDidMount() {
@@ -64,10 +66,19 @@ class SplitView extends React.Component {
     } else {
       this.props.getPageToChange(rootId); // pass rootID into function
     }
+
+    this.updateWindowDimensions();
+    // Add event listener
+    window.addEventListener("resize", this.updateWindowDimensions.bind(this));
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+    // Remove event listener
+    window.removeEventListener(
+      "resize",
+      this.updateWindowDimensions.bind(this)
+    );
   }
 
   onMathLoaded = () => {
@@ -76,13 +87,20 @@ class SplitView extends React.Component {
     });
   };
 
+  /**
+   * Calculate & Update state of new dimensions
+   */
+  updateWindowDimensions() {
+    this.setState({ innerHeight: window.innerHeight });
+  }
+
   render() {
     const gridLayout = this.state.mathLoaded ? (
       <ResponsiveReactGridLayout
         className="layout"
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }} //{{ lg: 1200, md: 1000, sm: 800, xs: 500, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-        rowHeight={100}
+        rowHeight={this.state.innerHeight - 80} // window height - some margins, navbar, etc.
         compactType="horizontal"
         draggableHandle=".windowHeader"
         color="#42b0f4"
