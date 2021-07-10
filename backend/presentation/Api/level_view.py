@@ -84,10 +84,9 @@ class LevelViewset(viewsets.ModelViewSet):
         except ObjectDoesNotExist:
             return Response("level id(" + self.kwargs["pk"] + ") is not found",
                             404)
-
         level.delete()
-        #TODO
-        #updatePosition(parent_level);
+        # update position and page number of rest levels
+        updatePosition(parent_level)
         self._updatePageNumber(root)
 
         return Response("Level is successfully deleted.", 200)
@@ -103,11 +102,10 @@ class LevelViewset(viewsets.ModelViewSet):
         new_title = request.data.get('title')
         new_toctitle = request.data.get('tocTitle')
         new_isPage = request.data.get('isPage')
+
         if new_title:
             try:
                 level = Level.objects.get(pk=self.kwargs["pk"])
-                root = level.get_root()
-                parent_level = level.parent
             except ObjectDoesNotExist:
                 return Response(
                     "level id(" + self.kwargs["pk"] + ") is not found", 404)
@@ -126,13 +124,13 @@ class LevelViewset(viewsets.ModelViewSet):
 
             #update position of appendix is prohibited
             if child.position == -1:
-                return Response(data="Please don't move this branch",
+                return Response(data="Please don't move this branch.",
                                 status=400)
 
             target = Level.objects.get(pk=request.data.get('target'))
             position = int(request.data.get('position'))
 
-            #validattion check
+            # validation check
             if target.isPage == True and position == 0:
                 return Response(data='You cannot move a branch under a page.',
                                 status=400)
@@ -142,18 +140,22 @@ class LevelViewset(viewsets.ModelViewSet):
             while not level.is_root_node():
                 if level.isPage:
                     return Response(
-                        data='You cannot move a content block at toc tree',
+                        data='You cannot move a content block at TOC tree.',
                         status=400)
                 level = level.parent
 
-            updatePosition(child, target, position)
-            response = Response(child.position)
+            response = {"old_pos": child.position}
+            updatePositionGivenTarget(child, target, position)
+            response["new_pos"] = child.position
+            response = Response(response)
+
         elif request.data.get("action") != None:
             action = request.data.get("action")  # two actions: up: -1, down: 1
             current = Level.objects.get(pk=self.kwargs["pk"])
             parent = current.parent
             moveUpOrDown(parent, current.position, action)
             response = Response(current.position)
+
         else:
             response = super().update(request, *args, **kwargs)
 
@@ -164,19 +166,33 @@ class LevelViewset(viewsets.ModelViewSet):
     def _updatePageNumber(self, root):
         page_number = 1
 
+        # For appendix (pos = -1)
+        def _recursivelyUpdatePageNumForAppendix(root):
+            # base
+            if root.isPage:
+                root.pageNum = None
+                root.save()
+                return None
+
+            for child in root.get_children().order_by("position"):
+                _recursivelyUpdatePageNumForAppendix(child)
+
+            return None
+
+        # For normal levels
         def _recursivelyUpdatePageNum(root, page_number):
             # base
             if root.isPage:
                 root.pageNum = page_number
                 root.save()
-                return page_number + 1
+                return page_number + 1 if page_number else page_number
 
-            if root.position >= 0:
+            if root.position < 0:  # appendix
+                _recursivelyUpdatePageNumForAppendix(root)
+                return page_number
+            else:
                 for child in root.get_children().order_by("position"):
-                    #skip appendix(position : -1)
-                    if child.position >= 0:
-                        page_number = _recursivelyUpdatePageNum(
-                            child, page_number)
+                    page_number = _recursivelyUpdatePageNum(child, page_number)
 
             return page_number
 

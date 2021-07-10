@@ -115,7 +115,7 @@ class RootLevelViewSets(viewsets.ModelViewSet):
         appendix_data = {
             "position": -1,
             "parent": root_node.id,
-            "title": "ISO",  #Repository of Singleton
+            "title": "Internal Subordinate Level",  #Repository of Singleton
             "tocTitle": "ISO",
             "isPage": False,
         }

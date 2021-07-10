@@ -3,6 +3,23 @@ from presentation.models import Level, Para
 from presentation.Serializers.user_serializer import UserSerializer
 
 
+def updatePosByOrder(cached_list):
+    index = 0
+    for i in cached_list:
+        if i.position != -1:
+            if i.position != index:
+                i.position = index
+                try:
+                    i.save()
+                except:
+                    Level.objects.rebuild()
+                    i.save()
+            index += 1
+
+    Level.objects.rebuild()
+    return
+
+
 def updateParaPosition(parent):
     children_list = parent.get_children().order_by('position')
     children_para_list = parent.para_set.all().order_by('position')
@@ -54,7 +71,7 @@ def moveUpOrDown(parent, position, action):
         cached_list[position + action].save()
 
 
-def updatePosition(child, target, position):
+def updatePositionGivenTarget(child, target, position):
     if position == 0:
         child.move_to(target, "first-child")
         child.parent = target
@@ -66,7 +83,6 @@ def updatePosition(child, target, position):
         parent = target.parent
         children_list = parent.get_children().order_by('position')
         cached_list = list(chain(children_list))
-        # cached_list = sorted(cached_list, key=lambda instance: instance.position)
         try:
             # move under same parent
             cached_list.remove(child)
@@ -85,18 +101,13 @@ def updatePosition(child, target, position):
         elif position == 1:
             cached_list.insert(cached_list.index(target) + 1, child)
 
-    index = 0
-    for i in cached_list:
-        if i.position != index:
-            i.position = index
-            try:
-                i.save()
-            except:
-                Level.objects.rebuild()
-                i.save()
-        index += 1
+    updatePosByOrder(cached_list)
+    return
 
-    Level.objects.rebuild()
+
+def updatePosition(level):
+    cached_list = list(chain(level.get_children().order_by('position')))
+    updatePosByOrder(cached_list)
     return
 
 

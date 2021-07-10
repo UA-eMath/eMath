@@ -249,7 +249,7 @@ class LevelEditor extends React.Component {
       dragFromPos === "0-0-0" ||
       (dragToPos === "0-0-0" && info.dropPosition === -1)
     ) {
-      message.error("ISO have to be the top section.");
+      message.error("Internal subordinate level have to be the top section.");
       return;
     }
 

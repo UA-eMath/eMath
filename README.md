@@ -27,12 +27,16 @@ The project has two major components:
 
    - setup
 
-   enter postgresql shell: `sudo -i -u postgres` then `psql`
+   enter postgresql shell: `sudo -i -u postgres` then `psql` (if not work, try `psql postgres`)
 
    ```
    CREATE DATABASE emathdb;
    CREATE USER yaozhilu WITH PASSWORD 'dell1234';
    GRANT ALL PRIVILEGES ON DATABASE emathdb TO yaozhilu;
+   ```
+
+   ```
+   DROP DATABASE emathdb
    ```
 
    - exit
@@ -43,9 +47,6 @@ The project has two major components:
 
    - (optional) to get some sample data,
      run `psql emathdb < emathdb.sql` to restore data from sql file.
-
-   - Delete PostgreSQL Database
-     DROP DATABASE emathdb
 
 3. Backend(Django):
 
