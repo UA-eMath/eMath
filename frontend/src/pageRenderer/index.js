@@ -22,7 +22,7 @@ import td from "./customTags/td";
 import iframe from "./customTags/iframe";
 import HideParaBlock from "./hideParaBlock";
 
-const hiddenLevel = ["Proof"];
+const hiddenLevel = ["Proof", "Sketch of Proof", "Proof Idea", "Solution"];
 
 export default function paraRenderer(para, isTitle = false, isInit = false) {
   /*

@@ -26,8 +26,11 @@ function CaptionOptions(props) {
       <Option value="Lemma">Lemma</Option>
       <Option value="Notation">Notation</Option>
       <Option value="Proof">Proof</Option>
+      <Option value="Proof Idea">Proof Idea</Option>
       <Option value="Proposition">Proposition</Option>
       <Option value="Remark">Remark</Option>
+      <Option value="Sketch of Proof">Sketch of Proof</Option>
+      <Option value="Solution">Solution</Option>
       <Option value="Terminology">Terminology</Option>
       <Option value="Theorem">Theorem</Option>
     </Select>

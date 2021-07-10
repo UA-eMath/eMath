@@ -8,29 +8,35 @@ function SubLevelTag(props) {
     case "Comment":
       return <Tag color="blue">Comment</Tag>;
     case "Convention":
-      return <Tag color="blue">Convention</Tag>;
+      return <Tag color="orange">Convention</Tag>;
     case "Corollary":
       return <Tag color="orange">Corollary</Tag>;
     case "Definition":
       return <Tag color="green">Definition</Tag>;
     case "Example":
-      return <Tag color="blue">Example</Tag>;
+      return <Tag color="lime">Example</Tag>;
     case "Exercise":
-      return <Tag color="blue">Exercise</Tag>;
+      return <Tag color="purple">Exercise</Tag>;
     case "Lemma":
       return <Tag color="gold">Lemma</Tag>;
     case "Notation":
-      return <Tag color="blue">Notation</Tag>;
+      return <Tag color="green">Notation</Tag>;
     case "Proof":
-      return <Tag color="blue">Proof</Tag>;
+      return <Tag color="geekblue">Proof</Tag>;
+    case "Proof Idea":
+      return <Tag color="geekblue">Proof Idea</Tag>;
     case "Proposition":
-      return <Tag color="volcano">Proposition</Tag>;
+      return <Tag color="gold">Proposition</Tag>;
     case "Remark":
       return <Tag color="blue">Remark</Tag>;
+    case "Sketch of Proof":
+      return <Tag color="geekblue">Sketch of Proof</Tag>;
+    case "Solution":
+      return <Tag color="geekblue">Solution</Tag>;
     case "Terminology":
-      return <Tag color="cyan">Terminology</Tag>;
+      return <Tag color="green">Terminology</Tag>;
     case "Theorem":
-      return <Tag color="red">Theorem</Tag>;
+      return <Tag color="gold">Theorem</Tag>;
     default:
       return null;
   }
