@@ -1,7 +1,7 @@
 import axios from "axios";
 import url from "./Urls";
 
-export default function updateBook(indexItem, id) {
+export default function updateIndexTree(indexItem, id) {
   let URL = url.domain + ":" + url.port + "/indexItem/" + id.toString() + "/";
 
   return axios
