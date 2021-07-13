@@ -40,7 +40,7 @@ The project has two major components:
      - drop table
 
        ```
-       DROP DATABASE emathdb
+       DROP DATABASE emathdb;
        ```
 
      - exit

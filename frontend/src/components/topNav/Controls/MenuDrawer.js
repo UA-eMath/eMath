@@ -42,6 +42,14 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(minimizeWindow(id, title, content, isPage)),
 });
 
+const indexedItemsKeys = [];
+const generateIndexedItemsList = (data) => {
+  for (let i = 0; i < data.length; i++) {
+    const node = data[i];
+    indexedItemsKeys.push((node.tocTitle + node.id).toString());
+  }
+};
+
 class MenuDrawer extends React.Component {
   _isMounted = false;
   state = {
@@ -51,6 +59,7 @@ class MenuDrawer extends React.Component {
     authorIndex: [],
     bibliography: [],
     visible: false,
+    expandAllIndexedItems: false,
   };
 
   componentWillUnmount() {
@@ -95,16 +104,55 @@ class MenuDrawer extends React.Component {
     });
   }
 
+  onIndexedItemExpand = (expandedKeys) => {
+    if (this._isMounted) {
+      this.setState({
+        expandedIndexedItemsKey: expandedKeys,
+      });
+    }
+  };
+
+  expandAllIndexedItems = () => {
+    generateIndexedItemsList(this.state.indexItem);
+
+    this.setState((prevState) => ({
+      expandAllIndexedItems: !prevState.expandAllIndexedItems,
+      expandedIndexedItemsKey: !prevState.expandAllIndexedItems
+        ? indexedItemsKeys
+        : [],
+    }));
+  };
+
   render() {
-    let { indexItem, symbolIndex, authorIndex, bibliography } = this.state;
+    let {
+      treeData,
+      indexItem,
+      symbolIndex,
+      authorIndex,
+      bibliography,
+      expandedIndexedItemsKey,
+    } = this.state;
+
+    let isoData = treeData.slice(0, 1);
+    if (treeData !== undefined) {
+      if (treeData.length > 0) {
+        isoData = treeData.slice(0, 1)[0].children;
+      }
+    }
 
     let indexItemPane =
       indexItem.length === 0 ? null : (
         <TabPane tab="Index Item" key="3">
+          <div style={{ marginBottom: 16, float: "right" }}>
+            <Button type="link" onClick={this.expandAllIndexedItems}>
+              Expand All
+            </Button>
+          </div>
           <Tree
             switcherIcon={<Icon type="down" />}
             style={styles.Tree}
-            defaultExpandAll={true}
+            onExpand={this.onIndexedItemExpand}
+            expandedKeys={expandedIndexedItemsKey}
           >
             {this.renderIndexNodes(indexItem)}
           </Tree>
@@ -114,11 +162,7 @@ class MenuDrawer extends React.Component {
     let symbolPane =
       symbolIndex.length === 0 ? null : (
         <TabPane tab="Symbols" key="4">
-          <Tree
-            switcherIcon={<Icon type="down" />}
-            style={styles.Tree}
-            defaultExpandAll={true}
-          >
+          <Tree switcherIcon={<Icon type="down" />} style={styles.Tree}>
             {this.renderIndexNodes(symbolIndex)}
           </Tree>
         </TabPane>
@@ -127,11 +171,7 @@ class MenuDrawer extends React.Component {
     let authorIndPane =
       authorIndex.length === 0 ? null : (
         <TabPane tab="A-Ind" key="6">
-          <Tree
-            switcherIcon={<Icon type="down" />}
-            style={styles.Tree}
-            defaultExpandAll={true}
-          >
+          <Tree switcherIcon={<Icon type="down" />} style={styles.Tree}>
             {this.renderIndexNodes(authorIndex)}
           </Tree>
         </TabPane>
@@ -174,7 +214,7 @@ class MenuDrawer extends React.Component {
                 style={styles.Tree}
                 defaultExpandAll={true}
               >
-                {this.renderTreeNodes(this.state.treeData.slice(1), true)}
+                {this.renderTreeNodes(treeData.slice(1), true)}
               </Tree>
             </TabPane>
 
@@ -184,7 +224,7 @@ class MenuDrawer extends React.Component {
                 style={styles.Tree}
                 defaultExpandAll={true}
               >
-                {this.renderTreeNodes(this.state.treeData.slice(0, 1), false)}
+                {this.renderTreeNodes(isoData, false)}
               </Tree>
             </TabPane>
 
