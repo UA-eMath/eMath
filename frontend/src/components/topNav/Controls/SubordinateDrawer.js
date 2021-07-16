@@ -1,7 +1,9 @@
 import React from "react";
-import { Icon, Drawer, Button, Badge, Tooltip } from "antd";
-import { closeSubs, openSubWindow } from "../../../actions";
+import { Icon, Drawer, Button, Badge, Tooltip, Row, Col } from "antd";
+import _ from "lodash";
 import { connect } from "react-redux";
+import { closeSubs, openSubWindow, minimizeWindow } from "../../../actions";
+import paraRenderer from "../../../pageRenderer";
 
 const styles = {
   Icon: {
@@ -14,13 +16,15 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
-  return { subs: state.subordinates.subs };
+  return { subs: state.subordinates.subs, items: state.windows.items };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   openSubWindow: (id, content, isPage) =>
     dispatch(openSubWindow(id, content, isPage)),
   closeSubs: (id) => dispatch(closeSubs(id)),
+  minimizeWindow: (id, title, content, isPage) =>
+    dispatch(minimizeWindow(id, title, content, isPage)),
 });
 
 class SubordinateDrawer extends React.Component {
@@ -56,37 +60,46 @@ class SubordinateDrawer extends React.Component {
           closable={false}
           onClose={this.onClose}
           visible={this.state.visible}
-          width={300}
+          width={"25%"}
           style={{ fontSize: "25px", marginTop: "53px" }}
         >
           {this.props.subs.map((el) => {
             return (
               <div key={el.i} style={{ marginBottom: "5px" }}>
-                <Button
-                  size={"large"}
-                  style={{
-                    display: "inline-block",
-                    width: "200px",
-                    overflow: "hidden",
-                  }}
-                  onClick={() => {
-                    this.props.openSubWindow(el.i, el.content, el.isPage);
-                  }}
-                >
-                  {el.title}
-                </Button>
-
-                <Button
-                  type={"danger"}
-                  className={"mr-auto"}
-                  size={"large"}
-                  style={{ display: "inline-block" }}
-                  onClick={() => {
-                    this.props.closeSubs(el.i);
-                  }}
-                >
-                  X
-                </Button>
+                <Row type="flex" justify="center">
+                  <Col span={20}>
+                    <Button
+                      style={{
+                        whiteSpace: "normal",
+                        width: "100%",
+                      }}
+                      onClick={() => {
+                        const currentWindow = _.last(this.props.items);
+                        this.props.minimizeWindow(
+                          currentWindow.i,
+                          currentWindow.title,
+                          currentWindow.content,
+                          currentWindow.isPage
+                        );
+                        this.props.openSubWindow(el.i, el.content, el.isPage);
+                      }}
+                    >
+                      {_.isString(el.title)
+                        ? paraRenderer(el.title, true)
+                        : el.title}
+                    </Button>
+                  </Col>
+                  <Col span={4}>
+                    <Button
+                      type={"danger"}
+                      onClick={() => {
+                        this.props.closeSubs(el.i);
+                      }}
+                    >
+                      <Icon type="close" />
+                    </Button>
+                  </Col>
+                </Row>
               </div>
             );
           })}

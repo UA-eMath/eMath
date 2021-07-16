@@ -5,13 +5,7 @@ import "react-resizable/css/styles.css";
 import _ from "lodash";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { connect } from "react-redux";
-import {
-  minimizeWindow,
-  closeWindow,
-  onLayoutChange,
-  getPageToChange,
-  setPage,
-} from "../../actions";
+import { onLayoutChange, getPageToChange, setPage } from "../../actions";
 import CreateElement from "./pageCreator/createEle";
 import initElement from "./pageCreator/initEle";
 import MathjaxRenderer from "../MathjaxRenderer/index";
@@ -30,8 +24,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onCloseWindow: (id) => dispatch(closeWindow(id)),
-  minimizeWindow: (id) => dispatch(minimizeWindow(id)),
   onLayoutChange: (layout) => dispatch(onLayoutChange(layout)),
   getPageToChange: (id) => dispatch(getPageToChange(id)),
   onSetPage: (id, title, content, pageNum) =>

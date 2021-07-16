@@ -21,34 +21,40 @@ const windows = (state = initState_windows, action) => {
     case "OPEN_NEW_WINDOW":
       if (typeof action.content !== "undefined" && action.content !== null) {
         // Only add page if not opened before
-        // TODO: handle repeated init window
-        const removeExisted = _.reject(state.items, function (e) {
+        const repeatWindows = _.filter(state.items, function (e) {
           return e.content.id === action.content.id;
         });
 
-        const newWindow = {
-          i: "n" + state.newCounter,
-          x: 6,
-          y: 0,
-          w: 6,
-          h: 1,
-          static: false,
-          title: action.content.title,
-          content: action.content,
-          isPage: action.isPage,
-        };
-        return Object.assign({}, state, {
-          items: removeExisted.concat(newWindow),
-          newCounter: state.newCounter + 1,
-        });
+        if (repeatWindows.length === 0) {
+          const newWindow = {
+            i: "n" + state.newCounter,
+            x: 6,
+            y: 0,
+            w: 6,
+            h: 1,
+            static: false,
+            title: action.content.title,
+            content: action.content,
+            isPage: action.isPage,
+          };
+          const initWindow = state.items.splice(0, 1);
+          return Object.assign({}, state, {
+            items: initWindow.concat(newWindow),
+            newCounter: state.newCounter + 1,
+          });
+        }
       }
       return state;
 
     case "CLOSE_WINDOW":
-      return Object.assign({}, state, {
-        ...state,
-        items: _.reject(state.items, { i: action.id }),
-      });
+      if (action.id) {
+        return {
+          ...state,
+          items: _.reject(state.items, { i: action.id }),
+        };
+      } else {
+        return { ...state, items: state.items.splice(0, 1) };
+      }
 
     case "ON_LAYOUT_CHANGE":
       return {
