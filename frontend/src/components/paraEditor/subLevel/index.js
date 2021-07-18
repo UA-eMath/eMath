@@ -216,7 +216,6 @@ class SubLevel extends React.Component {
       </Menu>
     );
 
-    // TODO: up and down button
     let subLevelControl = (
       <div>
         <Button onClick={this.moveParaUp}>
