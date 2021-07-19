@@ -7,7 +7,7 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 import { connect } from "react-redux";
 import { onLayoutChange, getPageToChange, setPage } from "../../actions";
 import CreateElement from "./pageCreator/createEle";
-import initElement from "./pageCreator/initEle";
+import InitElement from "./pageCreator/initEle";
 import MathjaxRenderer from "../MathjaxRenderer/index";
 import { Spin } from "antd";
 
@@ -39,7 +39,6 @@ class SplitView extends React.Component {
       innerHeight: 0,
     };
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
-    this.initElement = initElement.bind(this);
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
@@ -104,7 +103,7 @@ class SplitView extends React.Component {
       >
         {_.map(this.props.items, (el) => {
           if (el.i === "0") {
-            return this.initElement(el);
+            return <InitElement key={el.i} data-grid={el} {...this.props} />;
           } else {
             const i = el.add ? "+" : el.i;
             return <CreateElement key={i} data-grid={el} />;
