@@ -16,13 +16,6 @@ const mapDispatchToProps = (dispatch) => ({
   paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
 });
 
-const mapStateToProps = (state) => {
-  return {
-    data: state.paras.paras,
-    status: state.paras.status,
-  };
-};
-
 class InputBox extends React.Component {
   constructor(props) {
     super(props);
@@ -208,4 +201,4 @@ class InputBox extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputBox);
+export default connect(null, mapDispatchToProps)(InputBox);
