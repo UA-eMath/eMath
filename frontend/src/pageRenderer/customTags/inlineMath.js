@@ -16,7 +16,6 @@ export default function inlineMath(props) {
     <span>
       <Context
         input="tex"
-        delay={100}
         loading={<Icon type="loading" />}
         onError={(MathJax, error) => {
           console.warn(error);

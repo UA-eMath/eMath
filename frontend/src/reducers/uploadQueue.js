@@ -2,7 +2,6 @@ import { escapeString } from "../utils/escapeString";
 
 const uploadingQueue = (state = {}, action) => {
   let temp_queue = {};
-  console.log("uploadqueue", action);
 
   switch (action.type) {
     case "ADD_QUEUE":
