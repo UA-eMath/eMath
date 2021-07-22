@@ -2,6 +2,7 @@ export {};
 const pageParas = {
   paras: [],
   status: null,
+  uploadingQueue: {},
   title: null,
   id: null,
 };
@@ -13,6 +14,7 @@ function escapeString(str) {
 
 const paras = (state = pageParas, action) => {
   let temp_state = [];
+  let temp_queue = {};
 
   switch (action.type) {
     case "LOAD_PARAS":
@@ -31,6 +33,7 @@ const paras = (state = pageParas, action) => {
     case "PARA_ONCHANGE":
       //copy value
       Object.assign(temp_state, state.paras);
+      Object.assign(temp_queue, state.uploadingQueue);
 
       //editing
       if (action.id !== null) {
@@ -44,10 +47,35 @@ const paras = (state = pageParas, action) => {
         } catch (e) {
           console.log(e);
         }
+
+        //update uploading queue
+        if (temp_queue[action.id] === undefined) {
+          temp_queue[action.id] = {
+            status: "update",
+            content: target_para.content,
+          };
+        } else {
+          temp_queue[action.id]["content"] = target_para.content;
+        }
       }
 
       return Object.assign({}, state, {
         paras: temp_state,
+        uploadingQueue: temp_queue,
+      });
+
+    case "CLEAR_QUEUE":
+      return Object.assign({}, state, {
+        uploadingQueue: {},
+      });
+
+    case "POP_QUEUE":
+      Object.assign(temp_queue, state.uploadingQueue);
+
+      delete temp_queue[action.id];
+
+      return Object.assign({}, state, {
+        uploadingQueue: temp_queue,
       });
 
     default:

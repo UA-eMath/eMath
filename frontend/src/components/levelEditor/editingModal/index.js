@@ -13,6 +13,7 @@ import paraRenderer from "../../../pageRenderer";
 
 const mapStateToProps = (state) => {
   return {
+    data: state.paras.data,
     status: state.paras.status,
   };
 };

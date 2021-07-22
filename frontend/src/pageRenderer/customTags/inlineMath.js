@@ -2,6 +2,7 @@ import React from "react";
 import { Node, Context } from "../../components/react-mathjax";
 import _ from "lodash";
 import MathJaxConfig from "../../constants/MathJax_config";
+import { Icon } from "antd";
 
 export default function inlineMath(props) {
   let node;
@@ -15,6 +16,8 @@ export default function inlineMath(props) {
     <span>
       <Context
         input="tex"
+        delay={100}
+        loading={<Icon type="loading" />}
         onError={(MathJax, error) => {
           console.warn(error);
           console.log("Encountered a MathJax error, re-attempting a typeset!");

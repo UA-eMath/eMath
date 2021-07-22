@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Icon, message, Switch, Tooltip } from "antd";
 
 import { connect } from "react-redux";
-import { fetchPage } from "../../actions";
+import { fetchPage, loadPage, loadPageError } from "../../actions";
 import AddSubLevel from "../paraEditor/addSubLevel";
 import postLevel from "../../requests/postLevel";
 import postPara from "../../requests/postPara";
@@ -16,6 +16,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  loadPage: (id) => dispatch(loadPage(id)),
+  loadPageError: (error) => dispatch(loadPageError(error)),
   fetchPage: (id, title) => dispatch(fetchPage(id, title)),
 });
 
