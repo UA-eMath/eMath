@@ -172,15 +172,13 @@ class SubLevel extends React.Component {
     const { children, alignment, deletePara, bookID, setFocusArea, fetchPage } =
       this.props;
     const { isLabelModalVisible } = this.state;
-    let left_title = "";
-    let right_title = "";
-    if (children[0].para_parent) {
-      left_title = children[0].para_parent.tocTitle;
-      right_title =
-        children[0].para_parent.title === null
-          ? ""
-          : paraRenderer(children[0].para_parent.title);
-    }
+    let left_title = children[0].para_parent
+      ? children[0].para_parent.tocTitle
+      : "";
+    let right_title =
+      children[0].para_parent.title === null
+        ? ""
+        : paraRenderer(children[0].para_parent.title);
 
     let boxHeader;
     if (left_title || right_title) {
