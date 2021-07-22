@@ -5,7 +5,7 @@ import { Node, Context } from "../react-mathjax";
 import MathJaxConfig from "../../constants/MathJax_config";
 import dataSource from "../InputBox/dataSource";
 
-export default class MathjaxRenderer extends React.Component {
+export default class MathjaxRenderer extends React.PureComponent {
   _isMounted = false;
   state = {
     texCommandsInMathTag: [],
@@ -31,13 +31,6 @@ export default class MathjaxRenderer extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false;
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.texCommandsInMathTag !== nextState.texCommandsInMathTag) {
-      return true;
-    }
-    return false;
   }
 
   regexMatch = (tex, note) => {

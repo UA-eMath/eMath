@@ -47,6 +47,12 @@ export const closeSubs = (id) => ({
 });
 
 // Para editor actions
+export const addQueue = (para, id) => ({
+  type: types.ADD_QUEUE,
+  para: para,
+  id: id,
+});
+
 export const clearQueue = () => ({
   type: types.CLEAR_QUEUE,
 });
@@ -56,7 +62,7 @@ export const popQueue = (id) => ({
   id: id,
 });
 
-export const paraOnChange = (para, id) => ({
+export const changePara = (para, id) => ({
   type: types.PARA_ONCHANGE,
   para: para,
   id: id,
@@ -74,6 +80,13 @@ export const loadPageError = (error) => ({
   type: types.LOAD_PARAS_ERROR,
   error: error,
 });
+
+export function paraOnChange(para, id) {
+  return (dispatch) => {
+    dispatch(changePara(para, id));
+    dispatch(addQueue(para, id));
+  };
+}
 
 export function fetchPage(id, title) {
   return function (dispatch) {

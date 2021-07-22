@@ -10,6 +10,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/webpack-resolver";
 import { addCompleter } from "ace-builds/src-noconflict/ext-language_tools";
 
 const mapDispatchToProps = (dispatch) => ({
