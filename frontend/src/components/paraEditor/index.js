@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { popQueue, fetchPage } from "../../actions";
+import { loadPage, popQueue, fetchPage } from "../../actions";
 import { message, Row, Col, Modal } from "antd";
 import _ from "lodash";
 import { Scrollbars } from "react-custom-scrollbars";
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
   return {
     data: state.paras.paras,
     status: state.paras.status,
-    uploadingQueue: state.uploadingQueue.uploadingQueue,
+    uploadingQueue: state.paras.uploadingQueue,
     title: state.paras.title,
     id: state.paras.id,
   };
@@ -27,6 +27,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchPage: (id, title) => dispatch(fetchPage(id, title)),
+  loadPage: (id) => dispatch(loadPage(id)),
   popQueue: (id) => dispatch(popQueue(id)),
 });
 
