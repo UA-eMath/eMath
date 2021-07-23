@@ -18,6 +18,8 @@ const MathJaxConfig = {
         "AMSmath.js",
         "AMSsymbols.js",
         "action.js",
+        "[Extra]/maction.js",
+        "[Extra]/mtable.js",
         "[Extra]/mathtools.js",
         "[Extra]/xypic.js",
       ],
