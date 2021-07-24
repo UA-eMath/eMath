@@ -82,7 +82,7 @@ export default function paraRenderer(para, isTitle = false, isInit = false) {
   if (typeof para === "string") {
     decodedData = para;
   } else {
-    if (para.content !== undefined) {
+    if (para && para.content) {
       decodedData = decodeURI(para.content.data);
     } else {
       decodedData = "";

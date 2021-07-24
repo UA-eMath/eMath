@@ -105,8 +105,10 @@ def updatePositionGivenTarget(child, target, position):
     return
 
 
-def updatePosition(level):
-    cached_list = list(chain(level.get_children().order_by('position')))
+def updatePosition(parent):
+    children_list = parent.get_children().order_by('position')
+    children_para_list = parent.para_set.all().order_by('position')
+    cached_list = mergeAndSort(children_list, children_para_list)
     updatePosByOrder(cached_list)
     return
 
