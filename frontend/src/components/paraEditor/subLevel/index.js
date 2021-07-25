@@ -2,16 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchPage } from "../../../actions";
 import _ from "lodash";
-import { Button, Col, Icon, Row, Popover, Dropdown, Menu, message } from "antd";
-import InputBox from "../../InputBox";
-import DisplayArea from "../../displayArea";
-import ParaControl from "../../paraControl";
+import { Button, Icon, Row, Popover, Dropdown, Menu, message } from "antd";
 import removeLevel from "../../../requests/removeLevel";
 import paraRenderer from "../../../pageRenderer";
 import AddLabel from "../../paraControl/addLabel";
 import getLabel from "../../../requests/getLabel";
 import updateLevel from "../../../requests/updateLevel";
 import DeleteModal from "../../deleteModal";
+import ParaArea from "../../paraArea";
 
 const mapStateToProps = (state) => {
   return {
@@ -68,54 +66,17 @@ class SubLevel extends React.Component {
 
   wrapPara = (alignment, item, deletePara) => {
     const bookID = this.props.bookID;
-    if (alignment) {
-      // true: RL
-      return (
-        <div className="paraWrapper" key={item.id}>
-          <div className="inputDiv">
-            <InputBox
-              id={item.id}
-              bookID={bookID}
-              setFocusArea={this.props.setFocusArea}
-              boxValue={item.content.data}
-            />
-          </div>
-          <DisplayArea id={item.id} />
-          <ParaControl
-            id={item.id}
-            bookID={bookID}
-            delete={deletePara}
-            parentId={item.para_parent.id}
-            pageId={this.props.id}
-          />
-        </div>
-      );
-    } else {
-      return (
-        <Row key={item.id}>
-          <Col span={23}>
-            <InputBox
-              id={item.id}
-              bookID={bookID}
-              boxValue={item.content.data}
-              setFocusArea={this.props.setFocusArea}
-              TBview="true"
-            />
-            <DisplayArea id={item.id} />
-          </Col>
-
-          <Col span={1}>
-            <ParaControl
-              id={item.id}
-              bookID={bookID}
-              delete={deletePara}
-              parentId={item.para_parent.id}
-              pageId={this.props.id}
-            />
-          </Col>
-        </Row>
-      );
-    }
+    return (
+      <ParaArea
+        key={item.id}
+        para={item}
+        bookID={bookID}
+        id={this.props.id}
+        sideAlign={alignment}
+        setFocusArea={this.props.setFocusArea}
+        deletePara={deletePara}
+      />
+    );
   };
 
   hoverLabel = () => {

@@ -41,7 +41,7 @@ const uploadingQueue = (state = {}, action) => {
       Object.assign(temp_queue, state.uploadingQueue);
 
       delete temp_queue[action.id];
-      console.log("popqueue", temp_queue);
+
       return Object.assign({}, state, {
         uploadingQueue: temp_queue,
       });

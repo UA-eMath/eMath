@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { loadPage, popQueue, fetchPage } from "../../actions";
-import { message, Row, Col, Modal } from "antd";
+import { message, Modal } from "antd";
 import _ from "lodash";
 import { Scrollbars } from "react-custom-scrollbars";
 import EditorToolBar from "../editorBar";
@@ -9,11 +9,9 @@ import postPara from "../../requests/postPara";
 import updatePara from "../../requests/updatePara";
 import removePara from "../../requests/removePara";
 import "./style/index.css";
-import InputBox from "../InputBox";
-import DisplayArea from "../displayArea";
-import ParaControl from "../paraControl";
 import SubLevel from "./subLevel";
 import paraRenderer from "../../pageRenderer";
+import ParaArea from "../paraArea";
 
 const mapStateToProps = (state) => {
   return {
@@ -239,63 +237,17 @@ class ParaEditor extends React.Component {
                       />
                     );
                   }
-
-                  if (this.state.sideAlign) {
-                    return (
-                      <div className="paraWrapper" key={item.id}>
-                        <div className="inputDiv">
-                          <InputBox
-                            id={item.id}
-                            bookID={bookID}
-                            setFocusArea={this.setFocusArea.bind(this)}
-                            boxValue={item.content.data}
-                          />
-                        </div>
-                        <DisplayArea id={item.id} />
-                        <ParaControl
-                          id={item.id}
-                          delete={this.deletePara}
-                          parentId={this.props.id}
-                          bookID={bookID}
-                          pageId={this.props.id}
-                        />
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <Row key={item.id}>
-                        <Col
-                          span={21}
-                          style={{
-                            margin: "10px",
-                          }}
-                        >
-                          <InputBox
-                            id={item.id}
-                            bookID={bookID}
-                            boxValue={item.content.data}
-                            setFocusArea={this.setFocusArea}
-                          />
-                          <DisplayArea id={item.id} />
-                        </Col>
-
-                        <Col
-                          span={1}
-                          style={{
-                            margin: "10px",
-                          }}
-                        >
-                          <ParaControl
-                            id={item.id}
-                            delete={this.deletePara}
-                            parentId={this.props.id}
-                            bookID={bookID}
-                            pageId={this.props.id}
-                          />
-                        </Col>
-                      </Row>
-                    );
-                  }
+                  return (
+                    <ParaArea
+                      key={item.id}
+                      para={item}
+                      bookID={bookID}
+                      id={this.props.id}
+                      sideAlign={this.state.sideAlign}
+                      setFocusArea={this.setFocusArea}
+                      deletePara={this.deletePara}
+                    />
+                  );
                 })}
               </div>
             </Scrollbars>

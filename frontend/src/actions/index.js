@@ -92,7 +92,6 @@ export function fetchPage(id, title) {
   return function (dispatch) {
     return getPage({ id: id })
       .then((data) => {
-        console.log("fetchpage", data.data, title, id);
         dispatch(loadPage(data.data, data.status, title, id));
       })
       .catch((error) => dispatch(loadPageError(error)));
