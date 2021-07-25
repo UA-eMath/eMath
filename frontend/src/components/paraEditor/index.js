@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
   return {
     data: state.paras.paras,
     status: state.paras.status,
-    uploadingQueue: state.paras.uploadingQueue,
+    uploadingQueue: state.uploadingQueue.uploadingQueue,
     title: state.paras.title,
     id: state.paras.id,
   };
