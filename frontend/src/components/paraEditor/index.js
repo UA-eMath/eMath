@@ -9,13 +9,12 @@ import postPara from "../../requests/postPara";
 import updatePara from "../../requests/updatePara";
 import removePara from "../../requests/removePara";
 import "./style/index.css";
-import SubLevel from "./subLevel";
 import paraRenderer from "../../pageRenderer";
 import ParaArea from "../paraArea";
 
 const mapStateToProps = (state) => {
   return {
-    data: state.paras.paras,
+    ids: state.paras.ids,
     status: state.page.status,
     uploadingQueue: state.uploadingQueue.uploadingQueue,
     title: state.page.title,
@@ -223,24 +222,11 @@ class ParaEditor extends React.Component {
                 >
                   {paraRenderer(this.props.title, true)}
                 </h3>
-                {_.map(this.props.data, (item, i) => {
-                  if (Array.isArray(item)) {
-                    return (
-                      <SubLevel
-                        key={i}
-                        children={item}
-                        alignment={this.state.sideAlign}
-                        deletePara={this.deletePara}
-                        setFocusArea={this.setFocusArea.bind(this)}
-                        id={this.props.id}
-                        bookID={bookID}
-                      />
-                    );
-                  }
+                {_.map(this.props.ids, (id, i) => {
                   return (
                     <ParaArea
-                      key={item.id}
-                      para={item}
+                      key={id}
+                      paraID={id}
                       bookID={bookID}
                       id={this.props.id}
                       sideAlign={this.state.sideAlign}

@@ -1,10 +1,18 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Row, Col } from "antd";
 import InputBox from "../InputBox";
 import DisplayArea from "../displayArea";
 import ParaControl from "../paraControl";
+import SubLevel from "../paraEditor/subLevel";
 
-export default class ParaArea extends React.Component {
+const mapStateToProps = (state, ownProps) => {
+  return {
+    para: state.paras.paras[ownProps.paraID],
+  };
+};
+
+class ParaArea extends React.Component {
   render() {
     const { id, bookID, para, sideAlign, setFocusArea, deletePara } =
       this.props;
@@ -13,8 +21,27 @@ export default class ParaArea extends React.Component {
 
     return (
       <div>
+        {Array.isArray(para) ? (
+          <SubLevel
+            key={para.id}
+            children={para}
+            alignment={this.state.sideAlign}
+            deletePara={this.deletePara}
+            setFocusArea={this.setFocusArea.bind(this)}
+            id={this.props.id}
+            bookID={bookID}
+          />
+        ) : (
+          ""
+        )}
+
         {sideAlign ? (
-          <div className="paraWrapper">
+          <div
+            className="paraWrapper"
+            ref={(divElement) => {
+              this.divElement = divElement;
+            }}
+          >
             <div className="inputDiv">
               <InputBox
                 id={para.id}
@@ -69,3 +96,5 @@ export default class ParaArea extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps, null)(ParaArea);
