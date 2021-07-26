@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => {
   return {
     data: state.paras.paras,
-    status: state.paras.status,
+    status: state.page.status,
   };
 };
 

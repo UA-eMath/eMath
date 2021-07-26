@@ -13,7 +13,7 @@ const SubMenu = Menu.SubMenu;
 
 const mapStateToProps = (state) => {
   return {
-    title: state.paras.title,
+    title: state.page.title,
   };
 };
 

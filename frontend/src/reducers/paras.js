@@ -1,27 +1,17 @@
 import { escapeString } from "../utils/escapeString";
 
-const pageParas = {
-  paras: [],
-  status: null,
-  title: null,
-  id: null,
-};
-
-const paras = (state = pageParas, action) => {
+const paras = (
+  state = {
+    paras: [],
+  },
+  action
+) => {
   let temp_state = [];
 
   switch (action.type) {
     case "LOAD_PARAS":
       return Object.assign({}, state, {
         paras: action.data,
-        status: action.status,
-        title: action.title,
-        id: action.id,
-      });
-
-    case "LOAD_PARAS_ERROR":
-      return Object.assign({}, state, {
-        state: action.status,
       });
 
     case "PARA_ONCHANGE":
@@ -50,5 +40,44 @@ const paras = (state = pageParas, action) => {
       return state;
   }
 };
+
+// export const paras = (state = {ids: [], paras: {}}, action) => {
+//   switch (action.type) {
+//     case "LOAD_PARAS":
+//       let flatParas = action.data.flat(Infinity); // array
+//       let keys = flatParas.map((x) => x.id);
+//       let items = {};
+//       keys.forEach((id) => {
+//         let para = flatParas.find((obj) => {
+//           return obj.id === id;
+//         });
+//         items[id] = para;
+//       });
+
+//       return {
+//         ...state,
+//         ids: keys,
+//         paras: items,
+//         status: action.status,
+//         title: action.title,
+//         id: action.id,
+//       };
+
+//     case "PARA_ONCHANGE":
+//       if (action.id !== null) {
+//         let para = state.paras[action.id];
+//         let newPara = { ...para, content: { data: escapeString(action.para) } };
+//         let newParas = {
+//           ...state.paras,
+//           [action.id]: newPara,
+//         };
+//         return { ...state, paras: newParas };
+//       }
+//       return { ...state };
+
+//     default:
+//       return state;
+//   }
+// };
 
 export default paras;

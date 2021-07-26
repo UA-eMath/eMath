@@ -68,9 +68,13 @@ export const changePara = (para, id) => ({
   id: id,
 });
 
-export const loadPage = (data, status, title, id) => ({
+export const loadPage = (data) => ({
   type: types.LOAD_PARAS,
   data: data,
+});
+
+export const loadPageSuccess = (id, title, status) => ({
+  type: types.LOAD_PARAS_SUCCESS,
   status: status,
   title: title,
   id: id,
@@ -92,7 +96,8 @@ export function fetchPage(id, title) {
   return function (dispatch) {
     return getPage({ id: id })
       .then((data) => {
-        dispatch(loadPage(data.data, data.status, title, id));
+        dispatch(loadPage(data.data));
+        dispatch(loadPageSuccess(data.status, title, id));
       })
       .catch((error) => dispatch(loadPageError(error)));
   };

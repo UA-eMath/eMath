@@ -16,10 +16,10 @@ import ParaArea from "../paraArea";
 const mapStateToProps = (state) => {
   return {
     data: state.paras.paras,
-    status: state.paras.status,
+    status: state.page.status,
     uploadingQueue: state.uploadingQueue.uploadingQueue,
-    title: state.paras.title,
-    id: state.paras.id,
+    title: state.page.title,
+    id: state.page.id,
   };
 };
 

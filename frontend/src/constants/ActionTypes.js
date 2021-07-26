@@ -6,8 +6,10 @@ export const ADD_SUBS = "ADD_SUBS";
 export const CLOSE_SUBS = "CLOSE_SUBS";
 
 export const LOAD_PARAS = "LOAD_PARAS";
-export const LOAD_PARAS_ERROR = "LOAD_PARAS_ERROR";
 export const PARA_ONCHANGE = "PARA_ONCHANGE";
+
+export const LOAD_PARAS_SUCCESS = "LOAD_PARAS_SUCCESS";
+export const LOAD_PARAS_ERROR = "LOAD_PARAS_ERROR";
 
 export const ADD_QUEUE = "ADD_QUEUE";
 export const CLEAR_QUEUE = "CLEAR_QUEUE";
