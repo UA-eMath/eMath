@@ -4,6 +4,8 @@ import subordinates from "./subordinates";
 import paras from "./paras";
 import currentpage from "./currentPage";
 import authentication from "./authenticate";
+import uploadingQueue from "./uploadQueue";
+import page from "./page";
 
 export default combineReducers({
   windows,
@@ -11,4 +13,6 @@ export default combineReducers({
   paras,
   currentpage,
   authentication,
+  uploadingQueue,
+  page,
 });

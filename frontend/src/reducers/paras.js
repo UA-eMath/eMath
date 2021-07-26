@@ -1,82 +1,35 @@
-export {};
-const pageParas = {
-  paras: [],
-  status: null,
-  uploadingQueue: {},
-  title: null,
-  id: null,
-};
+import { escapeString } from "../utils/escapeString";
 
-function escapeString(str) {
-  // new line; tab; space;
-  return encodeURI(str);
-}
-
-const paras = (state = pageParas, action) => {
-  let temp_state = [];
-  let temp_queue = {};
-
+export const paras = (state = { ids: [], paras: {} }, action) => {
   switch (action.type) {
     case "LOAD_PARAS":
-      return Object.assign({}, state, {
-        paras: action.data,
-        status: action.status,
-        title: action.title,
-        id: action.id,
+      let flatParas = action.data.flat(Infinity); // array
+      let keys = flatParas.map((x) => x.id);
+      let items = {};
+      keys.forEach((id) => {
+        let para = flatParas.find((obj) => {
+          return obj.id === id;
+        });
+        items[id] = para;
       });
 
-    case "LOAD_PARAS_ERROR":
-      return Object.assign({}, state, {
-        state: action.status,
-      });
+      return {
+        ...state,
+        ids: keys,
+        paras: items,
+      };
 
     case "PARA_ONCHANGE":
-      //copy value
-      Object.assign(temp_state, state.paras);
-      Object.assign(temp_queue, state.uploadingQueue);
-
-      //editing
       if (action.id !== null) {
-        //find and replace
-        let flat_state = temp_state.flat(Infinity);
-        let target_para =
-          flat_state[flat_state.findIndex((i) => i.id === action.id)];
-
-        try {
-          target_para.content.data = escapeString(action.para);
-        } catch (e) {
-          console.log(e);
-        }
-
-        //update uploading queue
-        if (temp_queue[action.id] === undefined) {
-          temp_queue[action.id] = {
-            status: "update",
-            content: target_para.content,
-          };
-        } else {
-          temp_queue[action.id]["content"] = target_para.content;
-        }
+        let para = state.paras[action.id];
+        let newPara = { ...para, content: { data: escapeString(action.para) } };
+        let newParas = {
+          ...state.paras,
+          [action.id]: newPara,
+        };
+        return { ...state, paras: newParas };
       }
-
-      return Object.assign({}, state, {
-        paras: temp_state,
-        uploadingQueue: temp_queue,
-      });
-
-    case "CLEAR_QUEUE":
-      return Object.assign({}, state, {
-        uploadingQueue: {},
-      });
-
-    case "POP_QUEUE":
-      Object.assign(temp_queue, state.uploadingQueue);
-
-      delete temp_queue[action.id];
-
-      return Object.assign({}, state, {
-        uploadingQueue: temp_queue,
-      });
+      return { ...state };
 
     default:
       return state;

@@ -2,22 +2,18 @@ import React from "react";
 import paraRenderer from "../../pageRenderer";
 import { connect } from "react-redux";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    data: state.paras.paras,
+    para: state.paras.paras[ownProps.id],
   };
 };
 
 class DisplayArea extends React.Component {
   render() {
-    let id = this.props.id;
-    let dataArray = this.props.data.flat(Infinity);
-    let target_para = dataArray[dataArray.findIndex((el) => el.id === id)];
-
     return (
       <div className="displayDiv">
         {/*TODO: need to handle open window activity*/}
-        {paraRenderer(target_para)}
+        {paraRenderer(this.props.para)}
       </div>
     );
   }

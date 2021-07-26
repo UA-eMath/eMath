@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { loadPage, popQueue, fetchPage } from "../../actions";
-import { message, Row, Col, Modal } from "antd";
+import { message, Modal } from "antd";
 import _ from "lodash";
 import { Scrollbars } from "react-custom-scrollbars";
 import EditorToolBar from "../editorBar";
@@ -9,19 +9,16 @@ import postPara from "../../requests/postPara";
 import updatePara from "../../requests/updatePara";
 import removePara from "../../requests/removePara";
 import "./style/index.css";
-import InputBox from "../InputBox";
-import DisplayArea from "../displayArea";
-import ParaControl from "../paraControl";
-import SubLevel from "./subLevel";
 import paraRenderer from "../../pageRenderer";
+import ParaArea from "../paraArea";
 
 const mapStateToProps = (state) => {
   return {
-    data: state.paras.paras,
-    status: state.paras.status,
-    uploadingQueue: state.paras.uploadingQueue,
-    title: state.paras.title,
-    id: state.paras.id,
+    ids: state.paras.ids,
+    status: state.page.status,
+    uploadingQueue: state.uploadingQueue.uploadingQueue,
+    title: state.page.title,
+    id: state.page.id,
   };
 };
 
@@ -225,77 +222,18 @@ class ParaEditor extends React.Component {
                 >
                   {paraRenderer(this.props.title, true)}
                 </h3>
-                {_.map(this.props.data, (item, i) => {
-                  if (Array.isArray(item)) {
-                    return (
-                      <SubLevel
-                        key={i}
-                        children={item}
-                        alignment={this.state.sideAlign}
-                        deletePara={this.deletePara}
-                        setFocusArea={this.setFocusArea.bind(this)}
-                        id={this.props.id}
-                        bookID={bookID}
-                      />
-                    );
-                  }
-
-                  if (this.state.sideAlign) {
-                    return (
-                      <div className="paraWrapper" key={item.id}>
-                        <div className="inputDiv">
-                          <InputBox
-                            id={item.id}
-                            bookID={bookID}
-                            setFocusArea={this.setFocusArea.bind(this)}
-                            boxValue={item.content.data}
-                          />
-                        </div>
-                        <DisplayArea id={item.id} />
-                        <ParaControl
-                          id={item.id}
-                          delete={this.deletePara}
-                          parentId={this.props.id}
-                          bookID={bookID}
-                          pageId={this.props.id}
-                        />
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <Row key={item.id}>
-                        <Col
-                          span={21}
-                          style={{
-                            margin: "10px",
-                          }}
-                        >
-                          <InputBox
-                            id={item.id}
-                            bookID={bookID}
-                            boxValue={item.content.data}
-                            setFocusArea={this.setFocusArea}
-                          />
-                          <DisplayArea id={item.id} />
-                        </Col>
-
-                        <Col
-                          span={1}
-                          style={{
-                            margin: "10px",
-                          }}
-                        >
-                          <ParaControl
-                            id={item.id}
-                            delete={this.deletePara}
-                            parentId={this.props.id}
-                            bookID={bookID}
-                            pageId={this.props.id}
-                          />
-                        </Col>
-                      </Row>
-                    );
-                  }
+                {_.map(this.props.ids, (id, i) => {
+                  return (
+                    <ParaArea
+                      key={id}
+                      paraID={id}
+                      bookID={bookID}
+                      id={this.props.id}
+                      sideAlign={this.state.sideAlign}
+                      setFocusArea={this.setFocusArea}
+                      deletePara={this.deletePara}
+                    />
+                  );
                 })}
               </div>
             </Scrollbars>

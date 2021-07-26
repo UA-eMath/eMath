@@ -58,7 +58,10 @@ export default class DeleteModal extends React.Component {
           <b> {deleteContent} </b>
           {" entry and all the content belongs to it."}
         </p>
-        <p>Please type in the name of the entry to confirm: </p>
+        <p>
+          Please type in the name of the entry to confirm (if name field is
+          empty, just type a whitespace and then delete it):{" "}
+        </p>
         <Input onChange={this.matchCheck} />
       </Modal>
     );
