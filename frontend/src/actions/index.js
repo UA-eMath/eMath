@@ -97,7 +97,7 @@ export function fetchPage(id, title) {
     return getPage({ id: id })
       .then((data) => {
         dispatch(loadPage(data.data));
-        dispatch(loadPageSuccess(data.status, title, id));
+        dispatch(loadPageSuccess(id, title, data.status));
       })
       .catch((error) => dispatch(loadPageError(error)));
   };
