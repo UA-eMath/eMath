@@ -47,8 +47,8 @@ class SubLevel extends React.Component {
     removeLevel(id).then((data) => {
       if (data.status !== 200) {
         message.error("Fail to delete level.");
-        console.error("Delete error", data);
       } else {
+        this.setState({ visible: false });
         this.props.fetchPage(this.props.id, this.props.title);
       }
     });
@@ -68,7 +68,7 @@ class SubLevel extends React.Component {
     const bookID = this.props.bookID;
     return (
       <ParaArea
-        key={item.id}
+        paraID={item.id}
         para={item}
         bookID={bookID}
         id={this.props.id}
@@ -80,8 +80,9 @@ class SubLevel extends React.Component {
   };
 
   hoverLabel = () => {
+    let para = this.props.children.find((e) => e.para_parent);
     getLabel({
-      levelID: this.props.children[0].para_parent.id,
+      levelID: para.para_parent.id,
     })
       .then((labelObj) => {
         this.setState({
@@ -97,47 +98,46 @@ class SubLevel extends React.Component {
     const request_body = JSON.stringify({
       action: -1,
     });
-    updateLevel(request_body, this.props.children[0].para_parent.id).then(
-      (data) => {
-        if (!data || data.status !== 200) {
-          if (data.status === 400) {
-            message.error(data.data);
-          }
-          console.error("Update error", request_body, data);
-        } else {
-          this.props.fetchPage(this.props.id, this.props.title);
+    let para = this.props.children.find((e) => e.para_parent);
+    updateLevel(request_body, para.para_parent.id).then((data) => {
+      if (!data || data.status !== 200) {
+        if (data.status === 400) {
+          message.error(data.data);
         }
+        console.error("Update error", request_body, data);
+      } else {
+        this.props.fetchPage(this.props.id, this.props.title);
       }
-    );
+    });
   };
 
   moveParaDown = () => {
     const request_body = JSON.stringify({
       action: 1,
     });
-    updateLevel(request_body, this.props.children[0].para_parent.id).then(
-      (data) => {
-        if (!data || data.status !== 200) {
-          if (data.status === 400) {
-            message.error(data.data);
-          }
-          console.error("Update error", request_body, data);
-        } else {
-          this.props.fetchPage(this.props.id, this.props.title);
+    let para = this.props.children.find((e) => e.para_parent);
+    updateLevel(request_body, para.para_parent.id).then((data) => {
+      if (!data || data.status !== 200) {
+        if (data.status === 400) {
+          message.error(data.data);
         }
+      } else {
+        this.props.fetchPage(this.props.id, this.props.title);
       }
-    );
+    });
   };
 
   render() {
     const { children, alignment, deletePara, bookID, setFocusArea, fetchPage } =
       this.props;
     const { isLabelModalVisible } = this.state;
-    let left_title = children[0].para_parent.tocTitle;
+
+    let para = children.find((e) => e.para_parent);
+    let left_title = para.para_parent.tocTitle;
     let right_title =
-      children[0].para_parent.title === null
+      para.para_parent.title === null
         ? ""
-        : paraRenderer(children[0].para_parent.title);
+        : paraRenderer(para.para_parent.title);
 
     let boxHeader;
     if (left_title || right_title) {
@@ -231,10 +231,10 @@ class SubLevel extends React.Component {
         {this.state.isLabelModalVisible ? (
           <AddLabel
             visible={isLabelModalVisible}
-            levelID={children[0].para_parent.id}
+            levelID={para.para_parent.id}
             toggleModal={this.toggleLabelModal}
             label={this.state.labelObj}
-            bookID={"1"} //TODO
+            bookID={bookID}
           />
         ) : (
           ""
@@ -242,9 +242,9 @@ class SubLevel extends React.Component {
 
         {this.state.visible ? (
           <DeleteModal
-            title={`this ${children[0].para_parent.tocTitle} Level`}
-            onDelete={() => this.onDelete(children[0].para_parent.id)}
-            deleteContent={children[0].para_parent.title}
+            title={`this ${para.para_parent.tocTitle} Level`}
+            onDelete={() => this.onDelete(para.para_parent.id)}
+            deleteContent={para.para_parent.title}
             visible={this.state.visible}
             onCancel={this.handleCancel}
           />
