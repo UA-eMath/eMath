@@ -14,7 +14,8 @@ import ParaArea from "../paraArea";
 
 const mapStateToProps = (state) => {
   return {
-    ids: state.paras.ids,
+    idsLevel: state.paras.idsLevel,
+    paras: state.paras.paras,
     status: state.page.status,
     uploadingQueue: state.uploadingQueue.uploadingQueue,
     title: state.page.title,
@@ -122,11 +123,6 @@ class ParaEditor extends React.Component {
     }));
   };
 
-  getItemById(id) {
-    let flatState = this.props.data.flat(Infinity);
-    return flatState[flatState.findIndex((i) => i.id === id)];
-  }
-
   addPara = (data = "") => {
     //this.props.id
     let request_body;
@@ -134,7 +130,7 @@ class ParaEditor extends React.Component {
     let parentId = this.props.id;
     if (this.state.focusedArea !== null) {
       //behind on focused area
-      let focusedPara = this.getItemById(this.state.focusedArea);
+      let focusedPara = this.props.paras[this.state.focusedArea];
       if (typeof focusedPara !== "undefined") {
         //the position para want to be put
         position = focusedPara.position + 1;
@@ -222,7 +218,7 @@ class ParaEditor extends React.Component {
                 >
                   {paraRenderer(this.props.title, true)}
                 </h3>
-                {_.map(this.props.ids, (id, i) => {
+                {_.map(this.props.idsLevel, (id, i) => {
                   return (
                     <ParaArea
                       key={id}

@@ -8,9 +8,9 @@ import postLevel from "../../requests/postLevel";
 import postPara from "../../requests/postPara";
 import AddImage from "./addImage";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    data: state.paras.paras,
+    para: state.paras.paras[ownProps.focusedArea],
     status: state.page.status,
   };
 };
@@ -43,11 +43,6 @@ class EditorToolBar extends React.Component {
     this.setState({ visible: false });
   };
 
-  getItemById(id) {
-    let flatState = this.props.data.flat(Infinity);
-    return flatState[flatState.findIndex((i) => i.id === id)];
-  }
-
   addSubLevel = () => {
     const { form } = this.formRef.props;
 
@@ -64,7 +59,7 @@ class EditorToolBar extends React.Component {
       let parentId = this.props.parent;
       if (this.props.focusedArea !== null) {
         //behind on focused area
-        let focusedPara = this.getItemById(this.props.focusedArea);
+        let focusedPara = this.props.para;
         if (typeof focusedPara !== "undefined") {
           //the position para want to be put
           position = focusedPara.position + 1;
