@@ -161,7 +161,7 @@ class Label(models.Model):
     '''
     This class represents a label structure
     '''
-    content = models.CharField(max_length=30, null=True, blank=True)
+    content = models.CharField(max_length=128, null=True, blank=True)
     linked_para = models.OneToOneField(Para,
                                        on_delete=models.CASCADE,
                                        null=True,
