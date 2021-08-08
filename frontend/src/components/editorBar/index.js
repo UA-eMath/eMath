@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Icon, message, Switch, Tooltip } from "antd";
-
 import { connect } from "react-redux";
 import { fetchPage, loadPage, loadPageError } from "../../actions";
 import AddSubLevel from "../paraEditor/addSubLevel";
