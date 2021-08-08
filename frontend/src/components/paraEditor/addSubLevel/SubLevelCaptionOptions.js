@@ -7,6 +7,7 @@ function CaptionOptions(props) {
   const { getFieldDecorator } = props.form;
   return getFieldDecorator("tocTitle", {
     initialValue: "",
+    rules: [{ required: true, message: "Please select your level type!" }],
   })(
     <Select
       showSearch
