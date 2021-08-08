@@ -38,7 +38,7 @@ def basic_dict():
 
 class RootLevel(models.Model):
 
-    html_title = models.CharField(max_length=100, null=True, blank=True)
+    html_title = models.CharField(max_length=128, null=True, blank=True)
     author = models.ForeignKey('Person',
                                related_name="author",
                                null=True,
@@ -78,8 +78,8 @@ class Level(MPTTModel):
                             blank=True,
                             related_name="children")
     isPage = models.BooleanField()
-    title = models.CharField(max_length=100, null=True, blank=True)
-    tocTitle = models.CharField(max_length=100, null=True, blank=True)
+    title = models.CharField(max_length=128, null=True, blank=True)
+    tocTitle = models.CharField(max_length=128, null=True, blank=True)
     unit_type = models.CharField(max_length=30, null=True, blank=True)
     root = models.OneToOneField(RootLevel,
                                 on_delete=models.CASCADE,
