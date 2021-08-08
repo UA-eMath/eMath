@@ -29,7 +29,7 @@ const AddSubLevel = Form.create({ name: "form_in_modal" })(
           ]}
         >
           <Form layout="vertical">
-            <Form.Item label="Type">
+            <Form.Item label="Table of content Title">
               <CaptionOptions form={form} />
             </Form.Item>
 
