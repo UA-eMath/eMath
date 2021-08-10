@@ -9,10 +9,35 @@ import { Spin } from "antd";
 import background from "../../static/img/write.jpg";
 
 export default class AuthoringLayout extends React.Component {
+  _isMounted = false;
   state = {
     paneSize: 600,
     mathLoaded: false,
+    innerHeight: 0,
   };
+
+  componentDidMount() {
+    this._isMounted = true;
+    this.updateWindowDimensions();
+    // Add event listener
+    window.addEventListener("resize", this.updateWindowDimensions.bind(this));
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    // Remove event listener
+    window.removeEventListener(
+      "resize",
+      this.updateWindowDimensions.bind(this)
+    );
+  }
+
+  /**
+   * Calculate & Update state of new dimensions
+   */
+  updateWindowDimensions() {
+    this.setState({ innerHeight: window.innerHeight });
+  }
 
   changePaneSize = (paneSize) => {
     this.setState({
@@ -34,7 +59,10 @@ export default class AuthoringLayout extends React.Component {
         split="vertical"
         minSize={0}
         size={this.state.paneSize}
-        style={{ position: "relative", minHeight: "100vh" }}
+        style={{
+          position: "relative",
+          height: this.state.innerHeight - 80,
+        }}
         pane2Style={{
           backgroundImage: `url(${background})`,
           backgroundSize: "cover",
@@ -45,11 +73,12 @@ export default class AuthoringLayout extends React.Component {
             bookID={id}
             levelId={id}
             changePaneSize={this.changePaneSize}
+            windowHeight={this.state.innerHeight}
           />
         </div>
 
         <div>
-          <ParaEditor bookID={id} />
+          <ParaEditor bookID={id} windowHeight={this.state.innerHeight} />
         </div>
       </SplitPane>
     ) : (

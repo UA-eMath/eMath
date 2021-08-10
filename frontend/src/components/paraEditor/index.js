@@ -204,20 +204,24 @@ class ParaEditor extends React.Component {
               parentTitle={this.props.title}
               focusedArea={this.state.focusedArea}
             />
-            <Scrollbars
+            <h3
+              align={"center"}
               style={{
-                minHeight: "100vh",
+                marginTop: 24,
               }}
             >
+              {paraRenderer(this.props.title, true)}
+            </h3>
+
+            <Scrollbars
+              style={{
+                width: "100%",
+                height: this.props.windowHeight - 200,
+                margin: "10px",
+              }}
+              autoHide
+            >
               <div style={{ margin: 16 }}>
-                <h3
-                  align={"center"}
-                  style={{
-                    marginTop: 24,
-                  }}
-                >
-                  {paraRenderer(this.props.title, true)}
-                </h3>
                 {_.map(this.props.idsLevel, (id, i) => {
                   return (
                     <ParaArea

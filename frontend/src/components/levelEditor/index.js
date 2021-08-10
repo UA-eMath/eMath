@@ -6,6 +6,7 @@ import EditingModal from "./editingModal";
 import updateLevel from "../../requests/updateLevel";
 import paraRenderer from "../../pageRenderer";
 import { setExpandKeysCache } from "../../utils/setReadCache";
+import { Scrollbars } from "react-custom-scrollbars";
 
 const { TreeNode } = Tree;
 const { Search } = Input;
@@ -313,18 +314,23 @@ class LevelEditor extends React.Component {
           placeholder="Search"
           onChange={this.onChange}
         />
-        <Tree
-          onExpand={this.onExpand}
-          expandedKeys={expandedKeys}
-          autoExpandParent={autoExpandParent}
-          draggable
-          blockNode
-          onDrop={this.onDrop}
-          showIcon={true}
-          selectable={false}
+        <Scrollbars
+          style={{ width: "100%", height: this.props.windowHeight - 120 }}
+          autoHide
         >
-          {this.renderTreeNodes(this.state.treeData)}
-        </Tree>
+          <Tree
+            onExpand={this.onExpand}
+            expandedKeys={expandedKeys}
+            autoExpandParent={autoExpandParent}
+            draggable
+            blockNode
+            onDrop={this.onDrop}
+            showIcon={true}
+            selectable={false}
+          >
+            {this.renderTreeNodes(this.state.treeData)}
+          </Tree>
+        </Scrollbars>
       </div>
     );
   }

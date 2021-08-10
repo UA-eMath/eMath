@@ -31,7 +31,7 @@ class ParaArea extends React.Component {
             bookID={bookID}
           />
         ) : (
-          <div>
+          <>
             {sideAlign ? (
               <div
                 className="paraWrapper"
@@ -89,7 +89,7 @@ class ParaArea extends React.Component {
                 </Col>
               </Row>
             )}
-          </div>
+          </>
         )}
       </div>
     );
