@@ -21,6 +21,7 @@ const MathJaxConfig = {
         "[Extra]/maction.js",
         "[Extra]/mtable.js",
         "[Extra]/mathtools.js",
+        "[Extra]/menclose.js",
         "[Extra]/xypic.js",
       ],
     },
