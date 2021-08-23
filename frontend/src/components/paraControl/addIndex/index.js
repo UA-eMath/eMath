@@ -55,7 +55,10 @@ const AddIndex = Form.create({ name: "form_in_modal" })(
           ) !== "undefined"
         ) {
           //already created
-          return message.error(title + " item already exists.");
+          // TODO: Ask if sure to use the same item
+          if (title !== "Index Item") {
+            return message.error(title + " item already exists.");
+          }
         }
 
         let request_body;

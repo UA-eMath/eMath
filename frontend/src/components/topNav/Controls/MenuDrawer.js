@@ -1,6 +1,6 @@
 import React from "react";
 import fetchTocTree from "./treeData";
-import { Tree } from "antd";
+import { Popover, Tree } from "antd";
 import { Drawer, Tabs, Icon, Button, Tooltip } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
@@ -264,24 +264,52 @@ class MenuDrawer extends React.Component {
     }
   };
 
+  getFirstElement = (array) => {
+    if (array) {
+      return array[0];
+    } else {
+      return array;
+    }
+  };
+
   renderIndexNodes = (data) => {
     return data.map((item) => {
       if (item.children) {
         return (
           <TreeNode
             title={
-              <a
-                href
-                onClick={() => {
-                  this.replaceWindow();
-                  this.props.onWindowOpen(item, false);
-                  this.onClose();
-                }}
-              >
-                {paraRenderer(item.tocTitle, true)}
-              </a>
+              item.id && item.id.length > 1 ? (
+                <span>
+                  {paraRenderer(item.tocTitle, true)}{" "}
+                  {item.id.map((id) => (
+                    <Popover content="" title="">
+                      <Button
+                        shape="circle"
+                        icon="caret-down"
+                        onClick={() => {
+                          this.replaceWindow();
+                          let copiedItem = { ...item, id: id };
+                          this.props.onWindowOpen(copiedItem, false);
+                          this.onClose();
+                        }}
+                      />
+                    </Popover>
+                  ))}
+                </span>
+              ) : (
+                <a
+                  href
+                  onClick={() => {
+                    this.replaceWindow();
+                    this.props.onWindowOpen(item, false);
+                    this.onClose();
+                  }}
+                >
+                  {paraRenderer(item.tocTitle, true)}
+                </a>
+              )
             }
-            key={item.tocTitle + item.id}
+            key={item.tocTitle + this.getFirstElement(item.id)}
             dataRef={item}
             selectable={false}
           >
