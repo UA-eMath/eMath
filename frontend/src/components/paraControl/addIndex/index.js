@@ -43,7 +43,7 @@ const AddIndex = Form.create({ name: "form_in_modal" })(
     };
 
     onAdd = () => {
-      const { title, form, id, toggleModal } = this.props;
+      const { title, form, id } = this.props;
       form.validateFields((err, values) => {
         if (err) {
           return;
@@ -58,39 +58,47 @@ const AddIndex = Form.create({ name: "form_in_modal" })(
           // TODO: Ask if sure to use the same item
           if (title !== "Index Item") {
             return message.error(title + " item already exists.");
+          } else {
+            Modal.confirm({
+              title: `${title} item already exists, are you sure to add?`,
+              okText: "Yes",
+              okType: "danger",
+              cancelText: "No",
+              onOk: () => {
+                let request_body;
+
+                request_body = JSON.stringify({
+                  add: title,
+                  path: values["path"],
+                  referredId: id,
+                });
+
+                updateIndexTree(request_body, id)
+                  .then((data) => {
+                    if (!data || data.status !== 200) {
+                      if (data.status === 400) {
+                        message.error(data.data);
+                      }
+                      console.error("Update error", request_body, data);
+                    }
+                  })
+                  .then((res) => {
+                    getIndexItems(this.props.id, this.props.title)
+                      .then((data) => {
+                        if (!data || data.status !== 200) {
+                          console.error("FETCH_index_item_FAILED", data);
+                        } else {
+                          this.setState({ indexItemList: data.data });
+                        }
+                      })
+                      .then((res) => {
+                        this.props.getNewIndexTree(this.props.title);
+                      });
+                  });
+              },
+            });
           }
         }
-
-        let request_body;
-
-        request_body = JSON.stringify({
-          add: title,
-          path: values["path"],
-          referredId: id,
-        });
-
-        updateIndexTree(request_body, id)
-          .then((data) => {
-            if (!data || data.status !== 200) {
-              if (data.status === 400) {
-                message.error(data.data);
-              }
-              console.error("Update error", request_body, data);
-            }
-          })
-          .then((res) => {
-            getIndexItems(this.props.id, this.props.title)
-              .then((data) => {
-                if (!data || data.status !== 200) {
-                  console.error("FETCH_index_item_FAILED", data);
-                } else {
-                  this.setState({ indexItemList: data.data });
-                }
-              })
-              .then((res) => {
-                this.props.getNewIndexTree(this.props.title);
-              });
-          });
       });
     };
 
