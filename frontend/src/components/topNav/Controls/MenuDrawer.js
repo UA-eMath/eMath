@@ -1,7 +1,5 @@
 import React from "react";
-import fetchTocTree from "./treeData";
-import { Popover, Tree } from "antd";
-import { Drawer, Tabs, Icon, Button, Tooltip } from "antd";
+import { Tree, Drawer, Tabs, Icon, Button, Tooltip } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import {
@@ -9,9 +7,11 @@ import {
   openNewWindow,
   minimizeWindow,
 } from "../../../actions";
+import fetchTocTree from "./treeData";
 import { getIndexTree } from "../../../requests/getTree";
 import paraRenderer from "../../../pageRenderer";
 import { setReadCache } from "../../../utils/setReadCache";
+import IndexItemPopover from "./IndexItemPopover";
 
 const { TreeNode } = Tree;
 const { TabPane } = Tabs;
@@ -281,20 +281,17 @@ class MenuDrawer extends React.Component {
               item.id && item.id.length > 1 ? (
                 <span>
                   {paraRenderer(item.tocTitle, true)}{" "}
-                  {item.id.map((id) => (
-                    <Popover content="" title="">
-                      <Button
-                        shape="circle"
-                        icon="caret-down"
-                        onClick={() => {
-                          this.replaceWindow();
-                          let copiedItem = { ...item, id: id };
-                          this.props.onWindowOpen(copiedItem, false);
-                          this.onClose();
-                        }}
+                  {item.id.map((id) => {
+                    return (
+                      <IndexItemPopover
+                        item={item}
+                        paraId={id}
+                        replaceWindow={this.replaceWindow}
+                        onWindowOpen={this.props.onWindowOpen}
+                        onClose={this.onClose}
                       />
-                    </Popover>
-                  ))}
+                    );
+                  })}
                 </span>
               ) : (
                 <a
