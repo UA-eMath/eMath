@@ -1,7 +1,5 @@
 import React from "react";
-import fetchTocTree from "./treeData";
-import { Tree } from "antd";
-import { Drawer, Tabs, Icon, Button, Tooltip } from "antd";
+import { Tree, Drawer, Tabs, Icon, Button, Tooltip } from "antd";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
 import {
@@ -9,9 +7,11 @@ import {
   openNewWindow,
   minimizeWindow,
 } from "../../../actions";
+import fetchTocTree from "./treeData";
 import { getIndexTree } from "../../../requests/getTree";
 import paraRenderer from "../../../pageRenderer";
 import { setReadCache } from "../../../utils/setReadCache";
+import IndexItemPopover from "./IndexItemPopover";
 
 const { TreeNode } = Tree;
 const { TabPane } = Tabs;
@@ -264,24 +264,49 @@ class MenuDrawer extends React.Component {
     }
   };
 
+  getFirstElement = (array) => {
+    if (array) {
+      return array[0];
+    } else {
+      return array;
+    }
+  };
+
   renderIndexNodes = (data) => {
     return data.map((item) => {
       if (item.children) {
         return (
           <TreeNode
             title={
-              <a
-                href
-                onClick={() => {
-                  this.replaceWindow();
-                  this.props.onWindowOpen(item, false);
-                  this.onClose();
-                }}
-              >
-                {paraRenderer(item.tocTitle, true)}
-              </a>
+              item.id && item.id.length > 1 ? (
+                <span>
+                  {paraRenderer(item.tocTitle, true)}{" "}
+                  {item.id.map((id) => {
+                    return (
+                      <IndexItemPopover
+                        item={item}
+                        paraId={id}
+                        replaceWindow={this.replaceWindow}
+                        onWindowOpen={this.props.onWindowOpen}
+                        onClose={this.onClose}
+                      />
+                    );
+                  })}
+                </span>
+              ) : (
+                <a
+                  href
+                  onClick={() => {
+                    this.replaceWindow();
+                    this.props.onWindowOpen(item, false);
+                    this.onClose();
+                  }}
+                >
+                  {paraRenderer(item.tocTitle, true)}
+                </a>
+              )
             }
-            key={item.tocTitle + item.id}
+            key={item.tocTitle + this.getFirstElement(item.id)}
             dataRef={item}
             selectable={false}
           >
