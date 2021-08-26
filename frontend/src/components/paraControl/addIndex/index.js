@@ -3,6 +3,7 @@ import React from "react";
 import updateIndexTree from "../../../requests/updateIndexTree";
 import { getIndexItems } from "../../../requests/getTree";
 import removeIndexItem from "../../../requests/removeIndexItem";
+import { Scrollbars } from "react-custom-scrollbars";
 
 const AddIndex = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
@@ -55,7 +56,6 @@ const AddIndex = Form.create({ name: "form_in_modal" })(
           ) !== "undefined"
         ) {
           //already created
-          // TODO: Ask if sure to use the same item
           if (title !== "Index Item") {
             return message.error(title + " item already exists.");
           } else {
@@ -163,25 +163,27 @@ const AddIndex = Form.create({ name: "form_in_modal" })(
             </Button>,
           ]}
         >
-          <List
-            bordered
-            dataSource={this.state.indexItemList}
-            renderItem={(item) => (
-              <List.Item
-                actions={[
-                  <Button
-                    type="danger"
-                    ghost
-                    onClick={() => this.removeIndexItem(item)}
-                  >
-                    -
-                  </Button>,
-                ]}
-              >
-                {item}
-              </List.Item>
-            )}
-          />
+          <Scrollbars autoHeight autoHeightMax={"30vh"}>
+            <List
+              bordered
+              dataSource={this.state.indexItemList}
+              renderItem={(item) => (
+                <List.Item
+                  actions={[
+                    <Button
+                      type="danger"
+                      ghost
+                      onClick={() => this.removeIndexItem(item)}
+                    >
+                      -
+                    </Button>,
+                  ]}
+                >
+                  {item}
+                </List.Item>
+              )}
+            />
+          </Scrollbars>
 
           <Form {...layout}>
             <span
