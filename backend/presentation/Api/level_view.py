@@ -129,9 +129,9 @@ class LevelViewset(viewsets.ModelViewSet):
             position = int(request.data.get('position'))
 
             # validation check
-            if target.isPage == True and position == 0:
-                return Response(data='You cannot move a branch under a page.',
-                                status=400)
+            # if target.isPage == True and position == 0:
+            #     return Response(data='You cannot move a branch under a page.',
+            #                     status=400)
 
             # cannnot move a sub level inside level editor
             # level = child.parent
