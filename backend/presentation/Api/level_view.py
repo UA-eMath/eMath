@@ -1,11 +1,10 @@
-from presentation.models import Level, Para
+from presentation.models import Level
 from rest_framework import viewsets
 from presentation.Serializers.level_serializers import LevelSerializer
 from presentation.Serializers.para_serializers import ParaReadSerializers
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from itertools import chain
 from .utils import *
 
 
@@ -29,7 +28,6 @@ class LevelViewset(viewsets.ModelViewSet):
         if not queryset:
             return Response('Level id is not provided', 500)
         return Response(self.serilalizeNestList(queryset))
-        # return Response(LevelSerializer(level).data)
 
     def serilalizeNestList(self, array):
         result = []
@@ -94,10 +92,10 @@ class LevelViewset(viewsets.ModelViewSet):
     #PUT http://localhost:8000/Level/**/
     #PATCH http://localhost:8000/Level/**/
     def update(self, request, *args, **kwargs):
-        #move node
-        #position : -1 left or 1 right or 0 make a branch
+        # move node
+        # position : -1 left or 1 right or 0 make a branch
         # target : dropped node id
-        #child : dragged node id
+        # child : dragged node id
         # save new title and tocTitle for the given level
         new_title = request.data.get('title')
         new_toctitle = request.data.get('tocTitle')
@@ -131,18 +129,19 @@ class LevelViewset(viewsets.ModelViewSet):
             position = int(request.data.get('position'))
 
             # validation check
-            if target.isPage == True and position == 0:
-                return Response(data='You cannot move a branch under a page.',
-                                status=400)
+            # if target.isPage == True and position == 0:
+            #     return Response(data='You cannot move a branch under a page.',
+            #                     status=400)
 
-            #cannnot move a sub level inside level editor
-            level = child.parent
-            while not level.is_root_node():
-                if level.isPage:
-                    return Response(
-                        data='You cannot move a content block at TOC tree.',
-                        status=400)
-                level = level.parent
+            # cannnot move a sub level inside level editor
+            # level = child.parent
+            # while not level.is_root_node():
+            #     if level.isPage:
+            #         ...
+            #         return Response(
+            #             data='You cannot move a content block at TOC tree.',
+            #             status=400)
+            #     level = level.parent
 
             response = {"old_pos": child.position}
             updatePositionGivenTarget(child, target, position)
