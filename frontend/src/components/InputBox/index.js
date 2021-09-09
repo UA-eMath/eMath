@@ -142,7 +142,6 @@ class InputBox extends React.Component {
       <div>
         {this.state.showParaToolBar ? (
           <ParaToolBar
-            showToolBar={this.showToolBar}
             tagInsertion={this.insertAtCursor}
             selectedTextInsertion={this.insertAtSelectText}
             handleLinkClick={this.handleLinkClick}

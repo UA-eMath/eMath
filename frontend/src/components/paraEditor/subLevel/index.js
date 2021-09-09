@@ -74,6 +74,7 @@ class SubLevel extends React.Component {
         id={this.props.id}
         sideAlign={alignment}
         setFocusArea={this.props.setFocusArea}
+        removeFocusArea={this.props.removeFocusArea}
         deletePara={deletePara}
       />
     );
@@ -128,8 +129,15 @@ class SubLevel extends React.Component {
   };
 
   render() {
-    const { children, alignment, deletePara, bookID, setFocusArea, fetchPage } =
-      this.props;
+    const {
+      children,
+      alignment,
+      deletePara,
+      bookID,
+      setFocusArea,
+      removeFocusArea,
+      fetchPage,
+    } = this.props;
     const { isLabelModalVisible } = this.state;
 
     let para = children.find((e) => e.para_parent);
@@ -214,6 +222,7 @@ class SubLevel extends React.Component {
                   alignment={alignment}
                   deletePara={deletePara}
                   setFocusArea={setFocusArea}
+                  removeFocusArea={removeFocusArea}
                   id={this.props.id}
                   bookID={bookID}
                   fetchPage={fetchPage}
