@@ -161,6 +161,7 @@ class EditorToolBar extends React.Component {
               onCreate={this.addSubLevel}
               onDelete={this.handleDelete}
               loading={this.state.loading}
+              removeFocusArea={this.props.removeFocusArea}
             />
           </Tooltip>
 

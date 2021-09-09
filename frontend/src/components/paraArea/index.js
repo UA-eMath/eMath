@@ -14,8 +14,15 @@ const mapStateToProps = (state, ownProps) => {
 
 class ParaArea extends React.Component {
   render() {
-    const { id, bookID, para, sideAlign, setFocusArea, deletePara } =
-      this.props;
+    const {
+      id,
+      bookID,
+      para,
+      sideAlign,
+      setFocusArea,
+      removeFocusArea,
+      deletePara,
+    } = this.props;
     const hasSublevel = Array.isArray(para);
     const paraContent = hasSublevel ? para : para.content.data;
 
@@ -27,6 +34,7 @@ class ParaArea extends React.Component {
             alignment={sideAlign}
             deletePara={deletePara}
             setFocusArea={setFocusArea}
+            removeFocusArea={removeFocusArea}
             id={id}
             bookID={bookID}
           />
@@ -44,6 +52,7 @@ class ParaArea extends React.Component {
                     id={para.id}
                     bookID={bookID}
                     setFocusArea={setFocusArea}
+                    removeFocusArea={removeFocusArea}
                     boxValue={paraContent}
                   />
                 </div>
@@ -68,6 +77,7 @@ class ParaArea extends React.Component {
                     id={para.id}
                     bookID={bookID}
                     setFocusArea={setFocusArea}
+                    removeFocusArea={removeFocusArea}
                     boxValue={paraContent}
                   />
                   <DisplayArea id={para.id} />

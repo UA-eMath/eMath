@@ -1,9 +1,27 @@
 import React from "react";
-import { Form, Button, Modal, Input } from "antd";
+import { Form, Button, Modal, Input, Checkbox } from "antd";
 import CaptionOptions from "./SubLevelCaptionOptions";
 
 const AddSubLevel = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
+    state = {
+      isChecked: false,
+    };
+
+    putLevelOutside = () => {
+      this.setState({
+        isChecked: true,
+      });
+      this.props.removeFocusArea();
+    };
+
+    onSubmitForm = () => {
+      this.setState({
+        isChecked: false,
+      });
+      this.props.onCreate();
+    };
+
     render() {
       const { visible, onCancel, onCreate, form, loading } = this.props;
       const { getFieldDecorator } = form;
@@ -21,7 +39,7 @@ const AddSubLevel = Form.create({ name: "form_in_modal" })(
             <Button
               key="submit"
               type="primary"
-              onClick={onCreate}
+              onClick={this.onSubmitForm}
               loading={loading}
             >
               Submit
@@ -40,6 +58,17 @@ const AddSubLevel = Form.create({ name: "form_in_modal" })(
               {getFieldDecorator("title", {
                 initialValue: "",
               })(<Input />)}
+            </Form.Item>
+
+            <Form.Item>
+              <Checkbox
+                checked={this.state.isChecked}
+                disabled={this.state.isChecked}
+                onChange={this.putLevelOutside}
+              >
+                Do you want to put the new level outside the current selected
+                level?
+              </Checkbox>
             </Form.Item>
           </Form>
         </Modal>

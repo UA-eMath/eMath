@@ -117,6 +117,12 @@ class ParaEditor extends React.Component {
     });
   };
 
+  removeFocusArea = () => {
+    this.setState({
+      focusedArea: null,
+    });
+  };
+
   switchView = () => {
     this.setState((prevState) => ({
       sideAlign: !prevState.sideAlign,
@@ -203,6 +209,7 @@ class ParaEditor extends React.Component {
               parent={this.props.id}
               parentTitle={this.props.title}
               focusedArea={this.state.focusedArea}
+              removeFocusArea={this.removeFocusArea}
             />
             <h3
               align={"center"}
@@ -231,6 +238,7 @@ class ParaEditor extends React.Component {
                       id={this.props.id}
                       sideAlign={this.state.sideAlign}
                       setFocusArea={this.setFocusArea}
+                      removeFocusArea={this.removeFocusArea}
                       deletePara={this.deletePara}
                     />
                   );
