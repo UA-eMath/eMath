@@ -11,7 +11,7 @@ import background from "../../static/img/write.jpg";
 export default class AuthoringLayout extends React.Component {
   _isMounted = false;
   state = {
-    paneSize: 600,
+    paneSize: "40%",
     mathLoaded: false,
     innerHeight: 0,
   };
