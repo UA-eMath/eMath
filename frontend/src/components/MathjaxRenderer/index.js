@@ -14,17 +14,19 @@ export default class MathjaxRenderer extends React.Component {
   componentDidMount() {
     this._isMounted = true;
     getNewCommand(this.props.id).then((texCommandFromDB) => {
-      const commands = texCommandFromDB.data;
-      // put commands into <Math></Math>
-      let items = [];
-      for (const filename in commands) {
-        for (const value of commands[filename]) {
-          items.push(<Node key={items.length}>{value["tex"]}</Node>);
-          dataSource.push(this.regexMatch(value["tex"], value["note"]));
+      if (texCommandFromDB !== undefined) {
+        const commands = texCommandFromDB.data;
+        // put commands into <Math></Math>
+        let items = [];
+        for (const filename in commands) {
+          for (const value of commands[filename]) {
+            items.push(<Node key={items.length}>{value["tex"]}</Node>);
+            dataSource.push(this.regexMatch(value["tex"], value["note"]));
+          }
         }
-      }
-      if (this._isMounted) {
-        this.setState({ texCommandsInMathTag: items });
+        if (this._isMounted) {
+          this.setState({ texCommandsInMathTag: items });
+        }
       }
     });
   }
