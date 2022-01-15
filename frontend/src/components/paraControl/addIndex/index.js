@@ -43,6 +43,39 @@ const AddIndex = Form.create({ name: "form_in_modal" })(
       });
     };
 
+    updateIndexItem = (title, values, id) => {
+      let request_body;
+
+      request_body = JSON.stringify({
+        add: title,
+        path: values["path"],
+        referredId: id,
+      });
+
+      updateIndexTree(request_body, id)
+        .then((data) => {
+          if (!data || data.status !== 200) {
+            if (data.status === 400) {
+              message.error(data.data);
+            }
+            console.error("Update error", request_body, data);
+          }
+        })
+        .then((res) => {
+          getIndexItems(this.props.id, this.props.title)
+            .then((data) => {
+              if (!data || data.status !== 200) {
+                console.error("FETCH_index_item_FAILED", data);
+              } else {
+                this.setState({ indexItemList: data.data });
+              }
+            })
+            .then((res) => {
+              this.props.getNewIndexTree(this.props.title);
+            });
+        });
+    };
+
     onAdd = () => {
       const { title, form, id } = this.props;
       form.validateFields((err, values) => {
@@ -65,39 +98,12 @@ const AddIndex = Form.create({ name: "form_in_modal" })(
               okType: "danger",
               cancelText: "No",
               onOk: () => {
-                let request_body;
-
-                request_body = JSON.stringify({
-                  add: title,
-                  path: values["path"],
-                  referredId: id,
-                });
-
-                updateIndexTree(request_body, id)
-                  .then((data) => {
-                    if (!data || data.status !== 200) {
-                      if (data.status === 400) {
-                        message.error(data.data);
-                      }
-                      console.error("Update error", request_body, data);
-                    }
-                  })
-                  .then((res) => {
-                    getIndexItems(this.props.id, this.props.title)
-                      .then((data) => {
-                        if (!data || data.status !== 200) {
-                          console.error("FETCH_index_item_FAILED", data);
-                        } else {
-                          this.setState({ indexItemList: data.data });
-                        }
-                      })
-                      .then((res) => {
-                        this.props.getNewIndexTree(this.props.title);
-                      });
-                  });
+                this.updateIndexItem(title, values, id);
               },
             });
           }
+        } else {
+          this.updateIndexItem(title, values, id);
         }
       });
     };
