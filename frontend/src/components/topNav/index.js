@@ -1,10 +1,10 @@
 import React from "react";
 import { Navbar, NavDropdown, Nav } from "react-bootstrap";
 import "./index.css";
-import "antd/dist/antd.css";
 import { Avatar } from "antd";
 import Control from "./Controls";
 import { generateRandomAvatar } from "../../utils/generateRandomAvatar";
+import logo from "../../static/img/eMathLogo.png";
 
 export default class TopNav extends React.Component {
   logout = () => {
@@ -20,8 +20,16 @@ export default class TopNav extends React.Component {
       return <Control props={this.props.match} />;
     } else {
       return (
-        <Navbar bg="dark" variant="dark" sticky="top">
-          <Navbar.Brand href="/">eMath</Navbar.Brand>
+        <Navbar bg="light" variant="light" sticky="top">
+          <Navbar.Brand href="/">
+            <img
+              src={logo}
+              width="160"
+              height="60"
+              className="d-inline-block align-top"
+              alt="eMath logo"
+            />
+          </Navbar.Brand>
           <Navbar.Collapse id="navbar-dark-example">
             <Nav className="ml-auto">
               <NavDropdown
@@ -33,8 +41,8 @@ export default class TopNav extends React.Component {
                     <span
                       style={{
                         fontWeight: "bold",
-                        marginLeft: "16px",
-                        color: "white",
+                        margin: "0 16px",
+                        color: "black",
                       }}
                     >
                       {name}

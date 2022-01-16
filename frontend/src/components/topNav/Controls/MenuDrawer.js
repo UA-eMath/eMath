@@ -19,7 +19,7 @@ const { TabPane } = Tabs;
 const styles = {
   Icon: {
     fontSize: "25px",
-    color: "lightGrey",
+    color: "#44A0D1",
   },
   Tree: {
     fontSize: "20px",
@@ -195,7 +195,7 @@ class MenuDrawer extends React.Component {
           onClose={this.onClose}
           visible={this.state.visible}
           width={"50%"}
-          style={{ fontSize: "24px", marginTop: "30px" }}
+          style={{ fontSize: "24px", marginTop: "60px" }}
         >
           <Button
             style={{ float: "right" }}

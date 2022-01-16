@@ -8,7 +8,7 @@ import paraRenderer from "../../../pageRenderer";
 const styles = {
   Icon: {
     fontSize: "25px",
-    color: "lightGrey",
+    color: "#44A0D1",
   },
   DivPos: {
     float: "left",
@@ -49,7 +49,6 @@ class SubordinateDrawer extends React.Component {
               type="container"
               onClick={this.showSubordinateDrawer}
               style={styles.Icon}
-              theme="filled"
             />
           </Badge>
         </Tooltip>
@@ -61,7 +60,7 @@ class SubordinateDrawer extends React.Component {
           onClose={this.onClose}
           visible={this.state.visible}
           width={"25%"}
-          style={{ fontSize: "25px", marginTop: "53px" }}
+          style={{ fontSize: "25px", marginTop: "76px" }}
         >
           {this.props.subs.map((el) => {
             return (

@@ -4,38 +4,36 @@ import { Navbar, Nav } from "react-bootstrap";
 
 import MenuDrawer from "./MenuDrawer";
 import SubordinateDrawer from "./SubordinateDrawer";
-import { Icon, Tooltip } from "antd";
+import { Tooltip } from "antd";
+import logo from "../../../static/img/eMathLogo.png";
 
 const styles = {
-  logoDiv: {
-    width: "100%",
-    height: "100%",
-  },
   logoText: {
     fontSize: "25px",
-    color: "white",
-    textDecoration: "none",
+    color: "black",
   },
 };
 
 export default class Controls extends React.Component {
   render() {
     return (
-      <Navbar bg="dark" variant="dark" sticky="top">
+      <Navbar bg="light" variant="light" sticky="top">
         <SubordinateDrawer className="mr-auto" />
-        <Nav style={styles.logoDiv}>
-          <div style={{ margin: "auto" }}>
-            <Tooltip placement="bottom" title="Home">
-              <Icon type="home" style={{ fontSize: "1.8em", color: "white" }} />
-              <a style={styles.logoText} href="/">
-                {" "}
-                eMath :{" "}
+        <Nav className="m-auto">
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Tooltip placement="bottom" title="home">
+              <a href="/">
+                <img
+                  src={logo}
+                  width="160"
+                  height="60"
+                  className="d-inline-block align-top"
+                  alt="eMath logo"
+                  href="/"
+                />
               </a>
             </Tooltip>
-            <span style={styles.logoText}>
-              {" "}
-              {this.props.props.params.title}
-            </span>
+            <span style={styles.logoText}>{this.props.props.params.title}</span>
           </div>
         </Nav>
         <MenuDrawer className="ml-auto" props={this.props.props} />
