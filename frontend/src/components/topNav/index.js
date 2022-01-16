@@ -25,7 +25,7 @@ export default class TopNav extends React.Component {
             <img
               src={logo}
               width="160"
-              height="60"
+              height="40"
               className="d-inline-block align-top"
               alt="eMath logo"
             />
