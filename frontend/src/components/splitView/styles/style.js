@@ -1,4 +1,4 @@
-import paperTexture from "../../../static/img/paper.jpg";
+import paperTexture from "../../../static/img/paperTexture.jpeg";
 
 export default {
   titleBar: {
@@ -25,12 +25,23 @@ export default {
     display: "inline-block",
     letterSpacing: " 0.81px",
   },
-  window: {
-    backgroundImage: `url(${paperTexture})`, //#EAE7DC
+  secondborder: {
+    backgroundColor: "#F7F7EE",
+    backgroundImage: `url(${paperTexture})`,
     backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
     overflow: "hidden",
     width: "100%",
-    borderRadius: "2px",
-    boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.35)",
+    padding: "1%",
+    margin: "auto",
+    borderRadius: "7px",
+    boxShadow: "inset 0 3px 6px rgba(0,0,0,0.16), 0 4px 6px rgba(0,0,0,0.45)",
+  },
+  window: {
+    background: "#F7F7EE",
+    borderRadius: "4px",
+    boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 1px 5px rgba(0,0,0,0.35)",
+    margin: "1em .9em 5em",
+    padding: "1em 1.25em 2em",
   },
 };

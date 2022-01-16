@@ -68,7 +68,7 @@ export default class InitElement extends React.Component {
       <div
         {...rest}
         className={`wrapper ${this.props.className}`}
-        style={{ ...styles.window, ...this.props.style }}
+        style={{ ...styles.secondborder, ...this.props.style }}
       >
         <div style={{ ...styles.titleBar }}>
           {pageNum - 1 < 1 ? (
@@ -108,12 +108,7 @@ export default class InitElement extends React.Component {
         <Scrollbars>
           <div
             style={{
-              background: "#F7F7EE",
-              borderRadius: "4px",
-              boxShadow:
-                "0 0 0 1px rgba(0,0,0,0.1), 0 1px 5px rgba(0,0,0,0.35)",
-              margin: "1em .9em 5em",
-              padding: "1em 1.25em 2em",
+              ...styles.window,
             }}
           >
             {_.map(this.props.paraText, (para) => {

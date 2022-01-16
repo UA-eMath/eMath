@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { message } from "antd";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import background from "./static/img/paper_white.jpg";
+import background from "./static/img/wallTexture.jpeg";
 import AuthorRoute from "./components/authorRoute";
 import UnauthenticatedRoute from "./components/unauthenticatedRoute";
 import StudentRoute from "./components/studentRoute";

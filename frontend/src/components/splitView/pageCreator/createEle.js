@@ -124,13 +124,13 @@ class CreateElement extends React.Component {
       <div
         {...rest}
         className={`wrapper ${this.props.className}`}
-        style={{ ...styles.window, ...this.props.style }}
+        style={{ ...styles.secondborder, ...this.props.style }}
       >
         <TitleBar
           className="windowHeader"
           title={pageTitle}
           controls
-          style={{ background: "rgba(0,0,0,0.10)" }}
+          style={{ background: "rgba(0,0,0,0.10)", marginTop: "16px" }}
           onCloseClick={() => {
             onCloseWindow(i);
           }}
@@ -154,12 +154,7 @@ class CreateElement extends React.Component {
           {this.props.children}
           <div
             style={{
-              background: "#F7F7EE",
-              borderRadius: "4px",
-              boxShadow:
-                "0 0 0 1px rgba(0,0,0,0.1), 0 1px 5px rgba(0,0,0,0.35)",
-              margin: "1em .9em 5em",
-              padding: "1em 1.25em 2em",
+              ...styles.window,
             }}
           >
             {_.map(paraText, (para) => {
