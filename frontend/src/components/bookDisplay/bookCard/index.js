@@ -44,15 +44,7 @@ export default class BookCard extends React.Component {
           }}
         />
       );
-    const actionList = [
-      <Icon
-        type="read"
-        key="read"
-        onClick={() => {
-          window.location.href = "/view/" + book.title + "/" + book.id;
-        }}
-      />,
-    ];
+    const actionList = [];
 
     if (editModeActive) {
       actionList.push(
