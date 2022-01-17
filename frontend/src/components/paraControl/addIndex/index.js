@@ -161,7 +161,7 @@ const AddIndex = Form.create({ name: "form_in_modal" })(
       return (
         <Modal
           visible={visible}
-          title={"Enter " + title + " item"}
+          title={"Mark " + title}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" onClick={this.handleCancel}>

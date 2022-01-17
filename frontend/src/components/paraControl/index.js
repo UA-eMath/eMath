@@ -142,7 +142,7 @@ class ParaControl extends React.Component {
           <Menu.Item
             key="symbol"
             onClick={() => {
-              this.showModal("Symbol Index");
+              this.showModal("Symbol Index Item");
               this.fetchIndexTree("Symbol Index");
             }}
           >
@@ -151,7 +151,7 @@ class ParaControl extends React.Component {
           <Menu.Item
             key="author"
             onClick={() => {
-              this.showModal("Author Index");
+              this.showModal("Author Index Item");
               this.fetchIndexTree("Author Index");
             }}
           >
