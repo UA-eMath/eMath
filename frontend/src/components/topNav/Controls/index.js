@@ -6,6 +6,7 @@ import MenuDrawer from "./MenuDrawer";
 import SubordinateDrawer from "./SubordinateDrawer";
 import { Tooltip } from "antd";
 import logo from "../../../static/img/eMathLogo.png";
+import background from "../../../static/img/wallTexture.jpeg";
 
 const styles = {
   logoText: {
@@ -17,7 +18,7 @@ const styles = {
 export default class Controls extends React.Component {
   render() {
     return (
-      <Navbar bg="light" variant="light" sticky="top">
+      <Navbar background={background} variant="light" sticky="top">
         <SubordinateDrawer className="mr-auto" />
         <Nav className="m-auto">
           <div style={{ display: "flex", alignItems: "center" }}>

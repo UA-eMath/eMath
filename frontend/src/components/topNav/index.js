@@ -5,6 +5,7 @@ import { Avatar } from "antd";
 import Control from "./Controls";
 import { generateRandomAvatar } from "../../utils/generateRandomAvatar";
 import logo from "../../static/img/eMathLogo.png";
+import background from "../../static/img/wallTexture.jpeg";
 
 export default class TopNav extends React.Component {
   logout = () => {
@@ -20,7 +21,7 @@ export default class TopNav extends React.Component {
       return <Control props={this.props.match} />;
     } else {
       return (
-        <Navbar bg="light" variant="light" sticky="top">
+        <Navbar background={background} variant="light" sticky="top">
           <Navbar.Brand href="/">
             <img
               src={logo}
