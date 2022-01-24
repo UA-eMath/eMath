@@ -1,4 +1,4 @@
-import paperTexture from "../../../static/img/paperTexture.jpeg";
+import paperTexture from "../../../static/img/paper_white.jpeg";
 
 export default {
   titleBar: {
@@ -12,7 +12,6 @@ export default {
     width: "100%",
     backgroundColor: "transparent", //#EAE8DC
     textAlign: "center",
-    margin: "10px 0",
   },
   title: {
     WebkitUserSelect: "none",
@@ -41,7 +40,7 @@ export default {
     background: "#F7F7EE",
     borderRadius: "4px",
     boxShadow: "0 0 0 1px rgba(0,0,0,0.1), 0 1px 5px rgba(0,0,0,0.35)",
-    margin: "1em .9em 5em",
-    padding: "1em 1.25em 2em",
+    margin: "12px",
+    padding: "10px",
   },
 };

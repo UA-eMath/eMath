@@ -21,10 +21,16 @@ import tr from "./customTags/tr";
 import td from "./customTags/td";
 import iframe from "./customTags/iframe";
 import HideParaBlock from "./hideParaBlock";
+import { hexToRGB } from "../constants/color";
 
 const hiddenLevel = ["Proof", "Sketch of Proof", "Proof Idea", "Solution"];
 
-export default function paraRenderer(para, isTitle = false, isInit = false) {
+export default function paraRenderer(
+  para,
+  isTitle = false,
+  isInit = false,
+  insideSublevel = false
+) {
   /*
 	"content":{"data":""}
 	*/
@@ -91,7 +97,17 @@ export default function paraRenderer(para, isTitle = false, isInit = false) {
 
   const reactTree = xmlToReact.convert(`<ParaWrap>${decodedData}</ParaWrap>`);
 
-  const fragment = isTitle ? <span>{reactTree}</span> : <div>{reactTree}</div>;
+  const paraStyle = {
+    border: `3px ridge ${hexToRGB("#ffffb8", 0.5)}`,
+    borderRadius: "6px",
+    padding: "6px",
+  };
+
+  const fragment = isTitle ? (
+    <span>{reactTree}</span>
+  ) : (
+    <div style={insideSublevel ? {} : paraStyle}>{reactTree}</div>
+  );
 
   return <React.Fragment key={_.uniqueId("div_")}>{fragment}</React.Fragment>;
 }
