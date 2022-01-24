@@ -31,13 +31,17 @@ export default class BookCard extends React.Component {
       book.root.cover_image === null || book.root.cover_image === "" ? (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          imageStyle={{ width: 300, height: 360 }}
+          imageStyle={{ width: 240, height: 200 }}
           description={false}
         />
       ) : (
         <img
           alt="example"
-          style={{ width: 300, height: 360, objectFit: "scale-down" }}
+          style={{
+            width: 234,
+            height: 200,
+            objectFit: "scale-down",
+          }}
           src={book.root.cover_image}
           onClick={() => {
             window.location.href = "/view/" + book.title + "/" + book.id;
@@ -74,8 +78,9 @@ export default class BookCard extends React.Component {
         <Card
           hoverable
           style={{
-            width: 300,
-            margin: 20,
+            width: 240,
+            margin: 4,
+            border: "3px ridge #e8e8e8",
           }}
           cover={coverContent}
           actions={actionList}
