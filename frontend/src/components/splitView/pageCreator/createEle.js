@@ -80,7 +80,7 @@ class CreateElement extends React.Component {
       } else {
         this.setState({
           pageTitle: (
-            <span>
+            <span style={{ ...styles.title, fontSize: "16px" }}>
               {SubLevelTag({
                 title: pageContent.data.flat(Infinity)[0].para_parent.tocTitle,
               })}

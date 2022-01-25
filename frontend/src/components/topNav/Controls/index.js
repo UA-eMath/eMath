@@ -1,16 +1,18 @@
 import React from "react";
 import "antd/dist/antd.css";
 import { Navbar, Nav } from "react-bootstrap";
+import { Tooltip } from "antd";
 
 import MenuDrawer from "./MenuDrawer";
 import SubordinateDrawer from "./SubordinateDrawer";
-import { Tooltip } from "antd";
 import logo from "../../../static/img/eMathLogo.png";
 import background from "../../../static/img/wallTexture.jpeg";
 
 const styles = {
   logoText: {
+    fontFamily: "Arial",
     fontSize: "25px",
+    fontWeight: "bold",
     color: "black",
   },
 };
