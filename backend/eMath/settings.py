@@ -136,7 +136,8 @@ STATIC_URL = '/static/'
 
 # Frontend hosting port
 CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://142.244.163.49:3000',
-                         'https://emath-frontend.herokuapp.com')
+                         'https://emath-frontend.herokuapp.com',
+                         'https://eMath.math.ualberta.ca')
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'content-disposition',
