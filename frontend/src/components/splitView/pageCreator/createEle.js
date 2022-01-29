@@ -66,8 +66,15 @@ class CreateElement extends React.Component {
       // when not a page, show the level toctitle with its title, e.g. Definition Properties of Addition
       if (this.props["data-grid"].isPage) {
         this.setState({
-          pageTitle: paraRenderer(
-            pageContent.data.flat(Infinity)[0].para_parent.title
+          pageTitle: (
+            <span style={{ ...styles.title, fontSize: "16px" }}>
+              {paraRenderer(
+                pageContent.data.flat(Infinity)[0].para_parent.title,
+                false,
+                false,
+                true
+              )}
+            </span>
           ),
           paraText: pageContent.data,
         });
