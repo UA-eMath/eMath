@@ -28,7 +28,10 @@ SECRET_KEY = 'kjxogc8bp6tzq8u&_5dq*rff1ji^uc51=0@we*s0k3v*e2+9^z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['142.244.163.49', 'localhost', 'emath-backend.herokuapp.com']
+ALLOWED_HOSTS = [
+    '142.244.163.49', 'localhost', 'emath-backend.herokuapp.com',
+    'eMath.math.ualberta.ca'
+]
 
 # Application definition
 
