@@ -1,5 +1,6 @@
 #!/bin/bash
 source venv/bin/activate
-cd frontend
-yarn start & python3 ../backend/manage.py runserver & 
+cd eMath/deploy/
+chmod +x predeploy.sh && ./predeploy.sh
+python3 deployMe/manage.py runserver & 
 echo "Project has started!"
