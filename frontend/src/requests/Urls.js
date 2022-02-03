@@ -19,7 +19,7 @@ function checkURL() {
 
 export default {
   domain: checkURL(),
-  port: 8000,
+  port: window.location.protocol === "https" ? "" : 8000,
   endpoints: {
     roots: {
       address: "database",
