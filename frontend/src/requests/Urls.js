@@ -10,10 +10,10 @@ function checkURL() {
     window.location.hostname === "127.0.0.1"
   ) {
     return domain["local"];
-  } else if (window.location.protocol === "http") {
-    return domain["http"];
-  } else {
+  } else if (window.location.protocol === "https") {
     return domain["https"];
+  } else {
+    return domain["http"];
   }
 }
 
