@@ -4,7 +4,7 @@ import { subLevelColor, tagColor } from "../../../constants/color";
 
 function SubLevelTag(props) {
   let { title } = props;
-  if (title) {
+  if (subLevelColor.hasOwnProperty(title)) {
     return <Tag style={tagColor[subLevelColor[title]]}>{title}</Tag>;
   }
   return null;
