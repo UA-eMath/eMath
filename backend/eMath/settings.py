@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from corsheaders.defaults import default_headers
-import django_heroku
-import dj_database_url
 import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -29,8 +27,7 @@ SECRET_KEY = 'kjxogc8bp6tzq8u&_5dq*rff1ji^uc51=0@we*s0k3v*e2+9^z'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '142.244.163.49', 'localhost', 'emath-backend.herokuapp.com',
-    'eMath.math.ualberta.ca'
+    'localhost', '127.0.0.1', '142.244.163.49', 'eMath.math.ualberta.ca'
 ]
 
 # Application definition
@@ -134,12 +131,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
 STATIC_URL = '/static/'
 
 # Frontend hosting port
-CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://142.244.163.49:3000',
-                         'https://emath-frontend.herokuapp.com',
+CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://127.0.0.1:3000',
+                         'http://142.244.163.49:3000',
                          'https://eMath.math.ualberta.ca')
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
@@ -154,6 +150,3 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': False,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=365),
 }
-
-# Configure Django App for Heroku.
-django_heroku.settings(locals())

@@ -1,7 +1,7 @@
 const domain = {
   local: "http://localhost",
   http: "http://142.244.163.49",
-  https: "http://142.244.163.49", //"https://eMath.math.ualberta.ca"
+  https: "https://eMath.math.ualberta.ca",
 };
 
 function checkURL() {

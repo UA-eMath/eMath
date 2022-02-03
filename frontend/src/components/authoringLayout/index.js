@@ -1,7 +1,7 @@
 import React from "react";
 import "antd/dist/antd.css";
-import LevelEditor from "./../../components/levelEditor";
-import ParaEditor from "./../../components/paraEditor";
+import LevelEditor from "../levelEditor";
+import ParaEditor from "../paraEditor";
 import SplitPane from "react-split-pane";
 import "./index.css";
 import MathjaxRenderer from "../MathjaxRenderer";
