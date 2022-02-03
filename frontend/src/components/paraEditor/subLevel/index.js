@@ -145,7 +145,7 @@ class SubLevel extends React.Component {
     let right_title =
       para.para_parent.title === null
         ? ""
-        : paraRenderer(para.para_parent.title);
+        : paraRenderer(para.para_parent.title, true, false, true);
 
     let boxHeader;
     if (left_title || right_title) {

@@ -13,7 +13,7 @@ class DisplayArea extends React.Component {
     return (
       <div className="displayDiv">
         {/*TODO: need to handle open window activity*/}
-        {paraRenderer(this.props.para)}
+        {paraRenderer(this.props.para, false, false, true)}
       </div>
     );
   }
