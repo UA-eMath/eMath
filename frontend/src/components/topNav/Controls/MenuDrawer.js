@@ -133,6 +133,18 @@ class MenuDrawer extends React.Component {
       expandedIndexedItemsKey,
     } = this.state;
 
+    const tocPane = (
+      <TabPane tab="TOC" key="1">
+        <Tree
+          switcherIcon={<Icon type="down" />}
+          style={styles.Tree}
+          defaultExpandAll={true}
+        >
+          {this.renderTreeNodes(treeData.slice(1), true)}
+        </Tree>
+      </TabPane>
+    );
+
     let isoData = treeData.slice(0, 1);
     if (treeData !== undefined) {
       if (treeData.length > 0) {
@@ -140,49 +152,59 @@ class MenuDrawer extends React.Component {
       }
     }
 
-    let indexItemPane =
-      indexItem.length === 0 ? null : (
-        <TabPane tab="Index Item" key="3">
-          <div style={{ marginBottom: 16, float: "right" }}>
-            <Button type="link" onClick={this.expandAllIndexedItems}>
-              Expand All
-            </Button>
-          </div>
-          <Tree
-            switcherIcon={<Icon type="down" />}
-            style={styles.Tree}
-            onExpand={this.onIndexedItemExpand}
-            expandedKeys={expandedIndexedItemsKey}
-          >
-            {this.renderIndexNodes(indexItem)}
-          </Tree>
-        </TabPane>
-      );
+    const isoPane = (
+      <TabPane tab="ISO" key="2">
+        <Tree
+          switcherIcon={<Icon type="down" />}
+          style={styles.Tree}
+          defaultExpandAll={true}
+        >
+          {this.renderTreeNodes(isoData, false)}
+        </Tree>
+      </TabPane>
+    );
 
-    let symbolPane =
-      symbolIndex.length === 0 ? null : (
-        <TabPane tab="Symbols" key="4">
-          <Tree switcherIcon={<Icon type="down" />} style={styles.Tree}>
-            {this.renderIndexNodes(symbolIndex)}
-          </Tree>
-        </TabPane>
-      );
+    const indexItemPane = (
+      <TabPane tab="Subject" key="3">
+        <div style={{ marginBottom: 16, float: "right" }}>
+          <Button type="link" onClick={this.expandAllIndexedItems}>
+            Expand All
+          </Button>
+        </div>
+        <Tree
+          switcherIcon={<Icon type="down" />}
+          style={styles.Tree}
+          onExpand={this.onIndexedItemExpand}
+          expandedKeys={expandedIndexedItemsKey}
+        >
+          {this.renderIndexNodes(indexItem)}
+        </Tree>
+      </TabPane>
+    );
 
-    let authorIndPane =
-      authorIndex.length === 0 ? null : (
-        <TabPane tab="A-Ind" key="6">
-          <Tree switcherIcon={<Icon type="down" />} style={styles.Tree}>
-            {this.renderIndexNodes(authorIndex)}
-          </Tree>
-        </TabPane>
-      );
+    const symbolPane = (
+      <TabPane tab="Math Notation" key="4">
+        <Tree switcherIcon={<Icon type="down" />} style={styles.Tree}>
+          {this.renderIndexNodes(symbolIndex)}
+        </Tree>
+      </TabPane>
+    );
 
-    let refsPane =
-      bibliography.length === 0 ? null : (
-        <TabPane tab="Refs" key="5">
-          Content of Tab Pane 3
-        </TabPane>
-      );
+    let authorIndPane = (
+      <TabPane tab="Scientist" key="5">
+        <Tree switcherIcon={<Icon type="down" />} style={styles.Tree}>
+          {this.renderIndexNodes(authorIndex)}
+        </Tree>
+      </TabPane>
+    );
+
+    const refsPane = (
+      <TabPane tab="Refs" key="6">
+        <Tree switcherIcon={<Icon type="down" />} style={styles.Tree}>
+          {this.renderIndexNodes(bibliography)}
+        </Tree>
+      </TabPane>
+    );
 
     return (
       <div style={styles.DivPos}>
@@ -208,30 +230,12 @@ class MenuDrawer extends React.Component {
           </Button>
 
           <Tabs defaultActiveKey="1">
-            <TabPane tab="TOC" key="1">
-              <Tree
-                switcherIcon={<Icon type="down" />}
-                style={styles.Tree}
-                defaultExpandAll={true}
-              >
-                {this.renderTreeNodes(treeData.slice(1), true)}
-              </Tree>
-            </TabPane>
-
-            <TabPane tab="ISO" key="2">
-              <Tree
-                switcherIcon={<Icon type="down" />}
-                style={styles.Tree}
-                defaultExpandAll={true}
-              >
-                {this.renderTreeNodes(isoData, false)}
-              </Tree>
-            </TabPane>
-
+            {tocPane}
+            {isoPane}
             {indexItemPane}
             {symbolPane}
-            {refsPane}
             {authorIndPane}
+            {refsPane}
           </Tabs>
         </Drawer>
       </div>
