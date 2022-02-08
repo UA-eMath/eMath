@@ -115,7 +115,7 @@ def updatePosition(parent):
 
 def getParas(root):
     paras = []
-    while root.get_children() or root.para_set.all():
+    while root and (root.get_children() or root.para_set.all()):
         # insert Level object inside para list
         mergedList = mergeAndSort(root.get_children(), root.para_set.all())
         # recursive insertion

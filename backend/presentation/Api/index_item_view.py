@@ -14,8 +14,11 @@ index_to_col = {
 def addToTree(node, path, id):
     if len(path) == 1:
         parents = []
-        for i in id:
-            parents.append(Para.objects.get(pk=i).para_parent.pk)
+        if isinstance(id, list):
+            for i in id:
+                parents.append(Para.objects.get(pk=i).para_parent.pk)
+        else:
+            parents.append(Para.objects.get(pk=id).para_parent.pk)
 
         return node.append({
             "title": path[0],

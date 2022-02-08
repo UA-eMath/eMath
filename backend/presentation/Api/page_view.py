@@ -40,10 +40,14 @@ class getPageViewSet(viewsets.ReadOnlyModelViewSet):
 
         # next/pre page
         if page_num is not None and page_num != 0:
-            root_level = Level.objects.get(id=root)
+            try:
+                root_level = Level.objects.get(id=root)
+            except:
+                return None
             if root_level is not None:
                 page = root_level.get_root().get_descendants().filter(
                     isPage=True, pageNum=page_num).first()
+
         # fist page/ open window
         elif (level_id is not None):
             page = Level.objects.get(id=level_id)

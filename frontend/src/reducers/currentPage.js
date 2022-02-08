@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 const initState_page = {
   title: "Loading page ...",
   page: [],
@@ -8,7 +10,10 @@ const initState_page = {
 const currentpage = (state = initState_page, action) => {
   switch (action.type) {
     case "CHANGE_PAGE":
-      const parent = action.content.flat(Infinity)[0].para_parent;
+      const flatConntent = _.filter(action.content, function (o) {
+        return !Array.isArray(o);
+      });
+      const parent = flatConntent[0].para_parent;
       return Object.assign({}, state, {
         title: parent.title,
         page: action.content,
