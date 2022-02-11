@@ -138,7 +138,7 @@ STATICFILES_DIRS = [
 ]
 
 MATHJAX_URL = '/js/'
-MATHJAX_ROOT = 'build/js'
+MATHJAX_ROOT = 'deployMe/build/js'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
