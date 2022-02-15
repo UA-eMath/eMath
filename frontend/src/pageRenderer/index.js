@@ -31,10 +31,6 @@ export default function paraRenderer(
   isInit = false,
   insideSublevel = false
 ) {
-  /*
-	"content":{"data":""}
-	*/
-
   const xmlToReact = new XMLToReact({
     //Custom tag
     caption: (attrs) => ({ type: caption, props: attrs }),
@@ -44,31 +40,31 @@ export default function paraRenderer(
     ParaWrap: (attrs) => ({ type: React.Fragment, props: attrs }),
 
     //HTML tag
-    ul: (attrs) => ({ type: ul, props: attrs }),
-    ol: (attrs) => ({ type: ol, props: attrs }),
-    li: (attrs) => ({ type: li, props: attrs }),
-    b: (attrs) => ({ type: b, props: attrs }),
-    a: (attrs) => ({ type: a, props: attrs }),
-    p: (attrs) => ({ type: p, props: attrs }),
-    i: (attrs) => ({ type: i, props: attrs }),
+    ul: (attrs) => ({ type: ul, props: stylingXML(attrs) }),
+    ol: (attrs) => ({ type: ol, props: stylingXML(attrs) }),
+    li: (attrs) => ({ type: li, props: stylingXML(attrs) }),
+    b: (attrs) => ({ type: b, props: stylingXML(attrs) }),
+    a: (attrs) => ({ type: a, props: stylingXML(attrs) }),
+    p: (attrs) => ({ type: p, props: stylingXML(attrs) }),
+    i: (attrs) => ({ type: i, props: stylingXML(attrs) }),
     img: (attrs) => ({
       type: img,
-      props: attrs,
+      props: stylingXML(attrs),
     }),
 
     table: (attrs) => ({
       type: table,
-      props: attrs,
+      props: stylingXML(attrs),
     }),
-    tr: (attrs) => ({ type: tr, props: attrs }),
-    td: (attrs) => ({ type: td, props: attrs }),
+    tr: (attrs) => ({ type: tr, props: stylingXML(attrs) }),
+    td: (attrs) => ({ type: td, props: stylingXML(attrs) }),
     tbody: (attrs) => ({
       type: tbody,
-      props: attrs,
+      props: stylingXML(attrs),
     }),
     iframe: (attrs) => ({
       type: iframe,
-      props: attrs,
+      props: stylingXML(attrs),
     }),
   });
 
@@ -110,4 +106,20 @@ export default function paraRenderer(
   );
 
   return <React.Fragment key={_.uniqueId("div_")}>{fragment}</React.Fragment>;
+}
+
+function stylingXML(attrs) {
+  if (attrs.style !== undefined && typeof attrs.style === "string") {
+    let regex = /([\w-]*)\s*:\s*([^;]*)/g;
+    let properties = {};
+    while (true) {
+      const match = regex.exec(attrs.style);
+      if (!match) {
+        break;
+      }
+      properties[match[1]] = match[2].trim();
+    }
+    attrs.style = properties;
+  }
+  return attrs;
 }
