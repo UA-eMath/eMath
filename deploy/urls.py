@@ -51,6 +51,7 @@ urlpatterns = [
     url(r'^api-token-auth/', obtainJwtToken),
     url(r'^current-user/', GetCurrentUser.as_view()),
     url(r'^user-person/', UserToPerson.as_view()),
+    url(r'^user-auth/', GoogleAuth.as_view()),
     # react frontend
     path('', index),
     path('signup/', index),
