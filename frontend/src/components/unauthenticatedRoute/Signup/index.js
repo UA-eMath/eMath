@@ -8,6 +8,7 @@ const { Option } = Select;
 class Signup extends React.Component {
   state = {
     confirmDirty: false,
+    googleAuth: JSON.parse(localStorage.getItem("googleAuth")),
   };
 
   handleSubmit = (e) => {
@@ -75,6 +76,7 @@ class Signup extends React.Component {
   };
 
   render() {
+    const { googleAuth } = this.state;
     const { getFieldDecorator } = this.props.form;
 
     const layout = {
@@ -95,14 +97,17 @@ class Signup extends React.Component {
         >
           <Form.Item label="Username">
             {getFieldDecorator("username", {
+              initialValue: googleAuth?.name.replace(/\s/g, ""),
               rules: [
                 { required: true, message: "Please input your username!" },
               ],
-            })(<Input />)}
+            })(<Input disabled={googleAuth} />)}
           </Form.Item>
 
           <Form.Item label="First Name">
-            {getFieldDecorator("firstName", {})(<Input />)}
+            {getFieldDecorator("firstName", {
+              initialValue: googleAuth?.first_name,
+            })(<Input disabled={googleAuth} />)}
           </Form.Item>
 
           <Form.Item label="Middle Name">
@@ -110,33 +115,40 @@ class Signup extends React.Component {
           </Form.Item>
 
           <Form.Item label="Last Name">
-            {getFieldDecorator("lastName", {})(<Input />)}
+            {getFieldDecorator("lastName", {
+              initialValue: googleAuth?.last_name,
+            })(<Input disabled={googleAuth} />)}
           </Form.Item>
 
-          <Form.Item label="Account Type" hasFeedback>
+          <Form.Item
+            label="Account Type"
+            extra="Author and TA account need to wait for the approval of administrator."
+            hasFeedback
+          >
             {getFieldDecorator("type", {
               rules: [
                 { required: true, message: "Please select your account type!" },
               ],
             })(
               <Select placeholder="Please select a type">
-                <Option value="author">Author</Option>
-                <Option value="student">Student</Option>
-                <Option value="ta">TA</Option>
-                <Option value="tester">Tester</Option>
+                <Option value="Author">Author</Option>
+                <Option value="Student">Student</Option>
+                <Option value="TA">TA</Option>
+                <Option value="Tester">Tester</Option>
               </Select>
             )}
           </Form.Item>
 
           <Form.Item label="E-mail">
             {getFieldDecorator("email", {
+              initialValue: googleAuth?.email,
               rules: [
                 {
                   type: "email",
                   message: "The input is not valid E-mail!",
                 },
               ],
-            })(<Input />)}
+            })(<Input disabled={googleAuth} />)}
           </Form.Item>
 
           <Form.Item label="Password" hasFeedback>

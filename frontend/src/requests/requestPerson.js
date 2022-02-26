@@ -25,7 +25,6 @@ export function authPerson(params = {}) {
     .post(URL, params, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `JWT ${localStorage.getItem("token")}`,
       },
     })
     .then((response) => {
