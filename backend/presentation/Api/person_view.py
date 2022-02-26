@@ -1,11 +1,10 @@
-from presentation.models import Person, Usermod, RootLevel, Level
+from presentation.models import Person, Usermod, RootLevel
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from presentation.Serializers.person_serializer import PersonSerializer
-from rest_framework import viewsets, status, permissions
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 import django.db.utils
-import json
 
 
 class IsAuthenticatedOrCreate(permissions.BasePermission):
