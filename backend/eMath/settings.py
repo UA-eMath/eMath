@@ -142,6 +142,8 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     'content-disposition',
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER':
     'presentation.Api.utils.myJwtResponseHandler',

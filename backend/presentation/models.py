@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.fields import BooleanField
 from mptt.models import MPTTModel, TreeForeignKey
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
 from django.contrib.auth.models import User
 from .constant.basic_command import new_commands
 '''
