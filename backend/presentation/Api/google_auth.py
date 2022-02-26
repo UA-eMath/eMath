@@ -1,7 +1,6 @@
 import requests
 from rest_framework import views, permissions
 from rest_framework.response import Response
-from presentation.models import Usermod, Person
 from django.contrib.auth.models import User
 from presentation.Serializers.user_serializer import UserSerializerWithToken
 from django.conf import settings
