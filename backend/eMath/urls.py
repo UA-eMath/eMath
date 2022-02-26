@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^api-token-auth/', obtainJwtToken),
     url(r'^current-user/', GetCurrentUser.as_view()),
     url(r'^user-person/', UserToPerson.as_view()),
+    url(r'^user-auth/', GoogleAuth.as_view()),
     url('', include(router.urls)),
     path('admin/', admin.site.urls),
 ]

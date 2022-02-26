@@ -150,3 +150,6 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': False,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=365),
 }
+
+GOOGLE_OAUTH2_CLIENT_ID = "310972769180-cstjsa0d3nta21vskge3j7c2iturbktr.apps.googleusercontent.com"
+GOOGLE_OAUTH2_SECRET = "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"

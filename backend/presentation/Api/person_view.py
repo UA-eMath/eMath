@@ -71,7 +71,7 @@ class PersonViewSet(viewsets.ModelViewSet):
                 Usermod.objects.create(allowLogin=True, user=user)
                 person_data['user'] = user.pk
                 serializer = self.serializer_class(data=person_data)
-                serializer.is_valid()
+                serializer.is_valid(raise_exception=True)
                 serializer.save()
                 serializerData = dict(serializer.data)
                 if (type not in ['Student', 'Tester']):
