@@ -54,6 +54,7 @@ urlpatterns = [
     url(r'^user-auth/', GoogleAuth.as_view()),
     # react frontend
     path('', index),
+    path('author/', index),
     path('signup/', index),
     path('view/<str:title>/<str:id>/', index),
     path('authoring/<str:id>/', index),
