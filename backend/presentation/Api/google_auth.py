@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from presentation.Serializers.user_serializer import UserSerializerWithToken
 from django.conf import settings
+from django.contrib.auth import login
+from rest_framework_jwt.settings import api_settings
 
 GOOGLE_ID_TOKEN_INFO_URL = 'https://www.googleapis.com/oauth2/v3/tokeninfo'
 
@@ -23,21 +25,33 @@ class GoogleAuth(views.APIView):
         if audience != settings.GOOGLE_OAUTH2_CLIENT_ID:
             return Response('Invalid audience.', 401)
 
-        # check if user exist
-        username = request.data.get("name", None)
-        username = username.replace(" ", "")
+        # always login using a default student account
+        username = "student"
         try:
-            user = User.objects.get(username=username)
-            serializer = UserSerializerWithToken(user)
-            return Response({
-                "allowLogin": True,
-                "userInfo": serializer.data
-            }, 200)
+            if User.objects.filter(username=username).exists():
+                user = User.objects.get(username=username)
+            else:
+                user = User.objects.create_user(username=username,
+                                                is_active=True)
+            # login user programmatically
+            login(request, user)
+            # return jwt token
+            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+            payload = jwt_payload_handler(user)
+            return Response(
+                {
+                    "allowLogin": True,
+                    "token": jwt_encode_handler(payload),
+                    "access": {}
+                }, 200)
         except User.DoesNotExist:
             return Response(
                 {
-                    "allowLogin": False,
-                    "msg": f"{username} does not exist."
+                    "allowLogin":
+                    False,
+                    "msg":
+                    f"{username} does not exist, please create the default student account first."
                 }, 200)
         except:
             return Response(
