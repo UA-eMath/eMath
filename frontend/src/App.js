@@ -11,6 +11,7 @@ import TesterRoute from "./components/testerRoute";
 import TARoute from "./components/taRoute";
 import { login } from "./actions";
 import NotFound from "./components/NotFound";
+import { signOut } from "./utils/signout";
 
 const mapStateToProps = (state) => {
   return {
@@ -30,7 +31,7 @@ class App extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem("token");
     if (token && jwt_decode(token).exp < Date.now() / 1000) {
-      this.logout();
+      signOut();
     } else if (token) {
       this.props.onAuthentication(
         localStorage.getItem("username"),
@@ -45,11 +46,6 @@ class App extends React.Component {
       maxCount: 3,
     });
   }
-
-  logout = () => {
-    localStorage.clear();
-    window.location.href = "/";
-  };
 
   switchAccountType = (type) => {
     switch (type) {

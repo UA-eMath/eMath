@@ -6,13 +6,9 @@ import Control from "./Controls";
 import { generateRandomAvatar } from "../../utils/generateRandomAvatar";
 import logo from "../../static/img/eMathLogo.png";
 import background from "../../static/img/wallTexture.jpeg";
+import { signOut } from "../../utils/signout";
 
 export default class TopNav extends React.Component {
-  logout = () => {
-    localStorage.clear();
-    window.location.href = "/";
-  };
-
   render() {
     const name = localStorage.getItem("name");
     const userType = localStorage.getItem("type");
@@ -55,7 +51,7 @@ export default class TopNav extends React.Component {
                 <NavDropdown.ItemText>{userType}</NavDropdown.ItemText>
                 <NavDropdown.Item
                   as="button"
-                  onClick={this.logout}
+                  onClick={signOut}
                   style={{ color: "red" }}
                 >
                   Logout

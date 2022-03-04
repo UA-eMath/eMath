@@ -34,7 +34,7 @@ export const GoogleAuthentication = () => {
     message.error(response);
   };
 
-  const logout = () => {
+  const onLogoutSuccess = () => {
     localStorage.clear();
   };
 
@@ -46,7 +46,7 @@ export const GoogleAuthentication = () => {
         buttonText="Sign in with UAlberta Google account"
         onSuccess={onGoogleLoginSuccess}
         onFailure={onGoogleLoginFailure}
-        onLogoutSuccess={logout}
+        onLogoutSuccess={onLogoutSuccess}
         isSignedIn={true}
         cookiePolicy={"single_host_origin"}
       />
