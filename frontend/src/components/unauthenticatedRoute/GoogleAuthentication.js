@@ -14,6 +14,7 @@ export const GoogleAuthentication = () => {
       first_name: response.profileObj.givenName,
       last_name: response.profileObj.familyName,
       google_id: response.profileObj.googleId,
+      image_url: response.profileObj.imageUrl,
     };
 
     validateTokenAndObtainSession({ googleUserInfo, idToken }).then(
@@ -22,6 +23,7 @@ export const GoogleAuthentication = () => {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("username", googleUserInfo.name);
           localStorage.setItem("name", googleUserInfo.name);
+          localStorage.setItem("avatar", googleUserInfo.image_url);
           localStorage.setItem("type", "Student");
           localStorage.setItem("access", JSON.stringify(response.data.access));
           window.location.href = "/";

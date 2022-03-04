@@ -3,10 +3,10 @@ import { Navbar, NavDropdown, Nav } from "react-bootstrap";
 import "./index.css";
 import { Avatar } from "antd";
 import Control from "./Controls";
-import { generateRandomAvatar } from "../../utils/generateRandomAvatar";
 import logo from "../../static/img/eMathLogo.png";
 import background from "../../static/img/wallTexture.jpeg";
 import { signOut } from "../../utils/signout";
+import { getAvatarSource } from "../../utils/getAvatar";
 
 export default class TopNav extends React.Component {
   render() {
@@ -34,7 +34,7 @@ export default class TopNav extends React.Component {
                 id="nav-dropdown-dark-example"
                 title={
                   <span>
-                    <Avatar src={generateRandomAvatar(name)} />
+                    <Avatar src={getAvatarSource(name)} />
                     <span
                       style={{
                         fontWeight: "bold",
