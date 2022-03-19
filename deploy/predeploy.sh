@@ -4,6 +4,7 @@ mkdir -p deployMe
 cp -r ../frontend/* deployMe
 cp -r ../backend/* deployMe
 
+cp views.py deployMe/eMath
 cp urls.py deployMe/eMath
 cp settings.py deployMe/eMath
 
