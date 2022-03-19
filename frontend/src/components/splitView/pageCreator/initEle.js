@@ -32,13 +32,10 @@ export default class InitElement extends React.Component {
   setData = (pageData, action) => {
     if (pageData) {
       let num = this.props.pageNum + action;
-      this.props.onSetPage(
-        pageData.flat(Infinity)[0].para_parent.id,
-        pageData.flat(Infinity)[0].para_parent.title,
-        pageData,
-        num
-      );
-      setReadCache(this.props.match.params.id, this.props.id);
+      const flatConntent = pageData.filter((o) => !Array.isArray(o));
+      const parent = flatConntent[0].para_parent;
+      this.props.onSetPage(parent.id, parent.title, pageData, num);
+      setReadCache(this.props.match.params.id, parent.id);
     }
   };
 
