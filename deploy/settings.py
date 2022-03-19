@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'kjxogc8bp6tzq8u&_5dq*rff1ji^uc51=0@we*s0k3v*e2+9^z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1', '142.244.163.49', 'eMath.math.ualberta.ca'
