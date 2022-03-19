@@ -20,7 +20,7 @@ from rest_framework import routers
 from presentation.Api import *
 from rest_framework_jwt.views import obtain_jwt_token as obtainJwtToken
 
-handler404 = 'presentation.views.handler404'
+handler404 = 'eMath.views.handler404'
 
 router = routers.DefaultRouter()
 
