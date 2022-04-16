@@ -12,6 +12,7 @@ import TARoute from "./components/taRoute";
 import { login } from "./actions";
 import NotFound from "./components/NotFound";
 import { signOut } from "./utils/signout";
+import { Bibliography } from "./components/Bibliography";
 
 const mapStateToProps = (state) => {
   return {
@@ -81,6 +82,7 @@ class App extends React.Component {
       >
         <Router>
           <Switch>
+            <Route path="/bibliography" component={() => <Bibliography />} />
             {page}
             <Route component={NotFound} />
           </Switch>
