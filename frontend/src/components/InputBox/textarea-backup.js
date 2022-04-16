@@ -3,7 +3,7 @@ import { Icon, message } from "antd";
 import { connect } from "react-redux";
 import { paraOnChange } from "../../actions";
 import ParaToolBar from "../paraToolBar";
-import dataSource from "./dataSource";
+import {dataSource} from "./dataSource";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import autosize from "autosize";
 import "./index.css";

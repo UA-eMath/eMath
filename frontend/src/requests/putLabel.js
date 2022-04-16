@@ -2,7 +2,6 @@ import axios from "axios";
 import url from "./Urls";
 
 export default function putLabel(params = {}) {
-  console.log(params);
   return axios
     .put(
       url.domain + ":" + url.port + "/label/",
