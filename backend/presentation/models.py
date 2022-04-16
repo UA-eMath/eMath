@@ -1,12 +1,11 @@
 from django.db import models
-from django.db.models.fields import BooleanField
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db.models import JSONField
 from django.contrib.auth.models import User
 from .constant.basic_command import new_commands
 '''
-yaozhilu
-dell1234
+admin account: yaozhilu
+password: dell1234
 '''
 
 ACCOUNT_TYPES = [('Author', 'Author'), ('Student', 'Student'), ('TA', 'TA'),
@@ -21,19 +20,16 @@ def basic_command():
     return new_commands
 
 
-def basic_shortcut():
-    return {}
-
-
 def default_access():
     return {"book": []}
 
 
+def default_para_dict():
+    return {"data": ""}
+
+
 def basic_dict():
     return {}
-
-
-# Create your models here.
 
 
 class RootLevel(models.Model):
@@ -50,7 +46,7 @@ class RootLevel(models.Model):
     symbol_index = JSONField(default=default_dict, null=True, blank=True)
     author_index = JSONField(default=default_dict, null=True, blank=True)
     new_command = JSONField(default=basic_command, null=True, blank=True)
-    tex_shortcut = JSONField(default=basic_shortcut, null=True, blank=True)
+    tex_shortcut = JSONField(default=basic_dict, null=True, blank=True)
     cover_image = models.TextField(null=True, blank=True)
     completed = models.BooleanField(default=False)
     tester = JSONField(default=basic_dict, null=True, blank=True)
@@ -106,10 +102,6 @@ class Person(models.Model):
                                 on_delete=models.CASCADE,
                                 null=True,
                                 blank=True)
-
-
-def default_para_dict():
-    return {"data": ""}
 
 
 class Para(models.Model):
@@ -185,3 +177,14 @@ class Label(models.Model):
 class Usermod(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     allowLogin = models.BooleanField(default=False)
+
+
+class Bibliography(models.Model):
+    '''
+    This class represents a bibliography structure
+    '''
+    key = models.CharField(max_length=128, null=True, blank=True)
+    content = JSONField(default=basic_dict, null=True, blank=True)
+
+    class Meta:
+        ordering = ('key', )

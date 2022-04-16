@@ -27,3 +27,5 @@ from .usermod_view import UsermodViewSet
 from .user_view import UserViewSets
 
 from .google_auth import GoogleAuth
+
+from .bibliography_view import BibliographyViewSet
