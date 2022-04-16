@@ -3,7 +3,7 @@ import { message } from "antd";
 import { connect } from "react-redux";
 import { paraOnChange } from "../../actions";
 import ParaToolBar from "../paraToolBar";
-import dataSource from "./dataSource";
+import { dataSource } from "./dataSource";
 import "./index.css";
 import SelectLabelModal from "../paraToolBar/selectLabelModal";
 import AceEditor from "react-ace";
@@ -12,6 +12,7 @@ import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/theme-solarized_light";
 import "ace-builds/src-noconflict/ext-language_tools";
 import { addCompleter } from "ace-builds/src-noconflict/ext-language_tools";
+import { InsertCitationModal } from "../paraToolBar/insert-citation";
 
 const mapDispatchToProps = (dispatch) => ({
   paraOnChange: (para, id) => dispatch(paraOnChange(para, id)),
@@ -23,6 +24,7 @@ class InputBox extends React.Component {
     this.state = {
       showParaToolBar: false,
       isModalVisible: false,
+      isCitationModalVisible: false,
       isClick: null,
       borderStyle: "",
       highlightedText: "",
@@ -46,6 +48,12 @@ class InputBox extends React.Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   }
 
+  handleCitationModalVisiblility = () => {
+    this.setState({
+      isCitationModalVisible: !this.state.isCitationModalVisible,
+    });
+  };
+
   handleLinkClick(event, highlightedText) {
     this.setState({
       isClick: event,
@@ -54,12 +62,27 @@ class InputBox extends React.Component {
     });
   }
 
+  handleInsertCitation = (event, highlightedText) => {
+    this.setState({
+      isClick: event,
+      isCitationModalVisible: !this.state.isCitationModalVisible,
+      highlightedText: highlightedText,
+    });
+  };
+
   updateLinkLabel(labelID) {
     this.insertAtCursor(
       this.state.isClick,
       `<iLink id="${labelID}">${this.state.highlightedText}</iLink>`
     );
   }
+
+  updateCitation = (citationID) => {
+    this.insertAtCursor(
+      this.state.isClick,
+      `<cite id="${citationID}">${this.state.highlightedText}</cite>`
+    );
+  };
 
   setContent = (newValue) => {
     if (newValue !== this.props.boxValue) {
@@ -108,6 +131,12 @@ class InputBox extends React.Component {
     });
   };
 
+  citationTextChange = (value) => {
+    this.setState({
+      highlightedText: value,
+    });
+  };
+
   insertAtSelectText = (event, tag) => {
     if (typeof event != "undefined") {
       // event.preventDefault();
@@ -145,7 +174,7 @@ class InputBox extends React.Component {
             tagInsertion={this.insertAtCursor}
             selectedTextInsertion={this.insertAtSelectText}
             handleLinkClick={this.handleLinkClick}
-            linkID={this.state.linkID}
+            handleInsertCitation={this.handleInsertCitation}
           />
         ) : null}
         <AceEditor
@@ -195,6 +224,14 @@ class InputBox extends React.Component {
           bookID={bookID}
           highlightedText={this.state.highlightedText}
           iLinkTextChange={this.iLinkTextChange}
+        />
+
+        <InsertCitationModal
+          visible={this.state.isCitationModalVisible}
+          handleModalVisiblility={this.handleCitationModalVisiblility}
+          highlightedText={this.state.highlightedText}
+          citationTextChange={this.citationTextChange}
+          updateCitation={this.updateCitation}
         />
       </div>
     );

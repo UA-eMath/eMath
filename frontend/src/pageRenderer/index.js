@@ -20,6 +20,7 @@ import tbody from "./customTags/tbody";
 import tr from "./customTags/tr";
 import td from "./customTags/td";
 import iframe from "./customTags/iframe";
+import Cite from "./customTags/cite";
 import HideParaBlock from "./hideParaBlock";
 import { hexToRGB } from "../constants/color";
 
@@ -38,6 +39,7 @@ export default function paraRenderer(
     Math: (attrs) => ({ type: math, props: attrs }),
     math: (attrs) => ({ type: inlineMath, props: attrs }),
     ParaWrap: (attrs) => ({ type: React.Fragment, props: attrs }),
+    cite: (attrs) => ({ type: Cite, props: { ...attrs } }),
 
     //HTML tag
     ul: (attrs) => ({ type: ul, props: stylingXML(attrs) }),
