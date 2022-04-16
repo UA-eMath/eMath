@@ -16,7 +16,7 @@ class BibliographyViewSet(viewsets.ModelViewSet):
         bb_id = self.kwargs["pk"]
         bb = Bibliography.objects.get(id=bb_id)
 
-        return Response(self.serializer_class(data=bb))
+        return Response(self.serializer_class(bb).data)
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
