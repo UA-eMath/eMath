@@ -34,16 +34,23 @@ export const AddNewCitation = ({ bibliography }) => {
       {onClickAdd ? (
         <List key={bibliography.length}>
           <Row>
-            <Col span={11}>
-              <Input
-                addonBefore={"Key:"}
+            <Col span={1} style={{ color: "#0085F9", textAlign: "center" }}>
+              {bibliography.length + 1}
+            </Col>
+            <Col span={10}>
+              <TextArea
+                placeholder="Please put an unique key here"
                 value={inputKey}
                 onChange={changeInputKey}
+                autosize={{ minRows: 2 }}
               />
+            </Col>
+            <Col span={11}>
               <TextArea
                 placeholder="Please put Bibtex here"
                 value={inputBibtex}
                 onChange={changeInputBibtex}
+                autosize={{ minRows: 5 }}
               />
             </Col>
             <Col span={2}>

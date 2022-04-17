@@ -56,21 +56,17 @@ export const EachCitation = ({ index, bibliography }) => {
 
   const content = onClickEdit ? (
     <>
-      <Col span={14}>
-        <Input
-          addonBefore={"Key:"}
-          value={inputKey}
-          onChange={changeInputKey}
-        />
+      <Col span={10}>
+        <TextArea value={inputKey} onChange={changeInputKey} autosize />
       </Col>
-      <Col span={7}>
-        <TextArea value={inputBibtex} onChange={changeInputBibtex} />
+      <Col span={11}>
+        <TextArea value={inputBibtex} onChange={changeInputBibtex} autosize />
       </Col>
     </>
   ) : (
     <>
-      <Col span={14}>{inputKey}</Col>
-      <Col span={7}>{inputBibtex}</Col>
+      <Col span={10}>{inputKey}</Col>
+      <Col span={11}>{inputBibtex}</Col>
     </>
   );
 
