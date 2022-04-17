@@ -1,6 +1,6 @@
 import React from "react";
 import getNewCommand from "../../requests/getNewCommand";
-import dataSource from "../InputBox/dataSource";
+import { dataSource } from "../InputBox/dataSource";
 import MathJax from "react-mathjax-preview";
 
 export default class MathjaxRenderer extends React.Component {

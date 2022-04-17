@@ -19,7 +19,7 @@ const tagArray = [
 
 export const texCommandArray = []; //{ name: "\Sum", char: "#1 + #2" }
 
-const dataSource = [
+export const dataSource = [
   {
     value: "math",
     caption: "math",
@@ -36,6 +36,12 @@ const dataSource = [
     value: "iLink id=''",
     caption: "iLink",
     meta: "Internal Link",
+    score: 1000,
+  },
+  {
+    value: "cite id=''",
+    caption: "cite",
+    meta: "Internal Citation",
     score: 1000,
   },
   {
@@ -86,5 +92,3 @@ const dataSource = [
 //     }),
 //   },
 // };
-
-export default dataSource;

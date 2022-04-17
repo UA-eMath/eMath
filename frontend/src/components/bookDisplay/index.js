@@ -108,6 +108,16 @@ export default function BookDisplay(props) {
               }}
             />
           </Affix>
+          <Affix style={{ position: "fixed", bottom: 80, right: 20 }}>
+            <Button
+              icon={"database"}
+              shape="circle"
+              size={"large"}
+              onClick={() => {
+                window.location.href = "/bibliography";
+              }}
+            />
+          </Affix>
           <AddBook
             visible={visible}
             onCancel={() => setVisible(false)}

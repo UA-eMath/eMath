@@ -61,6 +61,17 @@ class ParaToolBar extends React.Component {
           </Button>
         </Tooltip>
 
+        <Tooltip placement="top" title={"Insert Citation"}>
+          <Button
+            onMouseDown={(e) => {
+              const highlightedText = window.getSelection().toString();
+              props.handleInsertCitation(e, highlightedText);
+            }}
+          >
+            <Icon type="file-search" />
+          </Button>
+        </Tooltip>
+
         <Tooltip placement="top" title={"Numbered list"}>
           <Button
             onMouseDown={(e) =>
