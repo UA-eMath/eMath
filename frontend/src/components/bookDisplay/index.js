@@ -114,7 +114,7 @@ export default function BookDisplay(props) {
               shape="circle"
               size={"large"}
               onClick={() => {
-                window.location.href = "/bibliography";
+                window.location.href = "/citation";
               }}
             />
           </Affix>
