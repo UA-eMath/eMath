@@ -43,6 +43,7 @@ router.register(r'getLabel', GetLabelViewSets, "getLabel")
 router.register(r'person', PersonViewSet, "Person")
 router.register(r'usermod', UsermodViewSet, "Usermod")
 router.register(r'user', UserViewSets, "User")
+router.register(r'bibliography', BibliographyViewSet, "Bibliography")
 
 urlpatterns = [
     url(r'^uploadNewCommand/(?P<pk>.+)/$', UploadNewCommand.as_view()),
@@ -56,6 +57,7 @@ urlpatterns = [
     path('', index),
     path('author/', index),
     path('signup/', index),
+    path('citation/', index),
     path('view/<str:title>/<str:id>/', index),
     path('authoring/<str:id>/', index),
     path('setup/<str:id>/', index),

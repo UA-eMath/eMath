@@ -82,7 +82,7 @@ class App extends React.Component {
       >
         <Router>
           <Switch>
-            <Route path="/bibliography" component={() => <Bibliography />} />
+            <Route path="/citation" component={() => <Bibliography />} />
             {page}
             <Route component={NotFound} />
           </Switch>
