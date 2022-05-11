@@ -4,6 +4,7 @@ import getNewCommand from "../../requests/getNewCommand";
 import { Node, Context } from "../react-mathjax";
 import MathJaxConfig from "../../constants/MathJax_config";
 import { dataSource } from "../InputBox/dataSource";
+import getTexShortcut from "../../requests/getTexShortcut";
 
 export default class MathjaxRenderer extends React.Component {
   _isMounted = false;
@@ -26,6 +27,21 @@ export default class MathjaxRenderer extends React.Component {
         }
         if (this._isMounted) {
           this.setState({ texCommandsInMathTag: items });
+        }
+      }
+    });
+    getTexShortcut(this.props.id).then((texShortcuts) => {
+      if (texShortcuts !== undefined) {
+        const shortcuts = texShortcuts.data;
+        for (const filename in shortcuts) {
+          for (const value of shortcuts[filename]) {
+            dataSource.push({
+              value: value["tex"].substring(1) + value["note"],
+              caption: value["tex"],
+              meta: value["note"],
+              score: 1000,
+            });
+          }
         }
       }
     });
