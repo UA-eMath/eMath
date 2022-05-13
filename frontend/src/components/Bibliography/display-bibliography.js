@@ -15,7 +15,7 @@ export const Bibliography = () => {
     getBibliography().then((bb) => {
       const _bibliography = bb.data;
       if (_bibliography.length !== bibliography.length) {
-        setBibliography(bb.data);
+        setBibliography(_bibliography);
       }
     });
   }, [bibliography]);
@@ -35,7 +35,10 @@ export const Bibliography = () => {
       <div style={{ margin: "10px" }}>
         {bibliography.length === 0 ? <p>No citation</p> : displayBibliography()}
       </div>
-      <AddNewCitation bibliography={bibliography} />
+      <AddNewCitation
+        bibliography={bibliography}
+        setBibliography={setBibliography}
+      />
     </div>
   );
 };

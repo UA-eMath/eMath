@@ -7,10 +7,9 @@ from presentation.Serializers.bibliography_serializers import BibliographySerial
 class BibliographyViewSet(viewsets.ModelViewSet):
     serializer_class = BibliographySerializers
 
-    queryset = Bibliography.objects.all()
-
     def list(self, request, *args, **kwargs):
-        return Response(self.serializer_class(self.queryset, many=True).data)
+        queryset = Bibliography.objects.all()
+        return Response(self.serializer_class(queryset, many=True).data)
 
     def retrieve(self, request, *args, **kwargs):
         bb_id = self.kwargs["pk"]
