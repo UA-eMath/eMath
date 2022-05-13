@@ -4,7 +4,7 @@ import { postCitation } from "../../requests/bibliography";
 
 const { TextArea } = Input;
 
-export const AddNewCitation = ({ bibliography }) => {
+export const AddNewCitation = ({ bibliography, setBibliography }) => {
   const [onClickAdd, setOnClickAdd] = useState(false);
   const [inputKey, setInputKey] = useState("");
   const [inputBibtex, setInputBibtex] = useState("");
@@ -23,7 +23,7 @@ export const AddNewCitation = ({ bibliography }) => {
 
   const saveNewCitation = () => {
     const citation = { key: inputKey, content: inputBibtex };
-    bibliography.push(citation);
+    setBibliography([...bibliography, citation]);
     const request_body = JSON.stringify(citation);
     postCitation(request_body);
     setOnClickAdd(false);
