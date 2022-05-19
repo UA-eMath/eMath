@@ -30,7 +30,7 @@ export const Bibliography = () => {
     <div>
       <TopNav />
       <Title level={2} style={{ textAlign: "center" }}>
-        Bibliography
+        Literature Database
       </Title>
       <div style={{ margin: "10px" }}>
         {bibliography.length === 0 ? <p>No citation</p> : displayBibliography()}
