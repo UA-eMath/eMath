@@ -27,12 +27,15 @@ class BibliographyViewSet(viewsets.ModelViewSet):
         bb_id = request.data['params'].get('id', None)
         key = request.data['params'].get('key', None)
         content = request.data['params'].get('content', None)
+        display = request.data['params'].get('displayContent', None)
         try:
             bb = Bibliography.objects.get(id=bb_id)
             if key:
                 bb.key = key
             if content:
                 bb.content = content
+            if display:
+                bb.displayContent = display
             bb.save()
         except:
             return Response("Bibliography update fails.", 500)
