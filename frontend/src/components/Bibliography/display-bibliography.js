@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography } from "antd";
-
-import { EachCitation } from "./each-citation";
-import { AddNewCitation } from "./add-citation";
+import { EditableFormTable } from "./editableTable";
 import { getBibliography } from "../../requests/bibliography";
 import TopNav from "../topNav";
 
@@ -21,9 +19,14 @@ export const Bibliography = () => {
   }, [bibliography]);
 
   const displayBibliography = () => {
-    return bibliography.map((bb, index) => (
-      <EachCitation index={index} bibliography={bibliography} />
-    ));
+    const data = [];
+    bibliography.map((bb, index) => {
+      return data.push({
+        ...bb,
+        index: index,
+      });
+    });
+    return <EditableFormTable data={data} />;
   };
 
   return (
@@ -35,10 +38,6 @@ export const Bibliography = () => {
       <div style={{ margin: "10px" }}>
         {bibliography.length === 0 ? <p>No citation</p> : displayBibliography()}
       </div>
-      <AddNewCitation
-        bibliography={bibliography}
-        setBibliography={setBibliography}
-      />
     </div>
   );
 };
