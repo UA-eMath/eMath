@@ -38,7 +38,7 @@ export const InsertCitationModal = ({
     const bb = bibliographyDB[index];
     setSelectedCitation(bb);
     setPreviewTitle(bb.key);
-    setPreviewContent(bb.content);
+    setPreviewContent(bb.displayContent);
   };
 
   const citationTextOnChange = ({ target: { value } }) => {

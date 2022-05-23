@@ -185,6 +185,12 @@ class Bibliography(models.Model):
     '''
     key = models.CharField(max_length=128, null=True, blank=True)
     content = JSONField(default=basic_dict, null=True, blank=True)
+    displayContent = models.TextField(null=True, blank=True)
+    owner = models.ForeignKey(Person,
+                              on_delete=models.CASCADE,
+                              null=True,
+                              blank=True,
+                              related_name='bb_owner')
 
     class Meta:
         ordering = ('key', )
