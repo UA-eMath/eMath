@@ -1,5 +1,14 @@
 import React from "react";
-import { Table, Input, Popconfirm, Form, Button, Icon, Divider } from "antd";
+import {
+  Table,
+  Input,
+  Popconfirm,
+  Form,
+  Button,
+  Icon,
+  Divider,
+  message,
+} from "antd";
 import {
   postCitation,
   putCitation,
@@ -49,7 +58,12 @@ class EditableCell extends React.Component {
 class EditableTable extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: props.data, editingKey: "", addingNew: false };
+    this.state = {
+      data: props.data,
+      editingKey: "",
+      addingNew: false,
+      userId: localStorage.getItem("personID"),
+    };
     this.columns = [
       {
         title: "Index",
@@ -106,7 +120,7 @@ class EditableTable extends React.Component {
                 type="edit"
                 style={{ color: "#0085F9" }}
                 disabled={editingKey !== ""}
-                onClick={() => this.edit(record.key)}
+                onClick={() => this.edit(record.key, record.owner)}
               />
               <Divider type="vertical" />
               <Popconfirm
@@ -148,6 +162,7 @@ class EditableTable extends React.Component {
       const newData = [...this.state.data];
       const index = newData.findIndex((item) => key === item.key);
       if (this.state.addingNew) {
+        row.owner = this.state.userId;
         const request_body = JSON.stringify(row);
         postCitation(request_body).then((newCitation) => {
           newData[newData.length - 1] = newCitation.data;
@@ -171,8 +186,12 @@ class EditableTable extends React.Component {
     });
   }
 
-  edit(key) {
-    this.setState({ editingKey: key });
+  edit(key, owner) {
+    if (owner === null || Number(this.state.userId) === Number(owner)) {
+      this.setState({ editingKey: key });
+    } else {
+      message.error("No permission to edit.");
+    }
   }
 
   handleAdd = (form) => {
