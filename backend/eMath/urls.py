@@ -31,9 +31,11 @@ router.register(r'book', RootLevelViewSets, 'RootLevels')
 router.register(r'nextLevel', getNextLevelViewSet, 'NextLevel')
 router.register(r'indexItem', IndexItemViewSets, "IndexItem")
 router.register(r'newCommand', newCommandViewSets, "newCommand")
-router.register(r'texShortcut', texShorcutViewSets, "texShortcut")
 router.register(r'newCommandUpdate', NewCommandUpdateViewSets,
                 "newCommandUpdate")
+router.register(r'texShortcut', texShorcutViewSets, "texShortcut")
+router.register(r'texShortcutUpdate', TexShortcutUpdateViewSets,
+                "texShortcutUpdate")
 router.register(r'label', LabelViewSet, "Label")
 router.register(r'getLabel', GetLabelViewSets, "getLabel")
 router.register(r'person', PersonViewSet, "Person")
@@ -45,6 +47,7 @@ urlpatterns = [
     url(r'^uploadNewCommand/(?P<pk>.+)/$', UploadNewCommand.as_view()),
     url(r'^uploadTex/(?P<pk>.+)/$', UploadTexShortcut.as_view()),
     url(r'^newCommandUpdate/(?P<pk>.+)/$', NewCommandUpdate.as_view()),
+    url(r'^texShortcutUpdate/(?P<pk>.+)/$', TexShortcutUpdate.as_view()),
     url(r'^api-token-auth/', obtainJwtToken),
     url(r'^current-user/', GetCurrentUser.as_view()),
     url(r'^user-person/', UserToPerson.as_view()),
