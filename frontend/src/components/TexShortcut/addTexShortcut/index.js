@@ -78,7 +78,7 @@ export default class AddTexShortcut extends React.Component {
           style={{ textAlign: "center", marginTop: 16 }}
         >
           <Button type="link" onClick={this.addCommand} block>
-            <Icon type="plus" /> Add Command
+            <Icon type="plus" /> Add Shortcut
           </Button>
         </List>
       </>
