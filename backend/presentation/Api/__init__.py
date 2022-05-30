@@ -16,6 +16,9 @@ from .tex_shortcut_view import texShorcutViewSets
 from .new_command_update import NewCommandUpdate
 from .new_command_update_view import NewCommandUpdateViewSets
 
+from .tex_shortcut_update import TexShortcutUpdate
+from .tex_shortcut_update_view import TexShortcutUpdateViewSets
+
 from .label_view import LabelViewSet
 from .get_label_view import GetLabelViewSets
 

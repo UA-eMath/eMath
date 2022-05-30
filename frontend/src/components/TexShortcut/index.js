@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  Upload,
-  message,
-  Icon,
-  Button,
-  List,
-  Divider,
-  Tabs,
-  Row,
-  Col,
-} from "antd";
+import { Upload, message, Icon, Button, Divider, Tabs } from "antd";
 import postTexShortcut from "../../requests/postTexShortcut";
 import getTexShortcut from "../../requests/getTexShortcut";
+import EachTexShortcut from "./eachTexShortcut";
+import AddTexShortcut from "./addTexShortcut";
+import DeleteTexShortcutFile from "./deleteTexShortcutFile";
 
 const { Dragger } = Upload;
 const { TabPane } = Tabs;
@@ -54,23 +47,58 @@ export default class TexShortcut extends React.Component {
     return false;
   };
 
+  // When added a new command, update command list
+  texCommandsOnChange = (filename, commands) => {
+    const texCommands = this.state.texCommands;
+    if (commands === null) {
+      delete texCommands[filename];
+    } else {
+      texCommands[filename] = commands;
+    }
+    this.setState({ texCommands: texCommands });
+  };
+
   renderTexCommands = (commands) => {
     let items = [];
     let num = 0;
     for (const filename in commands) {
-      items.push(<Divider key={num}>{filename}</Divider>);
-      num = num + 1;
-      for (const value of commands[filename]) {
-        items.push(
-          <List key={num}>
-            <Row>
-              <Col span={12}>{value["tex"]}</Col>
-              <Col span={12}>{value["note"]}</Col>
-            </Row>
-          </List>
-        );
-        num = num + 1;
-      }
+      items.push(
+        <div>
+          <Divider key={num}>{filename} </Divider>
+          {commands[filename].map((command, index) => (
+            <EachTexShortcut
+              bookId={this.props.book.id}
+              filename={filename}
+              command={command}
+              index={index}
+              allCommands={commands[filename]}
+            />
+          ))}
+          <AddTexShortcut
+            bookId={this.props.book.id}
+            filename={filename}
+            allCommands={commands[filename]}
+            texCommandsOnChange={this.texCommandsOnChange}
+          />
+          <DeleteTexShortcutFile
+            bookId={this.props.book.id}
+            filename={filename}
+            texCommandsOnChange={this.texCommandsOnChange}
+          />
+        </div>
+      );
+      // num = num + 1;
+      // for (const value of commands[filename]) {
+      //   items.push(
+      //     <List key={num}>
+      //       <Row>
+      //         <Col span={12}>{value["tex"]}</Col>
+      //         <Col span={12}>{value["note"]}</Col>
+      //       </Row>
+      //     </List>
+      //   );
+      //   num = num + 1;
+      // }
     }
     return items;
   };
