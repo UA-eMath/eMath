@@ -128,6 +128,10 @@ export default class NewCommand extends React.Component {
                   Support for .tex or .txt file. If upload more than one file,
                   only save the most recent one.
                 </p>
+                <p className="ant-upload-hint">
+                  Note: The order of the listing of \newcommands should be done
+                  in the file to be uploaded.
+                </p>
               </Dragger>
               <div style={{ textAlign: "center" }}>
                 <Button
