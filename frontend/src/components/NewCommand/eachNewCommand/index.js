@@ -38,7 +38,8 @@ export default class EachNewCommand extends React.Component {
 
   deleteCommand = () => {
     confirm({
-      title: "Are you sure delete this command?",
+      title:
+        "Are you sure delete this command? (Note: we suggest you to make changes on your local newcommands file)",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
