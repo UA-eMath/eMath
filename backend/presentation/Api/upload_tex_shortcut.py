@@ -51,6 +51,6 @@ class UploadTexShortcut(views.APIView):
             updated_commands = {**commands, **tex_to_be_added}
             book.tex_shortcut = updated_commands
             book.save()
-            return Response(status=204, data="Save success!")
+            return Response(status=200, data="Save success!")
         except:
             return Response(status=500, data="Failed to upload commands")

@@ -87,18 +87,6 @@ export default class TexShortcut extends React.Component {
           />
         </div>
       );
-      // num = num + 1;
-      // for (const value of commands[filename]) {
-      //   items.push(
-      //     <List key={num}>
-      //       <Row>
-      //         <Col span={12}>{value["tex"]}</Col>
-      //         <Col span={12}>{value["note"]}</Col>
-      //       </Row>
-      //     </List>
-      //   );
-      //   num = num + 1;
-      // }
     }
     return items;
   };
@@ -113,7 +101,7 @@ export default class TexShortcut extends React.Component {
     };
 
     let texCommandItems =
-      texCommands.length === 0 ? (
+      Object.keys(texCommands).length === 0 || texCommands.length === 0 ? (
         <p>There is no TexCommand for this book. </p>
       ) : (
         this.renderTexCommands(texCommands)

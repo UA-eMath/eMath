@@ -11,6 +11,12 @@ class TexShortcutUpdate(views.APIView):
     serializer_class = RootLevelSerializer
     level_serializer = LevelSerializer
 
+    def get(self, request, *args, **kwargs):
+        book = Level.objects.get(pk=kwargs.get("pk")).get_root().root
+        commands = getattr(book, 'tex_shortcut')
+
+        return Response(data=commands, status=200)
+
     def put(self, request, *args, **kwargs):
         book = Level.objects.get(pk=kwargs.get("pk")).get_root().root
         cmd_obj = request.data
@@ -21,6 +27,6 @@ class TexShortcutUpdate(views.APIView):
             else:
                 book.tex_shortcut[filename] = modified_shortcut
             book.save()
-            return Response(status=204, data="Edit success!")
+            return Response(status=200, data="Edit successfully!")
         except:
             return Response(status=500, data="Failed to modify commands.")
