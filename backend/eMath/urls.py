@@ -33,9 +33,6 @@ router.register(r'indexItem', IndexItemViewSets, "IndexItem")
 router.register(r'newCommand', newCommandViewSets, "newCommand")
 router.register(r'newCommandUpdate', NewCommandUpdateViewSets,
                 "newCommandUpdate")
-router.register(r'texShortcut', texShorcutViewSets, "texShortcut")
-router.register(r'texShortcutUpdate', TexShortcutUpdateViewSets,
-                "texShortcutUpdate")
 router.register(r'label', LabelViewSet, "Label")
 router.register(r'getLabel', GetLabelViewSets, "getLabel")
 router.register(r'person', PersonViewSet, "Person")

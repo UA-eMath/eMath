@@ -2,7 +2,7 @@ import axios from "axios";
 import url from "./Urls";
 
 export default function getTexShortcut(bookId) {
-  let Url = url.domain + ":" + url.port + "/texShortcut/" + bookId;
+  let Url = url.domain + ":" + url.port + "/texShortcutUpdate/" + bookId;
 
   return axios
     .get(Url, {
