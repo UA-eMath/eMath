@@ -6,8 +6,8 @@ from presentation.Serializers.level_serializers import LevelSerializer
 
 index_to_col = {
     "Index Item": "index_item",
-    "Symbol Index": "symbol_index",
-    "Author Index": "author_index"
+    "Symbol Index Item": "symbol_index",
+    "Author Index Item": "author_index"
 }
 
 
