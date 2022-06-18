@@ -84,7 +84,7 @@ class MenuDrawer extends React.Component {
         }
       }
     });
-    getIndexTree(id, "Symbol Index").then((data) => {
+    getIndexTree(id, "Symbol Index Item").then((data) => {
       if (!data || data.status !== 200) {
         console.error("FETCH_Symbol_Index_FAILED", data);
       } else {
@@ -93,7 +93,7 @@ class MenuDrawer extends React.Component {
         }
       }
     });
-    getIndexTree(id, "Author Index").then((data) => {
+    getIndexTree(id, "Author Index Item").then((data) => {
       if (!data || data.status !== 200) {
         console.error("FETCH_Author_Index_FAILED", data);
       } else {
