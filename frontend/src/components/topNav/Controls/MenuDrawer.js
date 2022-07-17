@@ -102,6 +102,7 @@ class MenuDrawer extends React.Component {
         }
       }
     });
+    // TODO: get bibliography used in current book (not supported API right now)
   }
 
   onIndexedItemExpand = (expandedKeys) => {
