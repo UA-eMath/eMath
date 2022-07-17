@@ -45,7 +45,9 @@ class CreateElement extends React.Component {
     // for label or index
     if (content.linkTo === "para" || content.levelParent) {
       pageContent = await getPara({ id: id });
-      pageContent.data = [pageContent.data];
+      if (pageContent !== undefined) {
+        pageContent.data = [pageContent.data];
+      }
       context = await getNextLevel({ id: id });
     } else {
       // linked level

@@ -16,7 +16,11 @@ def addToTree(node, path, id):
         parents = []
         if isinstance(id, list):
             for i in id:
-                parents.append(Para.objects.get(pk=i).para_parent.pk)
+                try:
+                    para = Para.objects.get(pk=i)
+                    parents.append(para.para_parent.pk)
+                except Para.DoesNotExist:
+                    continue
         else:
             parents.append(Para.objects.get(pk=id).para_parent.pk)
 
@@ -56,9 +60,9 @@ class IndexItemViewSets(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         para_id = kwargs.get("pk")
         index_type = self.request.query_params.get("type")
-        col_to_append = index_to_col.get(index_type)
 
         if index_type:
+            col_to_append = index_to_col.get(index_type)
             if self.request.query_params.get("byPara"):
                 # find path by para id
                 root_level = Para.objects.get(
