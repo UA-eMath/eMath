@@ -27,6 +27,10 @@ export const tagColor = {
     color: "#871400",
     background: "#fff2e8",
   },
+  undefined: {
+    color: "#000000",
+    background: "#f0f0f0",
+  },
 };
 
 export const subLevelColor = {
