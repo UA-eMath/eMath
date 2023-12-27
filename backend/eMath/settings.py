@@ -86,8 +86,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "emathdb",
-        "USER": "yaozhilu",
-        "PASSWORD": "dell1234",
+        "USER": "admin",
+        "PASSWORD": "admin1234",
         "HOST": "localhost",
         "PORT": "5432",
     }
@@ -153,5 +153,5 @@ JWT_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=365),
 }
 
-GOOGLE_OAUTH2_CLIENT_ID = "310972769180-cstjsa0d3nta21vskge3j7c2iturbktr.apps.googleusercontent.com"
-GOOGLE_OAUTH2_SECRET = "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"
+GOOGLE_OAUTH2_CLIENT_ID = "id"
+GOOGLE_OAUTH2_SECRET = "secret"

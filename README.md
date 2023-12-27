@@ -6,7 +6,7 @@ eMath is a comprehensive system designed to empower professors and students in t
 
 - Book Creation: Professors can seamlessly create and customize educational books with multimedia elements.
 - Versatile Links: Insert references to other books within the database, link to external webpages, and seamlessly integrate quiz questions.
-- User Roles: Users, classified as either professors or students, are assigned distinct roles during creation. These roles dictate access levels and available features.
+- User Roles: Users, classified as professors, teaching assistants, students, or tests, are assigned distinct roles during creation. These roles dictate access levels and available features.
 - Role-Based Experience: Tailored homepages and feature accessibility based on user roles ensure a personalized and intuitive experience for professors and students.
 
 ### Usage
@@ -21,6 +21,15 @@ eMath is a comprehensive system designed to empower professors and students in t
 
 - Access and read books.
 - Follow links and engage with educational content.
+
+3. Teaching Assistant Role
+
+- Modify specific books
+- Same as Student role
+  
+4. Tester
+
+- Test features
 
 
 ## Development Goals
@@ -45,8 +54,8 @@ eMath is a comprehensive system designed to empower professors and students in t
 
      ```
      CREATE DATABASE emathdb;
-     CREATE USER yaozhilu WITH PASSWORD 'dell1234';
-     GRANT ALL PRIVILEGES ON DATABASE emathdb TO yaozhilu;
+     CREATE USER admin WITH PASSWORD 'admin1234';
+     GRANT ALL PRIVILEGES ON DATABASE emathdb TO admin;
      ```
 
    - Useful commands
@@ -63,7 +72,7 @@ eMath is a comprehensive system designed to empower professors and students in t
      - export database
 
        ```
-       pg_dump -U yaozhilu emathdb > emathdump.pgsql
+       pg_dump -U admin emathdb > emathdump.pgsql
        ```
 
      - (optional) to get some sample data,
@@ -131,3 +140,21 @@ eMath is a comprehensive system designed to empower professors and students in t
    ```
    yarn start
    ```
+
+## Google OAuth Integration
+
+eMath offers the convenience of logging in through both traditional username/password credentials and Google accounts. To enable Google OAuth integration, follow these steps:
+
+1. Create Google OAuth Credentials:
+   
+- Follow the instruction [here](https://developers.google.com/fit/android/get-api-key)
+
+2. Update Settings:
+
+- Open the `settings.py` file in the eMath backend codebase.
+- Locate the variables `GOOGLE_OAUTH2_CLIENT_ID` and `GOOGLE_OAUTH2_SECRET`.
+- Update these variables with the corresponding values from your Google OAuth credentials.
+
+- Open the `credentials.js` file in the eMath frontend codebase.
+- Locate the variables `OAuthClient`.
+- Update the object with the corresponding values from your Google OAuth credentials.

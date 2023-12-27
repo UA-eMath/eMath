@@ -3,10 +3,6 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.db.models import JSONField
 from django.contrib.auth.models import User
 from .constant.basic_command import new_commands
-'''
-admin account: yaozhilu
-password: dell1234
-'''
 
 ACCOUNT_TYPES = [('Author', 'Author'), ('Student', 'Student'), ('TA', 'TA'),
                  ('Tester', 'Tester')]
