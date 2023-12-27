@@ -45,8 +45,8 @@ eMath is a comprehensive system designed to empower professors and students in t
 
      ```
      CREATE DATABASE emathdb;
-     CREATE USER yaozhilu WITH PASSWORD 'dell1234';
-     GRANT ALL PRIVILEGES ON DATABASE emathdb TO yaozhilu;
+     CREATE USER admin WITH PASSWORD 'admin1234';
+     GRANT ALL PRIVILEGES ON DATABASE emathdb TO admin;
      ```
 
    - Useful commands
@@ -63,7 +63,7 @@ eMath is a comprehensive system designed to empower professors and students in t
      - export database
 
        ```
-       pg_dump -U yaozhilu emathdb > emathdump.pgsql
+       pg_dump -U admin emathdb > emathdump.pgsql
        ```
 
      - (optional) to get some sample data,
