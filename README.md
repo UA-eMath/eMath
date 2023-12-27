@@ -151,6 +151,10 @@ eMath offers the convenience of logging in through both traditional username/pas
 
 2. Update Settings:
 
-- Open the `settings.py` file in the eMath codebase.
+- Open the `settings.py` file in the eMath backend codebase.
 - Locate the variables `GOOGLE_OAUTH2_CLIENT_ID` and `GOOGLE_OAUTH2_SECRET`.
 - Update these variables with the corresponding values from your Google OAuth credentials.
+
+- Open the `credentials.js` file in the eMath frontend codebase.
+- Locate the variables `OAuthClient`.
+- Update the object with the corresponding values from your Google OAuth credentials.
