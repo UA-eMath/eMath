@@ -140,3 +140,17 @@ eMath is a comprehensive system designed to empower professors and students in t
    ```
    yarn start
    ```
+
+## Google OAuth Integration
+
+eMath offers the convenience of logging in through both traditional username/password credentials and Google accounts. To enable Google OAuth integration, follow these steps:
+
+1. Create Google OAuth Credentials:
+   
+- Follow the instruction [here](https://developers.google.com/fit/android/get-api-key)
+
+2. Update Settings:
+
+- Open the `settings.py` file in the eMath codebase.
+- Locate the variables `GOOGLE_OAUTH2_CLIENT_ID` and `GOOGLE_OAUTH2_SECRET`.
+- Update these variables with the corresponding values from your Google OAuth credentials.
