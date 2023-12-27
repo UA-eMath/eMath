@@ -6,7 +6,7 @@ eMath is a comprehensive system designed to empower professors and students in t
 
 - Book Creation: Professors can seamlessly create and customize educational books with multimedia elements.
 - Versatile Links: Insert references to other books within the database, link to external webpages, and seamlessly integrate quiz questions.
-- User Roles: Users, classified as either professors or students, are assigned distinct roles during creation. These roles dictate access levels and available features.
+- User Roles: Users, classified as professors, teaching assistants, students, or tests, are assigned distinct roles during creation. These roles dictate access levels and available features.
 - Role-Based Experience: Tailored homepages and feature accessibility based on user roles ensure a personalized and intuitive experience for professors and students.
 
 ### Usage
@@ -21,6 +21,15 @@ eMath is a comprehensive system designed to empower professors and students in t
 
 - Access and read books.
 - Follow links and engage with educational content.
+
+3. Teaching Assistant Role
+
+- Modify specific books
+- Same as Student role
+  
+4. Tester
+
+- Test features
 
 
 ## Development Goals
