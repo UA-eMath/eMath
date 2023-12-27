@@ -1,23 +1,37 @@
-# eMath
+# eMath: Empowering Educational Interaction
 
-new eMath system
+eMath is a comprehensive system designed to empower professors and students in the creation and exploration of educational content. Professors can effortlessly author books within the platform, incorporating a variety of links such as references to other books in the database, links to webpages, and quiz questions. This flexible environment fosters interactive learning experiences.
 
-## Intro
+### Key Features
 
-The project has two major components:
+- Book Creation: Professors can seamlessly create and customize educational books with multimedia elements.
+- Versatile Links: Insert references to other books within the database, link to external webpages, and seamlessly integrate quiz questions.
+- User Roles: Users, classified as either professors or students, are assigned distinct roles during creation. These roles dictate access levels and available features.
+- Role-Based Experience: Tailored homepages and feature accessibility based on user roles ensure a personalized and intuitive experience for professors and students.
 
-- The first component is to migrate the eMath system from a flat XML-DB to a proper DB backend, and to adapt the content presentation system to this new backend.
+### Usage
 
-- The second component is to create a web interface for content authors. Using this interface, content authors should be able to easily edit existing content, as well as create new content.
+1. Professor Role
 
-## Getting started
+- Create and edit books.
+- Manage links and content.
+- Potentially moderate user-generated content.
 
-1. clone this project:
+2. Student Role
 
-   - cd to `some dir`
-   - `git clone https://github.com/wooloba/eMath.git`
+- Access and read books.
+- Follow links and engage with educational content.
 
-2. set up database(postgresql):
+
+## Development Goals
+
+1. Database Migration: migrate the eMath system from a flat XML-DB to a proper DB backend, and to adapt the content presentation system to this new backend.
+
+2. Content Authoring Web Interface: create a web interface for content authors. Using this interface, content authors should be able to easily edit existing content, as well as create new content.
+
+## Getting Started
+
+1. Database(postgresql):
 
    - Install
 
@@ -25,7 +39,7 @@ The project has two major components:
 
      `sudo apt install postgresql postgresql-contrib`
 
-   - Setup
+   - Setup user
 
      enter postgresql shell: `sudo -i -u postgres` then `psql` (if not work, try `psql postgres`)
 
@@ -55,7 +69,7 @@ The project has two major components:
      - (optional) to get some sample data,
        run `psql emathdb < emathdb.sql` to restore data from sql file.
 
-3. Backend(Django):
+2. Backend(Django):
 
    #### Prerequisites:
 
@@ -95,7 +109,7 @@ The project has two major components:
    create a admin account:
    python manage.py createsuperuser
 
-4. Frontend(React):
+3. Frontend(React):
 
    #### Prerequisites:
 
