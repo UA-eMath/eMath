@@ -6,8 +6,8 @@ eMath is a comprehensive system designed to empower professors and students in t
 
 - Book Creation: Professors can seamlessly create and customize educational books with multimedia elements, modules for exploration.
 - Versatile Links: Insert references to other books within the database, link to external webpages, and seamlessly integrate tools for instant formative feedback.
-- Mathematics notation is handled by MathJax, providing the option for global and local use of \newcommands. This enables authors to simplify data entry for presentation. In addition, it enables the author to develop a semantic markup system for math notation. In the latter case, mouse over on a math notation triggers a little hint window which explains the meaning of the notation.
-- User Roles: Users, classified as professors, teaching assistants, students, or tests, are assigned distinct roles during creation. These roles dictate access levels and available features.
+- Mathematics Notation: Handled by `MathJax`, providing the option for global and local use of `\newcommands`. This enables authors to simplify data entry for presentation. In addition, it enables the author to develop a semantic markup system for math notation. In the latter case, mouse over on a math notation triggers a little hint window which explains the meaning of the notation.
+- User Roles: Users, classified as professors, teaching assistants, students, or testers, are assigned distinct roles during creation. These roles dictate access levels and available features.
 - Role-Based Experience: Tailored homepages and feature accessibility based on user roles ensure a personalized and intuitive experience for professors and students.
 
 ### Usage
