@@ -25,12 +25,12 @@ eMath is a comprehensive system designed to empower professors and students in t
 
 3. Teaching Assistant Role
 
-- Modify specific books
-- Same as Student role
+- Modify specific books.
+- Same as Student role.
   
-4. Tester
+4. Tester Role
 
-- Test features
+- Test features.
 
 
 ## Development Goals
